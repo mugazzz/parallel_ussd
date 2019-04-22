@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="33443" started-at="2019-04-22T08:57:36Z" finished-at="2019-04-22T08:58:09Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="33443" started-at="2019-04-22T08:57:36Z" finished-at="2019-04-22T08:58:09Z">
+      <class name="com.spectrum.appium.com.spectrum.appium.App">
+        <test-method status="PASS" signature="Device_1()[pri:0, instance:com.spectrum.appium.com.spectrum.appium.App@2133814f]" name="Device_1" duration-ms="33236" started-at="2019-04-22T08:57:36Z" finished-at="2019-04-22T08:58:09Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Device_1 -->
+      </class> <!-- com.spectrum.appium.com.spectrum.appium.App -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>

@@ -1,0 +1,1 @@
+appium -a 127.0.0.1 -p 5002 --no-reset --bootstrap-port 4760 --nodeconfig Node1-config_5002.json

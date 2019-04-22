@@ -1,0 +1,10 @@
+name: TestSuite
+threadCount: 2
+parallel: methods
+configFailurePolicy: skip
+tests:
+  - name: DU_USSD
+    parallel: methods
+    classes:
+      - com.spectrum.appium.com.spectrum.appium.App
+
