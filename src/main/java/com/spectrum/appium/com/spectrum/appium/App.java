@@ -77,12 +77,24 @@ public class App{
 	
 	public void App(String device) {
 		try {
+			
+			String basedir = System.getProperty("user.dir");
 			String device_name = ReadMobileproperties(device, "DeviceName");
 			String port_number = ReadMobileproperties(device, "appiumport");
 			String package_name = ReadMobileproperties(device, "apppackage");
 			String activity_name = ReadMobileproperties(device, "appactivity");
 			String version = ReadMobileproperties(device, "version");
 			String bsport = ReadMobileproperties(device, "bootstrapport");
+
+			Runtime rt = Runtime.getRuntime();
+			rt.exec("cmd /c start java -jar " + basedir
+					+ "\\src\\test\\resources\\server\\selenium-server-standalone-3.14.0.jar -role hub -port 4444");
+			
+			rt.exec("cmd /c start appium -a 127.0.0.1 -p " + port_number
+			+ " --no-reset --bootstrap-port " + bsport + " --nodeconfig "
+			+ basedir + "\\server\\Node1-config_"
+			+ port_number + ".json");
+			
 			starter(port_number);
 //			service = AppiumDriverLocalService.buildDefaultService();
 //			service.start();
@@ -166,7 +178,6 @@ public class App{
 				endTestCase(rs.getField("Test Case ID"));
 				 String result = dr.get().stopRecordingScreen();
 			}
-			Runtime rt = Runtime.getRuntime();
 			rt.exec("cmd exit /n");
 		}
 		
