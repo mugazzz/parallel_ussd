@@ -78,6 +78,14 @@ public class App{
 	public void App(String device) {
 		try {
 			
+			
+			Fillo fillo = new Fillo();
+			Connection conn = fillo.getConnection(Data);
+			String strQuery = "Select * from Test_Data where Execution_Control" + 
+					"='Yes' and Device_Name ='" + device
+					+ "'";
+			Recordset rs = conn.executeQuery(strQuery);
+			//String Mobile = rs.getField("Device_Name");
 			String basedir = System.getProperty("user.dir");
 			String device_name = ReadMobileproperties(device, "DeviceName");
 			String port_number = ReadMobileproperties(device, "appiumport");
@@ -105,14 +113,10 @@ public class App{
 			DOMConfigurator.configure("log4j.xml");
 			info("Starting execution at +:"+ device_name + ExecutionStarttime);
 			extent.attachReporter(htmlReporter);
-			Fillo fillo = new Fillo();
-			Connection conn = fillo.getConnection(Data);
-			Recordset rs = conn.executeQuery("Select * from Test_Data where \"Execution Control\" = 'Yes'");
 			
 			while (rs.next()) {
 				curtcid = rs.getField("Test Case ID");
 				startTestCase(rs.getField("Test Case ID"));
-				String Mobile = rs.getField("Device_Name");
 				ExtentTest test = extent.createTest(rs.getField("Test Case ID"));
 				String ussdstr = rs.getField("USSD_Sequence");
 				String startussd = URLEncoder.encode(rs.getField("USSD_Code"),"UTF-8");
@@ -121,7 +125,7 @@ public class App{
 				//capabilities.setCapability("udid", udid);
 				capabilities.setCapability("platformVersion", version);
 				capabilities.setCapability("platformName", "ANDROID");
-				capabilities.setCapability("appWaitDuration", "600000");
+				//capabilities.setCapability("appWaitDuration", "600000");
 				capabilities.setCapability("bootstrapPort", bsport); 
 				capabilities.setCapability("appPackage", package_name);
 				capabilities.setCapability("appActivity", activity_name);
@@ -142,7 +146,7 @@ public class App{
 //				ap.dr.findElement(By.id("dialer_input")).sendKeys(startussd);
 //				ap.dr.findElement(By.id("single_call_button")).click();
 				dr.set(new AndroidDriver(
-						new URL("http://127.0.0.1:" + ReadMobileproperties(Mobile, "appiumport") + "/wd/hub"),
+						new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 						capabilities));
 				Runtime run = Runtime.getRuntime();
 				run.exec("adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+startussd);
