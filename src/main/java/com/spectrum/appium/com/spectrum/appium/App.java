@@ -54,15 +54,19 @@ public class App{
 	private static AppiumDriverLocalService service;
 	public static String port;
 	
+//	public void main (String[] args) {
+//		App("device1");
+//	}
+	
 	@Test
 	public void Device_1() {
 		App("device1");
 	}
 	
-	@Test
-	public void Device_2(){
-		App("device2");
-	}
+//	@Test
+//	public void Device_2(){
+//		App("device2");
+//	}
 	
 	public String ReadMobileproperties(String fname, String propname) throws IOException {
 		String fpath = Root + "\\src\\test\\resources\\config\\" + fname + ".properties";
@@ -77,7 +81,6 @@ public class App{
 	
 	public void App(String device) {
 		try {
-			
 			
 			Fillo fillo = new Fillo();
 			Connection conn = fillo.getConnection(Data);
@@ -154,7 +157,7 @@ public class App{
 //				WebDriverWait wait = new WebDriverWait(dr, 30);
 //				wait.until(ExpectedConditions.visibilityOf(dr.findElement(By.id("android:id/button1"))));
 				Thread.sleep(2000);
-				dr.get().findElement(By.id("android:id/button1")).click();
+				//dr.get().findElement(By.id("android:id/button1")).click();
 				
 				String[] spltussd = ussdstr.split(",");
 				for (int currshortcode = 0; currshortcode < spltussd.length; currshortcode++) {
@@ -176,7 +179,9 @@ public class App{
 					takeScreenShot("Entering code "+ spltussd[currshortcode]);
 					dr.get().findElement(By.id("android:id/button1")).click();
 				}
-				dr.get().findElement(By.id("android:id/button2")).click();
+				Thread.sleep(2000);
+				takeScreenShot("Confirmation Screen");
+				dr.get().findElement(By.id("android:id/button1")).click();
 				test.pass("<b>Test Case ID:"+rs.getField("Test Case ID")+"<br> Test Case Description: " +rs.getField("Test Case Description") +"</b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
 				extent.flush();
 				endTestCase(rs.getField("Test Case ID"));
