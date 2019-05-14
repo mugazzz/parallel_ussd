@@ -11,6 +11,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -31,6 +32,7 @@ import com.codoid.products.fillo.Connection;
 import com.codoid.products.fillo.Fillo;
 import com.codoid.products.fillo.Recordset;
 
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
@@ -50,9 +52,10 @@ public class App{
 	public String ExecutionStarttime = For.format(cal.getTime()).toString();
 	public final String Data = Root + "\\Test_Data.xlsx";
 	public String curtcid = "";
+	public String Product_Name = "";
 	public String curtcid1 = "";
 	public static String udid;
-	public String Message="";
+	public String Message = "";
 	private static AppiumDriverLocalService service;
 	public static String port;
 
@@ -102,13 +105,13 @@ public class App{
 				String MSISDN = inputs.getField("MSISDN");
 				String Test_Scenario = inputs.getField("Test_Scenario");
 				String Test_Case = inputs.getField("Test_Case");
-				String Product_Name = inputs.getField("Product_Name");
+				Product_Name = inputs.getField("Product_Name");
 				String Recharge_Voucher = inputs.getField("Recharge_Voucher");
 				info("Starting execution at +: "+ Product_Name+ "->"+ Test_Scenario+ "->" + ExecutionStarttime);
 				extent.attachReporter(htmlReporter);
-			curtcid = inputs.getField("Test_Case");
-			startTestCase(inputs.getField("Test_Case"));
-			ExtentTest test = extent.createTest(inputs.getField("Product_Name")+"--"+inputs.getField("Test_Case"));
+			curtcid = inputs.getField("Test Case ID");
+			startTestCase(inputs.getField("Test Case ID"));
+			ExtentTest test = extent.createTest(inputs.getField("Product_Name")+":- <br>"+inputs.getField("Test_Case"));
 			
 		//Check the product list with respect to the given input
 			
@@ -203,10 +206,13 @@ public class App{
 				dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 				Thread.sleep(3000);
 				By New_Message = By.id("com.samsung.android.messaging:id/list_unread_count");
-				if (elementExists(New_Message))
+				if (elementExists(New_Message)) {
+				List<MobileElement> elements1 = dr.get().findElements(By.id("com.samsung.android.messaging:id/list_unread_count"));
+				for(MobileElement link : elements1)
+				{
 				{
 					dr.get().findElement(By.id("com.samsung.android.messaging:id/list_unread_count")).click();
-					String Message = dr.get().findElement(By.id("com.samsung.android.messaging:id/content_text_view")).getText();
+					Message = dr.get().findElement(By.id("com.samsung.android.messaging:id/content_text_view")).getText();
 					info("Message Received : "+ Message);
 					takeScreenShot("Related SMS Notification");
 					By visibile2 = By.xpath("//android.widget.Button[@text='Delete']");
@@ -230,9 +236,11 @@ public class App{
 					dr.get().findElement(By.id("android:id/button1")).click();
 						
 					}
+				}
+				}
 				else
 				{
-					String Message = "Message not received for the provided USSD";
+					Message = "Message not received for the provided USSD";
 					info("Message not received for the provided USSD");
 				}
 //				test.pass("<b>Test Case ID:"+inputs.getField("Test Case ID")+"<br> Test Case Description: " +inputs.getField("Product_Name") +"</b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
@@ -240,17 +248,18 @@ public class App{
 //				endTestCase(inputs.getField("Test Case ID"));
 				String result = dr.get().stopRecordingScreen();
 				test.pass("<b>Product Name: "+inputs.getField("Product_Name")+"<br>Test Scenario: "+inputs.getField("Test_Scenario")+"<br> Test Case: " +inputs.getField("Test_Case") +
-						"<br> Message Status: "+ Message +
-						"</b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
+						"<br> Message Status: 	<i>"+ Message +
+						"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
 				extent.flush();
-				endTestCase(rs.getField("Test_Case"));
+				endTestCase(inputs.getField("Test Case ID"));
 			}
 			}
 		}
 		 catch (Exception e) {
 			e.printStackTrace();
 			}
-
+		
+		stopServer();
 	}
 	
 	public boolean elementExists(By locator) {
@@ -403,8 +412,6 @@ public class App{
 		FileWriter writer = new FileWriter(file,true);
 		writer.write(scdesc+"<br><img src = '"+destFile+"' height='500px'><br><br>");
 		writer.close();
-
-
 	}
 
 	public void run() {
@@ -425,9 +432,9 @@ public class App{
 	    service.start();
 	}
 //
-//	public void stopServer() {
-//		service.stop();
-//	}
+	public void stopServer() {
+		service.stop();
+	}
 
 	}
 
