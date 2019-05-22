@@ -50,24 +50,28 @@ public class App{
 	public String trfold = Root+ "\\trfold";
 	public String timefold = "";
 	public String ExecutionStarttime = For.format(cal.getTime()).toString();
-	public final String Data = Root + "\\Test_Data.xlsx";
+	public final String Data = Root + "\\Test_Execution_Input.xlsm";
 	public String curtcid = "";
 	public String Product_Name = "";
+	public String Confirmation = "";
+	
 	public String curtcid1 = "";
 	public static String udid;
 	public String Message = "";
 	private static AppiumDriverLocalService service;
 	public static String port;
 
-	public static void main (String[] args) {
-	App k = new App("device1");
+   //-----Main Method-------------//
+	
+//	public static void main (String[] args) {
+//	App k = new App("device1");
+//	}
+	
+	@Test
+	public void Device_1() {
+		App k = new App("device1");
 	}
 	
-//	@Test
-//	public void Device_1() {
-//		App("device1");
-//	}
-//	
 ////	@Test
 ////	public void Device_2(){
 ////		App("device2");
@@ -84,15 +88,16 @@ public class App{
 		return prop.getProperty(propname);
 	}
 	
-	public App(String device) {
+	public App(String deviceq) {
 		try {
 			
 			Fillo fillo = new Fillo();
 			Connection conn = fillo.getConnection(Data);
 			
-		//Get input data
+	//-----------Get input data------------//
 			
-			String inputQuery = "Select * from Input_Sheet where Execution_Control = 'Yes'";
+			String inputQuery = "Select * from Execution_Sheet where Execution = 'YES' and Test_Device = '"+ deviceq + "'";
+			System.out.println(inputQuery);
 			Recordset inputs = conn.executeQuery(inputQuery);
 			createtimestampfold();
 			ExtentReports extent = new ExtentReports();
@@ -101,19 +106,21 @@ public class App{
 			DOMConfigurator.configure("log4j.xml");
 			
 			while (inputs.next()) {
-			//String DeviceName = inputs.getField("Device_Name");
-				String MSISDN = inputs.getField("MSISDN");
+				Runtime rt = Runtime.getRuntime();
+				String device = inputs.getField("Test_Device");
+				String MSISDN = inputs.getField("Parameter Value 1");
 				String Test_Scenario = inputs.getField("Test_Scenario");
 				String Test_Case = inputs.getField("Test_Case");
-				Product_Name = inputs.getField("Product_Name");
-				String Recharge_Voucher = inputs.getField("Recharge_Voucher");
+				//String Device_Name = inputs.getField("Test_Device");
+				Product_Name = inputs.getField("Parameter Value 2");
+				
 				info("Starting execution at +: "+ Product_Name+ "->"+ Test_Scenario+ "->" + ExecutionStarttime);
 				extent.attachReporter(htmlReporter);
 			curtcid = inputs.getField("Test Case ID");
 			startTestCase(inputs.getField("Test Case ID"));
-			ExtentTest test = extent.createTest(inputs.getField("Product_Name")+":- <br>"+inputs.getField("Test_Case"));
+			ExtentTest test = extent.createTest(inputs.getField("Parameter Value 2")+":- <br>"+inputs.getField("Test_Case"));
 			
-		//Check the product list with respect to the given input
+	//-------------Check the product list with respect to the given input-------//
 			
 			String strQuery = "Select * from Test_Data "
 					+ "where Product_Name='"+Product_Name+ "' "
@@ -122,21 +129,22 @@ public class App{
 			Recordset rs = conn.executeQuery(strQuery);
 			//String Mobile = rs.getField("Device_Name");
 			String basedir = System.getProperty("user.dir");
-			String device_name = ReadMobileproperties(device, "DeviceName");
 			String port_number = ReadMobileproperties(device, "appiumport");
+			String device_name = ReadMobileproperties(device, "DeviceName");
 			String package_name = ReadMobileproperties(device, "apppackage");
 			String activity_name = ReadMobileproperties(device, "appactivity");
 			String version = ReadMobileproperties(device, "version");
 			String bsport = ReadMobileproperties(device, "bootstrapport");
 
-			Runtime rt = Runtime.getRuntime();
-			rt.exec("cmd /c start java -jar " + basedir
-					+ "\\src\\test\\resources\\server\\selenium-server-standalone-3.14.0.jar -role hub -port 4444");
-			
-			rt.exec("cmd /c start appium -a 127.0.0.1 -p " + port_number
-			+ " --no-reset --bootstrap-port " + bsport + " --nodeconfig "
-			+ basedir + "\\server\\Node1-config_"
-			+ port_number + ".json");
+			String execu1 = "java -jar" + basedir+"\\src\\test\\resources\\server\\selenium-server-standalone-3.14.0.jar -role hub -port 4444";
+//			rt.exec("cmd /c start java -jar " + basedir
+//					+ "\\src\\test\\resources\\server\\selenium-server-standalone-3.14.0.jar -role hub -port 4444");
+			rt.exec(execu1);
+	
+//			rt.exec("cmd /c start appium -a 127.0.0.1 -p " + port_number
+//			+ " --no-reset --bootstrap-port " + bsport + " --nodeconfig "
+//			+ basedir + "\\server\\Node1-config_"
+//			+ port_number + ".json");
 			
 			starter(port_number);
 			
@@ -145,26 +153,32 @@ public class App{
 				String startussd = URLEncoder.encode(rs.getField("USSD_Code"),"UTF-8");
 				String hash = URLEncoder.encode("#", "UTF-8");
 				DesiredCapabilities capabilities = new DesiredCapabilities();
-				capabilities.setCapability("deviceName", device_name);
+				capabilities.setCapability("deviceName", device);
 				capabilities.setCapability("platformVersion", version);
 				capabilities.setCapability("platformName", "ANDROID");
 				capabilities.setCapability("bootstrapPort", bsport); 
 				capabilities.setCapability("appPackage", package_name);
 				capabilities.setCapability("appActivity", activity_name);
 
-			//Start Appium server using terminal
+				
+	//-------------Start Appium server using terminal----------------//
 
 				dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 				Runtime run = Runtime.getRuntime();
+	
 				
-			//Recharges Validation
+	//--------- Recharges Validation -----------------//
 				
-				if ((Test_Scenario).equals("Recharge")) 
+				if ((Test_Scenario).equals("USSD_Recharge")) 
 				{
+					String Recharge_Voucher = inputs.getField("Parameter Value 3");
+					System.out.println("New Recharge code: "+ Recharge_Voucher);
 					String execu = "adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+startussd+Recharge_Voucher+hash;
 					System.out.println("Execution cmmand: "+execu);
 					run.exec(execu);
 					Thread.sleep(4000);
+					Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
+					info("Confirmation alert : "+Confirmation);
 					takeScreenShot("Confirmation Screen");
 					dr.get().findElement(By.id("android:id/button1")).click();
 					Thread.sleep(3000);
@@ -175,6 +189,7 @@ public class App{
 					run.exec("adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+startussd);
 					dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 					Thread.sleep(1000);
+					if(ussdstr.length()>=1) {
 					String[] spltussd = ussdstr.split(",");
 					for (int currshortcode = 0; currshortcode < spltussd.length; currshortcode++) {
 						String nxt = "fail";
@@ -182,8 +197,20 @@ public class App{
 							try {
 								System.out.println("------------------------------");
 								Thread.sleep(1000);
-								dr.get().findElement(By.id("com.android.phone:id/input_field"));
-								nxt = "pass";
+								By inputfield = By.id("com.android.phone:id/input_field");
+								if (elementExists(inputfield)) {
+									dr.get().findElement(By.id("com.android.phone:id/input_field"));
+									nxt = "pass";
+								}
+								else {
+									info("Error occured, please check with screenshot");
+									takeScreenShot("Error appears");
+									Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
+									info("Confirmation alert : "+Confirmation);
+									dr.get().findElement(By.id("android:id/button1")).click();
+									dr.get().quit();
+									break;
+								}
 							} catch (Exception e) { // Thread.sleep(100); }
 	
 							}
@@ -195,13 +222,27 @@ public class App{
 						takeScreenShot("Entering code "+ spltussd[currshortcode]);
 						dr.get().findElement(By.id("android:id/button1")).click();
 					}
-					Thread.sleep(1000);
+					}
+					else {
+						info("Menu options are not available");
+					}
+					Thread.sleep(3000);
+					By messag = By.id("android:id/message");
+					if(elementExists(messag)) {
+					Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
+					info("Confirmation alert : "+Confirmation);
 					takeScreenShot("Confirmation Screen");
 					dr.get().findElement(By.id("android:id/button1")).click();
+					}
+					else {
+						info("Error occured, please check with screenshot");
+						takeScreenShot("Error appears");
+					}
 					Thread.sleep(3000);
 				}
 				
-		//Notification Message handle
+	//----------------	Notification Message handle	------------//
+				
 				dr.get().quit();
 				dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 				Thread.sleep(3000);
@@ -242,12 +283,14 @@ public class App{
 				{
 					Message = "Message not received for the provided USSD";
 					info("Message not received for the provided USSD");
+					takeScreenShot("SMS not received");
 				}
-//				test.pass("<b>Test Case ID:"+inputs.getField("Test Case ID")+"<br> Test Case Description: " +inputs.getField("Product_Name") +"</b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
-//				extent.flush();
-//				endTestCase(inputs.getField("Test Case ID"));
 				String result = dr.get().stopRecordingScreen();
-				test.pass("<b>Product Name: "+inputs.getField("Product_Name")+"<br>Test Scenario: "+inputs.getField("Test_Scenario")+"<br> Test Case: " +inputs.getField("Test_Case") +
+				
+	//-------------	HTML Report Handle	-------------//
+				
+				test.pass("<b>Product Name: "+inputs.getField("Parameter Value 2")+"<br>Test Scenario: "+inputs.getField("Test_Scenario")+"<br> Test Case: " +inputs.getField("Test_Case") +
+						"<br> Confirmation Alert Message: 	<i>"+ Confirmation + "</i></b>"+
 						"<br> Message Status: 	<i>"+ Message +
 						"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
 				extent.flush();
@@ -257,9 +300,7 @@ public class App{
 		}
 		 catch (Exception e) {
 			e.printStackTrace();
-			}
-		
-		stopServer();
+		 }
 	}
 	
 	public boolean elementExists(By locator) {
@@ -415,6 +456,7 @@ public class App{
 	}
 
 	public void run() {
+		
     }
 
 	public void starter(String port) {
@@ -426,12 +468,12 @@ public class App{
 	    builder.usingPort(port1);
 	    builder.withArgument(GeneralServerFlag.SESSION_OVERRIDE);
 	    builder.withArgument(GeneralServerFlag.LOG_LEVEL,"error");
-
+	    
 	    //Start the server with the builder
 	    AppiumDriverLocalService service = AppiumDriverLocalService.buildService(builder);
 	    service.start();
 	}
-//
+	
 	public void stopServer() {
 		service.stop();
 	}
