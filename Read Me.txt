@@ -1,0 +1,8 @@
+Steps to execute the automation:
+
+1) Input sheet (Test_Execution_Input.xslm) - Setup the execution scenarios and its dependency values as mentioned in input sheet manual.
+
+2) Double tap the Run.bat file and wait until the execution completes
+
+3) Verify the results under (Result/executeDate/executedtimeformat/Master.HTML)
+Ex: Result\21-May-2019\21-May-2019_15-01-30\Master.HTML
