@@ -1,0 +1,14 @@
+27-05-2019 11:54:54 INFO [App]: Starting execution at +: Call Home for Less->USSD_OPT_IN->27-May-2019 11:54:53
+
+27-05-2019 11:54:54 INFO [App]: ****************************************************************************************
+27-05-2019 11:54:54 INFO [App]: ****************************************************************************************
+27-05-2019 11:54:54 INFO [App]: $$$$$$$$$$$$$$$$$$$$$ TC_001 $$$$$$$$$$$$$$$$$$$$$$$$$
+27-05-2019 11:54:54 INFO [App]: ****************************************************************************************
+27-05-2019 11:54:54 INFO [App]: ****************************************************************************************
+27-05-2019 11:55:11 INFO [App]: Entering code : 1
+
+27-05-2019 11:55:22 INFO [App]: Confirmation alert : 1000 International Minutes with Friends & Family bundles starting from 69 dirhams. Dial *135*90#. Thank you for using du interactive services
+
+27-05-2019 11:55:44 INFO [App]: Message not received for the provided USSD
+
+27-05-2019 11:55:46 INFO [App]: XXXXXXXXXXXXXXXXXXXXXXX             -E---N---D-             XXXXXXXXXXXXXXXXXXXXXX
