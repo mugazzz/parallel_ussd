@@ -113,6 +113,7 @@ public class App{
 				String Test_Case = inputs.getField("Test_Case");
 				//String Device_Name = inputs.getField("Test_Device");
 				Product_Name = inputs.getField("Parameter Value 2");
+				String Prod_ID = inputs.getField("Product ID");
 				
 				info("Starting execution at +: "+ Product_Name+ "->"+ Test_Scenario+ "->" + ExecutionStarttime);
 				extent.attachReporter(htmlReporter);
@@ -123,7 +124,8 @@ public class App{
 	//-------------Check the product list with respect to the given input-------//
 			
 			String strQuery = "Select * from Test_Data "
-					+ "where Product_Name='"+Product_Name+ "' "
+					+ "where Product_Name='"+Product_Name+ "' " + "or Product_ID='"+Prod_ID+"' "
+							+ ""
 					+ "and Test_Scenario ='" + Test_Scenario+"' "
 							+ "and Test_Case ='"+ Test_Case + "'";
 			Recordset rs = conn.executeQuery(strQuery);
