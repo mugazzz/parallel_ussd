@@ -58,8 +58,12 @@ public class App{
 	public String curtcid1 = "";
 	public static String udid;
 	public String Message = "";
+	public String Prod_ID = "";
 	private static AppiumDriverLocalService service;
 	public static String port;
+	public String strQuery ="";
+	public String Test_Case_I = "";
+	public String Test_Scenario_I = "";
 
    //-----Main Method-------------//
 	
@@ -112,20 +116,26 @@ public class App{
 				String Test_Scenario = inputs.getField("Test_Scenario");
 				String Test_Case = inputs.getField("Test_Case");
 				//String Device_Name = inputs.getField("Test_Device");
-				Product_Name = inputs.getField("Parameter Value 2");
+				Prod_ID = inputs.getField("Product_ID");
 				
-				info("Starting execution at +: "+ Product_Name+ "->"+ Test_Scenario+ "->" + ExecutionStarttime);
+				info("Starting execution at +: "+ Prod_ID + "->"+ Test_Scenario+ "->" + ExecutionStarttime);
 				extent.attachReporter(htmlReporter);
-			curtcid = inputs.getField("Test Case ID");
-			startTestCase(inputs.getField("Test Case ID"));
-			ExtentTest test = extent.createTest(inputs.getField("Parameter Value 2")+":- <br>"+inputs.getField("Test_Case"));
+//			curtcid = inputs.getField("Product_ID")+"_"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Scenario")+"_"+dr.get().getDeviceTime();
+//			startTestCase(curtcid);
+//			ExtentTest test = extent.createTest(inputs.getField("Product_ID")+":- <br>"+inputs.getField("Test_Case"));
 			
 	//-------------Check the product list with respect to the given input-------//
-			
-			String strQuery = "Select * from Test_Data "
-					+ "where Product_Name='"+Product_Name+ "' "
-					+ "and Test_Scenario ='" + Test_Scenario+"' "
+			if (Test_Scenario.equals("All")) {
+			strQuery = "Select * from Test_Data "
+						+ "where Product_ID= '"+Prod_ID+ "'"+ 
+						" and Execution='Yes'";
+			}
+			else {
+			strQuery = "Select * from Test_Data "
+					+ "where Product_ID= '"+Prod_ID+ "'"+ 
+					" and Test_Scenario ='" + Test_Scenario+"' "
 							+ "and Test_Case ='"+ Test_Case + "'";
+			}
 			Recordset rs = conn.executeQuery(strQuery);
 			//String Mobile = rs.getField("Device_Name");
 			String basedir = System.getProperty("user.dir");
@@ -149,9 +159,19 @@ public class App{
 			starter(port_number);
 			
 			while (rs.next()) {
+				Product_Name = rs.getField("Product_Name");
 				String ussdstr = rs.getField("USSD_Sequence");
+				Test_Case_I = rs.getField("Test_Case");
+				Test_Scenario_I = rs.getField("Test_Scenario");
 				String startussd = URLEncoder.encode(rs.getField("USSD_Code"),"UTF-8");
 				String hash = URLEncoder.encode("#", "UTF-8");
+				
+	//---------- Test Report Handler-----------------------------//
+				
+				curtcid = rs.getField("Product_ID")+"_"+rs.getField("Test_Scenario")+"_"+rs.getField("Test_Case");
+				startTestCase(curtcid);
+				ExtentTest test = extent.createTest(rs.getField("Product_ID")+":- <br>"+rs.getField("Test_Scenario")+"<br>"+rs.getField("Test_Case"));
+				
 				DesiredCapabilities capabilities = new DesiredCapabilities();
 				capabilities.setCapability("deviceName", device);
 				capabilities.setCapability("platformVersion", version);
@@ -289,12 +309,12 @@ public class App{
 				
 	//-------------	HTML Report Handle	-------------//
 				
-				test.pass("<b>Product Name: "+inputs.getField("Parameter Value 2")+"<br>Test Scenario: "+inputs.getField("Test_Scenario")+"<br> Test Case: " +inputs.getField("Test_Case") +
+				test.pass("<b>Product Name: "+Product_Name+"<br>Product ID: "+inputs.getField("Product_ID")+"<br>Test Scenario: "+Test_Scenario_I+"<br> Test Case: " +Test_Case_I +
 						"<br> Confirmation Alert Message: 	<i>"+ Confirmation + "</i></b>"+
 						"<br> Message Status: 	<i>"+ Message +
 						"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
 				extent.flush();
-				endTestCase(inputs.getField("Test Case ID"));
+				endTestCase(curtcid);
 			}
 			}
 		}
