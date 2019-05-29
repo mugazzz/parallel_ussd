@@ -136,6 +136,7 @@ public class App{
 					" and Test_Scenario ='" + Test_Scenario+"' "
 							+ "and Test_Case ='"+ Test_Case + "'";
 			}
+			
 			Recordset rs = conn.executeQuery(strQuery);
 			//String Mobile = rs.getField("Device_Name");
 			String basedir = System.getProperty("user.dir");
@@ -166,11 +167,9 @@ public class App{
 				String startussd = URLEncoder.encode(rs.getField("USSD_Code"),"UTF-8");
 				String hash = URLEncoder.encode("#", "UTF-8");
 				
-	//---------- Test Report Handler-----------------------------//
-				
 				curtcid = rs.getField("Product_ID")+"_"+rs.getField("Test_Scenario")+"_"+rs.getField("Test_Case");
 				startTestCase(curtcid);
-				ExtentTest test = extent.createTest(rs.getField("Product_ID")+":- <br>"+rs.getField("Test_Scenario")+"<br>"+rs.getField("Test_Case"));
+				ExtentTest test = extent.createTest(inputs.getField("Product_ID")+":- <br>"+inputs.getField("Test_Case"));
 				
 				DesiredCapabilities capabilities = new DesiredCapabilities();
 				capabilities.setCapability("deviceName", device);
