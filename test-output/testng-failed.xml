@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite thread-count="2" parallel="methods" name="Failed suite [TestSuite]" guice-stage="DEVELOPMENT">
+  <test thread-count="2" parallel="methods" name="device1(failed)">
+    <classes>
+      <class name="com.spectrum.appium.com.spectrum.appium.App">
+        <methods>
+          <include name="Device_1"/>
+        </methods>
+      </class> <!-- com.spectrum.appium.com.spectrum.appium.App -->
+    </classes>
+  </test> <!-- device1(failed) -->
+</suite> <!-- Failed suite [TestSuite] -->

@@ -1,0 +1,10 @@
+04-06-2019 12:43:47 INFO [App]: Starting execution at +: 820->USSD_OPT_OUT->04-Jun-2019 12:43:46
+
+04-06-2019 12:44:00 INFO [App]: Error occured, please check with screenshot
+
+04-06-2019 12:44:01 INFO [App]: Confirmation alert : USSD code running…
+
+04-06-2019 12:44:07 INFO [App]: Error occured, please check with screenshot
+
+04-06-2019 12:44:09 INFO [App]: Confirmation alert : Invalid(empty) response.
+

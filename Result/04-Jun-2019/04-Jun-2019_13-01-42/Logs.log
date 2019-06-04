@@ -1,0 +1,75 @@
+04-06-2019 13:06:08 INFO [Asnconvertor]: Starting execution at +:04-Jun-2019 13:01:42
+04-06-2019 13:06:09 INFO [Asnconvertor]: ****************************************************************************************
+04-06-2019 13:06:09 INFO [Asnconvertor]: ****************************************************************************************
+04-06-2019 13:06:09 INFO [Asnconvertor]: $$$$$$$$$$$$$$$$$$$$$ Parsing File EDRfile.csv $$$$$$$$$$$$$$$$$$$$$$$$$
+04-06-2019 13:06:09 INFO [Asnconvertor]: ****************************************************************************************
+04-06-2019 13:06:09 INFO [Asnconvertor]: ****************************************************************************************
+04-06-2019 13:06:09 INFO [Asnconvertor]: XXXXXXXXXXXXXXXXXXXXXXX             -E---N---D-             XXXXXXXXXXXXXXXXXXXXXX
+04-06-2019 13:06:09 INFO [Asnconvertor]: ****************************************************************************************
+04-06-2019 13:06:09 INFO [Asnconvertor]: ****************************************************************************************
+04-06-2019 13:06:09 INFO [Asnconvertor]: $$$$$$$$$$$$$$$$$$$$$ Parsing File SDPOUTPUTCDR_4001_meytvvmsdp01_SUB_8310_20190604-130040.ASN $$$$$$$$$$$$$$$$$$$$$$$$$
+04-06-2019 13:06:09 INFO [Asnconvertor]: ****************************************************************************************
+04-06-2019 13:06:09 INFO [Asnconvertor]: ****************************************************************************************
+04-06-2019 13:06:10 INFO [Asnconvertor]: accountNumber = 971520001714
+04-06-2019 13:06:10 INFO [Asnconvertor]: adjustmentRecordType = refillCDR
+04-06-2019 13:06:10 INFO [Asnconvertor]: sdpID = meytvvmsdp01
+04-06-2019 13:06:10 INFO [Asnconvertor]: cdrID = 148353153999014749
+04-06-2019 13:06:10 INFO [Asnconvertor]: accountNumber = 971520001714
+04-06-2019 13:06:10 INFO [Asnconvertor]: subscriberNumber = 971520001714
+04-06-2019 13:06:10 INFO [Asnconvertor]: adjustmentTimeStamp = 20190604130040+0400
+04-06-2019 13:06:10 INFO [Asnconvertor]: serviceClassId = 1001
+04-06-2019 13:06:10 INFO [Asnconvertor]: currencyType = 0
+04-06-2019 13:06:10 INFO [Asnconvertor]: originNodeType = CIS
+04-06-2019 13:06:10 INFO [Asnconvertor]: originNodeId = CIS
+04-06-2019 13:06:10 INFO [Asnconvertor]: origTransactionID = 2531158918506
+04-06-2019 13:06:10 INFO [Asnconvertor]: origTransactionTimeStamp = 20190604130156+0400
+04-06-2019 13:06:11 INFO [Asnconvertor]: originOperatorId = CIS
+04-06-2019 13:06:11 INFO [Asnconvertor]: accountFlagsBefore = 10000000
+04-06-2019 13:06:11 INFO [Asnconvertor]: accountFlagsAfter = 10000000
+04-06-2019 13:06:11 INFO [Asnconvertor]: activationDate = 20190310
+04-06-2019 13:06:11 INFO [Asnconvertor]: offerID = 1001
+04-06-2019 13:06:11 INFO [Asnconvertor]: action = set
+04-06-2019 13:06:11 INFO [Asnconvertor]: offerType = timer
+04-06-2019 13:06:11 INFO [Asnconvertor]: offerDisabledAfter = FALSE
+04-06-2019 13:06:11 INFO [Asnconvertor]: XXXXXXXXXXXXXXXXXXXXXXX             -E---N---D-             XXXXXXXXXXXXXXXXXXXXXX
+04-06-2019 13:06:11 INFO [Asnconvertor]: ****************************************************************************************
+04-06-2019 13:06:11 INFO [Asnconvertor]: ****************************************************************************************
+04-06-2019 13:06:11 INFO [Asnconvertor]: $$$$$$$$$$$$$$$$$$$$$ Parsing File CHARGINGCDR-meytvvmocc01-190604-1301-03109.ber $$$$$$$$$$$$$$$$$$$$$$$$$
+04-06-2019 13:06:11 INFO [Asnconvertor]: ****************************************************************************************
+04-06-2019 13:06:11 INFO [Asnconvertor]: ****************************************************************************************
+04-06-2019 13:06:12 INFO [Asnconvertor]: subscriptionIDValue = 971520001008
+04-06-2019 13:06:12 INFO [Asnconvertor]: triggerTime = 916040312014304000
+04-06-2019 13:06:12 INFO [Asnconvertor]: nodeName = meytvvmocc01
+04-06-2019 13:06:12 INFO [Asnconvertor]: serviceContextID = SCAP_V.2.0@ericsson.com
+04-06-2019 13:06:12 INFO [Asnconvertor]: chargingContextID = SCAP_V.2.0@ericsson.com
+04-06-2019 13:06:12 INFO [Asnconvertor]: serviceSessionID = -:1002:1
+04-06-2019 13:06:12 INFO [Asnconvertor]: recordIdentificationNumber = 1357
+04-06-2019 13:06:12 INFO [Asnconvertor]: partialSequenceNumber = 0
+04-06-2019 13:06:12 INFO [Asnconvertor]: lastPartialOutput = TRUE
+04-06-2019 13:06:12 INFO [Asnconvertor]: subscriptionIDType = endUserE164
+04-06-2019 13:06:12 INFO [Asnconvertor]: subscriptionIDValue = 971520001008
+04-06-2019 13:06:12 INFO [Asnconvertor]: sessionId = 12232005234183369
+04-06-2019 13:06:12 INFO [Asnconvertor]: ccRequestNumber = 1
+04-06-2019 13:06:12 INFO [Asnconvertor]: originRealm = 6369732E636F6D
+04-06-2019 13:06:12 INFO [Asnconvertor]: originHost = 31302E39352E3231342E313337
+04-06-2019 13:06:12 INFO [Asnconvertor]: serviceIdentifier = 1002
+04-06-2019 13:06:12 INFO [Asnconvertor]: tariffChangeUsage = before
+04-06-2019 13:06:12 INFO [Asnconvertor]: amount = 300
+04-06-2019 13:06:12 INFO [Asnconvertor]: decimals = 2
+04-06-2019 13:06:12 INFO [Asnconvertor]: currency = 784
+04-06-2019 13:06:12 INFO [Asnconvertor]: eventTime = 32303139303630343133303132352B30343030
+04-06-2019 13:06:12 INFO [Asnconvertor]: triggerTime = 916040312014304000
+04-06-2019 13:06:12 INFO [Asnconvertor]: serviceScenario = mobileOriginating
+04-06-2019 13:06:12 INFO [Asnconvertor]: roamingPosition = insideHPLMN
+04-06-2019 13:06:12 INFO [Asnconvertor]: servedAccount = 81795102000180
+04-06-2019 13:06:12 INFO [Asnconvertor]: serviceClassID = 1001
+04-06-2019 13:06:12 INFO [Asnconvertor]: accountGroupID = 0
+04-06-2019 13:06:12 INFO [Asnconvertor]: accountValueBefore = 0 6 784
+04-06-2019 13:06:12 INFO [Asnconvertor]: amount = 0
+04-06-2019 13:06:12 INFO [Asnconvertor]: decimals = 6
+04-06-2019 13:06:12 INFO [Asnconvertor]: currency = 784
+04-06-2019 13:06:12 INFO [Asnconvertor]: accountValueAfter = 0 6 784
+04-06-2019 13:06:12 INFO [Asnconvertor]: amount = 0
+04-06-2019 13:06:12 INFO [Asnconvertor]: decimals = 6
+04-06-2019 13:06:12 INFO [Asnconvertor]: currency = 784
+04-06-2019 13:06:12 INFO [Asnconvertor]: XXXXXXXXXXXXXXXXXXXXXXX             -E---N---D-             XXXXXXXXXXXXXXXXXXXXXX

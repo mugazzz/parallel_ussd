@@ -1,0 +1,18 @@
+02-06-2019 16:24:41 INFO [App]: Starting execution at +: 820->USSD_OPT_IN->02-Jun-2019 16:24:36
+
+02-06-2019 16:24:49 INFO [App]: ****************************************************************************************
+02-06-2019 16:24:49 INFO [App]: ****************************************************************************************
+02-06-2019 16:24:49 INFO [App]: $$$$$$$$$$$$$$$$$$$$$ TC_001--820_USSD_OPT_IN_USSD_Long_Code $$$$$$$$$$$$$$$$$$$$$$$$$
+02-06-2019 16:24:49 INFO [App]: ****************************************************************************************
+02-06-2019 16:24:49 INFO [App]: ****************************************************************************************
+02-06-2019 16:25:06 INFO [App]: Entering code : 6
+
+02-06-2019 16:25:18 INFO [App]: Entering code : 2
+
+02-06-2019 16:25:29 INFO [App]: Entering code : 1
+
+02-06-2019 16:25:46 INFO [App]: Confirmation alert : 1000 International Minutes with Friends & Family bundles starting from 69 dirhams. Dial *135*90#. Thank you for using du interactive services
+
+02-06-2019 16:26:10 INFO [App]: Message not received for the provided USSD
+
+02-06-2019 16:32:22 INFO [App]: XXXXXXXXXXXXXXXXXXXXXXX             -E---N---D-             XXXXXXXXXXXXXXXXXXXXXX

@@ -1,0 +1,25 @@
+02-06-2019 17:18:13 INFO [App]: Starting execution at +: 820->USSD_OPT_IN->02-Jun-2019 17:18:13
+
+02-06-2019 17:18:20 INFO [App]: ****************************************************************************************
+02-06-2019 17:18:20 INFO [App]: ****************************************************************************************
+02-06-2019 17:18:20 INFO [App]: $$$$$$$$$$$$$$$$$$$$$ TC_001--820_USSD_OPT_IN_USSD_Long_Code $$$$$$$$$$$$$$$$$$$$$$$$$
+02-06-2019 17:18:20 INFO [App]: ****************************************************************************************
+02-06-2019 17:18:20 INFO [App]: ****************************************************************************************
+02-06-2019 17:18:34 INFO [App]: Entering code : 6
+
+02-06-2019 17:18:44 INFO [App]: Entering code : 2
+
+02-06-2019 17:18:59 INFO [App]: Error occured, please check with screenshot
+
+02-06-2019 17:19:06 INFO [App]: Entering code : 1
+
+02-06-2019 17:19:20 INFO [App]: Confirmation alert : 1000 International Minutes with Friends & Family bundles starting from 69 dirhams. Dial *135*90#. Thank you for using du interactive services
+
+02-06-2019 17:19:48 INFO [App]: Message Received : As requested, you've been opted out from the New Call Home For Less promotion.
+
+02-06-2019 17:19:59 INFO [Asnconvertor]: ****************************************************************************************
+02-06-2019 17:19:59 INFO [Asnconvertor]: ****************************************************************************************
+02-06-2019 17:19:59 INFO [Asnconvertor]: $$$$$$$$$$$$$$$$$$$$$ Parsing File CHARGINGCDR-meytvvmocc01-190602-1624-02944.ber $$$$$$$$$$$$$$$$$$$$$$$$$
+02-06-2019 17:19:59 INFO [Asnconvertor]: ****************************************************************************************
+02-06-2019 17:19:59 INFO [Asnconvertor]: ****************************************************************************************
+02-06-2019 17:20:00 INFO [App]: XXXXXXXXXXXXXXXXXXXXXXX             -E---N---D-             XXXXXXXXXXXXXXXXXXXXXX
