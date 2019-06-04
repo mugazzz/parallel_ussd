@@ -1,7 +1,7 @@
 package com.spectrum.appium.com.spectrum.appium;
 
-
 import java.io.File;
+import com.spectrum.appium.com.spectrum.appium.Asnconvertor;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -70,13 +70,14 @@ public class App{
 
    //-----Main Method-------------//
 	
-//	public static void main (String[] args) {
-//	App k = new App("device1");
+//	public static void main (String[] args) throws InterruptedException {
+//		Asnconvertor.Result("971520001714", "820", "USSD_OPT_IN", "USSD_OPT_IN", "curtcid", "Product_Name", "Test_Scenario_I", "Test_Case", "Confirmation, Message", "", "", "", "", "", "", "");
 //	}
 	
 	@Test
-	public void Device_1() {
-		App k = new App("device2");
+	public void Device_1(){
+		//App k = new App("device1");
+		
 	}
 	
 ////	@Test
@@ -103,12 +104,12 @@ public class App{
 			
 	//-----------Get input data------------//
 			
-			String inputQuery = "Select * from Execution_Sheet where Execution = 'Yes' and Test_Device ='"+deviceq+"'";
+			String inputQuery = "Select * from Execution_Sheet where Execution = 'YES' and Test_Device ='"+deviceq+"'";
 			System.out.println(inputQuery);
 			Recordset inputs = conn.executeQuery(inputQuery);
 			createtimestampfold();
-			ExtentReports extent = new ExtentReports();
-			ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(trfold + "\\Master.html");
+//			ExtentReports extent = new ExtentReports();
+//			ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(trfold + "\\Master.html");
 			System.setProperty("logfilename", trfold + "\\Logs");
 			DOMConfigurator.configure("log4j.xml");
 			
@@ -123,7 +124,7 @@ public class App{
 				Recharge_Coupon = inputs.getField("Recharge_Coupon");
 				
 				info("Starting execution at +: "+ Prod_ID + "->"+ Test_Scenario+ "->" + ExecutionStarttime);
-				extent.attachReporter(htmlReporter);
+//				extent.attachReporter(htmlReporter);
 				
 			//String Mobile = rs.getField("Device_Name");
 			String basedir = System.getProperty("user.dir");
@@ -184,10 +185,8 @@ public class App{
 				String hash = URLEncoder.encode("#", "UTF-8");
 				
 				curtcid = inputs.getField("Test_Case_ID")+"--"+rs.getField("Product_ID")+"_"+rs.getField("Test_Scenario")+"_"+rs.getField("Test_Case");
-				startTestCase(curtcid);
-				ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Product_ID")+"--"+inputs.getField("Test_Scenario")+"-"+inputs.getField("Test_Case"));
-				
-
+				//startTestCase(curtcid);
+				//ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Product_ID")+"--"+inputs.getField("Test_Scenario")+"-"+inputs.getField("Test_Case"));
 				
 	//-------------Start Appium server using terminal----------------//
 
@@ -295,12 +294,20 @@ public class App{
 				}
 				String result = dr.get().stopRecordingScreen();
 				
-				test.pass("<b>Product Name: "+Product_Name+"<br>Product ID: "+inputs.getField("Product_ID")+"<br>Test Scenario: "+Test_Scenario_I+"<br> Test Case: " +Test_Case_I +
-						"<br> Confirmation Alert Message: 	<i>"+ Confirmation + "</i></b>"+
-						"<br> Message Status: 	<i>"+ Message +
-						"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
-				extent.flush();
-				endTestCase(curtcid);
+		//-------------------------- CDR Conversion -------------------------------------------//
+				
+				Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
+				
+		//-------------------------- Report ----------------------------------------------//
+				Asnconvertor.Result(MSISDN, Prod_ID, Test_Scenario, Test_Case_ID, curtcid, Product_Name, Test_Scenario_I, Test_Case, Confirmation, Message, "", "", "", "", "", "", ExecutionStarttime);
+				//Asnconvertor.Result("971520001714", "820", "USSD_OPT_IN", "USSD_OPT_IN", "curtcid", "Product_Name", "Test_Scenario_I", "Test_Case", "Confirmation, Message", "", "", "", "", "", "", "");
+				
+//				test.pass("<b>Product Name: "+Product_Name+"<br>Product ID: "+inputs.getField("Product_ID")+"<br>Test Scenario: "+Test_Scenario_I+"<br> Test Case: " +Test_Case_I +
+//						"<br> Confirmation Alert Message: 	<i>"+ Confirmation + "</i></b>"+
+//						"<br> Message Status: 	<i>"+ Message +
+//						"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
+				//extent.flush();
+				//endTestCase(curtcid);
 			}
 			}
 			
@@ -322,8 +329,8 @@ public class App{
 			String hash = URLEncoder.encode("#", "UTF-8");
 			
 			curtcid = inputs.getField("Test_Case_ID")+"--"+rs.getField("Test_Scenario")+"_"+rs.getField("Test_Case");
-			startTestCase(curtcid);
-			ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario")+"- <br>"+inputs.getField("Test_Case"));
+//			startTestCase(curtcid);
+//			ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario")+"- <br>"+inputs.getField("Test_Case"));
 			
 			DesiredCapabilities capabilities = new DesiredCapabilities();
 			capabilities.setCapability("deviceName", device);
@@ -390,12 +397,18 @@ public class App{
 			}
 			String result = dr.get().stopRecordingScreen();
 			
-			test.pass("<b>Test Scenario: "+Test_Scenario_I+"<br> Test Case: " +Test_Case_I +"<br> Recharge Coupon: <i>"+ Recharge_Coupon + "</i>"+
-					"<br> Confirmation Alert Message: 	<i>"+ Confirmation + "</i></b>"+
-					"<br> Message Status: 	<i>"+ Message +
-					"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
-			extent.flush();
-			endTestCase(curtcid);
+			//-------------------------- CDR Conversion -------------------------------------------//
+			
+			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
+			
+	//-------------------------- Report ----------------------------------------------//
+			
+//			test.pass("<b>Test Scenario: "+Test_Scenario_I+"<br> Test Case: " +Test_Case_I +"<br> Recharge Coupon: <i>"+ Recharge_Coupon + "</i>"+
+//					"<br> Confirmation Alert Message: 	<i>"+ Confirmation + "</i></b>"+
+//					"<br> Message Status: 	<i>"+ Message +
+//					"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
+//			extent.flush();
+//			endTestCase(curtcid);
 		}
 		}
 			
@@ -414,7 +427,7 @@ public class App{
 			capabilities.setCapability("appActivity", activity_voice);
 			curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
 			startTestCase(curtcid);
-			ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario")+"<br>"+inputs.getField("Test_Case"));
+			//ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario")+"<br>"+inputs.getField("Test_Case"));
 			String Call_To = inputs.getField("Call_TO_MSISDN");
 			String CALL_DURATION = inputs.getField("CALL_DURATION");
 			int secs = Integer.parseInt(CALL_DURATION);
@@ -427,11 +440,18 @@ public class App{
 			takeScreenShot("Call process");
 			run.exec("adb shell input keyevent KEYCODE_ENDCALL");
 			String result = dr.get().stopRecordingScreen();
-			test.pass("<b>Test Scenario: "+inputs.getField("Test_Scenario")+"<br> Test Case: " +inputs.getField("Test_Case") +
-					"<br> Called To: <i>"+ Call_To +"<br> <a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
-			extent.flush();
-			endTestCase(curtcid);
-			dr.get().quit();
+			
+			//-------------------------- CDR Conversion -------------------------------------------//
+			
+			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
+			
+	//-------------------------- Report ----------------------------------------------//
+//			
+//			test.pass("<b>Test Scenario: "+inputs.getField("Test_Scenario")+"<br> Test Case: " +inputs.getField("Test_Case") +
+//					"<br> Called To: <i>"+ Call_To +"<br> <a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
+//			extent.flush();
+//			endTestCase(curtcid);
+//			dr.get().quit();
 			
 		}
 		
@@ -440,7 +460,7 @@ public class App{
 		else if(Test_Scenario.equals("LIVE USAGE SMS")){
 			curtcid = inputs.getField("Test_Case_ID")+"-"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
 			startTestCase(curtcid);
-			ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario")+"-"+inputs.getField("Test_Case"));
+			//ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario")+"-"+inputs.getField("Test_Case"));
 			String To_Receiver = inputs.getField("RECEIVER_MSISDN");
 			String Text_Message = inputs.getField("Message_To_Send");
 			String Count = inputs.getField("SMS_COUNT");
@@ -468,12 +488,18 @@ public class App{
 				dr.get().navigate().back();
 			}
 			String result = dr.get().stopRecordingScreen();
-			test.pass("<b>Test Scenario: "+inputs.getField("Test_Scenario")+"<br> Test Case: " +inputs.getField("Test_Case") +
-					"<br> Message: 	<i>"+ Text_Message +"<br> Receiver Number: 	<i>"+ To_Receiver +
-					"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
-			extent.flush();
-			endTestCase(curtcid);
-			dr.get().quit();
+			
+			//-------------------------- CDR Conversion -------------------------------------------//
+			
+			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
+			
+	//-------------------------- Report ----------------------------------------------//
+//			test.pass("<b>Test Scenario: "+inputs.getField("Test_Scenario")+"<br> Test Case: " +inputs.getField("Test_Case") +
+//					"<br> Message: 	<i>"+ Text_Message +"<br> Receiver Number: 	<i>"+ To_Receiver +
+//					"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
+//			extent.flush();
+//			endTestCase(curtcid);
+//			dr.get().quit();
 			
 		}
 
@@ -493,7 +519,7 @@ public class App{
 				
 				curtcid = inputs.getField("Test_Case_ID")+"--"+rs.getField("Test_Scenario");
 				startTestCase(curtcid);
-				ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
+//				ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
 			
 				DesiredCapabilities capabilities = new DesiredCapabilities();
 				capabilities.setCapability("deviceName", device);
@@ -537,10 +563,10 @@ public class App{
 			takeScreenShot("Balance Message");
 			dr.get().findElement(By.id("android:id/button1")).click();
 			String result = dr.get().stopRecordingScreen();
-			test.pass("<b>Test Scenario: "+inputs.getField("Test_Scenario")+"<br>Balance Message: <i>"+Balancemsg+
-					"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
-			extent.flush();
-			endTestCase(curtcid);
+//			test.pass("<b>Test Scenario: "+inputs.getField("Test_Scenario")+"<br>Balance Message: <i>"+Balancemsg+
+//					"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
+//			extent.flush();
+//			endTestCase(curtcid);
 			
 			}
 			}
@@ -565,8 +591,8 @@ public class App{
 			String hash = URLEncoder.encode("#", "UTF-8");
 			
 			curtcid = inputs.getField("Test_Case_ID")+"--"+rs.getField("Test_Scenario");
-			startTestCase(curtcid);
-			ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
+//			startTestCase(curtcid);
+//			ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 			Runtime run = Runtime.getRuntime();
 			run.exec("adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+startussd);
@@ -661,14 +687,21 @@ public class App{
 //			extent.flush();
 //			endTestCase(inputs.getField("Test Case ID"));
 			String result = dr.get().stopRecordingScreen();
-			test.pass("<b>Test Scenario: "+inputs.getField("Test_Scenario")+
-					"<br> P2P Transfer To Number: 	<i>"+ To_Number +"</i></b>"+
-					"<br> P2P Transfer Amount: 	<i>"+ Amount +"</i></b>"+
-					"<br> Confirmation Alert Message: 	<i>"+ Confirmation +"</i></b>"+
-					"<br> Message Status: 	<i>"+ Message +
-					"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
-			extent.flush();
-			endTestCase(curtcid);
+			
+			//-------------------------- CDR Conversion -------------------------------------------//
+			
+			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
+			
+	//-------------------------- Report ----------------------------------------------//
+			
+//			test.pass("<b>Test Scenario: "+inputs.getField("Test_Scenario")+
+//					"<br> P2P Transfer To Number: 	<i>"+ To_Number +"</i></b>"+
+//					"<br> P2P Transfer Amount: 	<i>"+ Amount +"</i></b>"+
+//					"<br> Confirmation Alert Message: 	<i>"+ Confirmation +"</i></b>"+
+//					"<br> Message Status: 	<i>"+ Message +
+//					"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
+//			extent.flush();
+//			endTestCase(curtcid);
 			dr.get().quit();
 		}
 		}
@@ -688,7 +721,7 @@ public class App{
 			capabilities.setCapability("appActivity", activity_Data);
 			curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
 			startTestCase(curtcid);
-			ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario")+"<br>"+inputs.getField("Test_Case"));
+			//ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario")+"<br>"+inputs.getField("Test_Case"));
 			if (Test_Case.equals("DATA_REGULAR")) {
 			Runtime run = Runtime.getRuntime();
 			run.exec("adb shell svc data enable");
@@ -720,11 +753,18 @@ public class App{
 			takeScreenShot("Data Turned off: " + timefold);
 		}
 			String result = dr.get().stopRecordingScreen();
-			test.pass("<b>Test Scenario: <b>"+Test_Scenario+"<br>Test Case: "+ Test_Case+
-					"</b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
-			extent.flush();
-			endTestCase(curtcid);
-			dr.get().quit();
+			
+			//-------------------------- CDR Conversion -------------------------------------------//
+			
+			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
+			
+	//-------------------------- Report ----------------------------------------------//
+			
+//			test.pass("<b>Test Scenario: <b>"+Test_Scenario+"<br>Test Case: "+ Test_Case+
+//					"</b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
+//			extent.flush();
+//			endTestCase(curtcid);
+//			dr.get().quit();
 		}
 		
 			
@@ -736,7 +776,8 @@ public class App{
 			e.printStackTrace();
 		 }
 	}
-	
+
+
 	public boolean elementExists(By locator) {
 		dr.get().manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         try {
