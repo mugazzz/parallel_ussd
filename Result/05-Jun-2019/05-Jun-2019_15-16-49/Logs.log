@@ -1,0 +1,243 @@
+05-06-2019 15:22:25 INFO [Asnconvertor]: Starting execution at +:05-Jun-2019 15:16:49
+05-06-2019 15:22:25 INFO [Asnconvertor]: ****************************************************************************************
+05-06-2019 15:22:25 INFO [Asnconvertor]: ****************************************************************************************
+05-06-2019 15:22:25 INFO [Asnconvertor]: $$$$$$$$$$$$$$$$$$$$$ Parsing File SDPOUTPUTCDR_4001_meytvvmsdp01_SUB_8567_20190605-150412.ASN $$$$$$$$$$$$$$$$$$$$$$$$$
+05-06-2019 15:22:25 INFO [Asnconvertor]: ****************************************************************************************
+05-06-2019 15:22:25 INFO [Asnconvertor]: ****************************************************************************************
+05-06-2019 15:22:25 INFO [Asnconvertor]: ****************************************************************************************
+05-06-2019 15:22:25 INFO [Asnconvertor]: ****************************************************************************************
+05-06-2019 15:22:25 INFO [Asnconvertor]: $$$$$$$$$$$$$$$$$$$$$ Parsing File CHARGINGCDR-meydvvmocc02-190605-1516-03408.ber $$$$$$$$$$$$$$$$$$$$$$$$$
+05-06-2019 15:22:25 INFO [Asnconvertor]: ****************************************************************************************
+05-06-2019 15:22:25 INFO [Asnconvertor]: ****************************************************************************************
+05-06-2019 15:22:27 INFO [Asnconvertor]: subscriptionIDValue = 971520001714
+05-06-2019 15:22:27 INFO [Asnconvertor]: subscriptionIDValue = 971520001714
+05-06-2019 15:22:27 INFO [Asnconvertor]: subscriptionIDValue = 971520001714
+05-06-2019 15:22:27 INFO [Asnconvertor]: subscriptionIDValue = 971520001714
+05-06-2019 15:22:27 INFO [Asnconvertor]: resultCode = 2001
+05-06-2019 15:22:27 INFO [Asnconvertor]: resultCode = 2001
+05-06-2019 15:22:27 INFO [Asnconvertor]: resultCode = 2001
+05-06-2019 15:22:27 INFO [Asnconvertor]: resultCode = 2001
+05-06-2019 15:22:27 INFO [Asnconvertor]: triggerTime = 916050514103304000
+05-06-2019 15:22:27 INFO [Asnconvertor]: triggerTime = 916050514103304000
+05-06-2019 15:22:27 INFO [Asnconvertor]: triggerTime = 916050517101304000
+05-06-2019 15:22:27 INFO [Asnconvertor]: triggerTime = 916050517101304000
+05-06-2019 15:22:27 INFO [Asnconvertor]: nodeName = meytvvmocc01
+05-06-2019 15:22:27 INFO [Asnconvertor]: nodeName = meytvvmocc01
+05-06-2019 15:22:27 INFO [Asnconvertor]: nodeName = meytvvmocc01
+05-06-2019 15:22:27 INFO [Asnconvertor]: nodeName = meytvvmocc01
+05-06-2019 15:22:27 INFO [Asnconvertor]: serviceContextID = du-service
+05-06-2019 15:22:27 INFO [Asnconvertor]: serviceContextID = du-service
+05-06-2019 15:22:27 INFO [Asnconvertor]: serviceContextID = du-service
+05-06-2019 15:22:27 INFO [Asnconvertor]: serviceContextID = du-service
+05-06-2019 15:22:27 INFO [Asnconvertor]: chargingContextID = Ericsson_OCS_V1_0.0.0.10.32251@3gpp.org
+05-06-2019 15:22:27 INFO [Asnconvertor]: chargingContextID = Ericsson_OCS_V1_0.0.0.10.32251@3gpp.org
+05-06-2019 15:22:27 INFO [Asnconvertor]: chargingContextID = Ericsson_OCS_V1_0.0.0.10.32251@3gpp.org
+05-06-2019 15:22:27 INFO [Asnconvertor]: chargingContextID = Ericsson_OCS_V1_0.0.0.10.32251@3gpp.org
+05-06-2019 15:22:27 INFO [Asnconvertor]: serviceSessionID = 3:-:1
+05-06-2019 15:22:27 INFO [Asnconvertor]: serviceSessionID = 40:-:2
+05-06-2019 15:22:27 INFO [Asnconvertor]: serviceSessionID = 3:-:1
+05-06-2019 15:22:27 INFO [Asnconvertor]: serviceSessionID = 40:-:2
+05-06-2019 15:22:27 INFO [Asnconvertor]: recordIdentificationNumber = 24E2
+05-06-2019 15:22:27 INFO [Asnconvertor]: recordIdentificationNumber = 24E3
+05-06-2019 15:22:27 INFO [Asnconvertor]: recordIdentificationNumber = 24E4
+05-06-2019 15:22:27 INFO [Asnconvertor]: recordIdentificationNumber = 24E5
+05-06-2019 15:22:27 INFO [Asnconvertor]: partialSequenceNumber = 0
+05-06-2019 15:22:27 INFO [Asnconvertor]: partialSequenceNumber = 0
+05-06-2019 15:22:27 INFO [Asnconvertor]: partialSequenceNumber = 0
+05-06-2019 15:22:27 INFO [Asnconvertor]: partialSequenceNumber = 0
+05-06-2019 15:22:27 INFO [Asnconvertor]: lastPartialOutput = TRUE
+05-06-2019 15:22:27 INFO [Asnconvertor]: lastPartialOutput = TRUE
+05-06-2019 15:22:27 INFO [Asnconvertor]: lastPartialOutput = TRUE
+05-06-2019 15:22:27 INFO [Asnconvertor]: lastPartialOutput = TRUE
+05-06-2019 15:22:27 INFO [Asnconvertor]: subscriptionIDType = endUserE164
+05-06-2019 15:22:27 INFO [Asnconvertor]: subscriptionIDType = endUserE164
+05-06-2019 15:22:27 INFO [Asnconvertor]: subscriptionIDType = endUserE164
+05-06-2019 15:22:27 INFO [Asnconvertor]: subscriptionIDType = endUserE164
+05-06-2019 15:22:27 INFO [Asnconvertor]: subscriptionIDValue = 971520001714
+05-06-2019 15:22:27 INFO [Asnconvertor]: subscriptionIDValue = 971520001714
+05-06-2019 15:22:27 INFO [Asnconvertor]: subscriptionIDValue = 971520001714
+05-06-2019 15:22:27 INFO [Asnconvertor]: subscriptionIDValue = 971520001714
+05-06-2019 15:22:27 INFO [Asnconvertor]: sessionId = ggsn.du.ae;3768722068;268;2304
+05-06-2019 15:22:27 INFO [Asnconvertor]: sessionId = ggsn.du.ae;3768722068;268;2304
+05-06-2019 15:22:27 INFO [Asnconvertor]: sessionId = ggsn.du.ae;3768722228;232;2298
+05-06-2019 15:22:27 INFO [Asnconvertor]: sessionId = ggsn.du.ae;3768722228;232;2298
+05-06-2019 15:22:27 INFO [Asnconvertor]: lastPartialOutput = TRUE
+05-06-2019 15:22:27 INFO [Asnconvertor]: lastPartialOutput = TRUE
+05-06-2019 15:22:27 INFO [Asnconvertor]: lastPartialOutput = TRUE
+05-06-2019 15:22:27 INFO [Asnconvertor]: lastPartialOutput = TRUE
+05-06-2019 15:22:27 INFO [Asnconvertor]: originRealm = 64752E6165
+05-06-2019 15:22:27 INFO [Asnconvertor]: originRealm = 64752E6165
+05-06-2019 15:22:27 INFO [Asnconvertor]: originRealm = 64752E6165
+05-06-2019 15:22:27 INFO [Asnconvertor]: originRealm = 64752E6165
+05-06-2019 15:22:27 INFO [Asnconvertor]: originHost = 6767736E2E64752E6165
+05-06-2019 15:22:27 INFO [Asnconvertor]: originHost = 6767736E2E64752E6165
+05-06-2019 15:22:27 INFO [Asnconvertor]: originHost = 6767736E2E64752E6165
+05-06-2019 15:22:27 INFO [Asnconvertor]: originHost = 6767736E2E64752E6165
+05-06-2019 15:22:27 INFO [Asnconvertor]: serviceIdentifier = 3
+05-06-2019 15:22:27 INFO [Asnconvertor]: serviceIdentifier = 40
+05-06-2019 15:22:27 INFO [Asnconvertor]: serviceIdentifier = 3
+05-06-2019 15:22:27 INFO [Asnconvertor]: serviceIdentifier = 40
+05-06-2019 15:22:27 INFO [Asnconvertor]: tariffChangeUsage = before
+05-06-2019 15:22:27 INFO [Asnconvertor]: tariffChangeUsage = before
+05-06-2019 15:22:27 INFO [Asnconvertor]: tariffChangeUsage = before
+05-06-2019 15:22:27 INFO [Asnconvertor]: tariffChangeUsage = before
+05-06-2019 15:22:27 INFO [Asnconvertor]: eventTime = 32303139303630353135313630362B30343030
+05-06-2019 15:22:27 INFO [Asnconvertor]: eventTime = 32303139303630353135313630362B30343030
+05-06-2019 15:22:27 INFO [Asnconvertor]: eventTime = 32303139303630353135313733312B30343030
+05-06-2019 15:22:27 INFO [Asnconvertor]: eventTime = 32303139303630353135313733312B30343030
+05-06-2019 15:22:27 INFO [Asnconvertor]: triggerTime = 32303139303630353135313433302B30343030
+05-06-2019 15:22:27 INFO [Asnconvertor]: triggerTime = 32303139303630353135313433302B30343030
+05-06-2019 15:22:27 INFO [Asnconvertor]: triggerTime = 32303139303630353135313731302B30343030
+05-06-2019 15:22:27 INFO [Asnconvertor]: triggerTime = 32303139303630353135313731302B30343030
+05-06-2019 15:22:27 INFO [Asnconvertor]: serviceScenario = mobileOriginating
+05-06-2019 15:22:27 INFO [Asnconvertor]: serviceScenario = mobileOriginating
+05-06-2019 15:22:27 INFO [Asnconvertor]: serviceScenario = mobileOriginating
+05-06-2019 15:22:27 INFO [Asnconvertor]: serviceScenario = mobileOriginating
+05-06-2019 15:22:27 INFO [Asnconvertor]: roamingPosition = insideHPLMN
+05-06-2019 15:22:27 INFO [Asnconvertor]: roamingPosition = insideHPLMN
+05-06-2019 15:22:27 INFO [Asnconvertor]: roamingPosition = insideHPLMN
+05-06-2019 15:22:27 INFO [Asnconvertor]: roamingPosition = insideHPLMN
+05-06-2019 15:22:27 INFO [Asnconvertor]: servedAccount = 81795102007141
+05-06-2019 15:22:27 INFO [Asnconvertor]: servedAccount = 81795102007141
+05-06-2019 15:22:27 INFO [Asnconvertor]: servedAccount = 81795102007141
+05-06-2019 15:22:27 INFO [Asnconvertor]: servedAccount = 81795102007141
+05-06-2019 15:22:27 INFO [Asnconvertor]: serviceClassID = 1001
+05-06-2019 15:22:27 INFO [Asnconvertor]: serviceClassID = 1001
+05-06-2019 15:22:27 INFO [Asnconvertor]: serviceClassID = 1001
+05-06-2019 15:22:27 INFO [Asnconvertor]: serviceClassID = 1001
+05-06-2019 15:22:27 INFO [Asnconvertor]: accountGroupID = 0
+05-06-2019 15:22:27 INFO [Asnconvertor]: accountGroupID = 0
+05-06-2019 15:22:27 INFO [Asnconvertor]: accountGroupID = 0
+05-06-2019 15:22:27 INFO [Asnconvertor]: accountGroupID = 0
+05-06-2019 15:22:27 INFO [Asnconvertor]: accountValueBefore = 
+                        0
+                        6
+                        784
+                     
+05-06-2019 15:22:27 INFO [Asnconvertor]: accountValueBefore = 
+                        0
+                        6
+                        784
+                     
+05-06-2019 15:22:27 INFO [Asnconvertor]: accountValueBefore = 
+                        0
+                        6
+                        784
+                     
+05-06-2019 15:22:27 INFO [Asnconvertor]: accountValueBefore = 
+                        0
+                        6
+                        784
+                     
+05-06-2019 15:22:27 INFO [Asnconvertor]: amount = 0
+05-06-2019 15:22:27 INFO [Asnconvertor]: amount = 0
+05-06-2019 15:22:27 INFO [Asnconvertor]: amount = 0
+05-06-2019 15:22:27 INFO [Asnconvertor]: amount = 0
+05-06-2019 15:22:27 INFO [Asnconvertor]: decimals = 6
+05-06-2019 15:22:27 INFO [Asnconvertor]: decimals = 6
+05-06-2019 15:22:27 INFO [Asnconvertor]: decimals = 6
+05-06-2019 15:22:27 INFO [Asnconvertor]: decimals = 6
+05-06-2019 15:22:27 INFO [Asnconvertor]: currency = 784
+05-06-2019 15:22:27 INFO [Asnconvertor]: currency = 784
+05-06-2019 15:22:27 INFO [Asnconvertor]: currency = 784
+05-06-2019 15:22:27 INFO [Asnconvertor]: currency = 784
+05-06-2019 15:22:27 INFO [Asnconvertor]: accountValueAfter = 
+                        0
+                        6
+                        784
+                     
+05-06-2019 15:22:27 INFO [Asnconvertor]: accountValueAfter = 
+                        0
+                        6
+                        784
+                     
+05-06-2019 15:22:27 INFO [Asnconvertor]: accountValueAfter = 
+                        0
+                        6
+                        784
+                     
+05-06-2019 15:22:27 INFO [Asnconvertor]: accountValueAfter = 
+                        0
+                        6
+                        784
+                     
+05-06-2019 15:22:27 INFO [Asnconvertor]: amount = 0
+05-06-2019 15:22:27 INFO [Asnconvertor]: amount = 0
+05-06-2019 15:22:27 INFO [Asnconvertor]: amount = 0
+05-06-2019 15:22:27 INFO [Asnconvertor]: amount = 0
+05-06-2019 15:22:27 INFO [Asnconvertor]: decimals = 6
+05-06-2019 15:22:27 INFO [Asnconvertor]: decimals = 6
+05-06-2019 15:22:27 INFO [Asnconvertor]: decimals = 6
+05-06-2019 15:22:27 INFO [Asnconvertor]: decimals = 6
+05-06-2019 15:22:27 INFO [Asnconvertor]: currency = 784
+05-06-2019 15:22:27 INFO [Asnconvertor]: currency = 784
+05-06-2019 15:22:27 INFO [Asnconvertor]: currency = 784
+05-06-2019 15:22:27 INFO [Asnconvertor]: currency = 784
+05-06-2019 15:22:27 INFO [Asnconvertor]: accumulatorID = 68
+05-06-2019 15:22:27 INFO [Asnconvertor]: accumulatorID = 68
+05-06-2019 15:22:27 INFO [Asnconvertor]: accumulatorID = 68
+05-06-2019 15:22:27 INFO [Asnconvertor]: accumulatorID = 68
+05-06-2019 15:22:27 INFO [Asnconvertor]: accumulatorChange = 458752
+05-06-2019 15:22:27 INFO [Asnconvertor]: accumulatorChange = 491520
+05-06-2019 15:22:27 INFO [Asnconvertor]: accumulatorChange = 98304
+05-06-2019 15:22:27 INFO [Asnconvertor]: accumulatorChange = 393216
+05-06-2019 15:22:27 INFO [Asnconvertor]: accumulatorAfter = 1802240
+05-06-2019 15:22:27 INFO [Asnconvertor]: accumulatorAfter = 2293760
+05-06-2019 15:22:27 INFO [Asnconvertor]: accumulatorAfter = 2392064
+05-06-2019 15:22:27 INFO [Asnconvertor]: accumulatorAfter = 2785280
+05-06-2019 15:22:27 INFO [Asnconvertor]: accumulatorBeforeSession = 1343488
+05-06-2019 15:22:27 INFO [Asnconvertor]: accumulatorBeforeSession = 1343488
+05-06-2019 15:22:27 INFO [Asnconvertor]: accumulatorBeforeSession = 2293760
+05-06-2019 15:22:27 INFO [Asnconvertor]: accumulatorBeforeSession = 2293760
+05-06-2019 15:22:27 INFO [Asnconvertor]: ****************************************************************************************
+05-06-2019 15:22:27 INFO [Asnconvertor]: ****************************************************************************************
+05-06-2019 15:22:27 INFO [Asnconvertor]: $$$$$$$$$$$$$$$$$$$$$ Parsing File CHARGINGCDR-meytvvmocc01-190605-1501-03229.ber $$$$$$$$$$$$$$$$$$$$$$$$$
+05-06-2019 15:22:27 INFO [Asnconvertor]: ****************************************************************************************
+05-06-2019 15:22:27 INFO [Asnconvertor]: ****************************************************************************************
+05-06-2019 15:22:28 INFO [Asnconvertor]: subscriptionIDValue = 971520001714
+05-06-2019 15:22:28 INFO [Asnconvertor]: resultCode = 2001
+05-06-2019 15:22:28 INFO [Asnconvertor]: triggerTime = 916050513051304000
+05-06-2019 15:22:28 INFO [Asnconvertor]: nodeName = meytvvmocc01
+05-06-2019 15:22:28 INFO [Asnconvertor]: serviceContextID = SCAP_V.2.0@ericsson.com
+05-06-2019 15:22:28 INFO [Asnconvertor]: chargingContextID = SCAP_V.2.0@ericsson.com
+05-06-2019 15:22:28 INFO [Asnconvertor]: serviceSessionID = -:1001:1
+05-06-2019 15:22:28 INFO [Asnconvertor]: recordIdentificationNumber = 1472
+05-06-2019 15:22:28 INFO [Asnconvertor]: partialSequenceNumber = 0
+05-06-2019 15:22:28 INFO [Asnconvertor]: lastPartialOutput = TRUE
+05-06-2019 15:22:28 INFO [Asnconvertor]: subscriptionIDType = endUserE164
+05-06-2019 15:22:28 INFO [Asnconvertor]: subscriptionIDValue = 971520001714
+05-06-2019 15:22:28 INFO [Asnconvertor]: sessionId = 2531252597150
+05-06-2019 15:22:28 INFO [Asnconvertor]: lastPartialOutput = TRUE
+05-06-2019 15:22:28 INFO [Asnconvertor]: ccRequestNumber = 1
+05-06-2019 15:22:28 INFO [Asnconvertor]: originRealm = 6369732E636F6D
+05-06-2019 15:22:28 INFO [Asnconvertor]: originHost = 31302E39352E3231342E313337
+05-06-2019 15:22:28 INFO [Asnconvertor]: serviceIdentifier = 1001
+05-06-2019 15:22:28 INFO [Asnconvertor]: tariffChangeUsage = before
+05-06-2019 15:22:28 INFO [Asnconvertor]: eventTime = 32303139303630353135303230332B30343030
+05-06-2019 15:22:28 INFO [Asnconvertor]: triggerTime = 32303139303630353135303331352B30343030
+05-06-2019 15:22:28 INFO [Asnconvertor]: serviceScenario = mobileOriginating
+05-06-2019 15:22:28 INFO [Asnconvertor]: roamingPosition = insideHPLMN
+05-06-2019 15:22:28 INFO [Asnconvertor]: servedAccount = 81795102007141
+05-06-2019 15:22:28 INFO [Asnconvertor]: serviceClassID = 1001
+05-06-2019 15:22:28 INFO [Asnconvertor]: accountGroupID = 0
+05-06-2019 15:22:28 INFO [Asnconvertor]: accountValueBefore = 
+                        0
+                        6
+                        784
+                     
+05-06-2019 15:22:28 INFO [Asnconvertor]: amount = 0
+05-06-2019 15:22:28 INFO [Asnconvertor]: decimals = 6
+05-06-2019 15:22:28 INFO [Asnconvertor]: currency = 784
+05-06-2019 15:22:28 INFO [Asnconvertor]: accountValueAfter = 
+                        0
+                        6
+                        784
+                     
+05-06-2019 15:22:28 INFO [Asnconvertor]: amount = 0
+05-06-2019 15:22:28 INFO [Asnconvertor]: decimals = 6
+05-06-2019 15:22:28 INFO [Asnconvertor]: currency = 784
+05-06-2019 15:22:28 INFO [Asnconvertor]: accumulatorID = 61
+05-06-2019 15:22:28 INFO [Asnconvertor]: accumulatorChange = 0
+05-06-2019 15:22:28 INFO [Asnconvertor]: accumulatorAfter = 1
+05-06-2019 15:22:28 INFO [Asnconvertor]: accumulatorBeforeSession = 1
+05-06-2019 15:22:28 INFO [Asnconvertor]: XXXXXXXXXXXXXXXXXXXXXXX             -E---N---D-             XXXXXXXXXXXXXXXXXXXXXX

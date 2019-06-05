@@ -71,13 +71,14 @@ public class App{
    //-----Main Method-------------//
 	
 //	public static void main (String[] args) throws InterruptedException {
-//		Asnconvertor.Result("971520001714", "820", "USSD_OPT_IN", "USSD_OPT_IN", "curtcid", "Product_Name", "Test_Scenario_I", "Test_Case", "Confirmation, Message", "", "", "", "", "", "", "");
+//		Asnconvertor.nodeValidation("USSD_OPT_IN", "971520001714");
+//		//Asnconvertor.Result("971520001714", "820", "USSD_OPT_IN", "USSD_OPT_IN", "curtcid", "Product_Name", "Test_Scenario_I", "Test_Case", "Confirmation, Message", "", "", "", "", "", "", "");
 //	}
 	
 	@Test
 	public void Device_1(){
-		//App k = new App("device1");
-		
+		App k = new App("device1");
+		//Asnconvertor.nodeValidation("USSD_OPT_IN", "971520001714");
 	}
 	
 ////	@Test
@@ -299,22 +300,14 @@ public class App{
 				Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
 				
 		//-------------------------- Report ----------------------------------------------//
-				Asnconvertor.Result(MSISDN, Prod_ID, Test_Scenario, Test_Case_ID, curtcid, Product_Name, Test_Scenario_I, Test_Case, Confirmation, Message, "", "", "", "", "", "", ExecutionStarttime);
-				//Asnconvertor.Result("971520001714", "820", "USSD_OPT_IN", "USSD_OPT_IN", "curtcid", "Product_Name", "Test_Scenario_I", "Test_Case", "Confirmation, Message", "", "", "", "", "", "", "");
-				
-//				test.pass("<b>Product Name: "+Product_Name+"<br>Product ID: "+inputs.getField("Product_ID")+"<br>Test Scenario: "+Test_Scenario_I+"<br> Test Case: " +Test_Case_I +
-//						"<br> Confirmation Alert Message: 	<i>"+ Confirmation + "</i></b>"+
-//						"<br> Message Status: 	<i>"+ Message +
-//						"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
-				//extent.flush();
-				//endTestCase(curtcid);
+				Asnconvertor.Result(MSISDN, Prod_ID, Test_Scenario, Test_Case_ID, curtcid, Product_Name, Test_Scenario_I, Test_Case, Confirmation, Message, Recharge_Coupon,"", "", "", "", "", "", ExecutionStarttime, "", "");
 			}
 			}
 			
 			
 	//----------------------------- 	Recharge Coupon		 ---------------------------------------------//
 			
-		if(Test_Scenario.equals("USSD_Recharge") ) 
+		if(Test_Scenario.equals("USSD_Recharge")) 
 		{
 			
 			strQuery = "Select * from recharge_data "
@@ -329,8 +322,6 @@ public class App{
 			String hash = URLEncoder.encode("#", "UTF-8");
 			
 			curtcid = inputs.getField("Test_Case_ID")+"--"+rs.getField("Test_Scenario")+"_"+rs.getField("Test_Case");
-//			startTestCase(curtcid);
-//			ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario")+"- <br>"+inputs.getField("Test_Case"));
 			
 			DesiredCapabilities capabilities = new DesiredCapabilities();
 			capabilities.setCapability("deviceName", device);
@@ -402,13 +393,8 @@ public class App{
 			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
 			
 	//-------------------------- Report ----------------------------------------------//
+			Asnconvertor.Result(MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, Confirmation, Message,"", "", "", "", "", "", "", ExecutionStarttime, "", "");
 			
-//			test.pass("<b>Test Scenario: "+Test_Scenario_I+"<br> Test Case: " +Test_Case_I +"<br> Recharge Coupon: <i>"+ Recharge_Coupon + "</i>"+
-//					"<br> Confirmation Alert Message: 	<i>"+ Confirmation + "</i></b>"+
-//					"<br> Message Status: 	<i>"+ Message +
-//					"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
-//			extent.flush();
-//			endTestCase(curtcid);
 		}
 		}
 			
@@ -426,7 +412,7 @@ public class App{
 			capabilities.setCapability("appPackage", package_voice);
 			capabilities.setCapability("appActivity", activity_voice);
 			curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
-			startTestCase(curtcid);
+			//startTestCase(curtcid);
 			//ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario")+"<br>"+inputs.getField("Test_Case"));
 			String Call_To = inputs.getField("Call_TO_MSISDN");
 			String CALL_DURATION = inputs.getField("CALL_DURATION");
@@ -446,12 +432,7 @@ public class App{
 			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
 			
 	//-------------------------- Report ----------------------------------------------//
-//			
-//			test.pass("<b>Test Scenario: "+inputs.getField("Test_Scenario")+"<br> Test Case: " +inputs.getField("Test_Case") +
-//					"<br> Called To: <i>"+ Call_To +"<br> <a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
-//			extent.flush();
-//			endTestCase(curtcid);
-//			dr.get().quit();
+			Asnconvertor.Result(MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", Call_To, "", "", "", "", "", ExecutionStarttime, CALL_DURATION, "");
 			
 		}
 		
@@ -459,7 +440,7 @@ public class App{
 		
 		else if(Test_Scenario.equals("LIVE USAGE SMS")){
 			curtcid = inputs.getField("Test_Case_ID")+"-"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
-			startTestCase(curtcid);
+			//startTestCase(curtcid);
 			//ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario")+"-"+inputs.getField("Test_Case"));
 			String To_Receiver = inputs.getField("RECEIVER_MSISDN");
 			String Text_Message = inputs.getField("Message_To_Send");
@@ -492,7 +473,7 @@ public class App{
 			//-------------------------- CDR Conversion -------------------------------------------//
 			
 			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
-			
+			Asnconvertor.Result(MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", "", Text_Message, To_Receiver, "", "", "", ExecutionStarttime, "", Count);
 	//-------------------------- Report ----------------------------------------------//
 //			test.pass("<b>Test Scenario: "+inputs.getField("Test_Scenario")+"<br> Test Case: " +inputs.getField("Test_Case") +
 //					"<br> Message: 	<i>"+ Text_Message +"<br> Receiver Number: 	<i>"+ To_Receiver +
@@ -518,7 +499,7 @@ public class App{
 				String hash = URLEncoder.encode("#", "UTF-8");
 				
 				curtcid = inputs.getField("Test_Case_ID")+"--"+rs.getField("Test_Scenario");
-				startTestCase(curtcid);
+				//startTestCase(curtcid);
 //				ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
 			
 				DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -563,10 +544,8 @@ public class App{
 			takeScreenShot("Balance Message");
 			dr.get().findElement(By.id("android:id/button1")).click();
 			String result = dr.get().stopRecordingScreen();
-//			test.pass("<b>Test Scenario: "+inputs.getField("Test_Scenario")+"<br>Balance Message: <i>"+Balancemsg+
-//					"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
-//			extent.flush();
-//			endTestCase(curtcid);
+			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
+			Asnconvertor.Result(MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", "", "", "", Balancemsg, "", "", ExecutionStarttime, "", "");
 			
 			}
 			}
@@ -693,16 +672,7 @@ public class App{
 			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
 			
 	//-------------------------- Report ----------------------------------------------//
-			
-//			test.pass("<b>Test Scenario: "+inputs.getField("Test_Scenario")+
-//					"<br> P2P Transfer To Number: 	<i>"+ To_Number +"</i></b>"+
-//					"<br> P2P Transfer Amount: 	<i>"+ Amount +"</i></b>"+
-//					"<br> Confirmation Alert Message: 	<i>"+ Confirmation +"</i></b>"+
-//					"<br> Message Status: 	<i>"+ Message +
-//					"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
-//			extent.flush();
-//			endTestCase(curtcid);
-			dr.get().quit();
+			Asnconvertor.Result(MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", "", "", Confirmation, Message, "", "", "", "", "", To_Number, Amount, ExecutionStarttime, "", "");
 		}
 		}
 		
@@ -720,7 +690,7 @@ public class App{
 			capabilities.setCapability("appPackage", package_Data);
 			capabilities.setCapability("appActivity", activity_Data);
 			curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
-			startTestCase(curtcid);
+			//startTestCase(curtcid);
 			//ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario")+"<br>"+inputs.getField("Test_Case"));
 			if (Test_Case.equals("DATA_REGULAR")) {
 			Runtime run = Runtime.getRuntime();
@@ -759,15 +729,13 @@ public class App{
 			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
 			
 	//-------------------------- Report ----------------------------------------------//
-			
+			Asnconvertor.Result(MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", "", Test_Case, "", "", "", "", "", "", "", "", "", ExecutionStarttime, "", "");
 //			test.pass("<b>Test Scenario: <b>"+Test_Scenario+"<br>Test Case: "+ Test_Case+
 //					"</b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
 //			extent.flush();
 //			endTestCase(curtcid);
 //			dr.get().quit();
 		}
-		
-			
 			
 			}
 			

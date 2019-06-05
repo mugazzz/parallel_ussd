@@ -28,6 +28,8 @@ import java.util.Scanner;
 import java.util.Vector;
 import java.util.zip.GZIPInputStream;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -35,7 +37,12 @@ import org.apache.log4j.xml.DOMConfigurator;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.parser.Parser;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
@@ -69,8 +76,8 @@ public class Asnconvertor {
 	private static String SDP_Unix_username = "";
 	private static String SDP_Unix_password = "";
 	private static String SDP_unix_hostname = "";
-	private static String CIS_Unix_username = "";
-	private static String CIS_Unix_password = "";
+	private static String CIS_Unix_username = "VenuReddyGaddam";
+	private static String CIS_Unix_password = "VenuReddyGaddam";
 	private static String CIS_unix_hostname = "";
 	private static String OCC_Unix_username = "";
 	private static String OCC_Unix_password = "";
@@ -99,6 +106,8 @@ public class Asnconvertor {
 	
 	public  static String Cis_Filepath =cdrfiles+"\\CIS\\EDRfile.csv";
 	public static String Cis_viewpath= "";
+	public static String nodetag;
+	public static String idtag;
 	
 	///////////////////////////////////////////////
 
@@ -124,7 +133,7 @@ public class Asnconvertor {
 				File localFileb = new File(Curr_user_directory_path + "\\" + "BackupCDR");
 				date = Present_date();
 				System.out.println("Connecting to server.....");
-				Thread.sleep(30000);
+				Thread.sleep(60000);
 				
 				while (rs.next()) {
 					String Node_Type = rs.getField("Node_To_Validate");
@@ -226,8 +235,7 @@ public class Asnconvertor {
 
 						// Code to get file to local system
 						channel_sftp.cd("/var/opt/fds/CDR/archive/");
-						// channel_sftp.pwd();
-					//	File localFile1 = new File(Curr_user_directory_path + "\\" + "CDR");
+						
 						@SuppressWarnings("unchecked")
 						Vector<ChannelSftp.LsEntry> list1 = channel_sftp.ls("*.ASN");
 						Thread.sleep(5000);
@@ -249,6 +257,7 @@ public class Asnconvertor {
 						e.printStackTrace();
 
 					}
+
 
 				}
 				
@@ -598,6 +607,9 @@ public class Asnconvertor {
 								channel_sftp.get(Airfile, localFileb + "\\" + "AIR" + "\\");
 								System.out.println("SDP file transfered to " + localFile + "\\" + "AIR" + "\\");
 							} 
+							else {
+								info("AIR file is not generated for the provided MSISDN");
+							}
 							
 						}
 
@@ -616,8 +628,7 @@ public class Asnconvertor {
 		}
 		}
 		
-		public static void Result(String MSISDN, String Prod_ID, String input, String Test_Case_ID, String curtcid, String Product_Name, String Test_Scenario_I, String Test_Case, String Confirmation, String Message, 
-				String Voice_Call_To, String Text_Message, String SMS_To_Receiver, String Balancemsg, String p2p_To_Number, String p2p_Amount, String ExecutionStarttime)
+		public static void Result(String MSISDN, String Prod_ID, String input, String Test_Case_ID, String curtcid, String Product_Name, String Test_Scenario_I, String Test_Case, String Confirmation, String Message, String Recharge_Coupon, String Voice_Call_To, String Text_Message, String SMS_To_Receiver, String Balancemsg, String p2p_To_Number, String p2p_Amount, String ExecutionStarttime, String CALL_DURATION, String Count)
 		{
 		
 			try {
@@ -657,15 +668,16 @@ public class Asnconvertor {
 						for (File child : directoryListing) {
 							filename = child.getAbsoluteFile().getName();
 							if(!filetype.equalsIgnoreCase("CIS")) {
-								startTestCase("Parsing File " + filename);					
+														
+							startTestCase("Parsing File " + filename);
 							String schemaname = "";
-							File TCFold = new File(trfold + "/" + filetype);
+							File TCFold = new File(trfold + "/" + curtcid+"/"+filetype);
 							if ((!TCFold.exists()))
 								TCFold.mkdir();
-							File TCFold1 = new File(trfold + "/" + filetype + "/" + filename);
+							File TCFold1 = new File(trfold + "/" + curtcid+"/"+filetype + "/" + filename);
 							if ((!TCFold1.exists()))
 								TCFold1.mkdir();
-							File file = new File(trfold + "/" + filetype + "/" + filename + "/output.xml");
+							File file = new File(trfold + "/" + curtcid+"/"+filetype + "/" + filename + "/output.xml");
 							// System.out.println(trfold+"/"+ refid + "/output.xml");
 							if (file.exists()) {
 								file.delete();
@@ -736,29 +748,23 @@ public class Asnconvertor {
 								System.out.println(s);
 							}
 							String tbl = "<table><tr><th>Parameter</th><th>Value</th></tr>";
-							String filenameq = "";
+							//String filenameq = "";
 							for (int Iterator = 1; Iterator < rs2.getFieldNames().size(); Iterator++) {
 								if (rs2.getFieldNames().get(Iterator).toString().contains("Parameter")) {
-									if (rs2.getField(rs2.getFieldNames().get(Iterator)) != "")
-										if (rs2.getFieldNames().get(Iterator + 1).toString().contains("value")) {
-											if (rs2.getField(rs2.getFieldNames().get(Iterator + 1)).contains("YES")) {
+									if (rs2.getField(rs2.getFieldNames().get(Iterator)) != "") {
+										//if (rs.getFieldNames().get(Iterator + 1).toString().contains("value")) {
+											//if (rs.getField(rs.getFieldNames().get(Iterator + 1)).contains("YES")) {
 
 												String param1 = rs2.getField(rs2.getFieldNames().get(Iterator).toString())
 														.toString();
-												String retval = parsexml(param1, file);
-																								
-												String[] parmi = rs2.getFieldNames().get(Iterator).toString()
-														.split("Parameter");
-												String findx = parmi[1];
-												if (param1.equals("subscriptionIDValue[0]")|| param1.equals("accountNumber"))
-													
-												{
-													filenameq = retval;
-												}
+												//String retval = parsexml(param1, file);
+												String filepath=file.toString();
+												String retval = parsedata(filetype,filepath ,param1,MSISDN);												
+												
 												tbl = tbl + "<tr><td>" + param1 + "</td><td>" + retval + "</td></tr>";
 												// conn.executeUpdate("Update TestData set Value"+findx+"='"+retval+"'
 												// where Refrence_ID ='"+refid+"'");
-											}
+											//}
 										}
 
 								}
@@ -766,22 +772,52 @@ public class Asnconvertor {
 							}
 							
 							ExtentTest test = extent.createTest(Test_Case_ID+": <br>"+input+"<br>"+Test_Case+"<br>"+filetype);
-							test.pass("<b>Product Name: </b><i>"+Product_Name+"</i><br><b>Product ID: </b><i>"+Prod_ID+"</i><br><b>Test Scenario: </b><i>"+input+"</i><br><b>Test Case: </b><i>" +Test_Case+ 
-									"</i><br><b> Confirmation Alert Message: </b><i>" + Confirmation + "</i><br><b> Message Status: </b><i>"+ Message+ "</i></b><Br><a href='"+curtcid+"/Deviced_Execution_ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a><br>" + 
-									"&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + filetype + "/"
-									+ filename + "/output.xml'>Click to View the CDR</a></b><br>" + tbl + "</table>");
+									if(input.equals("USSD_OPT_IN") || input.equals("USSD_OPT_OUT")) {
+									test.pass("<b>Product Name: </b><i>"+Product_Name+"</i><br><b>Product ID: </b><i>"+Prod_ID+"</i><br><b>Test Scenario: </b><i>"+input+"</i><br><b>Test Case: </b><i>" +Test_Case+ 
+											"</i><br><b> Confirmation Alert Message: </b><i>" + Confirmation + "</i><br><b> Message Status: </b><i>"+ Message+ "</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a><br>" + 
+											"&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + filetype + "/"
+											+ "/"+curtcid+filename + "/output.xml'>Click to View the CDR</a></b><br>" + tbl + "</table>");
+									}
+									else if(input.equals("USSD_Recharge")){
+									test.pass("<b>Recharge Coupon: </b><i>"+Recharge_Coupon+"</i><br><b>MSISDN: </b><i>"+MSISDN+"</i><br><b>Test Scenario: </b><i>"+input+"</i><br><b>Test Case: </b><i>" +Test_Case+ 
+												"</i><br><b> Confirmation Alert Message: </b><i>" + Confirmation + "</i><br><b> Message Status: </b><i>"+ Message+ "</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a><br>" + 
+												"&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + filetype + "/"
+												+ "/"+curtcid+filename + "/output.xml'>Click to View the CDR</a></b><br>" + tbl + "</table>");	
+									}
+									else if (input.equals("LIVE USAGE VOICE")) {
+									test.pass("<b>MSISDN: </b><i>"+MSISDN+"</i><br><b>Test Scenario: </b><i>"+input+"</i><br><b>Test Case: </b><i>" +Test_Case+ 
+												"</i><br><b>Called To: </b><i>" + Voice_Call_To + "</i><br><b> Call Duration: </b><i>"+ CALL_DURATION+ "</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a><br>" + 
+												"&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + filetype + "/"
+												+ "/"+curtcid+filename + "/output.xml'>Click to View the CDR</a></b><br>" + tbl + "</table>");
+									}
+									else if (input.equals("LIVE USAGE SMS")) {
+										test.pass("<b>Test Scenario: </b><i>"+input+"</i><br><b>Test Case: </b><i>" +Test_Case+ 
+													"</i><br><b>Message: </b><i>" + Text_Message + "</i><br><b> Receiver Number: </b><i>"+ SMS_To_Receiver+ "</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a><br>" + 
+													"&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + filetype + "/"
+													+ "/"+curtcid+filename + "/output.xml'>Click to View the CDR</a></b><br>" + tbl + "</table>");
+										}
+									else if (input.equals("BALANCE ENQUIRES")) {
+										test.pass("<b>Test Scenario: </b><i>"+input+"</i><br><b>Balance Message: </b><i>" + Balancemsg + "</i><br><b> Receiver Number: </b><i>"+ SMS_To_Receiver+ "</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a><br>" + 
+													"&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + filetype + "/"
+													+ "/"+curtcid+filename + "/output.xml'>Click to View the CDR</a></b><br>" + tbl + "</table>");
+										}
+									else if (input.equals("P2P TRANSFER")) {
+										test.pass("<b>Test Scenario: </b><i>"+input+"</i><br><b>Test Case: </b><i>" +Test_Case+"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a><br>" + 
+													"&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + filetype + "/"
+													+ "/"+curtcid+filename + "/output.xml'>Click to View the CDR</a></b><br>" + tbl + "</table>");
+										}
 							}
 							
 							else {
 								startTestCase("Parsing File " + filename);
 								//String schemaname = "";
-								File TCFold = new File(trfold + "/" + filetype);
+								File TCFold = new File(trfold + "/" + curtcid+"/"+filetype);
 								if ((!TCFold.exists()))
 									TCFold.mkdir();
-								File TCFold1 = new File(trfold + "/" + filetype + "/" + filename);
+								File TCFold1 = new File(trfold + "/" + curtcid+"/"+filetype + "/" + filename);
 								if ((!TCFold1.exists()))
 									TCFold1.mkdir();
-								File filecsv = new File(trfold + "/" + filetype + "/" + filename + "/Output.csv");
+								File filecsv = new File(trfold + "/"  + curtcid+"/"+filetype + "/" + filename + "/Output.csv");
 								Cis_viewpath=filecsv.toString();
 								System.out.println(Cis_viewpath);
 								if (filecsv.exists()) {
@@ -789,64 +825,90 @@ public class Asnconvertor {
 								}
 								filecsv.createNewFile();
 																
-								String tbl2=CSVparse(Cis_Filepath,Cis_viewpath);
+								String tbl=CSVparse(Cis_Filepath,Cis_viewpath);
 								 
 								ExtentTest test = extent.createTest(Test_Case_ID+": <br>"+input+"<br>"+Test_Case+"<br>"+"CIS_Validation");
-								if(input.equals("USSD_OPT_IN")) {
+								if(input.equals("USSD_OPT_IN") || input.equals("USSD_OPT_OUT")) {
 							test.pass("<b>Product Name: "+Product_Name+"<br>Product ID: "+Prod_ID+"<br>Test Scenario: "+input+"<br> Test Case: " +Test_Case + 
 									"<br> Confirmation Alert Message: <i>" + Confirmation + "</i></b>"+ "<br> Message Status: 	<i>"+ Message+ "</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Device execution screenshot</a>"
 									+ "&nbsp<br><b><a style = 'color:hotpink' target = '_blank' href = '" + filetype + "/"
-									+ filename + "/Output.csv'>Click to View the EDR</a></b><br>" + tbl2 + "</table>");
-							//+ filetype + "/" + "Output.csv"
+									+ "/"+curtcid+filename + "/Output.csv'>Click to View the EDR</a></b><br>" + tbl + "</table>");
 								}
+								else if(input.equals("USSD_Recharge")){
+									test.pass("<b>Recharge Coupon: </b><i>"+Recharge_Coupon+"</i><br><b>MSISDN: </b><i>"+MSISDN+"</i><br><b>Test Scenario: </b><i>"+input+"</i><br><b>Test Case: </b><i>" +Test_Case+ 
+												"</i><br><b> Confirmation Alert Message: </b><i>" + Confirmation + "</i><br><b> Message Status: </b><i>"+ Message+ "</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a><br>" + 
+											 "&nbsp<br><b><a style = 'color:hotpink' target = '_blank' href = '" + filetype + "/"
+												+ "/"+curtcid+filename + "/Output.csv'>Click to View the EDR</a></b><br>" + tbl + "</table>");
+									}
+									else if (input.equals("LIVE USAGE VOICE")) {
+									test.pass("<b>MSISDN: </b><i>"+MSISDN+"</i><br><b>Test Scenario: </b><i>"+input+"</i><br><b>Test Case: </b><i>" +Test_Case+ 
+												"</i><br><b>Called To: </b><i>" + Voice_Call_To + "</i><br><b> Call Duration: </b><i>"+ CALL_DURATION+ "</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a><br>" + 
+										"&nbsp<br><b><a style = 'color:hotpink' target = '_blank' href = '" + filetype + "/"
+												+ "/"+curtcid+filename + "/Output.csv'>Click to View the EDR</a></b><br>" + tbl + "</table>");
+									}
+									else if (input.equals("LIVE USAGE SMS")) {
+										test.pass("<b>Test Scenario: </b><i>"+input+"</i><br><b>Test Case: </b><i>" +Test_Case+ 
+													"</i><br><b>Message: </b><i>" + Text_Message + "</i><br><b> Receiver Number: </b><i>"+ SMS_To_Receiver+ "</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a><br>" + 
+												"&nbsp<br><b><a style = 'color:hotpink' target = '_blank' href = '" + filetype + "/"
+													+ "/"+curtcid+filename + "/Output.csv'>Click to View the EDR</a></b><br>" + tbl + "</table>");
+										}
+									else if (input.equals("BALANCE ENQUIRES")) {
+										test.pass("<b>Test Scenario: </b><i>"+input+"</i><br><b>Balance Message: </b><i>" + Balancemsg + "</i><br><b> Receiver Number: </b><i>"+ SMS_To_Receiver+ "</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a><br>" + 
+												"&nbsp<br><b><a style = 'color:hotpink' target = '_blank' href = '" + filetype + "/"
+												+ "/"+curtcid+filename + "/Output.csv'>Click to View the EDR</a></b><br>" + tbl + "</table>");
+										}
+									else if (input.equals("P2P TRANSFER")) {
+										test.pass("<b>Test Scenario: </b><i>"+input+"</i><br><b>Test Case: </b><i>" +Test_Case+"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a><br>" + 
+												"&nbsp<br><b><a style = 'color:hotpink' target = '_blank' href = '" + filetype + "/"
+												+ "/"+curtcid+filename + "/Output.csv'>Click to View the EDR</a></b><br>" + tbl + "</table>");
+										}
+								extent.flush();
+								endTestCase(refid);
 							}
-							extent.flush();
-							endTestCase(curtcid);
 						}
 					}
 				}
 
 				}
-				
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		}
 
-	public static String parsexml(String param1, File file)
-			throws ParserConfigurationException, SAXException, IOException, IndexOutOfBoundsException {
-		String[] parmsplt = param1.split("\\[");
-		String param = parmsplt[0];
-		int inde = 0;
-		if (parmsplt.length == 1) {
-			inde = 0;
-		} else {
-			String[] paramsplit2 = parmsplt[1].split("\\]");
-			inde = Integer.parseInt(paramsplit2[0]);
-		}
-
-		File ipfile = file;
-		String fstr = "";
-		StringBuilder fileContents = new StringBuilder((int) ipfile.length());
-
-		try (Scanner scanner = new Scanner(ipfile)) {
-			while (scanner.hasNextLine()) {
-				fileContents.append(scanner.nextLine() + System.lineSeparator());
-			}
-			fstr = fileContents.toString();
-		}
-
-		Document doc = Jsoup.parse(fstr, "", Parser.xmlParser());
-		// System.out.println(param +" = "+ doc.select(param).get(0).text());
-		if (doc.select(param).size() != 0) {
-			info(param + " = " + doc.select(param).get(inde).text());
-			return doc.select(param).get(inde).text();
-		} else {
-			return "";
-		}
-
-	}
+//	public static String parsexml(String param1, File file)
+//			throws ParserConfigurationException, SAXException, IOException, IndexOutOfBoundsException {
+//		String[] parmsplt = param1.split("\\[");
+//		String param = parmsplt[0];
+//		int inde = 0;
+//		if (parmsplt.length == 1) {
+//			inde = 0;
+//		} else {
+//			String[] paramsplit2 = parmsplt[1].split("\\]");
+//			inde = Integer.parseInt(paramsplit2[0]);
+//		}
+//
+//		File ipfile = file;
+//		String fstr = "";
+//		StringBuilder fileContents = new StringBuilder((int) ipfile.length());
+//
+//		try (Scanner scanner = new Scanner(ipfile)) {
+//			while (scanner.hasNextLine()) {
+//				fileContents.append(scanner.nextLine() + System.lineSeparator());
+//			}
+//			fstr = fileContents.toString();
+//		}
+//
+//		Document doc = Jsoup.parse(fstr, "", Parser.xmlParser());
+//		// System.out.println(param +" = "+ doc.select(param).get(0).text());
+//		if (doc.select(param).size() != 0) {
+//			info(param + " = " + doc.select(param).get(inde).text());
+//			return doc.select(param).get(inde).text();
+//		} else {
+//			return "";
+//		}
+//
+//	}
 
 	public static void createtimestampfold(String ExecutionStarttime) {
 		DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
@@ -1123,7 +1185,7 @@ public class Asnconvertor {
 		Master_14_Digit_Number = "";
 		Rndm_Number = "";
 
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyMMdd-HH:mm");
 		LocalDateTime now = LocalDateTime.now();
 		Master_14_Digit_Number = (dtf.format(now).toString().replaceAll("/", "")).replaceAll(" ", "").replaceAll(":",
 				"");
@@ -1159,9 +1221,8 @@ public class Asnconvertor {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyMMdd-HH:");
 		LocalDateTime now = LocalDateTime.now();
 		datetoday = (dtf.format(now).toString().replaceAll("/", "")).replaceAll(" ", "").replaceAll(":", "");
-		//String finaldate=datetoday.substring(0, datetoday.length()-1);	
-	
-		return datetoday;
+		String finaldate=datetoday.substring(0, datetoday.length()-1);	
+		return finaldate;
 	}	
 	public static String Present_dateccn() {
 
@@ -1378,7 +1439,7 @@ public class Asnconvertor {
    		 return csvtbl;
     
 }
-	public static String displayActor(ResultSet rs3) throws SQLException {
+	public static String displayActor(ResultSet rs) throws SQLException {
 		 String tbl = "<table>"
 		 		+ "<tr>"
 		 		+ "<th style= 'min-width: 162px'>Transaction_Time</th>"
@@ -1400,28 +1461,95 @@ public class Asnconvertor {
 		 		+ "<th style= 'min-width: 162px'>Network_Status</th>"
 		 				 		
 		 		+ "</tr>";
-        while (rs3.next()) {
-        	tbl = tbl + "<tr><td style= 'min-width: 162px'>" +(rs3.getString("Transaction_Time") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
-                    + rs3.getString("A_Party_Msisdn") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
-                    + rs3.getString("Product_Name") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
-                    + rs3.getString("Event_Type") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
-                    + rs3.getString("Access_Channel") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
-                    + rs3.getString("Result_Description") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
-                    + rs3.getString("Result_Code") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
-                    + rs3.getString("Offer_ID") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
-                    + rs3.getString("Service_Class") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
-                    + rs3.getString("input") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
-                    + rs3.getString("Requested_Product_ID") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
-                    + rs3.getString("Expiry_Date") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
-                    + rs3.getString("Subscription_Mode") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
-                    + rs3.getString("Product_Validity") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
-                    + rs3.getString("Vat_Fee") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
-                    + rs3.getString("Iname") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
-                  	+ rs3.getString("Network_Status"))+ "</td></tr style= 'min-width: 162px'>";
+        while (rs.next()) {
+        	tbl = tbl + "<tr><td style= 'min-width: 162px'>" +(rs.getString("Transaction_Time") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
+                    + rs.getString("A_Party_Msisdn") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
+                    + rs.getString("Product_Name") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
+                    + rs.getString("Event_Type") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
+                    + rs.getString("Access_Channel") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
+                    + rs.getString("Result_Description") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
+                    + rs.getString("Result_Code") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
+                    + rs.getString("Offer_ID") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
+                    + rs.getString("Service_Class") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
+                    + rs.getString("input") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
+                    + rs.getString("Requested_Product_ID") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
+                    + rs.getString("Expiry_Date") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
+                    + rs.getString("Subscription_Mode") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
+                    + rs.getString("Product_Validity") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
+                    + rs.getString("Vat_Fee") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
+                    + rs.getString("Iname") + "\t" +"</td>"+"<td style= 'min-width: 162px'>"
+                  	+ rs.getString("Network_Status"))+ "</td></tr style= 'min-width: 162px'>";
  
         }
         return tbl;
     }
+	
+	public static String parsedata(String filetype,String filepath ,String param1,String MSISDN) {
+		String value="" ;
+	try {
+
+		if(filetype.equalsIgnoreCase("OCC")||filetype.equalsIgnoreCase("CCN")) {
+			nodetag="onlineCreditControlRecord";
+			idtag="subscriptionIDValue";
+		}else {
+			nodetag="refillRecordV2";
+			idtag="subscriberNumber";
+		}
+
+		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+		org.w3c.dom.Document docc = docBuilder.parse(filepath);
+		docc.getDocumentElement().normalize();
+
+		NodeList data = docc.getElementsByTagName(nodetag);
+
+		int totaldata = data.getLength();
+
+		for (int temp = 0; temp < totaldata; temp++) {
+            Node nNode = data.item(temp);
+
+            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element eElement = (Element) nNode;
+                String[] parmsplt = param1.split("\\[");
+        		String param = parmsplt[0];
+        		int inde = 0;
+        		if (parmsplt.length == 1) {
+        			inde = 0;
+        		} else {
+        			String[] paramsplit2 = parmsplt[1].split("\\]");
+        			inde = Integer.parseInt(paramsplit2[0]);
+        		}
+
+
+                String sub=eElement.getElementsByTagName(idtag).item(0).getTextContent();
+                if (sub.contentEquals(MSISDN)){
+                value=(eElement.getElementsByTagName(param).item(inde).getTextContent());
+                info(param + " = " +value);
+                }
+
+
+
+            }
+
+		}
+
+
+
+	} catch (SAXParseException err) {
+		System.out.println("** Parsing error" + ", line " + err.getLineNumber() + ", uri " + err.getSystemId());
+		System.out.println(" " + err.getMessage());
+
+	} catch (SAXException e) {
+		Exception x = e.getException();
+		((x == null) ? e : x).printStackTrace();
+
+	} catch (Throwable t) {
+		t.printStackTrace();
+	}
+
+	return value;
+
+}
 
 
 	// End
