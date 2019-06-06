@@ -67,6 +67,7 @@ public class App{
 	public String Test_Scenario_I = "";
 	public String Recharge_Coupon = "";
 	public String Balancemsg = "";
+	public String Test_Scenario= "";
 
    //-----Main Method-------------//
 	
@@ -121,7 +122,7 @@ public class App{
 				String Test_Scenario = inputs.getField("Test_Scenario");
 				String Test_Case = inputs.getField("Test_Case");
 				String Test_Case_ID = inputs.getField("Test_Case_ID");
-				Prod_ID = inputs.getField("Product_ID");
+				Prod_ID = inputs.getField("Product_Name");
 				Recharge_Coupon = inputs.getField("Recharge_Coupon");
 				
 				info("Starting execution at +: "+ Prod_ID + "->"+ Test_Scenario+ "->" + ExecutionStarttime);
@@ -179,13 +180,14 @@ public class App{
 			
 			while (rs.next()) {
 				Product_Name = rs.getField("Product_Name");
+				String Product_ID = rs.getField("Product_ID");
 				String ussdstr = rs.getField("USSD_Sequence");
 				Test_Case_I = rs.getField("Test_Case");
 				Test_Scenario_I = rs.getField("Test_Scenario");
 				String startussd = URLEncoder.encode(rs.getField("USSD_Code"),"UTF-8");
 				String hash = URLEncoder.encode("#", "UTF-8");
 				
-				curtcid = inputs.getField("Test_Case_ID")+"--"+rs.getField("Product_ID")+"_"+rs.getField("Test_Scenario")+"_"+rs.getField("Test_Case");
+				curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Product_Name")+"_"+rs.getField("Test_Scenario")+"_"+rs.getField("Test_Case");
 				//startTestCase(curtcid);
 				//ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Product_ID")+"--"+inputs.getField("Test_Scenario")+"-"+inputs.getField("Test_Case"));
 				
@@ -300,7 +302,7 @@ public class App{
 				Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
 				
 		//-------------------------- Report ----------------------------------------------//
-				Asnconvertor.Result(MSISDN, Prod_ID, Test_Scenario, Test_Case_ID, curtcid, Product_Name, Test_Scenario_I, Test_Case, Confirmation, Message, Recharge_Coupon,"", "", "", "", "", "", ExecutionStarttime, "", "");
+				Asnconvertor.Result(MSISDN, Product_ID, Test_Scenario, Test_Case_ID, curtcid, Product_Name, Test_Scenario_I, Test_Case, Confirmation, Message, Recharge_Coupon,"", "", "", "", "", "", ExecutionStarttime, "", "");
 			}
 			}
 			
