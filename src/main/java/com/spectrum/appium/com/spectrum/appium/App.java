@@ -78,8 +78,8 @@ public class App{
 	
 	@Test
 	public void Device_1(){
-		//App k = new App("device1");
-		Asnconvertor.nodeValidation("USSD_OPT_IN", "971520001714");
+		App k = new App("device1");
+		//Asnconvertor.nodeValidation("USSD_OPT_IN", "971520001714");
 	}
 	
 ////	@Test
@@ -166,12 +166,12 @@ public class App{
 				
 				if (Test_Scenario.equals("All")) {
 				strQuery = "Select * from ussd_code_data "
-							+ "where Product_Name= '"+"Call Home for Less"+ "'"+ 
+							+ "where Product_Name= '"+Prod_ID+ "'"+ 
 							" and Execution='Yes'";
 				}
 				else {
 				strQuery = "Select * from ussd_code_data "
-						+ "where Product_Name= '"+"Call Home for Less"+ "'"+ 
+						+ "where Product_Name= '"+Prod_ID+ "'"+ 
 						" and Test_Scenario ='" + Test_Scenario+"' "
 								+ "and Test_Case ='"+ Test_Case + "'";
 				}

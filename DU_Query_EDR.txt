@@ -1,0 +1,53 @@
+
+
+CREATE TABLE EDR_CIS_DataSamp  (Transaction_Time Varchar(50),Client_Transaction_Id Varchar(50),Transaction_Id Varchar(50),IP_Address Varchar(50),
+Event_Type Varchar(50),A_Party_Msisdn Varchar(50),B_Party_Msisdn Varchar(50),input Varchar(50),Result_Code Varchar(50),Result_Description Varchar(50),
+Service_Class Varchar(50),Requested_Product_ID Varchar(50),Product_Name Varchar(50),Product_Type Varchar(50),Product_Cost Varchar(50),Applied_product_cost Varchar(50),
+Product_Validity Varchar(50),Access_Channel Varchar(50),Access_Code Varchar(50),Charge_Indicator Varchar(50),Vat_Fee Varchar(50),Language_Id Varchar(50),
+Iname Varchar(50),Circle_Code Varchar(50),Pay_Source Varchar(50),Send_sms Varchar(50),Skip_charging Varchar(50),Bill_Cycle_ID Varchar(50),
+User_ID Varchar(50),Origin_Host Varchar(50),Faf_Indicator Varchar(50),Faf_MSISDN Varchar(50),Offer_ID Varchar(50),New_Imei Varchar(50),Old_Imei Varchar(50),
+Dealer_ID Varchar(50),Transfer_Remark Varchar(50),DrCr Varchar(50),Subscription_Date Varchar(50),Expiry_Date Varchar(50),Last_Renewal_Date Varchar(50),
+Grace_Expiry_Date Varchar(50),Status Varchar(50),Subscription_Mode Varchar(50),Network_Status Varchar(50),Last_Status Varchar(50),Status_Change_time Varchar(50),
+Command_Count Varchar(50),Charging_Session_Id Varchar(50),Notification_Message Varchar(3000),Commission_Fee Varchar(50),Transfer_Fee Varchar(50),GL_Code Varchar(50),
+State Varchar(50),Subscriber_Type Varchar(50),OpParam1 Varchar(50),OpParam2 Varchar(50),OpParam3 Varchar(50),OpParam4 Varchar(50),OpParam5 Varchar(50),OpParam6 Varchar(50),
+OpParam7 Varchar(50),OpParam8 Varchar(50),OpParam9 Varchar(50),OpParam10 Varchar(50),OpParam11 Varchar(50),OpParam12 Varchar(50),TDF_Event_Class Varchar(50),
+TDF_Event_Name Varchar(50),TDF_Voucher_Type Varchar(50),TDF_Periodic_Charge Varchar(50),TDF_Usage Varchar(50),External_Data1 Varchar(50),External_Data2 Varchar(50),
+External_Data3 Varchar(50),External_Data4 Varchar(50),Callback Varchar(50),ParentProductSPInfo Varchar(50))
+
+
+Example:
+COPY Customer(id,first_name,last_name,dob,email) FROM 'D:\\Du Automation Project\\meydvvmcis03_EDR_CISOnline1.csv' DELIMITERS '|' CSV
+
+COPY EDR_CIS_DataSamp  (Transaction_Time  ,Client_Transaction_Id  ,Transaction_Id  ,IP_Address  ,
+Event_Type  ,A_Party_Msisdn  ,B_Party_Msisdn  ,input  ,Result_Code  ,Result_Description  ,
+Service_Class  ,Requested_Product_ID  ,Product_Name  ,Product_Type  ,Product_Cost  ,Applied_product_cost  ,
+Product_Validity  ,Access_Channel  ,Access_Code  ,Charge_Indicator  ,Vat_Fee  ,Language_Id  ,
+Iname  ,Circle_Code  ,Pay_Source  ,Send_sms  ,Skip_charging  ,Bill_Cycle_ID  ,
+User_ID  ,Origin_Host  ,Faf_Indicator  ,Faf_MSISDN  ,Offer_ID  ,New_Imei  ,Old_Imei  ,
+Dealer_ID  ,Transfer_Remark  ,DrCr  ,Subscription_Date  ,Expiry_Date  ,Last_Renewal_Date  ,
+Grace_Expiry_Date  ,Status  ,Subscription_Mode  ,Network_Status  ,Last_Status  ,Status_Change_time  ,
+Command_Count  ,Charging_Session_Id  ,Notification_Message  ,Commission_Fee  ,Transfer_Fee  ,GL_Code  ,
+State  ,Subscriber_Type  ,OpParam1  ,OpParam2  ,OpParam3  ,OpParam4  ,OpParam5  ,OpParam6  ,
+OpParam7  ,OpParam8  ,OpParam9  ,OpParam10  ,OpParam11  ,OpParam12  ,TDF_Event_Class  ,
+TDF_Event_Name  ,TDF_Voucher_Type  ,TDF_Periodic_Charge  ,TDF_Usage  ,External_Data1  ,External_Data2  ,
+External_Data3  ,External_Data4  ,Callback  ,ParentProductSPInfo) FROM 'D:\\Du Automation Project\\meydvvmcis03_EDR_CISOnline20.csv' DELIMITERS '|' CSV
+
+To Fetch Required Validation DATA
+CREATE VIEW CIS_EDR_Validation AS Select Product_Name, Event_Type,Access_Channel,Result_Description,Result_Code,Offer_ID,Service_Class,input,Requested_Product_ID,
+Expiry_Date,Subscription_Mode,A_Party_Msisdn, Product_Validity, Vat_Fee, Iname,Network_Status FROM EDR_CIS_DataSamp where A_Party_Msisdn='971520000292'
+
+
+Connection connection = DriverManager.getConnection(url);
+CopyManager copyManager = new CopyManager((BaseConnection) connection);
+File file = new File("/tmp/output.csv");
+FileOutputStream fileOutputStream = new FileOutputStream(file);
+
+//and finally execute the COPY command to the file with this method:
+copyManager.copyOut("COPY (" + query + ") TO STDOUT WITH (FORMAT CSV)", fileOutputStream);
+
+
+COPY EDR_CIS_DataSamp  (Transaction_Time ,Client_Transaction_Id ,Product_Name ,A_Party_Msisdn   )
+TO 'D:\Du Automation Project\persons_partial_db.csv' DELIMITER '||' CSV HEADER;
+
+
+
