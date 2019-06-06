@@ -1,0 +1,6 @@
+transaction_time|product_name|event_type|access_channel|result_description|result_code|offer_id|service_class|input|requested_product_id|expiry_date|subscription_mode|a_party_msisdn|product_validity|vat_fee|iname|network_status
+06/06/2019 18:35:02:493||USSDBrowsing|USSD|||||||||971520001714||||
+06/06/2019 18:35:13:985||USSDBrowsing|USSD|||||||||971520001714||||
+06/06/2019 18:37:09:509||USSDBrowsing|USSD|||||||||971520001714||||
+06/06/2019 18:37:18:743|CallHomeforLess|NACT|USSD|SUCCESS|0||1001|NACT_CallHomeforLess|820|2046-10-21 18:37:18|Adhoc|971520001714|9999 Days|0|USSD|
+06/06/2019 18:37:18:780||USSDBrowsing|USSD|||||||||971520001714||||
