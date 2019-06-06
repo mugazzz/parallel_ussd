@@ -2,16 +2,16 @@
 <testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2019-06-05T11:14:22Z" name="TestSuite" finished-at="2019-06-05T11:15:14Z" duration-ms="51958">
+  <suite started-at="2019-06-06T07:32:02Z" name="Default suite" finished-at="2019-06-06T07:33:31Z" duration-ms="88791">
     <groups>
     </groups>
-    <test started-at="2019-06-05T11:14:22Z" name="device1" finished-at="2019-06-05T11:15:14Z" duration-ms="51958">
+    <test started-at="2019-06-06T07:32:02Z" name="Default test" finished-at="2019-06-06T07:33:31Z" duration-ms="88791">
       <class name="com.spectrum.appium.com.spectrum.appium.App">
-        <test-method signature="Device_1()[pri:0, instance:com.spectrum.appium.com.spectrum.appium.App@1f38957]" started-at="2019-06-05T11:14:22Z" name="Device_1" finished-at="2019-06-05T11:15:14Z" duration-ms="51887" status="PASS">
+        <test-method signature="Device_1()[pri:0, instance:com.spectrum.appium.com.spectrum.appium.App@73302995]" started-at="2019-06-06T07:32:02Z" name="Device_1" finished-at="2019-06-06T07:33:31Z" duration-ms="88724" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- Device_1 -->
       </class> <!-- com.spectrum.appium.com.spectrum.appium.App -->
-    </test> <!-- device1 -->
-  </suite> <!-- TestSuite -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
 </testng-results>

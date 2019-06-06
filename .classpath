@@ -26,13 +26,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="E:/Eclipse/eclipse/workspace/parallel_ussd/JARS1/apache-logging-log4j.jar"/>
-	<classpathentry kind="lib" path="E:/Eclipse/eclipse/workspace/parallel_ussd/JARS/commons-io-2.6.jar"/>
-	<classpathentry kind="lib" path="E:/Eclipse/eclipse/workspace/parallel_ussd/JARS/freemarker-2.3.23.jar"/>
-	<classpathentry kind="lib" path="E:/Eclipse/eclipse/workspace/parallel_ussd/JARS/jsch-0.1.55.jar"/>
-	<classpathentry kind="lib" path="E:/Eclipse/eclipse/workspace/parallel_ussd/JARS1/jsoup-1.11.3.jar"/>
-	<classpathentry kind="lib" path="E:/Eclipse/eclipse/workspace/parallel_ussd/JARS1/mongo-java-driver-3.9.1.jar"/>
-	<classpathentry kind="lib" path="E:/Eclipse/eclipse/workspace/parallel_ussd/JARS/sqlite-jdbc-3.7.2.jar"/>
-	<classpathentry kind="lib" path="E:/Eclipse/eclipse/workspace/parallel_ussd/JARS1/postgresql-9.2-1002.jdbc4.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
