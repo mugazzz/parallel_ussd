@@ -76,7 +76,7 @@ public class App{
 	
 	@Test
 	public void Device_1() {
-		App k = new App("device2");
+		App k = new App("device1");
 	}
 	
 ////	@Test
@@ -119,7 +119,7 @@ public class App{
 				String Test_Scenario = inputs.getField("Test_Scenario");
 				String Test_Case = inputs.getField("Test_Case");
 				String Test_Case_ID = inputs.getField("Test_Case_ID");
-				Prod_ID = inputs.getField("Product_ID");
+				Prod_ID = inputs.getField("Product_Name");
 				Recharge_Coupon = inputs.getField("Recharge_Coupon");
 				
 				info("Starting execution at +: "+ Prod_ID + "->"+ Test_Scenario+ "->" + ExecutionStarttime);
@@ -163,12 +163,12 @@ public class App{
 				
 				if (Test_Scenario.equals("All")) {
 				strQuery = "Select * from ussd_code_data "
-							+ "where Product_ID= '"+Prod_ID+ "'"+ 
+							+ "where Product_Name= '"+Prod_ID+ "'"+ 
 							" and Execution='Yes'";
 				}
 				else {
 				strQuery = "Select * from ussd_code_data "
-						+ "where Product_ID= '"+Prod_ID+ "'"+ 
+						+ "where Product_Name= '"+Prod_ID+ "'"+ 
 						" and Test_Scenario ='" + Test_Scenario+"' "
 								+ "and Test_Case ='"+ Test_Case + "'";
 				}
@@ -185,7 +185,7 @@ public class App{
 				
 				curtcid = inputs.getField("Test_Case_ID")+"--"+rs.getField("Product_ID")+"_"+rs.getField("Test_Scenario")+"_"+rs.getField("Test_Case");
 				startTestCase(curtcid);
-				ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Product_ID")+"--"+inputs.getField("Test_Scenario")+"-"+inputs.getField("Test_Case"));
+				ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Product_Name")+"--"+inputs.getField("Test_Scenario")+"-"+inputs.getField("Test_Case"));
 				
 
 				
@@ -213,9 +213,9 @@ public class App{
 								else {
 									info("Error occured, please check with screenshot");
 									takeScreenShot("Error appears");
-									Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
-									info("Confirmation alert : "+Confirmation);
-									dr.get().findElement(By.id("android:id/button1")).click();
+//									Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
+//									info("Confirmation alert : "+Confirmation);
+//									dr.get().findElement(By.id("android:id/button1")).click();
 									dr.get().quit();
 									break;
 								}
@@ -245,6 +245,7 @@ public class App{
 					else {
 						info("Error occured, please check with screenshot");
 						takeScreenShot("Error appears");
+						dr.get().quit();
 					}
 					Thread.sleep(3000);
 
@@ -295,7 +296,7 @@ public class App{
 				}
 				String result = dr.get().stopRecordingScreen();
 				
-				test.pass("<b>Product Name: "+Product_Name+"<br>Product ID: "+inputs.getField("Product_ID")+"<br>Test Scenario: "+Test_Scenario_I+"<br> Test Case: " +Test_Case_I +
+				test.pass("<b>Product Name: "+Product_Name+"<br>Product ID: "+inputs.getField("Product_Name")+"<br>Test Scenario: "+Test_Scenario_I+"<br> Test Case: " +Test_Case_I +
 						"<br> Confirmation Alert Message: 	<i>"+ Confirmation + "</i></b>"+
 						"<br> Message Status: 	<i>"+ Message +
 						"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
@@ -458,11 +459,15 @@ public class App{
 				Runtime run = Runtime.getRuntime();
 				run.exec("adb -s "+device_name+" shell input text "+To_Receiver);
 				//takeScreenShot("To Receiver");
-				dr.get().findElement(By.id("com.samsung.android.messaging:id/message_edit_text")).click();
+				//dr.get().findElement(By.id("message_edit_text")).click();
+				
+				//run.exec("adb -s "+device_name+" shell input tap 170 1050");
+//				Thread.sleep(000);
+//				info("Started enter...");
 				//run.exec("adb -s "+device_name+" shell input text "+Text_Message);
-				dr.get().findElement(By.id("com.samsung.android.messaging:id/message_edit_text")).sendKeys(Text_Message);
+				dr.get().findElement(By.xpath("//android.widget.EditText[@text='Enter message']")).sendKeys(Text_Message);
 				takeScreenShot("Message Content");
-				dr.get().findElement(By.id("com.samsung.android.messaging:id/send_button1")).click();
+				dr.get().findElement(By.id("send_button1")).click();
 				takeScreenShot("SMS Status");
 				dr.get().hideKeyboard();
 				dr.get().navigate().back();
