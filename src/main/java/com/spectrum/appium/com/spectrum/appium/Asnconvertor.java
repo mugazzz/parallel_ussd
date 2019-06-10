@@ -86,9 +86,15 @@ public class Asnconvertor {
 	private static String OCC_Unix_username1 = "";
 	private static String OCC_Unix_password1 = "";
 	private static String OCC_unix_hostname1 = "";
-	private static String AIR_Unix_username = "";
-	private static String AIR_Unix_password = "";
-	private static String AIR_unix_hostname = "";
+	private static String AIR_Unix_username;
+	private static String AIR_Unix_password;
+	private static String AIR_unix_hostname;
+	private static String CCN_unix_hostname;
+	private static String CCN_Unix_username;
+	private static String CCN_Unix_password;
+	private static String CCN_unix_hostname1;
+	private static String CCN_Unix_username1;
+	private static String CCN_Unix_password1;
 	public static String global_Final_CDR_path = "";
 	public static String Environment = "";
 	public static String curr_log_file_path = System.getProperty("user.dir") + "\\Report.txt";
@@ -143,18 +149,23 @@ public class Asnconvertor {
 					System.out.println("Waiting for CIS System to Connect");
 						
 					String querycis ="Select * from Credentials where Unix_System = 'CIS' ";
-					Recordset inputscis = cons.executeQuery(querycis);
-					String stime=inputscis.getField("Wait_Time");
+					Recordset input = cons.executeQuery(querycis);
+					String path = null;
+					while (input.next()) {
+					String stime=input.getField("Wait_Time");
 					int t=Integer.parseInt(stime)*1000;
 					Thread.sleep(t);
-					String path= inputscis.getField("Path");
+					path= input.getField("Path");
 
-					CIS_unix_hostname = inputscis.getField("IP_HostName");
-					CIS_Unix_username = inputscis.getField("User_Name");
-					CIS_Unix_password = inputscis.getField("Password");
+					CIS_unix_hostname = input.getField("IP_HostName");
+					CIS_Unix_username = input.getField("User_Name");
+					CIS_Unix_password = input.getField("Password");
 					// String date= Present_date();
+					}
 					List<String> CIS_commands = new ArrayList<String>();
+					
 					CIS_commands.add("cd "+path);
+					
 					CIS_commands.add("sudo more meydvvmcis03_EDR_CISOnline1.csv > /home/"+CIS_Unix_username+"/meydvvmcis03_EDR_CISOnline1.csv");
 					executeCommands(CIS_commands, CIS_unix_hostname, CIS_Unix_username, CIS_Unix_password);
 					close();
@@ -202,9 +213,11 @@ public class Asnconvertor {
 					System.out.println("waiting for SDP connectivty ");
 					String query ="Select * from Credentials where Unix_System = 'SDP' ";
 					Recordset input= cons.executeQuery(query);
+					String path = null;
+					while (input.next()) {
 					String stime=input.getField("Wait_Time");
 					int t=Integer.parseInt(stime)*1000;
-					String path= input.getField("Path");
+					path= input.getField("Path");
 
 					SDP_unix_hostname = input.getField("IP_HostName");
 					SDP_Unix_username = input.getField("User_Name");
@@ -213,6 +226,7 @@ public class Asnconvertor {
 				
 					Curr_user_directory_path = System.getProperty("user.dir");
 					//String date = Present_date();
+					}
 					List<String> SDP_commands = new ArrayList<String>();
 					SDP_commands.add("cd "+path);
 					SDP_commands.add("grep -l "+MSISDN+" *20"+date+"* |tac |head -1 > /home/tasuser/sdpfile.txt");
@@ -279,9 +293,11 @@ public class Asnconvertor {
 					System.out.println("Waiting for OCC system to connect");
 					String query ="Select * from Credentials where Unix_System = 'OCC2' ";
 					Recordset input= cons.executeQuery(query);
+					String path = null;
+					while (input.next()) {
 					String stime=input.getField("Wait_Time");
 					int t=Integer.parseInt(stime)*1000;
-					String path= input.getField("Path");
+					path= input.getField("Path");
 
 					OCC_unix_hostname = input.getField("IP_HostName");
 					OCC_Unix_username = input.getField("User_Name");
@@ -291,6 +307,7 @@ public class Asnconvertor {
 					//Curr_user_directory_path = System.getProperty("user.dir");
 					
 					//String date = Present_date();
+					}
 					List<String> OCC_commands = new ArrayList<String>();
 					OCC_commands.add("cd "+path);
 					OCC_commands.add(
@@ -355,9 +372,11 @@ public class Asnconvertor {
 					//Curr_user_directory_path = System.getProperty("user.dir");
 					String query1 ="Select * from Credentials where Unix_System = 'OCC1' ";
 					Recordset input1= cons.executeQuery(query1);
+					String path1 = null;
+					while (input1.next()) {
 					String stime1=input1.getField("Wait_Time");
 					int t1=Integer.parseInt(stime1)*1000;
-					String path1= input1.getField("Path");
+					path1= input1.getField("Path");
 
 					OCC_unix_hostname = input1.getField("IP_HostName");
 					OCC_Unix_username = input1.getField("User_Name");
@@ -365,6 +384,7 @@ public class Asnconvertor {
 					Thread.sleep(t1);
 					
 					// String date= Present_date();
+					}
 					List<String> OCC1_commands = new ArrayList<String>();
 					OCC1_commands.add("cd "+path1);
 					OCC1_commands.add(
@@ -433,13 +453,15 @@ public class Asnconvertor {
 					System.out.println("Waiting for CCN system to connect");
 					String query ="Select * from Credentials where Unix_System = 'CCN0' ";
 					Recordset input= cons.executeQuery(query);
+					String path = null;
+					while (input.next()) {
 					String stime=input.getField("Wait_Time");
 					int t=Integer.parseInt(stime)*1000;
-					String path= input.getField("Path");
+					path= input.getField("Path");
 
-					String CCN_unix_hostname = input.getField("IP_HostName");
-					String CCN_Unix_username = input.getField("User_Name");
-					String CCN_Unix_password = input.getField("Password");
+					 CCN_unix_hostname = input.getField("IP_HostName");
+					 CCN_Unix_username = input.getField("User_Name");
+					 CCN_Unix_password = input.getField("Password");
 					Thread.sleep(t);
 					
 					// ************** CCN Unix Interactions storage 0
@@ -449,6 +471,7 @@ public class Asnconvertor {
 					//String date = Present_date();
 					System.out.println(now);
 					System.out.println(date);
+					}
 					List<String> CCN_commands = new ArrayList<String>();
 					CCN_commands.add("cd "+path);
 					CCN_commands.add("grep -l "+MSISDN+" *"+dateccn+now+"* |tac|head -1 > /cluster/home/system-oam/tasuser/Auto/CCN_0file.txt");
@@ -513,16 +536,18 @@ public class Asnconvertor {
 					}
 					String query1 ="Select * from Credentials where Unix_System = 'CCN1' ";
 					Recordset input1= cons.executeQuery(query1);
+					String path1 = null;
+					while (input1.next()) {
 					String stime1=input1.getField("Wait_Time");
 					int t1=Integer.parseInt(stime1)*1000;
-					String path1= input1.getField("Path");
+					path1= input1.getField("Path");
 
-					String CCN_unix_hostname1 = input1.getField("IP_HostName");
-					String CCN_Unix_username1 = input1.getField("User_Name");
-					String CCN_Unix_password1 = input1.getField("Password");
+					CCN_unix_hostname1 = input1.getField("IP_HostName");
+					CCN_Unix_username1 = input1.getField("User_Name");
+					CCN_Unix_password1 = input1.getField("Password");
 					Thread.sleep(t1);  
 					
-						
+					}
 						List<String> CCN1_commands = new ArrayList<String>();
 						CCN1_commands.add("cd "+path1);
 						CCN1_commands.add("grep -l "+MSISDN+" *"+dateccn+now+"* |tac|head -1 > /cluster/home/system-oam/tasuser/Auto/CCN_1file.txt");
@@ -591,9 +616,11 @@ public class Asnconvertor {
 					System.out.println("Waiting for Air system to connect");
 					String query ="Select * from Credentials where Unix_System = 'AIR' ";
 					Recordset input= cons.executeQuery(query);
+					String path = null;
+					while (input.next()) {
 					String stime=input.getField("Wait_Time");
 					int t=Integer.parseInt(stime)*1000;
-					String path= input.getField("Path");
+					path= input.getField("Path");
 
 					AIR_unix_hostname = input.getField("IP_HostName");
 					AIR_Unix_username = input.getField("User_Name");
@@ -601,6 +628,7 @@ public class Asnconvertor {
 					Thread.sleep(t);
 									
 					//String date = Present_date();
+					}
 					List<String> AIR_commands = new ArrayList<String>();
 					AIR_commands.add("cd "+path);
 					AIR_commands.add("grep -l " + MSISDN + " *" + date + "* |tac |head -1 > /home/tasuser/Auto/Airfile.txt");
