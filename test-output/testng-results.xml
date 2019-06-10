@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
+<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2019-06-06T13:41:48Z" name="Default suite" finished-at="2019-06-06T13:48:42Z" duration-ms="414428">
+  <suite name="TestSuite" duration-ms="3245" started-at="2019-06-10T12:42:15Z" finished-at="2019-06-10T12:42:18Z">
     <groups>
     </groups>
-    <test started-at="2019-06-06T13:41:48Z" name="Default test" finished-at="2019-06-06T13:48:42Z" duration-ms="414428">
+    <test name="device1" duration-ms="3245" started-at="2019-06-10T12:42:15Z" finished-at="2019-06-10T12:42:18Z">
       <class name="com.spectrum.appium.com.spectrum.appium.App">
-        <test-method signature="Device_1()[pri:0, instance:com.spectrum.appium.com.spectrum.appium.App@51549490]" started-at="2019-06-06T13:41:48Z" name="Device_1" finished-at="2019-06-06T13:48:42Z" duration-ms="414299" status="PASS">
+        <test-method status="PASS" signature="Device_1()[pri:0, instance:com.spectrum.appium.com.spectrum.appium.App@c5dc4a2]" name="Device_1" duration-ms="3203" started-at="2019-06-10T12:42:15Z" finished-at="2019-06-10T12:42:18Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- Device_1 -->
       </class> <!-- com.spectrum.appium.com.spectrum.appium.App -->
-    </test> <!-- Default test -->
-  </suite> <!-- Default suite -->
+    </test> <!-- device1 -->
+  </suite> <!-- TestSuite -->
 </testng-results>

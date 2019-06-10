@@ -72,7 +72,8 @@ public class Asnconvertor {
 	private static ChannelSftp channel_sftp;
 	private static String gzfile;
 	private static String berfile;
-	
+	public final static String Root = System.getProperty("user.dir");
+	public final static String Data = Root + "\\Input_sheet_V2.xlsx";
 	private static String SDP_Unix_username = "";
 	private static String SDP_Unix_password = "";
 	private static String SDP_unix_hostname = "";
@@ -103,7 +104,7 @@ public class Asnconvertor {
 	public ExtentHtmlReporter htmlReporter;
 	public ExtentTest test;
 	
-	public  static String Cis_Filepath =cdrfiles+"\\CIS\\EDRfile.csv";
+	public  static String Cis_Filepath =cdrfiles+"\\CIS\\meydvvmcis03_EDR_CISOnline1.csv";
 	public static String Cis_viewpath= "";
 	public static String nodetag;
 	public static String idtag;
@@ -119,7 +120,8 @@ public class Asnconvertor {
 			Calendar cal1 = Calendar.getInstance();
 			now= timeoffour();
 			dateccn=Present_dateccn();
-			
+			Fillo fill = new Fillo();
+			Connection cons = fill.getConnection(Data);
 				Fillo fillo = new Fillo();
 				Connection conn = fillo.getConnection(Reference_Data);
 				String strQuery = "Select * from node_xml_conversion "
@@ -139,16 +141,21 @@ public class Asnconvertor {
 				// ************** CIS Unix Interactions
 				if (Node_Type.contains("CIS") || Input.contains("ALL")) {
 					System.out.println("Waiting for CIS System to Connect");
-					Thread.sleep(30000);
-					
-					//Curr_user_directory_path = System.getProperty("user.dir");
-					CIS_unix_hostname = "10.95.214.72";
-					CIS_Unix_username = "VenuReddyGaddam";
-					CIS_Unix_password = "VenuReddyGaddam";
+						
+					String querycis ="Select * from Credentials where Unix_System = 'CIS' ";
+					Recordset inputscis = cons.executeQuery(querycis);
+					String stime=inputscis.getField("Wait_Time");
+					int t=Integer.parseInt(stime)*1000;
+					Thread.sleep(t);
+					String path= inputscis.getField("Path");
+
+					CIS_unix_hostname = inputscis.getField("IP_HostName");
+					CIS_Unix_username = inputscis.getField("User_Name");
+					CIS_Unix_password = inputscis.getField("Password");
 					// String date= Present_date();
 					List<String> CIS_commands = new ArrayList<String>();
-					CIS_commands.add("cd /data/fdp/logs/defaultCircle");
-					CIS_commands.add("sudo more meydvvmcis03_EDR_CISOnline1.csv > /home/"+CIS_Unix_username+"/EDRfile.csv");
+					CIS_commands.add("cd "+path);
+					CIS_commands.add("sudo more meydvvmcis03_EDR_CISOnline1.csv > /home/"+CIS_Unix_username+"/meydvvmcis03_EDR_CISOnline1.csv");
 					executeCommands(CIS_commands, CIS_unix_hostname, CIS_Unix_username, CIS_Unix_password);
 					close();
 
@@ -170,11 +177,11 @@ public class Asnconvertor {
 						@SuppressWarnings("unchecked")
 						Vector<ChannelSftp.LsEntry> list = channel_sftp.ls("*.csv");
 						for (ChannelSftp.LsEntry entry : list) {
-							if (entry.getFilename().contains("EDRfile.csv")) {
+							if (entry.getFilename().contains("meydvvmcis03_EDR_CISOnline1.csv")) {
 								System.out.println(entry.getFilename());
-								channel_sftp.get("EDRfile.csv", localFile + "\\" + "CIS" + "\\" + entry.getFilename());
+								channel_sftp.get("meydvvmcis03_EDR_CISOnline1.csv", localFile + "\\" + "CIS" + "\\" + entry.getFilename());
 								Thread.sleep(5000);
-								channel_sftp.get("EDRfile.csv", localFileb + "\\" + "CIS" + "\\" + MSISDN+date+now+entry.getFilename());
+								channel_sftp.get("meydvvmcis03_EDR_CISOnline1.csv", localFileb + "\\" + "CIS" + "\\" + MSISDN+date+now+entry.getFilename());
 								//System.out.println(localFile + "\\" + "CISraw" + "\\" + entry.getFilename());
 								System.out.println("EDR file transfered to "+ localFile + "\\" + "CIS" + "\\" );
 							}
@@ -193,15 +200,21 @@ public class Asnconvertor {
 				// ************** SDP Unix Interactions
 				if (Node_Type.contains("SDP") || Input.contains("ALL")) {
 					System.out.println("waiting for SDP connectivty ");
-					Thread.sleep(150000);
+					String query ="Select * from Credentials where Unix_System = 'SDP' ";
+					Recordset input= cons.executeQuery(query);
+					String stime=input.getField("Wait_Time");
+					int t=Integer.parseInt(stime)*1000;
+					String path= input.getField("Path");
+
+					SDP_unix_hostname = input.getField("IP_HostName");
+					SDP_Unix_username = input.getField("User_Name");
+					SDP_Unix_password = input.getField("Password");
+					Thread.sleep(t);
 				
 					Curr_user_directory_path = System.getProperty("user.dir");
-					SDP_unix_hostname = "10.95.214.6";
-					SDP_Unix_username = "tasuser";
-					SDP_Unix_password = "Ericssondu@123";
 					//String date = Present_date();
 					List<String> SDP_commands = new ArrayList<String>();
-					SDP_commands.add("cd /var/opt/fds/CDR/archive/");
+					SDP_commands.add("cd "+path);
 					SDP_commands.add("grep -l "+MSISDN+" *20"+date+"* |tac |head -1 > /home/tasuser/sdpfile.txt");
 					executeCommands(SDP_commands, SDP_unix_hostname, SDP_Unix_username, SDP_Unix_password);
 					close();
@@ -233,7 +246,7 @@ public class Asnconvertor {
 						System.out.println(cdrfile);
 
 						// Code to get file to local system
-						channel_sftp.cd("/var/opt/fds/CDR/archive/");
+						channel_sftp.cd(path);
 						
 						@SuppressWarnings("unchecked")
 						Vector<ChannelSftp.LsEntry> list1 = channel_sftp.ls("*.ASN");
@@ -264,16 +277,22 @@ public class Asnconvertor {
 				// ************** OCC Unix Interactions port 22
 				if (Node_Type.contains("OCC")){
 					System.out.println("Waiting for OCC system to connect");
-					Thread.sleep(150000);
+					String query ="Select * from Credentials where Unix_System = 'OCC2' ";
+					Recordset input= cons.executeQuery(query);
+					String stime=input.getField("Wait_Time");
+					int t=Integer.parseInt(stime)*1000;
+					String path= input.getField("Path");
 
-					
+					OCC_unix_hostname = input.getField("IP_HostName");
+					OCC_Unix_username = input.getField("User_Name");
+					OCC_Unix_password = input.getField("Password");
+					Thread.sleep(t);
+									
 					//Curr_user_directory_path = System.getProperty("user.dir");
-					OCC_unix_hostname = "10.95.214.22";
-					OCC_Unix_username = "tasuser";
-					OCC_Unix_password = "Ericssondu@123";
+					
 					//String date = Present_date();
 					List<String> OCC_commands = new ArrayList<String>();
-					OCC_commands.add("cd /home/tasuser");
+					OCC_commands.add("cd "+path);
 					OCC_commands.add(
 							"zgrep -l "+MSISDN+" *"+date+"* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt");
 					executeCommands(OCC_commands, OCC_unix_hostname, OCC_Unix_username, OCC_Unix_password);
@@ -306,7 +325,7 @@ public class Asnconvertor {
 						System.out.println(occfile);
 
 						// Code to get file to local system
-						channel_sftp.cd("/home/tasuser");
+						channel_sftp.cd(path);
 						// channel_sftp.pwd();
 						//File localFile1 = new File(Curr_user_directory_path + "\\" + "CDR");
 						@SuppressWarnings("unchecked")
@@ -334,12 +353,20 @@ public class Asnconvertor {
 					// ---------------------------------------------------------------------------------------
 					// ************** OCC Unix Interactions port 21
 					//Curr_user_directory_path = System.getProperty("user.dir");
-					OCC_unix_hostname1 = "10.95.214.21";
-					OCC_Unix_username1 = "tasuser";
-					OCC_Unix_password1 = "Ericssondu@123";
+					String query1 ="Select * from Credentials where Unix_System = 'OCC1' ";
+					Recordset input1= cons.executeQuery(query1);
+					String stime1=input1.getField("Wait_Time");
+					int t1=Integer.parseInt(stime1)*1000;
+					String path1= input1.getField("Path");
+
+					OCC_unix_hostname = input1.getField("IP_HostName");
+					OCC_Unix_username = input1.getField("User_Name");
+					OCC_Unix_password = input1.getField("Password");
+					Thread.sleep(t1);
+					
 					// String date= Present_date();
 					List<String> OCC1_commands = new ArrayList<String>();
-					OCC1_commands.add("cd /home/tasuser");
+					OCC1_commands.add("cd "+path1);
 					OCC1_commands.add(
 							"zgrep -l "+MSISDN+" *"+date+"* |tac|head -1 > /home/tasuser/Auto/occfile_21.txt");
 					executeCommands(OCC1_commands, OCC_unix_hostname1, OCC_Unix_username1, OCC_Unix_password1);
@@ -372,7 +399,7 @@ public class Asnconvertor {
 						System.out.println(occfile1);
 
 						// Code to get file to local system
-						channel_sftp.cd("/home/tasuser");
+						channel_sftp.cd(path1);
 						// channel_sftp.pwd();
 						//File localFile1 = new File(Curr_user_directory_path + "\\" + "CDR");
 						@SuppressWarnings("unchecked")
@@ -404,18 +431,26 @@ public class Asnconvertor {
 				// Connecting to CCN to get CDR file
 				if (Node_Type.contains("CCN") || Input.contains("ALL")) {
 					System.out.println("Waiting for CCN system to connect");
-					Thread.sleep(90000);
+					String query ="Select * from Credentials where Unix_System = 'CCN0' ";
+					Recordset input= cons.executeQuery(query);
+					String stime=input.getField("Wait_Time");
+					int t=Integer.parseInt(stime)*1000;
+					String path= input.getField("Path");
+
+					String CCN_unix_hostname = input.getField("IP_HostName");
+					String CCN_Unix_username = input.getField("User_Name");
+					String CCN_Unix_password = input.getField("Password");
+					Thread.sleep(t);
+					
 					// ************** CCN Unix Interactions storage 0
 					//Curr_user_directory_path = System.getProperty("user.dir");
-					String CCN_unix_hostname = "10.95.213.132";
-					String CCN_Unix_username = "tasuser";
-					String CCN_Unix_password = "CCNtasuser@123";
+					
 					//String now= timeoffour();
 					//String date = Present_date();
 					System.out.println(now);
 					System.out.println(date);
 					List<String> CCN_commands = new ArrayList<String>();
-					CCN_commands.add("cd /cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive/");
+					CCN_commands.add("cd "+path);
 					CCN_commands.add("grep -l "+MSISDN+" *"+dateccn+now+"* |tac|head -1 > /cluster/home/system-oam/tasuser/Auto/CCN_0file.txt");
 					executeCommands(CCN_commands, CCN_unix_hostname, CCN_Unix_username, CCN_Unix_password);
 					close();
@@ -450,7 +485,7 @@ public class Asnconvertor {
 						System.out.println(CCN0file);
 
 						// Code to get file to local system
-						channel_sftp.cd("/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive/");
+						channel_sftp.cd(path);
 						// channel_sftp.pwd();
 						//File localFile1 = new File(Curr_user_directory_path + "\\" + "InputCdrFile");
 						@SuppressWarnings("unchecked")
@@ -476,20 +511,22 @@ public class Asnconvertor {
 						e.printStackTrace();
 
 					}
-					//
+					String query1 ="Select * from Credentials where Unix_System = 'CCN1' ";
+					Recordset input1= cons.executeQuery(query1);
+					String stime1=input1.getField("Wait_Time");
+					int t1=Integer.parseInt(stime1)*1000;
+					String path1= input1.getField("Path");
+
+					String CCN_unix_hostname1 = input1.getField("IP_HostName");
+					String CCN_Unix_username1 = input1.getField("User_Name");
+					String CCN_Unix_password1 = input1.getField("Password");
+					Thread.sleep(t1);  
 					
-						//System.out.println("Waiting for CCN system to connect");		
-						//Thread.sleep(30000);
-						// ************** CCN Unix Interactions
-						//Curr_user_directory_path = System.getProperty("user.dir");
-						//String CCN_unix_hostname = "10.95.213.132";
-						//String CCN_Unix_username = "tasuser";
-						//String CCN_Unix_password = "CCNtasuser@123";
 						
 						List<String> CCN1_commands = new ArrayList<String>();
-						CCN1_commands.add("cd /cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive/");
+						CCN1_commands.add("cd "+path1);
 						CCN1_commands.add("grep -l "+MSISDN+" *"+dateccn+now+"* |tac|head -1 > /cluster/home/system-oam/tasuser/Auto/CCN_1file.txt");
-						executeCommands(CCN1_commands, CCN_unix_hostname, CCN_Unix_username, CCN_Unix_password);
+						executeCommands(CCN1_commands, CCN_unix_hostname1, CCN_Unix_username1, CCN_Unix_password1);
 						close();
 						//grep -l 971520001714 *20190529* |xargs ls -l|grep 13:0[0-9]|tac|head -1 > /cluster/home/system-oam/tasuser/Auto/CCNfile.txt
 
@@ -516,12 +553,12 @@ public class Asnconvertor {
 									Thread.sleep(5000);
 								}
 							}
-							// Code to get AIR file latest name
+							// Code to get CCN file latest name
 							String CCN1file = filename(localFile + "\\" + "CCN_1file.txt");
 							System.out.println(CCN1file);
 
 							// Code to get file to local system
-							channel_sftp.cd("/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive/");
+							channel_sftp.cd(path1);
 							// channel_sftp.pwd();
 							//File localFile1 = new File(Curr_user_directory_path + "\\" + "InputCdrFile");
 							@SuppressWarnings("unchecked")
@@ -552,14 +589,20 @@ public class Asnconvertor {
 				//Curr_user_directory_path = System.getProperty("user.dir");
 				if (Node_Type.contains("AIR")) {
 					System.out.println("Waiting for Air system to connect");
-					Thread.sleep(60000);
-					
-					AIR_unix_hostname = "10.95.214.166";
-					AIR_Unix_username = "tasuser";
-					AIR_Unix_password = "Ericssondu@123";
+					String query ="Select * from Credentials where Unix_System = 'AIR' ";
+					Recordset input= cons.executeQuery(query);
+					String stime=input.getField("Wait_Time");
+					int t=Integer.parseInt(stime)*1000;
+					String path= input.getField("Path");
+
+					AIR_unix_hostname = input.getField("IP_HostName");
+					AIR_Unix_username = input.getField("User_Name");
+					AIR_Unix_password = input.getField("Password");
+					Thread.sleep(t);
+									
 					//String date = Present_date();
 					List<String> AIR_commands = new ArrayList<String>();
-					AIR_commands.add("cd /var/opt/air/datarecords/backup_CDR/");
+					AIR_commands.add("cd "+path);
 					AIR_commands.add("grep -l " + MSISDN + " *" + date + "* |tac |head -1 > /home/tasuser/Auto/Airfile.txt");
 					executeCommands(AIR_commands, AIR_unix_hostname, AIR_Unix_username, AIR_Unix_password);
 					close();
@@ -592,7 +635,7 @@ public class Asnconvertor {
 						System.out.println(Airfile);
 
 						// Code to get file to local system
-						channel_sftp.cd("/var/opt/air/datarecords/backup_CDR/");
+						channel_sftp.cd(path);
 						// channel_sftp.pwd();
 						//File localFile1 = new File(Curr_user_directory_path + "\\" + "CDR");
 						@SuppressWarnings("unchecked")
