@@ -197,6 +197,9 @@ public class App{
 					run.exec("adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+startussd);
 					dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 					Thread.sleep(1000);
+					By inputfield = By.id("com.android.phone:id/input_field");
+					if (elementExists(inputfield)) {
+						dr.get().findElement(By.id("com.android.phone:id/input_field"));
 					if(ussdstr.length()>=1) {
 					String[] spltussd = ussdstr.split(",");
 					for (int currshortcode = 0; currshortcode < spltussd.length; currshortcode++) {
@@ -205,20 +208,7 @@ public class App{
 							try {
 								System.out.println("------------------------------");
 								Thread.sleep(1000);
-								By inputfield = By.id("com.android.phone:id/input_field");
-								if (elementExists(inputfield)) {
-									dr.get().findElement(By.id("com.android.phone:id/input_field"));
 									nxt = "pass";
-								}
-								else {
-									info("Error occured, please check with screenshot");
-									takeScreenShot("Error appears");
-//									Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
-//									info("Confirmation alert : "+Confirmation);
-//									dr.get().findElement(By.id("android:id/button1")).click();
-									dr.get().quit();
-									break;
-								}
 							} catch (Exception e) { // Thread.sleep(100); }
 	
 							}
@@ -245,6 +235,15 @@ public class App{
 					else {
 						info("Error occured, please check with screenshot");
 						takeScreenShot("Error appears");
+						dr.get().quit();
+					}
+					}
+					else {
+						info("Error occured, please check with screenshot");
+						takeScreenShot("Error appears");
+//						Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
+//						info("Confirmation alert : "+Confirmation);
+//						dr.get().findElement(By.id("android:id/button1")).click();
 						dr.get().quit();
 					}
 					Thread.sleep(3000);
@@ -342,12 +341,24 @@ public class App{
 				System.out.println("Execution cmmand: "+execu);
 				run.exec(execu);
 				Thread.sleep(4000);
+				
+				By mes = By.id("android:id/message");
+				if (elementExists(mes)) {
 				Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
 				info("Confirmation alert : "+Confirmation);
 				takeScreenShot("Confirmation Screen");
 				dr.get().findElement(By.id("android:id/button1")).click();
 				Thread.sleep(3000);
-			dr.get().quit();
+				dr.get().quit();
+				}
+				else {
+					info("Error occured, please check with screenshot");
+					takeScreenShot("Error appears");
+//					Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
+//					info("Confirmation alert : "+Confirmation);
+//					dr.get().findElement(By.id("android:id/button1")).click();
+					dr.get().quit();	
+				}
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 			Thread.sleep(3000);
 			By New_Message = By.id("com.samsung.android.messaging:id/list_unread_count");
