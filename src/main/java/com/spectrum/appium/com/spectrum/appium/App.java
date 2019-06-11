@@ -55,6 +55,8 @@ public class App{
 	public String curtcid = "";
 	public String Product_Name = "";
 	public String Confirmation = "";
+	public String Amount = "";
+	public String To_Number = "";
 	
 	public String curtcid1 = "";
 	public static String udid;
@@ -199,6 +201,9 @@ public class App{
 					run.exec("adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+startussd);
 					dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 					Thread.sleep(1000);
+					By inputfield = By.id("com.android.phone:id/input_field");
+					if (elementExists(inputfield)) {
+						dr.get().findElement(By.id("com.android.phone:id/input_field"));
 					if(ussdstr.length()>=1) {
 					String[] spltussd = ussdstr.split(",");
 					for (int currshortcode = 0; currshortcode < spltussd.length; currshortcode++) {
@@ -207,21 +212,10 @@ public class App{
 							try {
 								System.out.println("------------------------------");
 								Thread.sleep(1000);
-								By inputfield = By.id("com.android.phone:id/input_field");
-								if (elementExists(inputfield)) {
-									dr.get().findElement(By.id("com.android.phone:id/input_field"));
+
 									nxt = "pass";
-								}
-								else {
-									info("Error occured, please check with screenshot");
-									takeScreenShot("Error appears");
-									Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
-									info("Confirmation alert : "+Confirmation);
-									dr.get().findElement(By.id("android:id/button1")).click();
-									dr.get().quit();
-									break;
-								}
-							} catch (Exception e) { // Thread.sleep(100); }
+							} 
+							catch (Exception e) { // Thread.sleep(100); }
 	
 							}
 						} while (nxt != "pass");
@@ -247,6 +241,15 @@ public class App{
 					else {
 						info("Error occured, please check with screenshot");
 						takeScreenShot("Error appears");
+					}
+					}
+					else {
+						info("Error occured, please check with screenshot");
+						takeScreenShot("Error appears");
+//						Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
+//						info("Confirmation alert : "+Confirmation);
+//						dr.get().findElement(By.id("android:id/button1")).click();
+						dr.get().quit();
 					}
 					Thread.sleep(3000);
 
@@ -341,12 +344,23 @@ public class App{
 				System.out.println("Execution cmmand: "+execu);
 				run.exec(execu);
 				Thread.sleep(4000);
+				By mes = By.id("android:id/message");
+				if (elementExists(mes)) {
 				Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
 				info("Confirmation alert : "+Confirmation);
 				takeScreenShot("Confirmation Screen");
 				dr.get().findElement(By.id("android:id/button1")).click();
 				Thread.sleep(3000);
-			dr.get().quit();
+				dr.get().quit();
+				}
+			else {
+					info("Error occured, please check with screenshot");
+					takeScreenShot("Error appears");
+//					Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
+//					info("Confirmation alert : "+Confirmation);
+//					dr.get().findElement(By.id("android:id/button1")).click();
+					dr.get().quit();	
+				}
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 			Thread.sleep(3000);
 			By New_Message = By.id("com.samsung.android.messaging:id/list_unread_count");
@@ -516,7 +530,9 @@ public class App{
 			Runtime run = Runtime.getRuntime();
 			run.exec("adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+startussd);
 			dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-			Thread.sleep(1000);
+			Thread.sleep(2000);
+			By inputfield = By.id("com.android.phone:id/input_field");
+			if (elementExists(inputfield)) {
 			String[] spltussd = ussdstr.split(",");
 			for (int currshortcode = 0; currshortcode < spltussd.length; currshortcode++) {
 				String nxt = "fail";
@@ -536,6 +552,16 @@ public class App{
 				takeScreenShot("Entering code "+ spltussd[currshortcode]);
 				dr.get().findElement(By.id("android:id/button1")).click();
 			}
+			}
+			else {
+				info("Error occured, please check with screenshot");
+				takeScreenShot("Error appears");
+//				Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
+//				info("Confirmation alert : "+Confirmation);
+//				dr.get().findElement(By.id("android:id/button1")).click();
+				dr.get().quit();
+			}
+
 			Thread.sleep(30000);
 			List<MobileElement> elements1 = dr.get().findElements(By.id("android:id/message"));
 			for(MobileElement link : elements1) {
@@ -578,7 +604,9 @@ public class App{
 			Runtime run = Runtime.getRuntime();
 			run.exec("adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+startussd);
 			dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-			Thread.sleep(1000);
+			Thread.sleep(2000);
+			By inputfield = By.id("com.android.phone:id/input_field");
+			if (elementExists(inputfield)) {
 			String[] spltussd = ussdstr.split(",");
 			for (int currshortcode = 0; currshortcode < spltussd.length; currshortcode++) {
 				String nxt = "fail";
@@ -600,11 +628,11 @@ public class App{
 				dr.get().findElement(By.id("android:id/button1")).click();
 			}
 			Thread.sleep(2000);
-			String To_Number = inputs.getField("TRANSFER_TO_MSISDN");
+			To_Number = inputs.getField("TRANSFER_TO_MSISDN");
 			dr.get().findElement(By.id("com.android.phone:id/input_field")).sendKeys(To_Number);
 			takeScreenShot("Entering Mobile Number: "+ To_Number);
 			dr.get().findElement(By.id("android:id/button1")).click();
-			String Amount = inputs.getField("TRANSFER_AMOUNT");
+			Amount = inputs.getField("TRANSFER_AMOUNT");
 			dr.get().findElement(By.id("com.android.phone:id/input_field")).sendKeys(Amount);
 			takeScreenShot("Entering Transfer Amount: "+ Amount);
 			dr.get().findElement(By.id("android:id/button1")).click();
@@ -619,6 +647,15 @@ public class App{
 			
 			//Notification Message handle
 			dr.get().quit();
+			}
+			else {
+				info("Error occured, please check with screenshot");
+				takeScreenShot("Error appears");
+//				Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
+//				info("Confirmation alert : "+Confirmation);
+//				dr.get().findElement(By.id("android:id/button1")).click();
+				dr.get().quit();
+			}
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 			Thread.sleep(3000);
 			By New_Message = By.id("com.samsung.android.messaging:id/list_unread_count");
