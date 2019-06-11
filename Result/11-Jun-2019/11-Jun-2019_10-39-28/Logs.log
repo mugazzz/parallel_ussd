@@ -1,0 +1,25 @@
+11-06-2019 10:39:29 INFO [App]: Starting execution at +: Call Home for Less->USSD_OPT_OUT->11-Jun-2019 10:39:28
+
+11-06-2019 10:39:31 INFO [App]: ****************************************************************************************
+11-06-2019 10:39:31 INFO [App]: ****************************************************************************************
+11-06-2019 10:39:31 INFO [App]: $$$$$$$$$$$$$$$$$$$$$ TC_001--820_USSD_OPT_OUT_USSD_Short_Code $$$$$$$$$$$$$$$$$$$$$$$$$
+11-06-2019 10:39:31 INFO [App]: ****************************************************************************************
+11-06-2019 10:39:31 INFO [App]: ****************************************************************************************
+11-06-2019 10:39:42 INFO [App]: Menu options are not available
+
+11-06-2019 10:39:45 INFO [App]: Confirmation alert : To place a call, enter a valid number.
+
+11-06-2019 10:40:07 INFO [App]: Message Received : The call home for less offer is active! Call at only 0.6 fils per sec, with a setup fee of AED 1 per call for calls to India, Bangladesh, Pakistan, Afghanistan (except numbers starting with 009378), Egypt, China, Iran, Nepal, Nigeria & Indonesia.
+
+11-06-2019 10:40:12 INFO [App]: XXXXXXXXXXXXXXXXXXXXXXX             -E---N---D-             XXXXXXXXXXXXXXXXXXXXXX
+11-06-2019 10:40:12 INFO [App]: Starting execution at +: Call Home for Less->USSD_OPT_IN->11-Jun-2019 10:39:28
+
+11-06-2019 10:40:14 INFO [App]: ****************************************************************************************
+11-06-2019 10:40:14 INFO [App]: ****************************************************************************************
+11-06-2019 10:40:14 INFO [App]: $$$$$$$$$$$$$$$$$$$$$ TC_002--820_USSD_OPT_IN_USSD_Short_Code $$$$$$$$$$$$$$$$$$$$$$$$$
+11-06-2019 10:40:14 INFO [App]: ****************************************************************************************
+11-06-2019 10:40:14 INFO [App]: ****************************************************************************************
+11-06-2019 10:40:25 INFO [App]: Error occured, please check with screenshot
+
+11-06-2019 10:40:27 INFO [App]: Entering code : 1
+
