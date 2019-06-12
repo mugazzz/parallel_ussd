@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
+<testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="7820" started-at="2019-06-10T15:07:17Z" finished-at="2019-06-10T15:07:25Z">
+  <suite started-at="2019-06-11T11:24:16Z" name="Default suite" finished-at="2019-06-11T11:24:21Z" duration-ms="4455">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="7820" started-at="2019-06-10T15:07:17Z" finished-at="2019-06-10T15:07:25Z">
+    <test started-at="2019-06-11T11:24:16Z" name="Default test" finished-at="2019-06-11T11:24:21Z" duration-ms="4455">
       <class name="com.spectrum.appium.com.spectrum.appium.App">
-        <test-method status="PASS" signature="Device_1()[pri:0, instance:com.spectrum.appium.com.spectrum.appium.App@399c4be1]" name="Device_1" duration-ms="7782" started-at="2019-06-10T15:07:17Z" finished-at="2019-06-10T15:07:25Z">
+        <test-method signature="Device_1()[pri:0, instance:com.spectrum.appium.com.spectrum.appium.App@59e505b2]" started-at="2019-06-11T11:24:16Z" name="Device_1" finished-at="2019-06-11T11:24:21Z" duration-ms="4408" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- Device_1 -->

@@ -74,18 +74,18 @@ public class Asnconvertor {
 	private static String berfile;
 	public final static String Root = System.getProperty("user.dir");
 	public final static String Data = Root + "\\Input_sheet_V2.xlsx";
-	private static String SDP_Unix_username = "";
-	private static String SDP_Unix_password = "";
-	private static String SDP_unix_hostname = "";
-	private static String CIS_Unix_username = "VenuReddyGaddam";
-	private static String CIS_Unix_password = "VenuReddyGaddam";
-	private static String CIS_unix_hostname = "";
-	private static String OCC_Unix_username = "";
-	private static String OCC_Unix_password = "";
-	private static String OCC_unix_hostname = "";
-	private static String OCC_Unix_username1 = "";
-	private static String OCC_Unix_password1 = "";
-	private static String OCC_unix_hostname1 = "";
+	private static String SDP_Unix_username;
+	private static String SDP_Unix_password;
+	private static String SDP_unix_hostname;
+	private static String CIS_Unix_username;
+	private static String CIS_Unix_password;
+	private static String CIS_unix_hostname;
+	private static String OCC_Unix_username;
+	private static String OCC_Unix_password;
+	private static String OCC_unix_hostname;
+	private static String OCC_Unix_username1;
+	private static String OCC_Unix_password1;
+	private static String OCC_unix_hostname1;
 	private static String AIR_Unix_username;
 	private static String AIR_Unix_password;
 	private static String AIR_unix_hostname;
@@ -95,23 +95,24 @@ public class Asnconvertor {
 	private static String CCN_unix_hostname1;
 	private static String CCN_Unix_username1;
 	private static String CCN_Unix_password1;
-	public static String global_Final_CDR_path = "";
-	public static String Environment = "";
+	public static String global_Final_CDR_path;
+	public static String Environment;
 	public static String curr_log_file_path = System.getProperty("user.dir") + "\\Report.txt";
-	public String Input = "";
-	public String Test_Scenario = "";
+	public String Input ;
+	public String Test_Scenario;
 	public static String cdrfiles = System.getProperty("user.dir") + "\\CDR";
 	private static String gzfilepath = cdrfiles+"\\OCCzip\\";
 	private static String finalpath = cdrfiles+"\\OCC\\";
-	public static String date="" ;
-	public static String dateccn="";
-	public static String now="";
+	public static String date;
+	public static String dateccn;
+	public static String datecis;
+	public static String now;
 	public static ExtentReports extent;
 	public ExtentHtmlReporter htmlReporter;
 	public ExtentTest test;
 	
 	public  static String Cis_Filepath =cdrfiles+"\\CIS\\meydvvmcis03_EDR_CISOnline1.csv";
-	public static String Cis_viewpath= "";
+	public static String Cis_viewpath;
 	public static String nodetag;
 	public static String idtag;
 	
@@ -125,6 +126,7 @@ public class Asnconvertor {
 		try {
 			Calendar cal1 = Calendar.getInstance();
 			now= timeoffour();
+			datecis=Present_datecis();
 			dateccn=Present_dateccn();
 			Fillo fill = new Fillo();
 			Connection cons = fill.getConnection(Data);
@@ -145,9 +147,8 @@ public class Asnconvertor {
 					String Node_Type = rs.getField("Node_To_Validate");
 				// ---------------------------------------------------------------------------------------
 				// ************** CIS Unix Interactions
-				if (Node_Type.contains("CIS") || Input.contains("ALL")) {
+				if (Node_Type.contains("CISOLD") || Input.contains("ALL")) {
 					System.out.println("Waiting for CIS System to Connect");
-						
 					String querycis ="Select * from Credentials where Unix_System = 'CIS' ";
 					Recordset input = cons.executeQuery(querycis);
 					String path = null;
@@ -206,6 +207,83 @@ public class Asnconvertor {
 
 					}
 				}
+				if (Node_Type.contains("CIS")) {
+					System.out.println("Waiting for CIS System to Connect");
+					String querycis ="Select * from Credentials where Unix_System = 'CIS' ";
+					Recordset input = cons.executeQuery(querycis);
+					String path = null;
+					while (input.next()) {
+					String stime=input.getField("Wait_Time");
+					int t=Integer.parseInt(stime)*1000;
+					Thread.sleep(t);
+					path= input.getField("Path");
+
+					CIS_unix_hostname = input.getField("IP_HostName");
+					CIS_Unix_username = input.getField("User_Name");
+					CIS_Unix_password = input.getField("Password");
+					// String date= Present_date();
+					}
+					List<String> CIS_commands = new ArrayList<String>();
+					CIS_commands.add("cd "+path);
+					CIS_commands.add("grep -l "+MSISDN+" *"+datecis+"*|tail -1 > /home/"+CIS_Unix_username+"/EDRfile.txt");
+					executeCommands(CIS_commands, CIS_unix_hostname, CIS_Unix_username, CIS_Unix_password);
+					close();
+
+					try {
+
+						JSch jsch = new JSch();
+						Session session = jsch.getSession(CIS_Unix_username, CIS_unix_hostname, 22);
+						session.setPassword(CIS_Unix_password);
+						session.setConfig("StrictHostKeyChecking", "no");
+						session.setConfig("PreferredAuthentications", "publickey,keyboard-interactive,password");
+						session.connect();
+						channel_sftp = null;
+						channel_sftp = (ChannelSftp) session.openChannel("sftp");
+						channel_sftp.connect();
+						channel_sftp.cd("/home/"+CIS_Unix_username);
+
+					//	File localFile = new File(Curr_user_directory_path + "\\" + "CDR");
+						@SuppressWarnings("unchecked")
+						Vector<ChannelSftp.LsEntry> list = channel_sftp.ls("*.txt");
+						for (ChannelSftp.LsEntry entry : list) {
+							if (entry.getFilename().contains("EDRfile.txt")) {
+								channel_sftp.get(entry.getFilename(), localFile + "\\" + "EDRfile.txt");
+								Thread.sleep(5000);
+							}
+						}
+						// Code to get EDR file latest name
+						String edrfile = filename(localFile + "\\" + "EDRfile.txt");
+						System.out.println(edrfile);
+
+						// Code to get file to local system
+						channel_sftp.cd(path);
+						
+						@SuppressWarnings("unchecked")
+						Vector<ChannelSftp.LsEntry> list1 = channel_sftp.ls("*.csv");
+						Thread.sleep(5000);
+
+						for (ChannelSftp.LsEntry entry1 : list1) {
+							if (entry1.getFilename().contains(edrfile)) {
+								channel_sftp.get(edrfile, localFile + "\\" + "CIS" + "\\"+"meydvvmcis03_EDR_CISOnline1.csv");
+								Thread.sleep(10000);
+								channel_sftp.get(edrfile, localFileb + "\\" + "CIS" + "\\");
+								System.out.println("SDP file transfered to " + localFile + "\\" + "CIS" + "\\");
+							} else {
+							}
+						}
+
+						channel_sftp.disconnect();
+						session.disconnect();
+
+					} catch (Exception e) {
+						e.printStackTrace();
+
+					}
+					
+					
+					
+				}
+				
 				
 				// ---------------------------------------------------------------------------------------
 				// ************** SDP Unix Interactions
@@ -1311,6 +1389,17 @@ public class Asnconvertor {
 		//String finaldateocc=datetoday.substring(0, datetoday.length()-1);	
 	
 		return datetodayccn;
+	}
+	public static String Present_datecis() {
+
+		String datetoday;
+		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd_.");
+		LocalDateTime now = LocalDateTime.now();
+		datetoday = (dtf.format(now).toString().replaceAll("/", "")).replaceAll(" ", "").replaceAll(":", "");
+		String finaldate=datetoday.substring(0, datetoday.length()-1);	
+	
+		return finaldate;
 	}
 	public static String timeoffour() {
 		Calendar calendar = Calendar.getInstance();
