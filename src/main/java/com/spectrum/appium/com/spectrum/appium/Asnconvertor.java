@@ -134,7 +134,7 @@ public class Asnconvertor {
 				Connection cons = fillo.getConnection(Data);
 				Connection conn = fillo.getConnection(Reference_Data);
 				String strQuery = "Select * from node_xml_conversion "
-						+ "where Test_Scenario= '"+Input+"'";
+						+ "where Test_Scenario= '"+Input+"' and Execution ='Yes'";
 				Recordset rs = conn.executeQuery(strQuery);
 				
 				file_deletion(cdrfiles);
