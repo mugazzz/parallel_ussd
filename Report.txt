@@ -6118,3 +6118,386 @@ exit
 logout
 
 Disconnected channel and session
+Connecting SSH to 10.95.214.9 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.9 !!!
+#!/bin/bash
+
+cd /data/edr_enrichment/sftpcompleted
+
+grep -l 971520001714 *2019-06-12_*|tail -1 > /home/atos/EDRfile.txt
+
+exit
+
+[atos@meydvvmedr02 ~]$ #!/bin/bash
+[atos@meydvvmedr02 ~]$ 
+[atos@meydvvmedr02 ~]$ cd /data/edr_enrichment/sftpcompleted
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ grep -l 971520001714 *2019-06-12_*|tail -1 >  /home/atos/EDRfile.txt
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.9 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.9 !!!
+#!/bin/bash
+
+cd /data/edr_enrichment/sftpcompleted
+
+grep -l 971520001714 *2019-06-12_*|tail -1 > /home/atos/EDRfile.txt
+
+exit
+
+[atos@meydvvmedr02 ~]$ #!/bin/bash
+[atos@meydvvmedr02 ~]$ 
+[atos@meydvvmedr02 ~]$ cd /data/edr_enrichment/sftpcompleted
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ grep -l 971520001714 *2019-06-12_*|tail -1 >  /home/atos/EDRfile.txt
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+# Your IP, Login Time, Username have been noted for auditing purposes.         #
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190612-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190612-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytv
+vmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190612-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190612-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.72 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.72 !!!
+#!/bin/bash
+
+cd /data/fdp/logs/defaultCircle
+
+sudo more meydvvmcis03_EDR_CISOnline1.csv > /home/MugazPetchimuthu/meydvvmcis03_EDR_CISOnline1.csv
+
+exit
+
+[MugazPetchimuthu@meydvvmcis03 ~]$ #!/bin/bash
+[MugazPetchimuthu@meydvvmcis03 ~]$ 
+[MugazPetchimuthu@meydvvmcis03 ~]$ cd /data/fdp/logs/defaultCircle
+[MugazPetchimuthu@meydvvmcis03 defaultCircle]$ 
+[MugazPetchimuthu@meydvvmcis03 defaultCircle]$ sudo more meydvvmcis03_EDR_CISOnl ine1.csv > /home/MugazPetchimuthu/meydvvmcis03_EDR_CISOnline1.csv
+[MugazPetchimuthu@meydvvmcis03 defaultCircle]$ 
+[MugazPetchimuthu@meydvvmcis03 defaultCircle]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.72 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.72 !!!
+Last login: Wed Jun 12 13:06:01 2019 from 10.160.130.18
+#!/bin/bash
+
+cd /data/fdp/logs/defaultCircle
+
+grep -l 971520001714 *2019-06-12_*|tail -1 > /home/MugazPetchimuthu/EDRfile.txt
+
+exit
+
+[MugazPetchimuthu@meydvvmcis03 ~]$ #!/bin/bash
+[MugazPetchimuthu@meydvvmcis03 ~]$ 
+[MugazPetchimuthu@meydvvmcis03 ~]$ cd /data/fdp/logs/defaultCircle
+[MugazPetchimuthu@meydvvmcis03 defaultCircle]$ 
+[MugazPetchimuthu@meydvvmcis03 defaultCircle]$ grep -l 971520001714 *2019-06-12_ *|tail -1 > /home/MugazPetchimuthu/EDRfile.txt
+grep: meydvvmcis03_southboundRequestsLogs-2019-06-12_00.0.csv.zip: Permission denied
+grep: meydvvmcis03_southboundRequestsLogs-2019-06-12_01.0.csv.zip: Permission denied
+grep: meydvvmcis03_southboundRequestsLogs-2019-06-12_02.0.csv.zip: Permission denied
+grep: meydvvmcis03_southboundRequestsLogs-2019-06-12_03.0.csv.zip: Permission denied
+grep: meydvvmcis03_southboundRequestsLogs-2019-06-12_09.0.csv.zip: Permission denied
+grep: meydvvmcis03_southboundRequestsLogs-2019-06-12_10.0.csv.z
+ip: Permission denied
+grep: meydvvmcis03_southboundRequestsLogs-2019-06-12_11.0.csv.zip: Permission denied
+grep: meydvvmcis03_southboundRequestsLogs-2019-06-12_12.0.csv.zip: Permission denied
+grep: requestLogs-2019-06-12_00.0.log.zip: Permission denied
+grep: requestLogs-2019-06-12_01.0.log.zip: Permission denied
+grep: requestLogs-2019-06-12_02.0.log.zip: Permission denied
+grep: requestLogs-2019-06-12_03.0.log.zip: Permission denied
+grep: requestLogs-2019-06-12_09.0.log.zip: Permission denied
+grep: requestLogs-2019-06-12_10.0.log.zip: Permission denied
+grep: requestLogs-2019-06-12_11.0.log.zip: Permission denied
+grep: requestLogs-2019-06-12_12.0.log.zip: Permission denied
+[MugazPetchimuthu@meydvvmcis03 defaultCircle]$ 
+[MugazPetchimuthu@meydvvmcis03 defaultCircle]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190612-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190612-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+# Your IP, Login Time, Username has been noted for auditing purposes.          #
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190612-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190612-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.72 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.72 !!!
+#!/bin/bash
+
+cd /data/fdp/logs/defaultCircle
+
+sudo more meydvvmcis03_EDR_CISOnline1.csv > /home/VenuReddyGaddam/meydvvmcis03_EDR_CISOnline1.csv
+
+exit
+
+[VenuReddyGaddam@meydvvmcis03 ~]$ #!/bin/bash
+[VenuReddyGaddam@meydvvmcis03 ~]$ 
+[VenuReddyGaddam@meydvvmcis03 ~]$ cd /data/fdp/logs/defaultCircle
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ 
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ sudo more meydvvmcis03_EDR_CISOnli ne1.csv > /home/VenuReddyGaddam/meydvvmcis03_EDR_CISOnline1.csv
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ 
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.72 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.72 !!!
+Last login: Wed Jun 12 13:13:20 2019 from 10.160.130.18
+#!/bin/bash
+
+cd /data/fdp/logs/defaultCircle
+
+grep -l 971520001714 *2019-06-12_*|tail -1 > /home/VenuReddyGaddam/EDRfile.txt
+
+exit
+
+[VenuReddyGaddam@meydvvmcis03 ~]$ #!/bin/bash
+[VenuReddyGaddam@meydvvmcis03 ~]$ 
+[VenuReddyGaddam@meydvvmcis03 ~]$ cd /data/fdp/logs/defaultCircle
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ 
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ grep -l 971520001714 *2019-06-12_* |tail -1 > /home/VenuReddyGaddam/EDRfile.txt
+grep: meydvvmcis03_southboundRequestsLogs-2019-06-12_00.0.csv.zip: Permission denied
+grep: meydvvmcis03_southboundRequestsLogs-2019-06-12_01.0.csv.zip: Permission denied
+grep: meydvvmcis03_southboundRequestsLogs-2019-06-12_02.0.csv.zip: Permission denied
+grep: meydvvmcis03_southboundRequestsLogs-2019-06-12_03.0.csv.zip: Permission denied
+grep: meydvvmcis03_southboundRequestsLogs-2019-06-12_09.0.csv.zip: Permission denied
+grep: meydvvmcis03_southboundRequestsLogs-2019-06-12_10.0.csv.zip: Per
+mission denied
+grep: meydvvmcis03_southboundRequestsLogs-2019-06-12_11.0.csv.zip: Permission denied
+grep: meydvvmcis03_southboundRequestsLogs-2019-06-12_12.0.csv.zip: Permission denied
+grep: requestLogs-2019-06-12_00.0.log.zip: Permission denied
+grep: requestLogs-2019-06-12_01.0.log.zip: Permission denied
+grep: requestLogs-2019-06-12_02.0.log.zip: Permission denied
+grep: requestLogs-2019-06-12_03.0.log.zip: Permission denied
+grep: requestLogs-2019-06-12_09.0.log.zip: Permission denied
+grep: requestLogs-2019-06-12_10.0.log.zip: Permission denied
+grep: requestLogs-2019-06-12_11.0.log.zip: Permission denied
+grep: requestLogs-2019-06-12_12.0.log.zip: Permission denied
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ 
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.72 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.72 !!!
+#!/bin/bash
+
+cd /data/fdp/logs/defaultCircle
+
+sudo more meydvvmcis03_EDR_CISOnline1.csv > /home/VenuReddyGaddam/meydvvmcis03_EDR_CISOnline1.csv
+
+exit
+
+[VenuReddyGaddam@meydvvmcis03 ~]$ #!/bin/bash
+[VenuReddyGaddam@meydvvmcis03 ~]$ 
+[VenuReddyGaddam@meydvvmcis03 ~]$ cd /data/fdp/logs/defaultCircle
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ 
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ sudo more meydvvmcis03_EDR_CISOnli ne1.csv > /home/VenuReddyGaddam/meydvvmcis03_EDR_CISOnline1.csv
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ 
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.72 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.72 !!!
+#!/bin/bash
+
+cd /data/fdp/logs/defaultCircle
+
+sudo more meydvvmcis03_EDR_CISOnline1.csv > /home/VenuReddyGaddam/meydvvmcis03_EDR_CISOnline1.csv
+
+exit
+
+[VenuReddyGaddam@meydvvmcis03 ~]$ #!/bin/bash
+[VenuReddyGaddam@meydvvmcis03 ~]$ 
+[VenuReddyGaddam@meydvvmcis03 ~]$ cd /data/fdp/logs/defaultCircle
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ 
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ sudo more meydvvmcis03_EDR_CISOnli ne1.csv > /home/VenuReddyGaddam/meydvvmcis03_EDR_CISOnline1.csv
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ 
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.72 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.72 !!!
+#!/bin/bash
+
+cd /data/fdp/logs/defaultCircle
+
+sudo more meydvvmcis03_EDR_CISOnline1.csv > /home/VenuReddyGaddam/meydvvmcis03_EDR_CISOnline1.csv
+
+exit
+
+[VenuReddyGaddam@meydvvmcis03 ~]$ #!/bin/bash
+[VenuReddyGaddam@meydvvmcis03 ~]$ 
+[VenuReddyGaddam@meydvvmcis03 ~]$ cd /data/fdp/logs/defaultCircle
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ 
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ sudo more meydvvmcis03_EDR_CISOnli ne1.csv > /home/VenuReddyGaddam/meydvvmcis03_EDR_CISOnline1.csv
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ 
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.72 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.72 !!!
+#!/bin/bash
+
+cd /data/fdp/logs/defaultCircle
+
+sudo more meydvvmcis03_EDR_CISOnline1.csv > /home/VenuReddyGaddam/meydvvmcis03_EDR_CISOnline1.csv
+
+exit
+
+[VenuReddyGaddam@meydvvmcis03 ~]$ #!/bin/bash
+[VenuReddyGaddam@meydvvmcis03 ~]$ 
+[VenuReddyGaddam@meydvvmcis03 ~]$ cd /data/fdp/logs/defaultCircle
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ 
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ sudo more meydvvmcis03_EDR_CISOnli ne1.csv > /home/VenuReddyGaddam/meydvvmcis03_EDR_CISOnline1.csv
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ 
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.72 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.72 !!!
+#!/bin/bash
+
+cd /data/fdp/logs/defaultCircle
+
+sudo more meydvvmcis03_EDR_CISOnline1.csv > /home/VenuReddyGaddam/meydvvmcis03_EDR_CISOnline1.csv
+
+exit
+
+[VenuReddyGaddam@meydvvmcis03 ~]$ #!/bin/bash
+[VenuReddyGaddam@meydvvmcis03 ~]$ 
+[VenuReddyGaddam@meydvvmcis03 ~]$ cd /data/fdp/logs/defaultCircle
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ 
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ sudo more meydvvmcis03_EDR_CISOnli ne1.csv > /home/VenuReddyGaddam/meydvvmcis03_EDR_CISOnline1.csv
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ 
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.72 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.72 !!!
+#!/bin/bash
+
+cd /data/fdp/logs/defaultCircle
+
+sudo more meydvvmcis03_EDR_CISOnline1.csv > /home/VenuReddyGaddam/meydvvmcis03_EDR_CISOnline1.csv
+
+exit
+
+[VenuReddyGaddam@meydvvmcis03 ~]$ #!/bin/bash
+[VenuReddyGaddam@meydvvmcis03 ~]$ 
+[VenuReddyGaddam@meydvvmcis03 ~]$ cd /data/fdp/logs/defaultCircle
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ 
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ sudo more meydvvmcis03_EDR_CISOnli ne1.csv > /home/VenuReddyGaddam/meydvvmcis03_EDR_CISOnline1.csv
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ 
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ exit
+logout
+
+Disconnected channel and session
