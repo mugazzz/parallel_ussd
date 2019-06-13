@@ -1517,7 +1517,7 @@ public class Asnconvertor {
 			
 			Random rand = new Random(); 
 			//Filepath ="D:\\DU Automation\\ASNConverter\\CDR\\CIS\\EDRfile.csv";
-			// MSISDN ="971520001714";
+			MSISDN ="971520001714";
 			String ClearData="Delete from public.EDR_CIS_DataSamp;";
 			//tableCreation(sql);
 			String loadCSV= "COPY public.EDR_CIS_DataSamp  (Transaction_Time  ,Client_Transaction_Id  ,Transaction_Id  ,IP_Address ," + 
