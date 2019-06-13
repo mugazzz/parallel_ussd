@@ -74,13 +74,15 @@ public class App{
    //-----Main Method-------------//
 	
 //	public static void main (String[] args) throws InterruptedException {
-//		Asnconvertor.nodeValidation("USSD_OPT_IN", "971520001714");
+//		//Asnconvertor.nodeValidation("USSD_OPT_IN", "971520001714");
+//		//Asnconvertor.Result("971520001714", "820", "USSD_OPT_IN", "Test_Case_ID", "curtcid", "Product_Name", "Test_Scenario_I", "Test_Case", "Confirmation", "Message", "Recharge_Coupon","", "", "", "", "", "", "ExecutionStarttime", "", "");
 //		//Asnconvertor.Result("971520001714", "820", "USSD_OPT_IN", "USSD_OPT_IN", "curtcid", "Product_Name", "Test_Scenario_I", "Test_Case", "Confirmation, Message", "", "", "", "", "", "", "");
 //	}
 	
 	@Test
 	public void Device_1(){
-		App k = new App("device1");
+		//App k = new App("device1");
+		Asnconvertor.Result("971520001714", "820", "USSD_OPT_IN", "Test_Case_ID", "curtcid", "Product_Name", "Test_Scenario_I", "Test_Case", "Confirmation", "Message", "Recharge_Coupon","", "", "", "", "", "", "ExecutionStarttime", "", "");
 		//Asnconvertor.nodeValidation("USSD_OPT_IN", "971520001714");
 	}
 	
