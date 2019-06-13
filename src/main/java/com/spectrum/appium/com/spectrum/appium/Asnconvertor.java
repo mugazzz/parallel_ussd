@@ -1019,6 +1019,7 @@ public class Asnconvertor {
 						}
 					}
 				}
+				copydir(cdrfiles, trfold+"\\"+curtcid+"\\CDRrawfiles");
 
 				}
 
@@ -1712,7 +1713,19 @@ public class Asnconvertor {
 
 		return finaldate;
 	}
+	public static void copydir(String Source, String Destination) {
+		
+		File srcDir = new File(Source);
 
+		
+		File destDir = new File(Destination);
+
+		try {
+		    FileUtils.copyDirectory(srcDir, destDir);
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+	} 
 	// End
 
 
