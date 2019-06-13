@@ -81,8 +81,8 @@ public class App{
 	
 	@Test
 	public void Device_1(){
-		//App k = new App("device1");
-		Asnconvertor.Result("971520001714", "820", "USSD_OPT_IN", "Test_Case_ID", "curtcid", "Product_Name", "Test_Scenario_I", "Test_Case", "Confirmation", "Message", "Recharge_Coupon","", "", "", "", "", "", "ExecutionStarttime", "", "");
+		App k = new App("device1");
+		//Asnconvertor.Result("971520001714", "820", "USSD_OPT_IN", "Test_Case_ID", "curtcid", "Product_Name", "Test_Scenario_I", "Test_Case", "Confirmation", "Message", "Recharge_Coupon","", "", "", "", "", "", "ExecutionStarttime", "", "");
 		//Asnconvertor.nodeValidation("USSD_OPT_IN", "971520001714");
 	}
 	
@@ -202,7 +202,7 @@ public class App{
 			
 					run.exec("adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+startussd);
 					dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-					Thread.sleep(1000);
+					Thread.sleep(2000);
 					By inputfield = By.id("com.android.phone:id/input_field");
 					if (elementExists(inputfield)) {
 						dr.get().findElement(By.id("com.android.phone:id/input_field"));

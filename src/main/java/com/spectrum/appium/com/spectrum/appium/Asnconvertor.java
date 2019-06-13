@@ -148,7 +148,7 @@ public class Asnconvertor {
 					String Node_Type = rs.getField("Node_To_Validate");
 				// ---------------------------------------------------------------------------------------
 				// ************** CIS Unix Interactions
-					if (Node_Type.contains("CIS") || Input.contains("ALL")) {
+					if (Node_Type.contains("CISOLD") || Input.contains("ALL")) {
 					System.out.println("Waiting for CIS System to Connect");
 					String querycis ="Select * from Credentials where Unix_System = 'CIS' ";
 					Recordset input = cons.executeQuery(querycis);
@@ -208,7 +208,7 @@ public class Asnconvertor {
 					}
 				}
 				//---------------------------------CIS NEW ----------------------------------
-					if (Node_Type.equalsIgnoreCase("CISn")) {
+					if (Node_Type.equalsIgnoreCase("CIS")) {
 						System.out.println("Waiting for CIS System to Connect");
 						String querycis ="Select * from Credentials where Unix_System = 'CIS' ";
 						Recordset input = cons.executeQuery(querycis);

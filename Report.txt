@@ -6501,3 +6501,105 @@ exit
 logout
 
 Disconnected channel and session
+Connecting SSH to 10.95.214.72 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.72 !!!
+Last login: Thu Jun 13 12:03:48 2019 from 10.160.130.18
+#!/bin/bash
+
+cd /data/fdp/logs/defaultCircle
+
+grep -l 971520001714 *2019-06-13_*|tail -1 > /home/VenuReddyGaddam/EDRfile.txt
+
+exit
+
+[VenuReddyGaddam@meydvvmcis03 ~]$ #!/bin/bash
+[VenuReddyGaddam@meydvvmcis03 ~]$ 
+[VenuReddyGaddam@meydvvmcis03 ~]$ cd /data/fdp/logs/defaultCircle
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ 
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ grep -l 971520001714 *2019-06-13_* |tail -1 > /home/VenuReddyGaddam/EDRfile.txt
+grep: meydvvmcis03_EDR_CISOnline1_2019-06-13_14.45_0.csv: Permission denied
+grep: meydvvmcis03_southboundRequestsLogs-2019-06-13_00.0.csv.zip: Permission denied
+grep: meydvvmcis03_southboundRequestsLogs-2019-06-13_01.0.csv.zip: Permission denied
+grep: meydvvmcis03_southboundRequestsLogs-2019-06-13_08.0.csv.zip: Permission denied
+grep: meydvvmcis03_southboundRequestsLogs-2019-06-13_09.0.csv.zip: Permission denied
+grep: meydvvmcis03_southboundRequestsLogs-2019-06-13_10.0.csv.zip: Permission d
+enied
+grep: meydvvmcis03_southboundRequestsLogs-2019-06-13_11.0.csv.zip: Permission denied
+grep: meydvvmcis03_southboundRequestsLogs-2019-06-13_12.0.csv.zip: Permission denied
+grep: meydvvmcis03_southboundRequestsLogs-2019-06-13_13.0.csv.zip: Permission denied
+grep: requestLogs-2019-06-13_00.0.log.zip: Permission denied
+grep: requestLogs-2019-06-13_01.0.log.zip: Permission denied
+grep: requestLogs-2019-06-13_08.0.log.zip: Permission denied
+grep: requestLogs-2019-06-13_09.0.log.zip: Permission denied
+grep: requestLogs-2019-06-13_10.0.log.zip: Permission denied
+grep: requestLogs-2019-06-13_11.0.log.zip: Permission denied
+grep: requestLogs-2019-06-13_12.0.log.zip: Permission denied
+grep: requestLogs-2019-06-13_13.0.log.zip: Permission denied
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ 
+[VenuReddyGaddam@meydvvmcis03 defaultCircle]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.9 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.9 !!!
+Last login: Thu Jun 13 14:35:47 2019 from 10.44.74.17
+#!/bin/bash
+
+cd /data/edr_enrichment/sftpcompleted
+
+grep -l 971520001714 *2019-06-13_*|tail -1 > /home/atos/EDRfile.txt
+
+exit
+
+[atos@meydvvmedr02 ~]$ #!/bin/bash
+[atos@meydvvmedr02 ~]$ 
+[atos@meydvvmedr02 ~]$ cd /data/edr_enrichment/sftpcompleted
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ grep -l 971520001714 *2019-06-13_*|tail -1 >  /home/atos/EDRfile.txt
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.9 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.9 !!!
+Last login: Thu Jun 13 14:51:29 2019 from 10.160.130.18
+#!/bin/bash
+
+cd /data/edr_enrichment/sftpcompleted
+
+grep -l 971520001714 *2019-06-13_*|tail -1 > /home/atos/EDRfile.txt
+
+exit
+
+[atos@meydvvmedr02 ~]$ #!/bin/bash
+[atos@meydvvmedr02 ~]$ 
+[atos@meydvvmedr02 ~]$ cd /data/edr_enrichment/sftpcompleted
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ grep -l 971520001714 *2019-06-13_*|tail -1 >  /home/atos/EDRfile.txt
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.9 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.9 !!!
+Last login: Thu Jun 13 14:58:39 2019 from 10.160.130.18
+#!/bin/bash
+
+cd /data/edr_enrichment/sftpcompleted
+
+grep -l 971520001714 *2019-06-13_*|tail -1 > /home/atos/EDRfile.txt
+
+exit
+
+[atos@meydvvmedr02 ~]$ #!/bin/bash
+[atos@meydvvmedr02 ~]$ 
+[atos@meydvvmedr02 ~]$ cd /data/edr_enrichment/sftpcompleted
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ grep -l 971520001714 *2019-06-13_*|tail -1 >  /home/atos/EDRfile.txt
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ exit
+logout
+
+Disconnected channel and session
