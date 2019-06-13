@@ -199,7 +199,7 @@ public class App{
 			
 					run.exec("adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+startussd);
 					dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-					Thread.sleep(1000);
+					Thread.sleep(3000);
 					By inputfield = By.id("com.android.phone:id/input_field");
 					if (elementExists(inputfield)) {
 						dr.get().findElement(By.id("com.android.phone:id/input_field"));
