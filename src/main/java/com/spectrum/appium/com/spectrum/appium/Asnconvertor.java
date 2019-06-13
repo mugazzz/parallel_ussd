@@ -810,7 +810,7 @@ public class Asnconvertor {
 					if (directoryListing != null) {
 						for (File child : directoryListing) {
 							filename = child.getAbsoluteFile().getName();
-							if(!filetype.equalsIgnoreCase("CIS")) {
+							if(!filetype.contains("CIS")) {
 														
 							startTestCase("Parsing File " + filename);
 							String schemaname = "";
