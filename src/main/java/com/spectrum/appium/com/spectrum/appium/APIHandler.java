@@ -62,10 +62,11 @@ public class APIHandler {
 		
 		try {
 			createtimestampfold();
-			DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyyMMdd'T'HH:mm:ss+SSSS");
+			DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyyMMdd'T'HH:mm:ss");
 			DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSS");
 			LocalDateTime now = LocalDateTime.now();
-			String originTimeStamp = dtf1.format(now).toString();
+			String originTimeStamp1 = dtf1.format(now).toString();
+			String originTimeStamp = originTimeStamp1+"+0000";
 //			SimpleDateFormat formatter6=new SimpleDateFormat("yyyyMMdd'T'HH:mm:ss+SSSS"); 
 //			LocalDateTime originTimeStamp1 = formatter6.parse(originTimeStamp);
 			String originTransactionID = dtf2.format(now).toString();
@@ -149,7 +150,7 @@ public class APIHandler {
 										.when() // .contentType("text/xml; charset=utf-8")
 										.post(cellval5).then().extract().response();
 							respf = new File(Root + "\\API\\Response\\" + cellval1 + ".xml");
-							respf = new File(Root + "\\API\\Response\\" + cellval1 + ".json");
+							//respf = new File(Root + "\\API\\Response\\" + cellval1 + ".json");
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -263,7 +264,7 @@ public class APIHandler {
 									"Authorization", "Basic " + encoding)
 									.when() // .contentType("text/xml; charset=utf-8")
 									.post(suspendendpoint).then().extract().response();
-						respf = new File(Root + "\\APIResponse\\"+tempname+"Suspend.xml");
+						respf = new File(Root + "\\API\\Response\\"+tempname+"Suspend.xml");
 						if (response != null) {
 							info("Response Code  :" + response.getStatusCode());
 							info("Response Header  :" + response.getHeaders().toString());
@@ -320,7 +321,7 @@ public class APIHandler {
 			// String jsonSrouce =resp.toString();
 			// JsonSlurper jsonParser = new JsonSlurper();
 
-			Recordset rs = conn.executeQuery("Select * from API where TestCase_ID = '" + TC + "'");
+			Recordset rs = conn.executeQuery("Select * from API2 where TestCase_ID = '" + TC + "'");
 			String status = "Pass";
 			String retval = "<Table><tr><td>Parameter</td><td>Expected Value</td><td>Actual Value</td></tr>";
 			while (rs.next()) {
@@ -377,7 +378,7 @@ public class APIHandler {
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(inputFile);
 			doc.getDocumentElement().normalize();
-			Recordset rs = conn.executeQuery("Select * from API where TestCase_ID = '" + TC + "'");
+			Recordset rs = conn.executeQuery("Select * from API2 where TestCase_ID = '" + TC + "'");
 			String status = "Pass";
 
 			String retval = "<Table><tr><td>Parameter</td><td>Expected Value</td><td>Actual Value</td></tr>";
@@ -601,7 +602,7 @@ public class APIHandler {
 						String[] paramsplit2 = parmsplt[1].split("\\]");
 						inde = Integer.parseInt(paramsplit2[0]);
 					}
-					File respf = new File(Root + "\\APIResponse\\" + TCID + ".xml");
+					File respf = new File(Root + "\\API\\Response\\" + TCID + ".xml");
 					// DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 					// DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 					// dbFactory.setNamespaceAware(true);

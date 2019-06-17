@@ -1684,8 +1684,6 @@ public class Asnconvertor {
 
 		}
 
-
-
 	} catch (SAXParseException err) {
 		System.out.println("** Parsing error" + ", line " + err.getLineNumber() + ", uri " + err.getSystemId());
 		System.out.println(" " + err.getMessage());
