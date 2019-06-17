@@ -1,0 +1,22 @@
+16-06-2019 15:30:11 INFO [APIHandler]: Starting execution at +:16-Jun-2019 15:30:11
+16-06-2019 15:30:12 INFO [APIHandler]: ****************************************************************************************
+16-06-2019 15:30:12 INFO [APIHandler]: ****************************************************************************************
+16-06-2019 15:30:12 INFO [APIHandler]: $$$$$$$$$$$$$$$$$$$$$ TC_003 $$$$$$$$$$$$$$$$$$$$$$$$$
+16-06-2019 15:30:12 INFO [APIHandler]: ****************************************************************************************
+16-06-2019 15:30:12 INFO [APIHandler]: ****************************************************************************************
+16-06-2019 15:30:12 INFO [APIHandler]: Firing Request: GetAccountDetails
+16-06-2019 15:30:12 INFO [APIHandler]: originNodeType : EXT
+16-06-2019 15:30:12 INFO [APIHandler]: originHostName : meydvvmnmt02menalabcorplocal
+16-06-2019 15:30:12 INFO [APIHandler]: subscriberNumberNAI : 1
+16-06-2019 15:30:12 INFO [APIHandler]: negotiatedCapabilities : 268763332
+16-06-2019 15:30:12 INFO [APIHandler]: request Fired:<?xml version="1.0" encoding="iso-8859-1"?><methodCall>    <methodName>GetAccountDetails</methodName>    <params>        <param>            <value>                <struct>                    <member>                        <name>originNodeType</name>                        <value>                            <string>EXT</string>                        </value>                    </member>                    <member>                        <name>originHostName</name>                        <value>                            <string>meydvvmnmt02menalabcorplocal</string>                        </value>                    </member>                    <member>                        <name>originTransactionID</name>                        <value>                            <string>2019061615301136</string>                        </value>                    </member>                    <member>                        <name>originTimeStamp</name>                        <value>                            <dateTime.iso8601>20190616T15:30:11+3660</dateTime.iso8601>                        </value>                    </member>                    <member>                        <name>subscriberNumberNAI</name>                        <value>                            <int>1</int>                        </value>                    </member>                    <member>                        <name>negotiatedCapabilities</name>                        <value>                            <array>                                <data>                                    <value>                                        <int>268763332</int>                                    </value>                                </data>                            </array>                        </value>                    </member>                    <member>                        <name>subscriberNumber</name>                        <value>                            <string>971520001714</string>                        </value>                    </member>                </struct>            </value>        </param>    </params></methodCall>
+16-06-2019 15:30:16 INFO [APIHandler]: Response Code  :200
+16-06-2019 15:30:16 INFO [APIHandler]: Response Header  :Date=Sun, 16 Jun 2019 11:30:16 GMT
+X-Powered-By=Ericsson
+Server=meytvvmair01.menalab.corp.local
+Set-Cookie=JSESSIONID=1936ul6dcmikg1mzsbyw7e8nsp;Path=/
+Expires=Thu, 01 Jan 1970 00:00:00 GMT
+Content-Type=text/xml
+Content-Length=281
+16-06-2019 15:30:16 INFO [APIHandler]: Response   :<?xml version="1.0" encoding="ISO-8859-1"?><methodResponse><fault><value><struct><member><name>faultCode</name><value><i4>1003</i4></value></member><member><name>faultString</name><value><string>Data out of bounds</string></value></member></struct></value></fault></methodResponse>
+16-06-2019 15:30:17 INFO [APIHandler]: XXXXXXXXXXXXXXXXXXXXXXX             -E---N---D-             XXXXXXXXXXXXXXXXXXXXXX

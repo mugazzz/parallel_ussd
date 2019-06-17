@@ -1,0 +1,12 @@
+16-06-2019 18:50:52 INFO [APIHandler]: Starting execution at +:16-Jun-2019 18:50:52
+16-06-2019 18:50:56 INFO [APIHandler]: ****************************************************************************************
+16-06-2019 18:50:57 INFO [APIHandler]: ****************************************************************************************
+16-06-2019 18:50:57 INFO [APIHandler]: $$$$$$$$$$$$$$$$$$$$$ TC_003 $$$$$$$$$$$$$$$$$$$$$$$$$
+16-06-2019 18:50:57 INFO [APIHandler]: ****************************************************************************************
+16-06-2019 18:50:57 INFO [APIHandler]: ****************************************************************************************
+16-06-2019 18:50:57 INFO [APIHandler]: Firing Request: GetAccountDetails
+16-06-2019 18:50:57 INFO [APIHandler]: originNodeType : EXT
+16-06-2019 18:50:57 INFO [APIHandler]: originHostName : meydvvmnmt02menalabcorplocal
+16-06-2019 18:50:57 INFO [APIHandler]: subscriberNumberNAI : 1
+16-06-2019 18:50:57 INFO [APIHandler]: negotiatedCapabilities : 268763332
+16-06-2019 18:50:57 INFO [APIHandler]: request Fired:<?xml version="1.0" encoding="iso-8859-1"?><methodCall><methodName>GetAccountDetails</methodName><params> <param>  <value>   <struct>    <member>     <name>originNodeType</name>     <value>      <string>EXT</string>     </value>    </member>    <member>     <name>originHostName</name>     <value>      <string>meydvvmnmt02menalabcorplocal</string>     </value>    </member>    <member>     <name>originTransactionID</name>     <value>      <string>2019061618505239</string>     </value>    </member>    <member>     <name>originTimeStamp</name>     <value>      <dateTime.iso8601>20190616T18:50:52+3935</dateTime.iso8601>     </value>    </member>    <member>     <name>subscriberNumberNAI</name>     <value>      <int>1</int>     </value>    </member>    <member>     <name>negotiatedCapabilities</name>     <value>      <array>       <data>        <value>         <int>268763332</int>        </value>       </data>      </array>     </value>    </member>    <member>     <name>subscriberNumber</name>     <value>      <string>971520001714</string>     </value>    </member>   </struct>  </value> </param></params></methodCall>
