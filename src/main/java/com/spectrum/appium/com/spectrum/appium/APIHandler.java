@@ -58,10 +58,9 @@ public class APIHandler {
 	public static String suspendendpoint = "";
 	public static String tc = "";
 	
-	public static void API() {
+	public static void API(String curtcid, String trfold, String State) {
 		
 		try {
-			createtimestampfold();
 			DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyyMMdd'T'HH:mm:ss");
 			DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSS");
 			LocalDateTime now = LocalDateTime.now();
@@ -141,7 +140,7 @@ public class APIHandler {
 					String userPassword ="techmqatar:techmqatar";
 					System.out.println(userPassword);
 					// String userPassword = "TechMahindra:TechMahindra";
-					String encoding = new sun.misc.BASE64Encoder().encode(userPassword.getBytes());
+					//String encoding = new sun.misc.BASE64Encoder().encode(userPassword.getBytes());
 					// String encoding = "dGVjaG1xYXRhcjp0ZWNobXFhdGFy";
 					try {
 								response = (Response) RestAssured.given().request().body(req)
@@ -159,7 +158,7 @@ public class APIHandler {
 						info("Response Header  :" + response.getHeaders().toString());
 						info("Response   :" + response.asString());
 						writeresponse(respf, response.asString());
-						fCreateReportFiles(Des, respf, cellval2, cellval1);
+						fCreateReportFiles(Des, respf, cellval2, curtcid, trfold, State);
 						// System.out.println(response.asString());
 						String respheader = "";
 						for (int i = 0; i < response.getHeaders().asList().size(); i++) {
@@ -182,8 +181,6 @@ public class APIHandler {
 
 					}
 				
-				suspendservice();
-				
 			}
 			rs.close();
 			conn.close();
@@ -192,96 +189,6 @@ public class APIHandler {
 			error(e.getMessage());
 		}
 
-	}
-	
-	
-	public static void suspendservice() throws IOException
-	{
-		 Iterator it = tagmap.entrySet().iterator();
-		    while (it.hasNext()) {
-		    	
-		        String replaceval = "";
-		        Map.Entry pair = (Map.Entry)it.next();
-		        System.out.println(pair.getKey() + " = " + pair.getValue());
-		        String tempname = pair.getKey().toString();
-		        String dstring = pair.getValue().toString();
-		        String[] splitstr = dstring.split(",");
-		        String status = "";
-		        
-		        for(int i=0;i<splitstr.length;i++)
-		        {
-		        	String[] secsplit = splitstr[i].split("_");
-		        	if(secsplit[0].equals("state"))
-		        	{
-		        		status = secsplit[1]; 
-		        	}
-		        }
-		        int coval =1;
-		        File Source = null;
-    			File Des = null;
-    			if(status.equals("SUSPENDED"))
-    			{
-		        for(int i=0;i<splitstr.length;i++)
-		        {
-		        	String[] secsplit = splitstr[i].split("_");
-		        	
-		        	
-		        		
-	        			Source = new File(Root + "\\Data\\TemplateRequest\\SOAP\\Suspend.xml");
-	        			Des = new File(Root + "\\APIRequest\\"+tempname+"_Suspend.xml");
-		        		if(coval==1)
-		        		{
-		        			GenerateResponse(Source, Des);
-		        		}	
-		        		findandreplace(Des, "${Data_Object_Name}$", objectname);
-				        findandreplace(Des, "${Template_Name}$", tempname);
-		        		if(!secsplit[0].equals("state"))
-		        		{
-		        			findandreplace(Des, "${suspend_name"+coval+"}$", secsplit[0]);
-		        			findandreplace(Des, "${suspend_value"+coval+"}$", secsplit[1]);
-		        			coval= coval+1;
-		        		}
-		        	}	
-						File file = Des;
-						FileReader fr = new FileReader(file);
-						br = new BufferedReader(fr);
-						String line;
-						String req = "";
-						while ((line = br.readLine()) != null) {
-							req = req + line;
-						}
-						//System.out.println(req);
-						info("request Fired:" + req);
-						Response response = null;
-						File respf = null;
-						String userPassword = "techmqatar:techmqatar";
-						System.out.println(userPassword);
-						// String userPassword = "TechMahindra:TechMahindra";
-						String encoding = new sun.misc.BASE64Encoder().encode(userPassword.getBytes());
-						// String encoding = "dGVjaG1xYXRhcjp0ZWNobXFhdGFy";
-						response = (Response) RestAssured.given().request().body(req)
-									.headers("SOAPAction","", "Content-Type", " text/xml;charset=UTF-8",
-									"Authorization", "Basic " + encoding)
-									.when() // .contentType("text/xml; charset=utf-8")
-									.post(suspendendpoint).then().extract().response();
-						respf = new File(Root + "\\API\\Response\\"+tempname+"Suspend.xml");
-						if (response != null) {
-							info("Response Code  :" + response.getStatusCode());
-							info("Response Header  :" + response.getHeaders().toString());
-							info("Response   :" + response.asString());
-							writeresponse(respf, response.asString());
-							operation = tempname+"_Suspend";
-							fCreateReportFiles(Des, respf, "SOAP", tc);
-							// System.out.println(response.asString());
-							String respheader = "";
-							 
-		        	}
-		        }
-		        
-		        
-		           
-		    }
-		
 	}
 
 	public static String gettagvalue(File resp, String tag, int index) {
@@ -656,40 +563,31 @@ public class APIHandler {
 		}
 	}
 
-	public static void fCreateReportFiles(File request, File response, String RequestType, String TC) {
-		File ResultRequest = null, ResultResponse = null;
+	public static void fCreateReportFiles(File request, File response, String RequestType, String curtcid, String trfold, String State) {
+		//File ResultRequest = null, ResultResponse = null;
 		try {
-			File ReqTypFold = new File(resfold + "/" + timefold + "/" + RequestType + "/");
+			File ReqTypFold = new File(trfold + "/" + curtcid); 
 			if ((!ReqTypFold.exists()))
 				ReqTypFold.mkdir();
+			System.out.println("Actual Path given: "+ReqTypFold);
+			File ReqTypFold1 = new File(ReqTypFold + "/"+ RequestType); 
+			if ((!ReqTypFold1.exists()))
+				ReqTypFold1.mkdir();
+			System.out.println("Actual Path given: "+ReqTypFold1 );
+			File ReqTypFold2 = new File(ReqTypFold1 +"/"+State); 
+			if ((!ReqTypFold2.exists()))
+				ReqTypFold2.mkdir();
+			System.out.println("Actual Path given: "+ReqTypFold2 );
 
-			File TCFold = new File(ReqTypFold + "/" + TC);
-			if ((!TCFold.exists()))
-				TCFold.mkdir();
-
-			File TCReqFold = new File(TCFold + "/Request");
+			File TCReqFold = new File(ReqTypFold2+"/Request");
 			if ((!TCReqFold.exists()))
 				TCReqFold.mkdir();
-
-			File TCResFold = new File(TCFold + "/Response");
+			System.out.println("Actual Path given: "+TCReqFold );
+			File TCResFold = new File(ReqTypFold2+"/Response");
 			if ((!TCResFold.exists()))
 				TCResFold.mkdir();
-			File TCEOCFold = new File(TCFold + "/EOCXML");
-			if ((!TCEOCFold.exists()))
-				// TCEOCFold.mkdir();
-
-				if (RequestType.equalsIgnoreCase("SOAP")) {
-					ResultRequest = new File(TCReqFold + "/" + TC + "_" + operation + ".xml");
-					ResultResponse = new File(TCResFold + "/" + TC + "_" + operation + ".xml");
-				} else {
-					ResultRequest = new File(TCReqFold + "/" + TC + ".json");
-					ResultResponse = new File(TCResFold + "/" + TC + ".json");
-				}
-			// File exreport = new File(resfold + "/" + timefold + "/Report.xlsx");
-			// File srcexreport = new File(Root + "\\Data\\Report.xlsx");
-			// if ((!exreport.exists())) {
-			// Files.copy(srcexreport, exreport);
-			// }
+					File ResultRequest = new File(TCReqFold +"/"+"request.xml");
+					File ResultResponse = new File(TCResFold +"/"+"response.xml");
 			GenerateResponse(request, ResultRequest);
 			GenerateResponse(response, ResultResponse);
 

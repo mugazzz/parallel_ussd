@@ -39,8 +39,6 @@ import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 
-
-
 public class App{
 	@SuppressWarnings("rawtypes")
 	public ThreadLocal<AndroidDriver> dr = new ThreadLocal<AndroidDriver>();
@@ -83,8 +81,8 @@ public class App{
 	
 	@Test
 	public void Device_1(){
-		//App k = new App("device1");
-		APIHandler.API();
+		App k = new App("device1");
+		//APIHandler.API(curtcid, trfold, "Before");
 		//Asnconvertor.Result("971520001714", "820", "USSD_OPT_IN", "Test_Case_ID", "curtcid", "Product_Name", "Test_Scenario_I", "Test_Case", "Confirmation", "Message", "Recharge_Coupon","", "", "", "", "", "", "ExecutionStarttime", "", "");
 		//Asnconvertor.nodeValidation("USSD_OPT_IN", "971520001714");
 	}
@@ -199,7 +197,7 @@ public class App{
 				//ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Product_ID")+"--"+inputs.getField("Test_Scenario")+"-"+inputs.getField("Test_Case"));
 				
 	//-------------Start Appium server using terminal----------------//
-
+				APIHandler.API(curtcid, trfold, "Before_Execution");
 				dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 				Runtime run = Runtime.getRuntime();
 			
@@ -304,9 +302,10 @@ public class App{
 					takeScreenShot("SMS not received");
 				}
 				String result = dr.get().stopRecordingScreen();
+				APIHandler.API(curtcid, trfold, "After_Execution");
 				
 		//-------------------------- CDR Conversion -------------------------------------------//
-				
+				//APIHandler.API(curtcid, trfold, "After");
 				Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
 				
 		//-------------------------- Report ----------------------------------------------//
@@ -834,7 +833,6 @@ public class App{
 			resfold = new File(Result_FLD + "/" + dateFormat.format(cal.getTime()) + "/");
 			if ((!resfold.exists()))
 				resfold.mkdir();
-
 			timefold = ExecutionStarttime.replace(":", "-").replace(" ", "_");
 			File tresfold = new File(resfold + "/" + timefold + "/");
 			if ((!tresfold.exists()))
