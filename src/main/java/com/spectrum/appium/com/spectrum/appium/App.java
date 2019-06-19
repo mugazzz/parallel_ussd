@@ -3,6 +3,7 @@ package com.spectrum.appium.com.spectrum.appium;
 import java.io.File;
 import com.spectrum.appium.com.spectrum.appium.Asnconvertor;
 import com.spectrum.appium.com.spectrum.appium.APIHandler;
+import com.spectrum.appium.com.spectrum.appium.Apitest;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -80,7 +81,8 @@ public class App{
 //	}
 	
 	@Test
-	public void Device_1(){
+	public void Device_1() throws Throwable{
+		//Apitest.WebService();
 		App k = new App("device1");
 		//APIHandler.API(curtcid, trfold, "Before");
 		//Asnconvertor.Result("971520001714", "820", "USSD_OPT_IN", "Test_Case_ID", "curtcid", "Product_Name", "Test_Scenario_I", "Test_Case", "Confirmation", "Message", "Recharge_Coupon","", "", "", "", "", "", "ExecutionStarttime", "", "");
