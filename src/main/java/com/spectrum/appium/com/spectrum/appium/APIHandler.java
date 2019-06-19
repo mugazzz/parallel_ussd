@@ -141,7 +141,7 @@ public class APIHandler {
 					String userPassword ="techmqatar:techmqatar";
 					System.out.println(userPassword);
 					// String userPassword = "TechMahindra:TechMahindra";
-					String encoding = new sun.misc.BASE64Encoder().encode(userPassword.getBytes());
+					//String encoding = new sun.misc.BASE64Encoder().encode(userPassword.getBytes());
 					// String encoding = "dGVjaG1xYXRhcjp0ZWNobXFhdGFy";
 					try {
 								response = (Response) RestAssured.given().request().body(req)
@@ -182,8 +182,6 @@ public class APIHandler {
 
 					}
 				
-				suspendservice();
-				
 			}
 			rs.close();
 			conn.close();
@@ -194,95 +192,6 @@ public class APIHandler {
 
 	}
 	
-	
-	public static void suspendservice() throws IOException
-	{
-		 Iterator it = tagmap.entrySet().iterator();
-		    while (it.hasNext()) {
-		    	
-		        String replaceval = "";
-		        Map.Entry pair = (Map.Entry)it.next();
-		        System.out.println(pair.getKey() + " = " + pair.getValue());
-		        String tempname = pair.getKey().toString();
-		        String dstring = pair.getValue().toString();
-		        String[] splitstr = dstring.split(",");
-		        String status = "";
-		        
-		        for(int i=0;i<splitstr.length;i++)
-		        {
-		        	String[] secsplit = splitstr[i].split("_");
-		        	if(secsplit[0].equals("state"))
-		        	{
-		        		status = secsplit[1]; 
-		        	}
-		        }
-		        int coval =1;
-		        File Source = null;
-    			File Des = null;
-    			if(status.equals("SUSPENDED"))
-    			{
-		        for(int i=0;i<splitstr.length;i++)
-		        {
-		        	String[] secsplit = splitstr[i].split("_");
-		        	
-		        	
-		        		
-	        			Source = new File(Root + "\\Data\\TemplateRequest\\SOAP\\Suspend.xml");
-	        			Des = new File(Root + "\\APIRequest\\"+tempname+"_Suspend.xml");
-		        		if(coval==1)
-		        		{
-		        			GenerateResponse(Source, Des);
-		        		}	
-		        		findandreplace(Des, "${Data_Object_Name}$", objectname);
-				        findandreplace(Des, "${Template_Name}$", tempname);
-		        		if(!secsplit[0].equals("state"))
-		        		{
-		        			findandreplace(Des, "${suspend_name"+coval+"}$", secsplit[0]);
-		        			findandreplace(Des, "${suspend_value"+coval+"}$", secsplit[1]);
-		        			coval= coval+1;
-		        		}
-		        	}	
-						File file = Des;
-						FileReader fr = new FileReader(file);
-						br = new BufferedReader(fr);
-						String line;
-						String req = "";
-						while ((line = br.readLine()) != null) {
-							req = req + line;
-						}
-						//System.out.println(req);
-						info("request Fired:" + req);
-						Response response = null;
-						File respf = null;
-						String userPassword = "techmqatar:techmqatar";
-						System.out.println(userPassword);
-						// String userPassword = "TechMahindra:TechMahindra";
-						String encoding = new sun.misc.BASE64Encoder().encode(userPassword.getBytes());
-						// String encoding = "dGVjaG1xYXRhcjp0ZWNobXFhdGFy";
-						response = (Response) RestAssured.given().request().body(req)
-									.headers("SOAPAction","", "Content-Type", " text/xml;charset=UTF-8",
-									"Authorization", "Basic " + encoding)
-									.when() // .contentType("text/xml; charset=utf-8")
-									.post(suspendendpoint).then().extract().response();
-						respf = new File(Root + "\\API\\Response\\"+tempname+"Suspend.xml");
-						if (response != null) {
-							info("Response Code  :" + response.getStatusCode());
-							info("Response Header  :" + response.getHeaders().toString());
-							info("Response   :" + response.asString());
-							writeresponse(respf, response.asString());
-							operation = tempname+"_Suspend";
-							//fCreateReportFiles(Des, respf, "SOAP", curtcid,trfold);
-							// System.out.println(response.asString());
-							String respheader = "";
-							 
-		        	}
-		        }
-		        
-		        
-		           
-		    }
-		
-	}
 
 	public static String gettagvalue(File resp, String tag, int index) {
 		try {
