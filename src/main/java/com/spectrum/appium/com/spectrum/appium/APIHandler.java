@@ -570,7 +570,7 @@ public class APIHandler {
 			if ((!ReqTypFold.exists()))
 				ReqTypFold.mkdir();
 			System.out.println("Actual Path given: "+ReqTypFold);
-			File ReqTypFold1 = new File(ReqTypFold + "/"+ RequestType); 
+			File ReqTypFold1 = new File(ReqTypFold + "/"+ "CS_API_VALIDATION"); 
 			if ((!ReqTypFold1.exists()))
 				ReqTypFold1.mkdir();
 			System.out.println("Actual Path given: "+ReqTypFold1 );
