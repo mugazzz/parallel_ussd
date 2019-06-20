@@ -1,0 +1,43 @@
+20-06-2019 18:24:14 INFO [APIHandler]: Starting execution at +:20-Jun-2019 18:24:14
+20-06-2019 18:24:15 INFO [APIHandler]: ****************************************************************************************
+20-06-2019 18:24:15 INFO [APIHandler]: ****************************************************************************************
+20-06-2019 18:24:15 INFO [APIHandler]: $$$$$$$$$$$$$$$$$$$$$ TC_003 $$$$$$$$$$$$$$$$$$$$$$$$$
+20-06-2019 18:24:15 INFO [APIHandler]: ****************************************************************************************
+20-06-2019 18:24:15 INFO [APIHandler]: ****************************************************************************************
+20-06-2019 18:24:15 INFO [APIHandler]: Firing Request: GetAccountDetails
+20-06-2019 18:24:15 INFO [APIHandler]: ****************************************************************************************
+20-06-2019 18:24:15 INFO [APIHandler]: ****************************************************************************************
+20-06-2019 18:24:15 INFO [APIHandler]: $$$$$$$$$$$$$$$$$$$$$ TC_003 $$$$$$$$$$$$$$$$$$$$$$$$$
+20-06-2019 18:24:15 INFO [APIHandler]: ****************************************************************************************
+20-06-2019 18:24:15 INFO [APIHandler]: ****************************************************************************************
+20-06-2019 18:24:15 INFO [APIHandler]: Firing Request: GetAccountDetails
+20-06-2019 18:24:15 INFO [APIHandler]: originNodeType : EXT
+20-06-2019 18:24:15 INFO [APIHandler]: originNodeType : EXT
+20-06-2019 18:24:15 INFO [APIHandler]: originHostName : meydvvmnmt02menalabcorplocal
+20-06-2019 18:24:15 INFO [APIHandler]: subscriberNumberNAI : 1
+20-06-2019 18:24:15 INFO [APIHandler]: negotiatedCapabilities : 268763332
+20-06-2019 18:24:15 INFO [APIHandler]: request Fired:
+20-06-2019 18:24:15 INFO [APIHandler]: originHostName : meydvvmnmt02menalabcorplocal
+20-06-2019 18:24:15 INFO [APIHandler]: subscriberNumberNAI : 1
+20-06-2019 18:24:15 INFO [APIHandler]: negotiatedCapabilities : 268763332
+20-06-2019 18:24:15 INFO [APIHandler]: request Fired:
+20-06-2019 18:24:18 INFO [APIHandler]: Response Code  :200
+20-06-2019 18:24:18 INFO [APIHandler]: Response Header  :Date=Thu, 20 Jun 2019 14:24:23 GMT
+X-Powered-By=Ericsson
+Server=meytvvmair01.menalab.corp.local
+Set-Cookie=JSESSIONID=g7zsukft3u5t196ms0ts53hkq;Path=/
+Expires=Thu, 01 Jan 1970 00:00:00 GMT
+Content-Type=text/xml
+Content-Length=286
+20-06-2019 18:24:18 INFO [APIHandler]: Response Code  :200
+20-06-2019 18:24:18 INFO [APIHandler]: Response Header  :Date=Thu, 20 Jun 2019 14:24:23 GMT
+X-Powered-By=Ericsson
+Server=meytvvmair01.menalab.corp.local
+Set-Cookie=JSESSIONID=1mv0egdk5bje5mwysjjtutn69;Path=/
+Expires=Thu, 01 Jan 1970 00:00:00 GMT
+Content-Type=text/xml
+Content-Length=286
+20-06-2019 18:24:18 INFO [APIHandler]: Response   :<?xml version="1.0" encoding="ISO-8859-1"?><methodResponse><fault><value><struct><member><name>faultCode</name><value><i4>1000</i4></value></member><member><name>faultString</name><value><string>Illegal request message</string></value></member></struct></value></fault></methodResponse>
+20-06-2019 18:24:18 INFO [APIHandler]: Response   :<?xml version="1.0" encoding="ISO-8859-1"?><methodResponse><fault><value><struct><member><name>faultCode</name><value><i4>1000</i4></value></member><member><name>faultString</name><value><string>Illegal request message</string></value></member></struct></value></fault></methodResponse>
+20-06-2019 18:24:19 INFO [APIHandler]: XXXXXXXXXXXXXXXXXXXXXXX             -E---N---D-             XXXXXXXXXXXXXXXXXXXXXX
+20-06-2019 18:24:19 INFO [APIHandler]: XXXXXXXXXXXXXXXXXXXXXXX             -E---N---D-             XXXXXXXXXXXXXXXXXXXXXX
