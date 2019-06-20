@@ -196,7 +196,11 @@ public class App{
 				
 	//-------------Start Appium server using terminal----------------//
 				APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
-				dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
+				try{
+					dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
+				}catch (Exception e) {
+					System.out.println("--------++++++---------");
+				}
 				Runtime run = Runtime.getRuntime();
 			
 					run.exec("adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+startussd);
@@ -749,7 +753,12 @@ public class App{
 			Runtime run = Runtime.getRuntime();
 			run.exec("adb shell svc data enable");
 			Thread.sleep(2000);
-			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
+			try{
+				dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
+			}catch (Exception e) {
+				//e.printStackTrace();
+				 System.out.println("--------++++++---------");
+			 }
 			takeScreenShot("Data Truned On: " + timefold);
 			Thread.sleep(3000);
 			dr.get().findElement(By.id("com.google.android.youtube:id/thumbnail")).click();
@@ -761,7 +770,12 @@ public class App{
 		}
 		else if (Test_Case.equals("DATA_SOCIAL")){
 			APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
-			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
+			try{
+				dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
+			}catch (Exception e) {
+				//e.printStackTrace();
+				 System.out.println("--------++++++---------");
+			 }
 			Runtime run = Runtime.getRuntime();
 			run.exec("adb shell svc data enable");
 			Thread.sleep(2000);
@@ -776,12 +790,12 @@ public class App{
 			//dr.get().findElement(By.xpath("//android.view.ViewGroup[@text='OK']")).click();
 			Thread.sleep(6000);
 			dr.get().findElement(By.xpath("//android.widget.Button[@text='CONTINUE IN ENGLISH (US)']")).click();
-			dr.get().findElement(By.xpath("//android.widget.Button[@text='Allow']")).click();
-			dr.get().findElement(By.xpath("//android.widget.EditText[@text='Search']")).sendKeys("videos");
-			dr.get().findElement(By.xpath("//android.view.ViewGroup[@index=0]")).click();
-			Thread.sleep(3000);
-			dr.get().findElement(By.xpath("//android.view.ViewGroup[@content-desc='Videos']")).click();
-			dr.get().findElement(By.xpath("//android.view.ViewGroup[@index=2]")).click();
+//			dr.get().findElement(By.xpath("//android.widget.Button[@text='Allow']")).click();
+//			dr.get().findElement(By.xpath("//android.widget.EditText[@text='Search']")).sendKeys("videos");
+//			dr.get().findElement(By.xpath("//android.view.ViewGroup[@index=0]")).click();
+//			Thread.sleep(3000);
+//			dr.get().findElement(By.xpath("//android.view.ViewGroup[@content-desc='Videos']")).click();
+//			dr.get().findElement(By.xpath("//android.view.ViewGroup[@index=2]")).click();
 			takeScreenShot("Social Network -- Facebook");
 			run.exec("adb shell svc data disable");
 			Thread.sleep(2000);
@@ -808,7 +822,8 @@ public class App{
 			
 	}
 		 catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			 System.out.println("--------++++++---------");
 		 }
 	}
 
