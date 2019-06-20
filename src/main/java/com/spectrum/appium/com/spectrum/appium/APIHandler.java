@@ -58,7 +58,7 @@ public class APIHandler {
 	public static String suspendendpoint = "";
 	public static String tc = "";
 	
-	public static void API(String curtcid, String trfold, String State) {
+	public static void API(String curtcid, String trfold, String State, String MSISDN) {
 		
 		try {
 			//createtimestampfold();
@@ -71,7 +71,6 @@ public class APIHandler {
 //			LocalDateTime originTimeStamp1 = formatter6.parse(originTimeStamp);
 			String originTransactionID = dtf2.format(now).toString();
 			System.out.println(originTimeStamp+" : "+originTransactionID );
-			String MSISDN = "971520001714";
 			System.setProperty("logfilename", trfold + "\\Logs");
 			DOMConfigurator.configure("log4j.xml");
 			info("Starting execution at +:" + ExecutionStarttime);

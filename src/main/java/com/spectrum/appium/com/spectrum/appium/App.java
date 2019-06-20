@@ -3,7 +3,6 @@ package com.spectrum.appium.com.spectrum.appium;
 import java.io.File;
 import com.spectrum.appium.com.spectrum.appium.Asnconvertor;
 import com.spectrum.appium.com.spectrum.appium.APIHandler;
-import com.spectrum.appium.com.spectrum.appium.Apitest;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,9 +26,6 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.Test;
 
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.codoid.products.fillo.Connection;
 import com.codoid.products.fillo.Fillo;
 import com.codoid.products.fillo.Recordset;
@@ -199,7 +195,7 @@ public class App{
 				//ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Product_ID")+"--"+inputs.getField("Test_Scenario")+"-"+inputs.getField("Test_Case"));
 				
 	//-------------Start Appium server using terminal----------------//
-				APIHandler.API(curtcid, trfold, "Before_Execution");
+				APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
 				dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 				Runtime run = Runtime.getRuntime();
 			
@@ -304,7 +300,7 @@ public class App{
 					takeScreenShot("SMS not received");
 				}
 				String result = dr.get().stopRecordingScreen();
-				APIHandler.API(curtcid, trfold, "After_Execution");
+				APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
 				
 		//-------------------------- CDR Conversion -------------------------------------------//
 				//APIHandler.API(curtcid, trfold, "After");
@@ -341,7 +337,8 @@ public class App{
 			capabilities.setCapability("bootstrapPort", bsport); 
 			capabilities.setCapability("appPackage", package_name);
 			capabilities.setCapability("appActivity", activity_name);
-
+			
+			APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 			Runtime run = Runtime.getRuntime();
 
@@ -409,6 +406,7 @@ public class App{
 				takeScreenShot("SMS not received");
 			}
 			String result = dr.get().stopRecordingScreen();
+			APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
 			
 			//-------------------------- CDR Conversion -------------------------------------------//
 			
@@ -439,6 +437,7 @@ public class App{
 			String Call_To = inputs.getField("Call_TO_MSISDN");
 			String CALL_DURATION = inputs.getField("CALL_DURATION");
 			int secs = Integer.parseInt(CALL_DURATION);
+			APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 			Runtime run = Runtime.getRuntime();
 			String execu = "adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+Call_To;
@@ -449,6 +448,7 @@ public class App{
 			run.exec("adb shell input keyevent KEYCODE_ENDCALL");
 			String result = dr.get().stopRecordingScreen();
 			
+			APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
 			//-------------------------- CDR Conversion -------------------------------------------//
 			
 			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
@@ -475,6 +475,7 @@ public class App{
 			capabilities.setCapability("bootstrapPort", bsport); 
 			capabilities.setCapability("appPackage", package_name);
 			capabilities.setCapability("appActivity", activity_name);
+			APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 			for (int i =1; i<=sms_count; i++) {
 				dr.get().findElement(By.id("com.samsung.android.messaging:id/fab")).click();  
@@ -491,6 +492,8 @@ public class App{
 				dr.get().navigate().back();
 			}
 			String result = dr.get().stopRecordingScreen();
+			
+			APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
 			
 			//-------------------------- CDR Conversion -------------------------------------------//
 			
@@ -531,6 +534,7 @@ public class App{
 				capabilities.setCapability("bootstrapPort", bsport); 
 				capabilities.setCapability("appPackage", package_name);
 				capabilities.setCapability("appActivity", activity_name);
+				
 				
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 			Runtime run = Runtime.getRuntime();
@@ -606,6 +610,7 @@ public class App{
 			curtcid = inputs.getField("Test_Case_ID")+"--"+rs.getField("Test_Scenario");
 //			startTestCase(curtcid);
 //			ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
+			APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 			Runtime run = Runtime.getRuntime();
 			run.exec("adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+startussd);
@@ -712,6 +717,8 @@ public class App{
 //			endTestCase(inputs.getField("Test Case ID"));
 			String result = dr.get().stopRecordingScreen();
 			
+			APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
+			
 			//-------------------------- CDR Conversion -------------------------------------------//
 			
 			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
@@ -738,6 +745,7 @@ public class App{
 			//startTestCase(curtcid);
 			//ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario")+"<br>"+inputs.getField("Test_Case"));
 			if (Test_Case.equals("DATA_REGULAR")) {
+				APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
 			Runtime run = Runtime.getRuntime();
 			run.exec("adb shell svc data enable");
 			Thread.sleep(2000);
@@ -752,22 +760,36 @@ public class App{
 			takeScreenShot("Data Turned off: " + timefold);
 		}
 		else if (Test_Case.equals("DATA_SOCIAL")){
+			APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 			Runtime run = Runtime.getRuntime();
 			run.exec("adb shell svc data enable");
 			Thread.sleep(2000);
 			takeScreenShot("Data Truned On: " + timefold);
 			Thread.sleep(1000);
+			dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 			dr.get().findElement(By.xpath("//android.widget.EditText[@text='Phone number or email address']")).sendKeys("mugaz25@yahoo.com");
 			dr.get().findElement(By.xpath("//android.widget.EditText[@text='Password']")).sendKeys("Tester123!");
 			dr.get().findElement(By.xpath("//android.view.ViewGroup[@index=3]")).click();
 			Thread.sleep(6000);
+			dr.get().navigate().back();
+			//dr.get().findElement(By.xpath("//android.view.ViewGroup[@text='OK']")).click();
+			Thread.sleep(6000);
+			dr.get().findElement(By.xpath("//android.widget.Button[@text='CONTINUE IN ENGLISH (US)']")).click();
+			dr.get().findElement(By.xpath("//android.widget.Button[@text='Allow']")).click();
+			dr.get().findElement(By.xpath("//android.widget.EditText[@text='Search']")).sendKeys("videos");
+			dr.get().findElement(By.xpath("//android.view.ViewGroup[@index=0]")).click();
+			Thread.sleep(3000);
+			dr.get().findElement(By.xpath("//android.view.ViewGroup[@content-desc='Videos']")).click();
+			dr.get().findElement(By.xpath("//android.view.ViewGroup[@index=2]")).click();
 			takeScreenShot("Social Network -- Facebook");
 			run.exec("adb shell svc data disable");
 			Thread.sleep(2000);
 			takeScreenShot("Data Turned off: " + timefold);
 		}
 			String result = dr.get().stopRecordingScreen();
+			
+			APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
 			
 			//-------------------------- CDR Conversion -------------------------------------------//
 			
