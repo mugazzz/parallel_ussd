@@ -221,61 +221,6 @@ public class APIHandler {
 
 	}
 
-	public static String validaterespJSON(Response response, String TC, int statcode) {
-		try {
-			// File inputFile = resp;
-			Fillo fillo = new Fillo();
-			Connection conn = fillo.getConnection(Reference_Data);
-			// String jsonSrouce =resp.toString();
-			// JsonSlurper jsonParser = new JsonSlurper();
-
-			Recordset rs = conn.executeQuery("Select * from API2 where TestCase_ID = '" + TC + "'");
-			String status = "Pass";
-			String retval = "<Table><tr><td>Parameter</td><td>Expected Value</td><td>Actual Value</td></tr>";
-			while (rs.next()) {
-				int expstatuscode = Integer.parseInt(rs.getField("Expected_Status_Code"));
-				retval = retval + "<tr><td>Status Code</td><td>" + expstatuscode + "</td><td>" + statcode
-						+ "</td></tr>";
-				if (expstatuscode != statcode) {
-					status = "Fail";
-				}
-				for (int Iterator = 1; Iterator <= 40; Iterator++) {
-					if (rs.getField("Parameter" + Iterator).isEmpty() == false) {
-						String param = rs.getField("Parameter" + Iterator).toString();
-
-						String expectedval = rs.getField("Value" + Iterator);
-						String actval = response.jsonPath().get(param);
-						retval = retval + "<tr><td>" + param + "</td><td>" + expectedval + "</td><td>" + actval
-								+ "</td></tr>";
-						if (status.equals("Pass")) {
-							if (expectedval.equals(actval)) {
-								status = "Pass";
-							} else {
-								status = "Fail";
-							}
-
-						}
-					} else
-						break;
-				}
-			}
-
-			retval = retval + "</table>";
-			String sendval = "";
-			if (status.equals("Pass")) {
-				sendval = "Pass##" + retval;
-			} else {
-				sendval = "Fail##" + retval;
-			}
-			return sendval;
-		} catch (Exception e) {
-			e.printStackTrace();
-			error(e.getMessage());
-			return "";
-		}
-
-	}
-
 	public static String validateresp(File resp, String TC, int statcode) {
 		try {
 			File inputFile = resp;
