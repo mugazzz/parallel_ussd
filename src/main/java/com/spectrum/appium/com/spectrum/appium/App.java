@@ -26,6 +26,9 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.Test;
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.codoid.products.fillo.Connection;
 import com.codoid.products.fillo.Fillo;
 import com.codoid.products.fillo.Recordset;
@@ -80,6 +83,7 @@ public class App{
 	public void Device_1(){
 		
 		App k = new App("device1");
+		//Asnconvertor.Result("971520001714", "820", "USSD_OPT_IN", "T_003", "curtcid", "Call for home", "", "Long_Code", "Confirmation msf", "MSD Message", "", "", "", "", "", "", "", "2019_21_001", "", "");
 		//APIHandler.API(curtcid, trfold, "Before", "971520001714");
 		//Asnconvertor.Result("971520001714", "820", "USSD_OPT_IN", "Test_Case_ID", "curtcid", "Product_Name", "Test_Scenario_I", "Test_Case", "Confirmation", "Message", "Recharge_Coupon","", "", "", "", "", "", "ExecutionStarttime", "", "");
 		//Asnconvertor.nodeValidation("USSD_OPT_IN", "971520001714");
@@ -113,8 +117,8 @@ public class App{
 			System.out.println(inputQuery);
 			Recordset inputs = conn.executeQuery(inputQuery);
 			createtimestampfold();
-//			ExtentReports extent = new ExtentReports();
-//			ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(trfold + "\\Master.html");
+			ExtentReports extent = new ExtentReports();
+			ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(trfold + "\\Master.html");
 			System.setProperty("logfilename", trfold + "\\Logs");
 			DOMConfigurator.configure("log4j.xml");
 			
@@ -129,7 +133,8 @@ public class App{
 				Recharge_Coupon = inputs.getField("Recharge_Coupon");
 				
 				info("Starting execution at +: "+ Prod_ID + "->"+ Test_Scenario+ "->" + ExecutionStarttime);
-//				extent.attachReporter(htmlReporter);
+				
+				extent.attachReporter(htmlReporter);
 				
 			//String Mobile = rs.getField("Device_Name");
 			String basedir = System.getProperty("user.dir");
@@ -151,8 +156,6 @@ public class App{
 //			+ port_number + ".json");
 			
 			starter(port_number);
-			
-			
 			Connection conn1 = fillo.getConnection(Reference_Data);
 			
 	//-------------------------- OPT IN / OUT / Recharge ------------------------------------//
@@ -191,8 +194,8 @@ public class App{
 				String hash = URLEncoder.encode("#", "UTF-8");
 				
 				curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Product_Name")+"_"+rs.getField("Test_Scenario")+"_"+rs.getField("Test_Case");
-				//startTestCase(curtcid);
-				//ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Product_ID")+"--"+inputs.getField("Test_Scenario")+"-"+inputs.getField("Test_Case"));
+				startTestCase(curtcid);
+				ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Product_Name")+"--"+inputs.getField("Test_Scenario")+"-"+inputs.getField("Test_Case"));
 				
 	//-------------Start Appium server using terminal----------------//
 				APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
@@ -311,7 +314,22 @@ public class App{
 				Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
 				
 		//-------------------------- Report ----------------------------------------------//
-				Asnconvertor.Result(MSISDN, Product_ID, Test_Scenario, Test_Case_ID, curtcid, Product_Name, Test_Scenario_I, Test_Case, Confirmation, Message, Recharge_Coupon,"", "", "", "", "", "", ExecutionStarttime, "", "");
+				String[] convertor = Asnconvertor.Result(MSISDN, Product_ID, Test_Scenario, Test_Case_ID, curtcid, Product_Name, Test_Scenario_I, Test_Case, Confirmation, Message, Recharge_Coupon,"", "", "", "", "", "", ExecutionStarttime, "", "");
+			
+				test.pass("<table><th><b>Product Name</b></th>"
+				+"<th><b>Product ID: </b></th>"
+						+ "<th><b>Test Scenario: </b></th>"
+								+ "<th><b>Test Case: </b></th>"
+										+ "<th><b> Confirmation Alert Message: </b></th>"
+						+"<th><b> Message Status: </b></th>"
+								+"<th> <b> ScreenShot</b></th><th>OCC LINK</th></b>" + 
+										"<tr><td style= 'min-width: 162px>"+Product_Name+"</td><td style= 'min-width: 162px>"+Prod_ID+"</td><td style= 'min-width: 162px>"+Test_Scenario+"</td><td style= 'min-width: 162px>"+Test_Case+"</td><td style= 'min-width: 162px>"+ Confirmation +"</td><td style= 'min-width: 162px>"+ Message+"</td><td style= 'min-width: 162px>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a>"
+												+ "</td><td style= 'min-width: 162px>"+
+						"&nbsp<a style = 'color:hotpink' target = '_blank' href = '" + curtcid
+						+ "/"+convertor[0]+"/"+convertor[1] + "/output.xml'>Click to View the CDR</a></td></tr></table>"
+								+ "<br><br><br><b>OCC Table: </b><br>" + convertor[2] + "</table>");
+				extent.flush();
+				endTestCase(curtcid);
 			}
 			}
 			
@@ -822,8 +840,8 @@ public class App{
 			
 	}
 		 catch (Exception e) {
-			//e.printStackTrace();
-			 System.out.println("--------++++++---------");
+			e.printStackTrace();
+			 //System.out.println("--------++++++---------");
 		 }
 	}
 

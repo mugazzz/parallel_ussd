@@ -231,7 +231,7 @@ public class APIHandler {
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(inputFile);
 			doc.getDocumentElement().normalize();
-			Recordset rs = conn.executeQuery("Select * from API2 where TestCase_ID = '" + TC + "'");
+			Recordset rs = conn.executeQuery("Select * from API where TestCase_ID = '" + TC + "'");
 			String status = "Pass";
 
 			String retval = "<Table><tr><td>Parameter</td><td>Expected Value</td><td>Actual Value</td></tr>";

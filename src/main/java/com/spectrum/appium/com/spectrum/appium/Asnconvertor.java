@@ -108,6 +108,7 @@ public class Asnconvertor {
 	public static String dateccn;
 	public static String datecis;
 	public static String now;
+	public static String tbl;
 	public static ExtentReports extent;
 	public ExtentHtmlReporter htmlReporter;
 	public ExtentTest test;
@@ -771,9 +772,9 @@ public class Asnconvertor {
 		}
 		}
 		
-		public static void Result(String MSISDN, String Prod_ID, String input, String Test_Case_ID, String curtcid, String Product_Name, String Test_Scenario_I, String Test_Case, String Confirmation, String Message, String Recharge_Coupon, String Voice_Call_To, String Text_Message, String SMS_To_Receiver, String Balancemsg, String p2p_To_Number, String p2p_Amount, String ExecutionStarttime, String CALL_DURATION, String Count)
+		public static String[] Result(String MSISDN, String Prod_ID, String input, String Test_Case_ID, String curtcid, String Product_Name, String Test_Scenario_I, String Test_Case, String Confirmation, String Message, String Recharge_Coupon, String Voice_Call_To, String Text_Message, String SMS_To_Receiver, String Balancemsg, String p2p_To_Number, String p2p_Amount, String ExecutionStarttime, String CALL_DURATION, String Count)
 		{
-		
+			String[] convertor = new String [3];
 			try {
 				/////////////////////////////////////////////////////////////////////////////
 				
@@ -792,7 +793,7 @@ public class Asnconvertor {
 			// DB Table connection
 				Connection conn = fillo.getConnection(Reference_Data);
 				String strQuery = "Select * from node_xml_conversion "
-						+ "where Test_Scenario= '"+input+"'";
+						+ "where Test_Scenario = '"+input+"' and Execution ='Yes'";
 				System.out.println(strQuery);
 				Recordset rs = conn.executeQuery(strQuery);
 				
@@ -804,13 +805,16 @@ public class Asnconvertor {
 				while (rs2.next()) {
 					String filename = "";
 					String filetype = rs2.getField("Type");
+					convertor[0] = filetype;
+					
 					String refid = rs2.getField("Refrence_ID");
 					File dir = new File(System.getProperty("user.dir") + "\\CDR\\" + filetype);
 					File[] directoryListing = dir.listFiles();
 					if (directoryListing != null) {
 						for (File child : directoryListing) {
 							filename = child.getAbsoluteFile().getName();
-							if(!filetype.contains("CIS")) {
+							convertor[1] = filename;
+							if(!filetype.equalsIgnoreCase("CIS")) {
 														
 							startTestCase("Parsing File " + filename);
 							String schemaname = "";
@@ -913,50 +917,7 @@ public class Asnconvertor {
 								}
 
 							}
-							
-							ExtentTest test1 = extent.createTest(Test_Case_ID+": <br>"+input+"<br>"+Test_Case+"<br>"+filetype);
-									if(input.equals("USSD_OPT_IN") || input.equals("USSD_OPT_OUT")) {
-									test1.pass("<b>Product Name: </b><i>"+Product_Name+"</i><br><b>Product ID: </b><i>"+Prod_ID+"</i><br><b>Test Scenario: </b><i>"+input+"</i><br><b>Test Case: </b><i>" +Test_Case+ 
-											"</i><br><b> Confirmation Alert Message: </b><i>" + Confirmation + "</i><br><b> Message Status: </b><i>"+ Message+ "</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a><br>" + 
-											"&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid
-											+ "/"+filetype+"/"+filename + "/output.xml'>Click to View the CDR</a></b><br>" + tbl + "</table>");
-									}
-									else if(input.equals("USSD_Recharge")){
-									test1.pass("<b>Recharge Coupon: </b><i>"+Recharge_Coupon+"</i><br><b>MSISDN: </b><i>"+MSISDN+"</i><br><b>Test Scenario: </b><i>"+input+"</i><br><b>Test Case: </b><i>" +Test_Case+ 
-												"</i><br><b> Confirmation Alert Message: </b><i>" + Confirmation + "</i><br><b> Message Status: </b><i>"+ Message+ "</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a><br>" + 
-												"&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid
-												+ "/"+filetype+"/"+filename + "/output.xml'>Click to View the CDR</a></b><br>" + tbl + "</table>");	
-									}
-									else if (input.equals("LIVE USAGE VOICE")) {
-									test1.pass("<b>MSISDN: </b><i>"+MSISDN+"</i><br><b>Test Scenario: </b><i>"+input+"</i><br><b>Test Case: </b><i>" +Test_Case+ 
-												"</i><br><b>Called To: </b><i>" + Voice_Call_To + "</i><br><b> Call Duration: </b><i>"+ CALL_DURATION+ "</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a><br>" + 
-												"&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid
-												+ "/"+filetype+"/"+filename + "/output.xml'>Click to View the CDR</a></b><br>" + tbl + "</table>");
-									}
-									else if (input.equals("LIVE USAGE SMS")) {
-										test1.pass("<b>Test Scenario: </b><i>"+input+"</i><br><b>Test Case: </b><i>" +Test_Case+ 
-													"</i><br><b>Message: </b><i>" + Text_Message + "</i><br><b> Receiver Number: </b><i>"+ SMS_To_Receiver+ "</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a><br>" + 
-													"&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid
-													+ "/"+filetype+"/"+filename + "/output.xml'>Click to View the CDR</a></b><br>" + tbl + "</table>");
-										}
-									else if (input.equals("BALANCE ENQUIRES")) {
-										info("HTML Condition appears");	
-										test1.pass("<b>Test Scenario: </b><i>"+input+"</i><br><b>Balance Message: </b><i>" + Balancemsg + "</i><br><b> Receiver Number: </b><i>"+ SMS_To_Receiver+ "</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a><br>" + 
-													"&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid
-													+ "/"+filetype+"/"+filename + "/output.xml'>Click to View the CDR</a></b><br>" + tbl + "</table>");
-									
-									}
-									else if (input.equals("P2P TRANSFER")) {
-										test1.pass("<b>Test Scenario: </b><i>"+input+"</i><br><b>Test Case: </b><i>" +Test_Case+"</i></b><Br>P2P To Number: </b><i>" +p2p_To_Number+"</i></b><Br>P2P Amount: </b><i>" +p2p_Amount+"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a><br>" + 
-													"&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid
-													+ "/"+filetype+"/"+filename + "/output.xml'>Click to View the CDR</a></b><br>" + tbl + "</table>");
-										}
-									else if(input.equals("LIVE USAGE DATA")) {
-										test1.pass("<b>Test Scenario: </b><i>"+input+"</i><br><b>Test Case: </b><i>" +Test_Case+"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a><br>" + 
-												"&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid
-												+ "/"+filetype+"/"+filename + "/output.xml'>Click to View the CDR</a></b><br>" + tbl + "</table>");
-									}
-							
+							convertor[2] = tbl;
 							}
 							
 							else {
@@ -977,44 +938,7 @@ public class Asnconvertor {
 								filecsv.createNewFile();
 																
 								String tbl=CSVparse(Cis_Filepath,Cis_viewpath,MSISDN);
-								 
-								ExtentTest test = extent.createTest(Test_Case_ID+": <br>"+input+"<br>"+Test_Case+"<br>"+"CIS_Validation");
-								if(input.equals("USSD_OPT_IN") || input.equals("USSD_OPT_OUT")) {
-							test.pass("<b>Product Name: "+Product_Name+"<br>Product ID: "+Prod_ID+"<br>Test Scenario: "+input+"<br> Test Case: " +Test_Case + 
-									"<br> Confirmation Alert Message: <i>" + Confirmation + "</i></b>"+ "<br> Message Status: 	<i>"+ Message+ "</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Device execution screenshot</a>"
-									+ "&nbsp<br><b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid
-									+ "/"+filetype+"/"+filename + "/Output.csv'>Click to View the EDR</a></b><br>" + tbl + "</table>");
-								}
-								else if(input.equals("USSD_Recharge")){
-									test.pass("<b>Recharge Coupon: </b><i>"+Recharge_Coupon+"</i><br><b>MSISDN: </b><i>"+MSISDN+"</i><br><b>Test Scenario: </b><i>"+input+"</i><br><b>Test Case: </b><i>" +Test_Case+ 
-												"</i><br><b> Confirmation Alert Message: </b><i>" + Confirmation + "</i><br><b> Message Status: </b><i>"+ Message+ "</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a><br>" + 
-											 "&nbsp<br><b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid
-												+ "/"+filetype+"/"+filename + "/Output.csv'>Click to View the EDR</a></b><br>" + tbl + "</table>");
-									}
-									else if (input.equals("LIVE USAGE VOICE")) {
-									test.pass("<b>MSISDN: </b><i>"+MSISDN+"</i><br><b>Test Scenario: </b><i>"+input+"</i><br><b>Test Case: </b><i>" +Test_Case+ 
-												"</i><br><b>Called To: </b><i>" + Voice_Call_To + "</i><br><b> Call Duration: </b><i>"+ CALL_DURATION+ "</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a><br>" + 
-										"&nbsp<br><b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid
-										+ "/"+filetype+"/"+filename + "/Output.csv'>Click to View the EDR</a></b><br>" + tbl + "</table>");
-									}
-									else if (input.equals("LIVE USAGE SMS")) {
-										test.pass("<b>Test Scenario: </b><i>"+input+"</i><br><b>Test Case: </b><i>" +Test_Case+ 
-													"</i><br><b>Message: </b><i>" + Text_Message + "</i><br><b> Receiver Number: </b><i>"+ SMS_To_Receiver+ "</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a><br>" + 
-												"&nbsp<br><b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid
-												+ "/"+filetype+"/"+filename+ "/Output.csv'>Click to View the EDR</a></b><br>" + tbl + "</table>");
-										}
-									else if (input.equals("BALANCE ENQUIRES")) {
-										test.pass("<b>Test Scenario: </b><i>"+input+"</i><br><b>Balance Message: </b><i>" + Balancemsg + "</i><br><b> Receiver Number: </b><i>"+ SMS_To_Receiver+ "</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a><br>" + 
-												"&nbsp<br><b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid
-												+ "/"+filetype+"/"+filename + "/Output.csv'>Click to View the EDR</a></b><br>" + tbl + "</table>");
-										}
-									else if (input.equals("P2P TRANSFER")) {
-										test.pass("<b>Test Scenario: </b><i>"+input+"</i><br><b>Test Case: </b><i>" +Test_Case+"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a><br>" + 
-												"&nbsp<br><b><a style = 'color:hotpink' target = '_blank' href = '" + filetype + "/"
-												+ "/"+curtcid+filename + "/Output.csv'>Click to View the EDR</a></b><br>" + tbl + "</table>");
-										}
-								extent.flush();
-								endTestCase(refid);
+								
 							}
 						}
 					}
@@ -1026,6 +950,7 @@ public class Asnconvertor {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+			return convertor;
 		}
 
 //	public static String parsexml(String param1, File file)
