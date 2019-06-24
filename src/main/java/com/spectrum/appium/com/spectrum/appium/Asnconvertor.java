@@ -109,6 +109,7 @@ public class Asnconvertor {
 	public static String datecis;
 	public static String now;
 	public static String tbl;
+	public static String cistbl;
 	public static ExtentReports extent;
 	public ExtentHtmlReporter htmlReporter;
 	public ExtentTest test;
@@ -774,7 +775,7 @@ public class Asnconvertor {
 		
 		public static String[] Result(String MSISDN, String Prod_ID, String input, String Test_Case_ID, String curtcid, String Product_Name, String Test_Scenario_I, String Test_Case, String Confirmation, String Message, String Recharge_Coupon, String Voice_Call_To, String Text_Message, String SMS_To_Receiver, String Balancemsg, String p2p_To_Number, String p2p_Amount, String ExecutionStarttime, String CALL_DURATION, String Count)
 		{
-			String[] convertor = new String [3];
+			String[] convertor = new String [10];
 			try {
 				/////////////////////////////////////////////////////////////////////////////
 				
@@ -937,7 +938,8 @@ public class Asnconvertor {
 								}
 								filecsv.createNewFile();
 																
-								String tbl=CSVparse(Cis_Filepath,Cis_viewpath,MSISDN);
+								cistbl=CSVparse(Cis_Filepath,Cis_viewpath,MSISDN);
+								convertor[3] = cistbl;
 								
 							}
 						}
@@ -949,6 +951,7 @@ public class Asnconvertor {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.println("No CDR Found for the given MSISDN");
 		}
 			return convertor;
 		}

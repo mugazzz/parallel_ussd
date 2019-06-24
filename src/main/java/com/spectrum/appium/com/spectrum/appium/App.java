@@ -316,18 +316,27 @@ public class App{
 		//-------------------------- Report ----------------------------------------------//
 				String[] convertor = Asnconvertor.Result(MSISDN, Product_ID, Test_Scenario, Test_Case_ID, curtcid, Product_Name, Test_Scenario_I, Test_Case, Confirmation, Message, Recharge_Coupon,"", "", "", "", "", "", ExecutionStarttime, "", "");
 			
-				test.pass("<table><th><b>Product Name</b></th>"
-				+"<th><b>Product ID: </b></th>"
-						+ "<th><b>Test Scenario: </b></th>"
-								+ "<th><b>Test Case: </b></th>"
-										+ "<th><b> Confirmation Alert Message: </b></th>"
-						+"<th><b> Message Status: </b></th>"
-								+"<th> <b> ScreenShot</b></th><th>OCC LINK</th></b>" + 
-										"<tr><td style= 'min-width: 162px>"+Product_Name+"</td><td style= 'min-width: 162px>"+Prod_ID+"</td><td style= 'min-width: 162px>"+Test_Scenario+"</td><td style= 'min-width: 162px>"+Test_Case+"</td><td style= 'min-width: 162px>"+ Confirmation +"</td><td style= 'min-width: 162px>"+ Message+"</td><td style= 'min-width: 162px>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a>"
-												+ "</td><td style= 'min-width: 162px>"+
-						"&nbsp<a style = 'color:hotpink' target = '_blank' href = '" + curtcid
-						+ "/"+convertor[0]+"/"+convertor[1] + "/output.xml'>Click to View the CDR</a></td></tr></table>"
-								+ "<br><br><br><b>OCC Table: </b><br>" + convertor[2] + "</table>");
+				test.pass("<table><th style= 'min-width: 200px><b>Product Name</b></th>"
+						+"<th style= 'min-width: 200px><b>Product ID: </b></th>"
+						+ "<th style= 'min-width: 200px><b>Test Scenario: </b></th>"
+						+ "<th style= 'min-width: 200px><b>Test Case: </b></th>"
+						+ "<th style= 'min-width: 200px><b> Confirmation Alert Message: </b></th>"
+						+"<th style= 'min-width: 200px><b> Message Status: </b></th>"
+						+"<th style= 'min-width: 200px><b> ScreenShot</b></th>" + 
+						
+						//Device Result
+						"<tr><td style= 'min-width: 200px>"+Product_Name+"</td><td style= 'min-width: 200px>"+Prod_ID+"</td><td style= 'min-width: 200px>"+Test_Scenario+"</td><td style= 'min-width: 200px>"+Test_Case+"</td><td style= 'min-width: 200px>"+ Confirmation +"</td><td style= 'min-width: 200px>"+ Message+"</td><td style= 'min-width: 200px>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table>"
+						
+						//OCC Result
+						+ "<br><br><br><h5>OCC Data:</h5><br>"
+						+ "<br><b>OCC Table: </b><br>" + convertor[2] 
+						+ "<br><b>XML Link---> </b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[0]+"/"+convertor[1] + "/output.xml'>Click to View the OCC CDR</a></table>"
+						
+						//CIS Result
+						+"<br><br><br><h5>CIS Data:</h5><br>"
+						+ "<br><b>OCC Table: </b><br>" + convertor[3] 
+						+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[0]+"/"+convertor[1] + "/Output.csv'>Click to View the EDR</a></table>"
+						);
 				extent.flush();
 				endTestCase(curtcid);
 			}
