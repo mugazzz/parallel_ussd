@@ -59,10 +59,10 @@ public class APIparam {
 	public static String suspendendpoint = "";
 	public static String tc = "";
 	
-	public static void API(String curtcid, String trfold, String State) {
+	public static void main(String args[]) {
 		
 		try {
-			//createtimestampfold();
+			createtimestampfold();
 			DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyyMMdd'T'HH:mm:ss");
 			DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSS");
 			LocalDateTime now = LocalDateTime.now();
@@ -86,11 +86,13 @@ public class APIparam {
 			String cellval4 = "blank";
 			String cellval5 = "blank";
 			String cellval6 = "blank";
+			String curtcid = "";
 			File Des = null;
 			File Source = null;
 			while (rsi.next()) {
 
 				cellval1 = rsi.getField("TestCase_ID");
+				curtcid = rsi.getField("Request_Name");
 				tc = rsi.getField("TestCase_ID");
 				cellval2 = "SOAP";
 				cellval3 = rsi.getField("Request_Name");
@@ -207,7 +209,7 @@ public class APIparam {
 						info("Response Header  :" + response.getHeaders().toString());
 						info("Response   :" + response.asString());
 						writeresponse(respf, response.asString());
-						fCreateReportFiles(Des, respf, cellval2, curtcid, trfold, State);
+						fCreateReportFiles(Des, respf, curtcid, trfold);
 						// System.out.println(response.asString());
 						String respheader = "";
 						for (int i = 0; i < response.getHeaders().asList().size(); i++) {
@@ -613,27 +615,19 @@ public class APIparam {
 		}
 	}
 
-	public static void fCreateReportFiles(File request, File response, String RequestType, String curtcid, String trfold, String State) {
+	public static void fCreateReportFiles(File request, File response, String curtcid, String trfold) {
 		//File ResultRequest = null, ResultResponse = null;
 		try {
 			File ReqTypFold = new File(trfold + "/" + curtcid); 
 			if ((!ReqTypFold.exists()))
 				ReqTypFold.mkdir();
 			System.out.println("Actual Path given: "+ReqTypFold);
-			File ReqTypFold1 = new File(ReqTypFold + "/"+ "CS_API_VALIDATION"); 
-			if ((!ReqTypFold1.exists()))
-				ReqTypFold1.mkdir();
-			System.out.println("Actual Path given: "+ReqTypFold1 );
-			File ReqTypFold2 = new File(ReqTypFold1 +"/"+State); 
-			if ((!ReqTypFold2.exists()))
-				ReqTypFold2.mkdir();
-			System.out.println("Actual Path given: "+ReqTypFold2 );
-
-			File TCReqFold = new File(ReqTypFold2+"/Request");
+			
+			File TCReqFold = new File(ReqTypFold+"/Request");
 			if ((!TCReqFold.exists()))
 				TCReqFold.mkdir();
 			System.out.println("Actual Path given: "+TCReqFold );
-			File TCResFold = new File(ReqTypFold2+"/Response");
+			File TCResFold = new File(ReqTypFold+"/Response");
 			if ((!TCResFold.exists()))
 				TCResFold.mkdir();
 					File ResultRequest = new File(TCReqFold +"/"+"request.xml");
