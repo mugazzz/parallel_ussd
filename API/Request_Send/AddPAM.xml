@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <methodCall>
-<methodName>UpdateBalanceAndDate</methodName>
+<methodName>AddPeriodicAccountManagementData</methodName>
 <params>
  <param>
   <value>
@@ -36,50 +36,32 @@
      </value>
     </member>
     <member>
-     <name>negotiatedCapabilities</name>
-     <value>
-      <array>
-       <data>
-        <value>
-         <int>268763332</int>
-        </value>
-       </data>
-      </array>
-     </value>
-    </member>
-    <member>
      <name>subscriberNumber</name>
      <value>
       <string>971520001714</string>
      </value>
     </member>
     <member>
-     <name>transactionCurrency</name>
-     <value>
-      <string>AED</string>
-     </value>
-    </member>
-    <member>
-     <name>dedicatedAccountUpdateInformation</name>
+     <name>pamInformationList</name>
      <value>
       <array>
        <data>
         <value>
          <struct>
           <member>
-           <name>dedicatedAccountID</name>
+           <name>pamServiceID</name>
            <value>
             <int>1</int>
            </value>
           </member>
           <member>
-           <name>adjustmentAmountRelative</name>
+           <name>pamClassID</name>
            <value>
-            <string>100000</string>
+            <int>1</int>
            </value>
           </member>
           <member>
-           <name>dedicatedAccountUnitType</name>
+           <name>scheduleID</name>
            <value>
             <int>1</int>
            </value>

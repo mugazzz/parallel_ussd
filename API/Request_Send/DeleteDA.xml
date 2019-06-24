@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <methodCall>
-<methodName>GetAccountDetails</methodName>
+<methodName>DeleteDedicatedAccounts</methodName>
 <params>
  <param>
   <value>
@@ -8,49 +8,56 @@
     <member>
      <name>originNodeType</name>
      <value>
-      <string>${originNodeType}$</string>
+      <string>EXT</string>
      </value>
     </member>
     <member>
      <name>originHostName</name>
      <value>
-      <string>${originHostName}$</string>
+      <string>meydvvmnmt02menalabcorplocal</string>
      </value>
     </member>
     <member>
      <name>originTransactionID</name>
      <value>
-      <string>$current1$</string>
+      <string>2019062413072425</string>
      </value>
     </member>
     <member>
      <name>originTimeStamp</name>
      <value>
-      <dateTime.iso8601>$current2$</dateTime.iso8601>
+      <dateTime.iso8601>20190624T13:07:24+0000</dateTime.iso8601>
      </value>
     </member>
     <member>
      <name>subscriberNumberNAI</name>
      <value>
-      <int>${subscriberNumberNAI}$</int>
-     </value>
-    </member>
-    <member>
-     <name>negotiatedCapabilities</name>
-     <value>
-      <array>
-       <data>
-        <value>
-         <int>${negotiatedCapabilities}$</int>
-        </value>
-       </data>
-      </array>
+      <int>1</int>
      </value>
     </member>
     <member>
      <name>subscriberNumber</name>
      <value>
-      <string>${subscriberNumber}$</string>
+      <string>971520001714</string>
+     </value>
+    </member>
+    <member>
+     <name>dedicatedAccountIdentifier</name>
+     <value>
+      <array>
+       <data>
+        <value>
+         <struct>
+          <member>
+           <name>dedicatedAccountID</name>
+           <value>
+            <int>43</int>
+           </value>
+          </member>
+         </struct>
+        </value>
+       </data>
+      </array>
      </value>
     </member>
    </struct>

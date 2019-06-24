@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <methodCall>
-<methodName>GetAccountDetails</methodName>
+<methodName>AddPeriodicAccountManagementData</methodName>
 <params>
  <param>
   <value>
@@ -36,21 +36,40 @@
      </value>
     </member>
     <member>
-     <name>negotiatedCapabilities</name>
+     <name>subscriberNumber</name>
+     <value>
+      <string>${subscriberNumber}$</string>
+     </value>
+    </member>
+    <member>
+     <name>pamInformationList</name>
      <value>
       <array>
        <data>
         <value>
-         <int>${negotiatedCapabilities}$</int>
+         <struct>
+          <member>
+           <name>pamServiceID</name>
+           <value>
+            <int>${pamServiceID}$</int>
+           </value>
+          </member>
+          <member>
+           <name>pamClassID</name>
+           <value>
+            <int>${pamClassID}$</int>
+           </value>
+          </member>
+          <member>
+           <name>scheduleID</name>
+           <value>
+            <int>${scheduleID}$</int>
+           </value>
+          </member>
+         </struct>
         </value>
        </data>
       </array>
-     </value>
-    </member>
-    <member>
-     <name>subscriberNumber</name>
-     <value>
-      <string>${subscriberNumber}$</string>
      </value>
     </member>
    </struct>

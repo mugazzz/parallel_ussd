@@ -39,7 +39,7 @@ import com.jcraft.jsch.Session;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
-public class APIHandler {
+public class APIparam {
 	public static final String Result_FLD = System.getProperty("user.dir") + "\\Result";
 	public static final String Root = System.getProperty("user.dir");// .replace("\\", "/");
 	public static DateFormat For = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
@@ -53,12 +53,13 @@ public class APIHandler {
 	public static String ExecutionStarttime = For.format(cal.getTime()).toString();
 	public static HashMap<String,String> tagmap = new HashMap<String,String>();
 	public final static String Reference_Data = System.getProperty("user.dir") + "\\server\\Reference_Sheet.xlsx";
+	public final static String Input_data=  System.getProperty("user.dir") + "\\Input_sheet_V2.xlsx";
 	private static BufferedReader br;
 	public static String objectname = "";
 	public static String suspendendpoint = "";
 	public static String tc = "";
 	
-	public static void API(String curtcid, String trfold, String State, String MSISDN) {
+	public static void API(String curtcid, String trfold, String State) {
 		
 		try {
 			//createtimestampfold();
@@ -76,7 +77,9 @@ public class APIHandler {
 			info("Starting execution at +:" + ExecutionStarttime);
 			Fillo fillo = new Fillo();
 			Connection conn = fillo.getConnection(Reference_Data);
-			Recordset rs = conn.executeQuery("Select * from API where \"Execution Control\" = 'Yes'");
+			Connection conn1 = fillo.getConnection(Input_data);
+			Recordset rs = null ;
+			Recordset rsi = conn1.executeQuery("Select * from API_Data where \"Execution Control\" = 'Yes'");
 			String cellval1 = "blank";
 			String cellval2 = "blank";
 			String cellval3 = "blank";
@@ -85,16 +88,20 @@ public class APIHandler {
 			String cellval6 = "blank";
 			File Des = null;
 			File Source = null;
-			while (rs.next()) {
+			while (rsi.next()) {
 
-				cellval1 = rs.getField("TestCase_ID");
-				tc = rs.getField("TestCase_ID");
-				cellval2 = rs.getField("Request_Type");
-				cellval3 = rs.getField("Request_Name");
-				cellval4 = rs.getField("SoapAction");
-				cellval5 = rs.getField("NB_URI");
-				cellval6 = rs.getField("Request_Method");
-				suspendendpoint =cellval5 = rs.getField("NB_URI"); 
+				cellval1 = rsi.getField("TestCase_ID");
+				tc = rsi.getField("TestCase_ID");
+				cellval2 = "SOAP";
+				cellval3 = rsi.getField("Request_Name");
+				System.out.println(cellval3);
+				//cellval4 = rs.getField("SoapAction");
+				cellval5 = "http://10.95.214.166:10011/Air";
+				cellval6 = "Post";
+				
+				rs = conn.executeQuery("Select * from API_Param where \"Request_Name\" = '" + cellval3 + "'");
+				while (rs.next()) {
+				suspendendpoint =cellval5 = "http://10.95.214.166:10011/Air"; 
 				String requests = "GetAccountDetails";
 				startTestCase(cellval1);
 //				for (int curtemplate = 0; curtemplate < 1 ; curtemplate++) {
@@ -112,7 +119,7 @@ public class APIHandler {
 								findandreplace(Des, "${" + rs.getField("Parameter" + Iterator) + "}$", replaceval);
 								findandreplace(Des, "$current1$", originTransactionID);
 								findandreplace(Des, "$current2$", originTimeStamp);
-								findandreplace(Des, "$subscriberNumber$", MSISDN);
+								//findandreplace(Des, "$subscriberNumber$", MSISDN);
 								if(rs.getField("Parameter" + Iterator).equals("Data_Object_Name"))
 								{
 									objectname = replaceval;
@@ -120,6 +127,48 @@ public class APIHandler {
 							} else
 								break;
 						}
+						for (int Iterator = 1; Iterator <= 150; Iterator++) {
+							if (rsi.getField("Parameter" + Iterator).isEmpty() == false) {
+								info(rsi.getField("Parameter" + Iterator) + " : " + rsi.getField("Value" + Iterator));
+								String replaceval = rsi.getField("Value" + Iterator);
+								findandreplace(Des, "${" + rsi.getField("Parameter" + Iterator) + "}$", replaceval);
+								findandreplace(Des, "$current1$", originTransactionID);
+								findandreplace(Des, "$current2$", originTimeStamp);
+								//findandreplace(Des, "$subscriberNumber$", MSISDN);
+								if(rsi.getField("Parameter" + Iterator).equals("Data_Object_Name"))
+								{
+									objectname = replaceval;
+								}
+							} else
+								break;
+						}
+//						for (int Iterator = 1; Iterator <= 150; Iterator++) {
+//							if (rs.getField("Parameter" + Iterator).isEmpty() == false) {
+//								info(rs.getField("Parameter" + Iterator) + " : " + rs.getField("Value" + Iterator));
+//								String replaceval = rs.getField("Value" + Iterator);
+//								findandreplace(Des, "${" + rs.getField("Parameter" + Iterator) + "}$", replaceval);
+//								findandreplace(Des, "$current1$", originTransactionID);
+//								findandreplace(Des, "$current2$", originTimeStamp);
+//								//findandreplace(Des, "$subscriberNumber$", MSISDN);
+//								if(rs.getField("Parameter" + Iterator).equals("Data_Object_Name"))
+//								{
+//									objectname = replaceval;
+//								}
+//							
+//								if (rsi.getField("Parameter" + Iterator).isEmpty() == false) {
+//									info(rsi.getField("Parameter" + Iterator) + " : " + rsi.getField("Value" + Iterator));
+//									 replaceval = rsi.getField("Value" + Iterator);
+//									findandreplace(Des, "${" + rsi.getField("Parameter" + Iterator) + "}$", replaceval);
+//									//findandreplace(Des, "$current1$", originTransactionID);
+//									//findandreplace(Des, "$current2$", originTimeStamp);
+//									//findandreplace(Des, "$subscriberNumber$", MSISDN);
+//									if(rsi.getField("Parameter" + Iterator).equals("Data_Object_Name"))
+//									{
+//										objectname = replaceval;
+//									}
+//							} 
+//						}
+//							}
 					}
 
 					File file = Des;
@@ -180,11 +229,11 @@ public class APIHandler {
 						endTestCase(cellval1);
 
 					}
-				
+				}
 			}
 			rs.close();
 			conn.close();
-		} catch (Exception e) {
+			} catch (Exception e) {
 			e.printStackTrace();
 			error(e.getMessage());
 		}
@@ -233,7 +282,7 @@ public class APIHandler {
 			String status = "Pass";
 			String retval = "<Table><tr><td>Parameter</td><td>Expected Value</td><td>Actual Value</td></tr>";
 			while (rs.next()) {
-				int expstatuscode = Integer.parseInt(rs.getField("Expected_Status_Code"));
+				int expstatuscode = 200;
 				retval = retval + "<tr><td>Status Code</td><td>" + expstatuscode + "</td><td>" + statcode
 						+ "</td></tr>";
 				if (expstatuscode != statcode) {
@@ -280,30 +329,30 @@ public class APIHandler {
 		try {
 			File inputFile = resp;
 			Fillo fillo = new Fillo();
-			Connection conn = fillo.getConnection(Reference_Data);
+			Connection conn1 = fillo.getConnection(Input_data);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			dbFactory.setNamespaceAware(true);
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(inputFile);
 			doc.getDocumentElement().normalize();
-			Recordset rs = conn.executeQuery("Select * from API where TestCase_ID = '" + TC + "'");
+			Recordset rsi = conn1.executeQuery("Select * from API_Data where TestCase_ID = '" + TC + "'");
 			String status = "Pass";
 
 			String retval = "<Table><tr><td>Parameter</td><td>Expected Value</td><td>Actual Value</td></tr>";
-			while (rs.next()) {
-				int expstatuscode = Integer.parseInt(rs.getField("Expected_Status_Code"));
-				if (rs.getField("Expected_Status_Code") == "") {
-					expstatuscode = 200;
-				}
+			while (rsi.next()) {
+				int expstatuscode = 200;
+				//if (rs.getField("Expected_Status_Code") == "") {
+				//	expstatuscode = 200;
+				//}
 				retval = retval + "<tr><td>Status Code</td><td>" + expstatuscode + "</td><td>" + statcode
 						+ "</td></tr>";
 				if (expstatuscode != statcode) {
 					status = "Fail";
 				}
 				for (int Iterator = 1; Iterator <= 40; Iterator++) {
-					if (rs.getField("Parameter" + Iterator).isEmpty() == false) {
-						String param = rs.getField("Parameter" + Iterator).toString();
-						String expectedval = rs.getField("Value" + Iterator);
+					if (rsi.getField("Parameter" + Iterator).isEmpty() == false) {
+						String param = rsi.getField("Parameter" + Iterator).toString();
+						String expectedval = rsi.getField("Value" + Iterator);
 						// NodeList nlis = doc.getDocumentElement().getElementsByTagName(param);
 						NodeList nlis = doc.getDocumentElement().getElementsByTagName(param);
 						String actval = "";
@@ -387,17 +436,17 @@ public class APIHandler {
 		try {
 			File inputFile = resp;
 			Fillo fillo = new Fillo();
-			Connection conn = fillo.getConnection(Reference_Data);
+			Connection conn1 = fillo.getConnection(Input_data);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			dbFactory.setNamespaceAware(true);
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(inputFile);
 			doc.getDocumentElement().normalize();
-			Recordset rs = conn.executeQuery("Select * from API where TestCase_ID = '" + TC + "'");
+			Recordset rsi = conn1.executeQuery("Select * from API_Data where TestCase_ID = '" + TC + "'");
 			String retval = "";
 			String[] capval = { "suspendstate[0]", "suspendstate[1]", "suspendstate[2]" };
 			int capvalcount = 1;
-			while (rs.next()) {
+			while (rsi.next()) {
 
 				for (int Iterator = 0; Iterator < capval.length; Iterator++) {
 
@@ -598,7 +647,7 @@ public class APIHandler {
 		}
 	}
 
-	private static Logger Log = Logger.getLogger(APIHandler.class.getName());//
+	private static Logger Log = Logger.getLogger(APIparam.class.getName());//
 
 	// This is to print log for the beginning of the test case, as we usually run so
 	// many test cases as a test suite

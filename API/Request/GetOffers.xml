@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <methodCall>
-<methodName>GetAccountDetails</methodName>
+<methodName>GetOffers</methodName>
 <params>
  <param>
   <value>
@@ -33,6 +33,18 @@
      <name>subscriberNumberNAI</name>
      <value>
       <int>${subscriberNumberNAI}$</int>
+     </value>
+    </member>
+    <member>
+     <name>requestInactiveOffersFlag</name>
+     <value>
+      <boolean>${requestInactiveOffersFlag}$</boolean>
+     </value>
+    </member>
+    <member>
+     <name>offerRequestedTypeFlag</name>
+     <value>
+      <string>${offerRequestedTypeFlag}$</string>
      </value>
     </member>
     <member>

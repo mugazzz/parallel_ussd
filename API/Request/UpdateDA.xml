@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <methodCall>
-<methodName>GetAccountDetails</methodName>
+<methodName>UpdateBalanceAndDate</methodName>
 <params>
  <param>
   <value>
@@ -51,6 +51,43 @@
      <name>subscriberNumber</name>
      <value>
       <string>${subscriberNumber}$</string>
+     </value>
+    </member>
+    <member>
+     <name>transactionCurrency</name>
+     <value>
+      <string>${transactionCurrency}$</string>
+     </value>
+    </member>
+    <member>
+     <name>dedicatedAccountUpdateInformation</name>
+     <value>
+      <array>
+       <data>
+        <value>
+         <struct>
+          <member>
+           <name>dedicatedAccountID</name>
+           <value>
+            <int>${dedicatedAccountID}$</int>
+           </value>
+          </member>
+          <member>
+           <name>adjustmentAmountRelative</name>
+           <value>
+            <string>${adjustmentAmountRelative}$</string>
+           </value>
+          </member>
+          <member>
+           <name>dedicatedAccountUnitType</name>
+           <value>
+            <int>${dedicatedAccountUnitType}$</int>
+           </value>
+          </member>
+         </struct>
+        </value>
+       </data>
+      </array>
      </value>
     </member>
    </struct>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <methodCall>
-<methodName>GetAccountDetails</methodName>
+<methodName>UpdateOffer</methodName>
 <params>
  <param>
   <value>
@@ -51,6 +51,12 @@
      <name>subscriberNumber</name>
      <value>
       <string>${subscriberNumber}$</string>
+     </value>
+    </member>
+    <member>
+     <name>offerID</name>
+     <value>
+      <int>${offerID}$</int>
      </value>
     </member>
    </struct>
