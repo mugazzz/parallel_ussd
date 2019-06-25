@@ -735,6 +735,7 @@ public class App{
 			run.exec("adb shell svc data enable");
 			Thread.sleep(2000);
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
+			try {
 			takeScreenShot("Data Truned On: " + timefold);
 			Thread.sleep(3000);
 			dr.get().findElement(By.id("com.google.android.youtube:id/thumbnail")).click();
@@ -743,10 +744,15 @@ public class App{
 			run.exec("adb shell svc data disable");
 			Thread.sleep(2000);
 			takeScreenShot("Data Turned off: " + timefold);
+			}catch (Exception e) {
+				e.printStackTrace();
+			 }
+			
 		}
 		else if (Test_Case.equals("DATA_SOCIAL")){
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 			Runtime run = Runtime.getRuntime();
+			try {
 			run.exec("adb shell svc data enable");
 			Thread.sleep(2000);
 			takeScreenShot("Data Truned On: " + timefold);
@@ -759,6 +765,10 @@ public class App{
 			run.exec("adb shell svc data disable");
 			Thread.sleep(2000);
 			takeScreenShot("Data Turned off: " + timefold);
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			 }
 		}
 			String result = dr.get().stopRecordingScreen();
 			test.pass("<b>Test Scenario: <b>"+Test_Scenario+"<br>Test Case: "+ Test_Case+
