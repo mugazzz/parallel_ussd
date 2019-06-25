@@ -925,15 +925,12 @@ public class App{
 			String[] spltussd = ussdstr.split(",");
 			for (int currshortcode = 0; currshortcode < spltussd.length; currshortcode++) {
 				String nxt = "fail";
+				try {
 				do {
-					try {
 						System.out.println("------------------------------");
 						Thread.sleep(1000);
 						dr.get().findElement(By.id("com.android.phone:id/input_field"));
 						nxt = "pass";
-					} catch (Exception e) { // Thread.sleep(100); }
-
-					}
 				} while (nxt != "pass");
 				System.out.println("------------------------------");
 				info("Entering code : "+ spltussd[currshortcode]);
@@ -941,8 +938,14 @@ public class App{
 				dr.get().findElement(By.id("com.android.phone:id/input_field")).sendKeys(spltussd[currshortcode]);
 				takeScreenShot("Entering code "+ spltussd[currshortcode]);
 				dr.get().findElement(By.id("android:id/button1")).click();
+				} 
+				catch (Exception e) { // Thread.sleep(100); }
+					e.printStackTrace();
+				}
+			
 			}
 			Thread.sleep(2000);
+			try {
 			To_Number = inputs.getField("TRANSFER_TO_MSISDN");
 			dr.get().findElement(By.id("com.android.phone:id/input_field")).sendKeys(To_Number);
 			takeScreenShot("Entering Mobile Number: "+ To_Number);
@@ -959,6 +962,10 @@ public class App{
 			info("Confirmation alert : "+Confirmation);
 			takeScreenShot("Confirmation Screen");
 			dr.get().findElement(By.id("android:id/button1")).click();
+			} 
+			catch (Exception e) { // Thread.sleep(100); }
+				e.printStackTrace();
+			}
 			
 			//Notification Message handle
 			dr.get().quit();
