@@ -775,7 +775,7 @@ public class Asnconvertor {
 		
 		public static String[] Result(String MSISDN, String Prod_ID, String input, String Test_Case_ID, String curtcid, String Product_Name, String Test_Scenario_I, String Test_Case, String Confirmation, String Message, String Recharge_Coupon, String Voice_Call_To, String Text_Message, String SMS_To_Receiver, String Balancemsg, String p2p_To_Number, String p2p_Amount, String ExecutionStarttime, String CALL_DURATION, String Count)
 		{
-			String[] convertor = new String [10];
+			String[] convertor = new String [50];
 			try {
 				/////////////////////////////////////////////////////////////////////////////
 				
@@ -806,15 +806,12 @@ public class Asnconvertor {
 				while (rs2.next()) {
 					String filename = "";
 					String filetype = rs2.getField("Type");
-					convertor[0] = filetype;
-					
 					String refid = rs2.getField("Refrence_ID");
 					File dir = new File(System.getProperty("user.dir") + "\\CDR\\" + filetype);
 					File[] directoryListing = dir.listFiles();
 					if (directoryListing != null) {
 						for (File child : directoryListing) {
 							filename = child.getAbsoluteFile().getName();
-							convertor[1] = filename;
 							if(!filetype.equalsIgnoreCase("CIS")) {
 														
 							startTestCase("Parsing File " + filename);
@@ -895,8 +892,11 @@ public class Asnconvertor {
 							while ((s = stdError.readLine()) != null) {
 								System.out.println(s);
 							}
+							if(filetype.equals("OCC")) {
 							String tbl = "<table><tr><th>Parameter</th><th>Value</th></tr>";
 							//String filenameq = "";
+							convertor[1] = filename;
+							convertor[0] = filetype;
 							for (int Iterator = 1; Iterator < rs2.getFieldNames().size(); Iterator++) {
 								if (rs2.getFieldNames().get(Iterator).toString().contains("Parameter")) {
 									if (rs2.getField(rs2.getFieldNames().get(Iterator)) != "") {
@@ -921,6 +921,72 @@ public class Asnconvertor {
 							convertor[2] = tbl;
 							}
 							
+							else if(filetype.equals("SDP")) {
+								convertor[4] = filetype;
+								convertor[6] = filename;
+							}
+							
+							else if(filetype.equals("AIR")){
+								String tbl = "<table><tr><th>Parameter</th><th>Value</th></tr>";
+								//String filenameq = "";
+								convertor[9] = filename;
+								for (int Iterator = 1; Iterator < rs2.getFieldNames().size(); Iterator++) {
+									if (rs2.getFieldNames().get(Iterator).toString().contains("Parameter")) {
+										if (rs2.getField(rs2.getFieldNames().get(Iterator)) != "") {
+											//if (rs.getFieldNames().get(Iterator + 1).toString().contains("value")) {
+												//if (rs.getField(rs.getFieldNames().get(Iterator + 1)).contains("YES")) {
+
+													String param1 = rs2.getField(rs2.getFieldNames().get(Iterator).toString())
+															.toString();
+													//String retval = parsexml(param1, file);
+													String filepath=file.toString();
+													String retval = parsedata(filetype,filepath ,param1,MSISDN);												
+													
+													tbl = tbl + "<tr><td>" + param1 + "</td><td>" + retval + "</td></tr>";
+													// conn.executeUpdate("Update TestData set Value"+findx+"='"+retval+"'
+													// where Refrence_ID ='"+refid+"'");
+												//}
+											}
+
+									}
+
+								}
+								convertor[10] = tbl;
+								convertor[11] = filetype;
+								
+							}
+							
+							else if(filetype.equals("CCN")){
+								String tbl = "<table><tr><th>Parameter</th><th>Value</th></tr>";
+								//String filenameq = "";
+								convertor[12] = filename;
+								for (int Iterator = 1; Iterator < rs2.getFieldNames().size(); Iterator++) {
+									if (rs2.getFieldNames().get(Iterator).toString().contains("Parameter")) {
+										if (rs2.getField(rs2.getFieldNames().get(Iterator)) != "") {
+											//if (rs.getFieldNames().get(Iterator + 1).toString().contains("value")) {
+												//if (rs.getField(rs.getFieldNames().get(Iterator + 1)).contains("YES")) {
+
+													String param1 = rs2.getField(rs2.getFieldNames().get(Iterator).toString())
+															.toString();
+													//String retval = parsexml(param1, file);
+													String filepath=file.toString();
+													String retval = parsedata(filetype,filepath ,param1,MSISDN);												
+													
+													tbl = tbl + "<tr><td>" + param1 + "</td><td>" + retval + "</td></tr>";
+													// conn.executeUpdate("Update TestData set Value"+findx+"='"+retval+"'
+													// where Refrence_ID ='"+refid+"'");
+												//}
+											}
+
+									}
+
+								}
+								convertor[14] = tbl;
+								convertor[13] = filetype;
+								
+							}
+							}
+						
 							else {
 								startTestCase("Parsing File " + filename);
 								//String schemaname = "";
@@ -939,6 +1005,8 @@ public class Asnconvertor {
 								filecsv.createNewFile();
 																
 								cistbl=CSVparse(Cis_Filepath,Cis_viewpath,MSISDN);
+								convertor[5] = filetype;
+								convertor[7] = filename;
 								convertor[3] = cistbl;
 								
 							}

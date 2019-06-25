@@ -54,6 +54,7 @@ public class App{
 	public final String Reference_Data = Root + "\\server\\Reference_Sheet.xlsx";
 	public String curtcid = "";
 	public String Product_Name = "";
+	public String Product_ID = "";
 	public String Confirmation = "";
 	public String Amount = "";
 	public String To_Number = "";
@@ -186,7 +187,7 @@ public class App{
 			
 			while (rs.next()) {
 				Product_Name = rs.getField("Product_Name");
-				String Product_ID = rs.getField("Product_ID");
+				Product_ID = rs.getField("Product_ID");
 				String ussdstr = rs.getField("USSD_Sequence");
 				Test_Case_I = rs.getField("Test_Case");
 				Test_Scenario_I = rs.getField("Test_Scenario");
@@ -316,29 +317,86 @@ public class App{
 		//-------------------------- Report ----------------------------------------------//
 				String[] convertor = Asnconvertor.Result(MSISDN, Product_ID, Test_Scenario, Test_Case_ID, curtcid, Product_Name, Test_Scenario_I, Test_Case, Confirmation, Message, Recharge_Coupon,"", "", "", "", "", "", ExecutionStarttime, "", "");
 			
-				test.pass("<table><th style= 'min-width: 200px><b>Product Name</b></th>"
-						+"<th style= 'min-width: 200px><b>Product ID: </b></th>"
-						+ "<th style= 'min-width: 200px><b>Test Scenario: </b></th>"
-						+ "<th style= 'min-width: 200px><b>Test Case: </b></th>"
-						+ "<th style= 'min-width: 200px><b> Confirmation Alert Message: </b></th>"
-						+"<th style= 'min-width: 200px><b> Message Status: </b></th>"
-						+"<th style= 'min-width: 200px><b> ScreenShot</b></th>" + 
+				String Connection;
+				Connection co = fillo.getConnection(Reference_Data);
+				String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
+				Recordset rsr = co.executeQuery(strQuery);
+				while (rsr.next()) {
+					String Node_Type = rsr.getField("Node_To_Validate");
+				test.pass("</table><table><tr><th style= 'min-width: 168px'><b>Product Name</b></th>"
+						+"<th style= 'min-width: 168px'><b>Product ID: </b></th>"
+						+ "<th style= 'min-width: 168px'><b>Test Scenario: </b></th>"
+						+ "<th style= 'min-width: 168px'><b>Test Case: </b></th>"
+						+ "<th style= 'min-width: 168px'><b>Confirmation Alert Message: </b></th>"
+						+"<th style= 'min-width: 168px'><b> Message Status: </b></th>"
+						+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
 						
 						//Device Result
-						"<tr><td style= 'min-width: 200px>"+Product_Name+"</td><td style= 'min-width: 200px>"+Prod_ID+"</td><td style= 'min-width: 200px>"+Test_Scenario+"</td><td style= 'min-width: 200px>"+Test_Case+"</td><td style= 'min-width: 200px>"+ Confirmation +"</td><td style= 'min-width: 200px>"+ Message+"</td><td style= 'min-width: 200px>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table>"
+						"<tr><td style= 'min-width: 168px'>"+Product_Name+"</td><td style= 'min-width: 168px'>"+Product_ID+"</td><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+ Confirmation +"</td><td style= 'min-width: 168px'>"+ Message+"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table>"
+						);
+				
+						//CIS API
+						test.pass("<br><br><b>CIS Data Verification:</b>" 
+						+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
+						+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a>");
+				
+						//CIS Result
+						if(Node_Type.equalsIgnoreCase("CIS")) {
+						test.pass("<br><br><b>CIS Data:</b>"
+						+ "<br><b>CIS Table: </b><br>" + convertor[3] 
+						+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table>");
+						}
+						else {
+						test.pass("<b> EDR File is not generated for the provided MSISDN</b>");
+						}
+						
+						//SDP Result
+						if(Node_Type.equalsIgnoreCase("SDP")) {
+						test.pass("<br><br><b>SDP Data:</b>"
+						+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[4]+"/"+convertor[6] + "/Output.xml'>Click to View the SDP CDR</a>");
+						}
+						else {
+						test.pass("<b> SDP CDR File is not generated for the provided MSISDN</b>");
+						}
+						
 						
 						//OCC Result
-						+ "<br><br><br><h5>OCC Data:</h5><br>"
+						if(Node_Type.equalsIgnoreCase("OCC")) {
+						test.pass("<br><br><b>OCC Data:</b>"
 						+ "<br><b>OCC Table: </b><br>" + convertor[2] 
-						+ "<br><b>XML Link---> </b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[0]+"/"+convertor[1] + "/output.xml'>Click to View the OCC CDR</a></table>"
+						+ "<br><b>XML Link---> </b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[0]+"/"+convertor[1] + "/output.xml'>Click to View the OCC CDR</a>"+"</table>");
+						}
+						else {
+							test.pass("<b> OCC CDR File is not generated for the provided MSISDN</b>");
+							}
 						
-						//CIS Result
-						+"<br><br><br><h5>CIS Data:</h5><br>"
-						+ "<br><b>OCC Table: </b><br>" + convertor[3] 
-						+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[0]+"/"+convertor[1] + "/Output.csv'>Click to View the EDR</a></table>"
-						);
+						//AIR
+						if(Node_Type.equalsIgnoreCase("AIR")) 
+						{
+						test.pass("<br><br><b>AIR Data:</b>"
+						+ "<br><b>AIR Table: </b><br>" + convertor[10] 
+						+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[11]+"/"+convertor[9] + "/Output.xml'>Click to View the AIR CDR</a>"+"</table>");
+						}
+						else 
+							{
+							test.pass("<b> AIR CDR File is not generated for the provided MSISDN</b>");
+							}
+						
+						//CCN
+						if(Node_Type.equalsIgnoreCase("CCN")) 
+						{
+						test.pass("<br><br><b>CCN Data:</b>"
+						+ "<br><b>CCN Table: </b><br>" + convertor[14] 
+						+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[13]+"/"+convertor[12] + "/Output.xml'>Click to View the CCN CDR</a>"+"</table>");
+						}
+						else 
+							{
+							test.pass("<b> CCN CDR File is not generated for the provided MSISDN</b>");
+							}
+
 				extent.flush();
 				endTestCase(curtcid);
+				}
 			}
 			}
 			
@@ -360,6 +418,9 @@ public class App{
 			String hash = URLEncoder.encode("#", "UTF-8");
 			
 			curtcid = inputs.getField("Test_Case_ID")+"--"+rs.getField("Test_Scenario")+"_"+rs.getField("Test_Case");
+			startTestCase(curtcid);
+			ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Product_Name")+"--"+inputs.getField("Test_Scenario")+"-"+inputs.getField("Test_Case"));
+			
 			
 			DesiredCapabilities capabilities = new DesiredCapabilities();
 			capabilities.setCapability("deviceName", device);
@@ -444,8 +505,87 @@ public class App{
 			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
 			
 	//-------------------------- Report ----------------------------------------------//
-			Asnconvertor.Result(MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, Confirmation, Message,"", "", "", "", "", "", "", ExecutionStarttime, "", "");
+			String[] convertor = Asnconvertor.Result(MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, Confirmation, Message,"", "", "", "", "", "", "", ExecutionStarttime, "", "");
 			
+			String Connection;
+			Connection co = fillo.getConnection(Reference_Data);
+			String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
+			Recordset rsr = co.executeQuery(strQuery);
+			while (rsr.next()) {
+				String Node_Type = rsr.getField("Node_To_Validate");
+			test.pass("</table><table><tr><th style= 'min-width: 168px'><b>Test Scenario: </b></th>"
+					+ "<th style= 'min-width: 168px'><b>Test Case: </b></th>"
+					+ "<th style= 'min-width: 168px'><b>Recharge Coupon: </b></th>"
+					+ "<th style= 'min-width: 168px'><b>Confirmation Alert Message: </b></th>"
+					+"<th style= 'min-width: 168px'><b> Message Status: </b></th>"
+					+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
+					
+					//Device Result
+					"<tr><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+Recharge_Coupon+"</td><td style= 'min-width: 168px'>"+ Confirmation +"</td><td style= 'min-width: 168px'>"+ Message+"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table>"
+					);
+			
+					//CIS API
+					test.pass("<br><br><b>CIS Data Verification:</b>" 
+					+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
+					+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a>");
+			
+					//CIS Result
+					if(Node_Type.equalsIgnoreCase("CIS")) {
+					test.pass("<br><br><b>CIS Data:</b>"
+					+ "<br><b>CIS Table: </b><br>" + convertor[3] 
+					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table>");
+					}
+					else {
+					test.pass("<b> EDR File is not generated for the provided MSISDN</b>");
+					}
+					
+					//SDP Result
+					if(Node_Type.equalsIgnoreCase("SDP")) {
+					test.pass("<br><br><b>SDP Data:</b>"
+					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[4]+"/"+convertor[6] + "/Output.xml'>Click to View the SDP CDR</a>");
+					}
+					else {
+					test.pass("<b> SDP CDR File is not generated for the provided MSISDN</b>");
+					}
+					
+					
+					//OCC Result
+					if(Node_Type.equalsIgnoreCase("OCC")) {
+					test.pass("<br><br><b>OCC Data:</b>"
+					+ "<br><b>OCC Table: </b><br>" + convertor[2] 
+					+ "<br><b>XML Link---> </b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[0]+"/"+convertor[1] + "/output.xml'>Click to View the OCC CDR</a>"+"</table>");
+					}
+					else {
+						test.pass("<b> OCC CDR File is not generated for the provided MSISDN</b>");
+						}
+					
+					//AIR
+					if(Node_Type.equalsIgnoreCase("AIR")) 
+					{
+					test.pass("<br><br><b>AIR Data:</b>"
+					+ "<br><b>AIR Table: </b><br>" + convertor[10] 
+					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[11]+"/"+convertor[9] + "/Output.xml'>Click to View the AIR CDR</a>"+"</table>");
+					}
+					else 
+						{
+						test.pass("<b> AIR CDR File is not generated for the provided MSISDN</b>");
+						}
+					
+					//CCN
+					if(Node_Type.equalsIgnoreCase("CCN")) 
+					{
+					test.pass("<br><br><b>CCN Data:</b>"
+					+ "<br><b>CCN Table: </b><br>" + convertor[14] 
+					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[13]+"/"+convertor[12] + "/Output.xml'>Click to View the CCN CDR</a>"+"</table>");
+					}
+					else 
+						{
+						test.pass("<b> CCN CDR File is not generated for the provided MSISDN</b>");
+						}
+
+			extent.flush();
+			endTestCase(curtcid);
+			}
 		}
 		}
 			
@@ -463,8 +603,8 @@ public class App{
 			capabilities.setCapability("appPackage", package_voice);
 			capabilities.setCapability("appActivity", activity_voice);
 			curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
-			//startTestCase(curtcid);
-			//ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario")+"<br>"+inputs.getField("Test_Case"));
+			startTestCase(curtcid);
+			ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario")+"<br>"+inputs.getField("Test_Case"));
 			String Call_To = inputs.getField("Call_TO_MSISDN");
 			String CALL_DURATION = inputs.getField("CALL_DURATION");
 			int secs = Integer.parseInt(CALL_DURATION);
@@ -485,16 +625,93 @@ public class App{
 			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
 			
 	//-------------------------- Report ----------------------------------------------//
-			Asnconvertor.Result(MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", Call_To, "", "", "", "", "", ExecutionStarttime, CALL_DURATION, "");
+			String[] convertor = Asnconvertor.Result(MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", Call_To, "", "", "", "", "", ExecutionStarttime, CALL_DURATION, "");
+			String Connection;
+			Connection co = fillo.getConnection(Reference_Data);
+			String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
+			Recordset rsr = co.executeQuery(strQuery);
+			while (rsr.next()) {
+				String Node_Type = rsr.getField("Node_To_Validate");
+			test.pass("</table><table><tr><th style= 'min-width: 168px'><b>MSISDN</b></th>"
+					+"<th style= 'min-width: 168px'><b>Test Scenario </b></th>"
+					+ "<th style= 'min-width: 168px'><b>Test Case </b></th>"
+					+ "<th style= 'min-width: 168px'><b>Called To </b></th>"
+					+ "<th style= 'min-width: 168px'><b>Call Duration </b></th>"
+					+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
+					
+					//Device Result
+					"<tr><td style= 'min-width: 168px'>"+MSISDN+"</td><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+Call_To+"</td><td style= 'min-width: 168px'>"+ CALL_DURATION +"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table>");
 			
+					//CIS API
+					test.pass("<br><br><b>CIS Data Verification:</b>" 
+					+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
+					+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a>");
+			
+					//CIS Result
+					if(Node_Type.equalsIgnoreCase("CIS")) {
+					test.pass("<br><br><b>CIS Data:</b>"
+					+ "<br><b>CIS Table: </b><br>" + convertor[3] 
+					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table>");
+					}
+					else {
+					test.pass("<b> EDR File is not generated for the provided MSISDN</b>");
+					}
+					
+					//SDP Result
+					if(Node_Type.equalsIgnoreCase("SDP")) {
+					test.pass("<br><br><b>SDP Data:</b>"
+					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[4]+"/"+convertor[6] + "/Output.xml'>Click to View the SDP CDR</a>");
+					}
+					else {
+					test.pass("<b> SDP CDR File is not generated for the provided MSISDN</b>");
+					}
+					
+					
+					//OCC Result
+					if(Node_Type.equalsIgnoreCase("OCC")) {
+					test.pass("<br><br><b>OCC Data:</b>"
+					+ "<br><b>OCC Table: </b><br>" + convertor[2] 
+					+ "<br><b>XML Link---> </b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[0]+"/"+convertor[1] + "/output.xml'>Click to View the OCC CDR</a>"+"</table>");
+					}
+					else {
+						test.pass("<b> OCC CDR File is not generated for the provided MSISDN</b>");
+						}
+					
+					//AIR
+					if(Node_Type.equalsIgnoreCase("AIR")) 
+					{
+					test.pass("<br><br><b>AIR Data:</b>"
+					+ "<br><b>AIR Table: </b><br>" + convertor[10] 
+					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[11]+"/"+convertor[9] + "/Output.xml'>Click to View the AIR CDR</a>"+"</table>");
+					}
+					else 
+						{
+						test.pass("<b> AIR CDR File is not generated for the provided MSISDN</b>");
+						}
+					
+					//CCN
+					if(Node_Type.equalsIgnoreCase("CCN")) 
+					{
+					test.pass("<br><br><b>CCN Data:</b>"
+					+ "<br><b>CCN Table: </b><br>" + convertor[14] 
+					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[13]+"/"+convertor[12] + "/Output.xml'>Click to View the CCN CDR</a>"+"</table>");
+					}
+					else 
+						{
+						test.pass("<b> CCN CDR File is not generated for the provided MSISDN</b>");
+						}
+
+			extent.flush();
+			endTestCase(curtcid);
+			}
 		}
 		
 	//---------------------------		SMS			----------------------------------------//
 		
 		else if(Test_Scenario.equals("LIVE USAGE SMS")){
 			curtcid = inputs.getField("Test_Case_ID")+"-"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
-			//startTestCase(curtcid);
-			//ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario")+"-"+inputs.getField("Test_Case"));
+			startTestCase(curtcid);
+			ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario")+"-"+inputs.getField("Test_Case"));
 			String To_Receiver = inputs.getField("RECEIVER_MSISDN");
 			String Text_Message = inputs.getField("Message_To_Send");
 			String Count = inputs.getField("SMS_COUNT");
@@ -529,15 +746,86 @@ public class App{
 			//-------------------------- CDR Conversion -------------------------------------------//
 			
 			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
-			Asnconvertor.Result(MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", "", Text_Message, To_Receiver, "", "", "", ExecutionStarttime, "", Count);
-	//-------------------------- Report ----------------------------------------------//
-//			test.pass("<b>Test Scenario: "+inputs.getField("Test_Scenario")+"<br> Test Case: " +inputs.getField("Test_Case") +
-//					"<br> Message: 	<i>"+ Text_Message +"<br> Receiver Number: 	<i>"+ To_Receiver +
-//					"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
-//			extent.flush();
-//			endTestCase(curtcid);
-//			dr.get().quit();
+			String[] convertor = Asnconvertor.Result(MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", "", Text_Message, To_Receiver, "", "", "", ExecutionStarttime, "", Count);
 			
+			String Connection;
+			Connection co = fillo.getConnection(Reference_Data);
+			String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
+			Recordset rsr = co.executeQuery(strQuery);
+			while (rsr.next()) {
+				String Node_Type = rsr.getField("Node_To_Validate");
+			test.pass("</table><table><tr><th style= 'min-width: 168px'><b>Test Scenario </b></th>"
+					+ "<th style= 'min-width: 168px'><b>Test Case </b></th>"
+					+ "<th style= 'min-width: 168px'><b>Message </b></th>"
+					+ "<th style= 'min-width: 168px'><b>Receiver Number </b></th>"
+					+ "<th style= 'min-width: 168px'><b>Number of SMS sent </b></th>"
+					+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
+					
+					//Device Result
+					"<tr><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+Text_Message+"</td><td style= 'min-width: 168px'>"+To_Receiver+"</td><td style= 'min-width: 168px'>"+ Count +"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table>");
+			
+					//CIS API
+					test.pass("<br><br><b>CIS Data Verification:</b>" 
+					+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
+					+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a>");
+			
+					//CIS Result
+					if(Node_Type.equalsIgnoreCase("CIS")) {
+					test.pass("<br><br><b>CIS Data:</b>"
+					+ "<br><b>CIS Table: </b><br>" + convertor[3] 
+					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table>");
+					}
+					else {
+					test.pass("<b> EDR File is not generated for the provided MSISDN</b>");
+					}
+					
+					//SDP Result
+					if(Node_Type.equalsIgnoreCase("SDP")) {
+					test.pass("<br><br><b>SDP Data:</b>"
+					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[4]+"/"+convertor[6] + "/Output.xml'>Click to View the SDP CDR</a>");
+					}
+					else {
+					test.pass("<b> SDP CDR File is not generated for the provided MSISDN</b>");
+					}
+					
+					
+					//OCC Result
+					if(Node_Type.equalsIgnoreCase("OCC")) {
+					test.pass("<br><br><b>OCC Data:</b>"
+					+ "<br><b>OCC Table: </b><br>" + convertor[2] 
+					+ "<br><b>XML Link---> </b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[0]+"/"+convertor[1] + "/output.xml'>Click to View the OCC CDR</a>"+"</table>");
+					}
+					else {
+						test.pass("<b> OCC CDR File is not generated for the provided MSISDN</b>");
+						}
+					
+					//AIR
+					if(Node_Type.equalsIgnoreCase("AIR")) 
+					{
+					test.pass("<br><br><b>AIR Data:</b>"
+					+ "<br><b>AIR Table: </b><br>" + convertor[10] 
+					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[11]+"/"+convertor[9] + "/Output.xml'>Click to View the AIR CDR</a>"+"</table>");
+					}
+					else 
+						{
+						test.pass("<b> AIR CDR File is not generated for the provided MSISDN</b>");
+						}
+					
+					//CCN
+					if(Node_Type.equalsIgnoreCase("CCN")) 
+					{
+					test.pass("<br><br><b>CCN Data:</b>"
+					+ "<br><b>CCN Table: </b><br>" + convertor[14] 
+					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[13]+"/"+convertor[12] + "/Output.xml'>Click to View the CCN CDR</a>"+"</table>");
+					}
+					else 
+						{
+						test.pass("<b> CCN CDR File is not generated for the provided MSISDN</b>");
+						}
+
+			extent.flush();
+			endTestCase(curtcid);
+			}
 		}
 
 		
@@ -555,8 +843,8 @@ public class App{
 				String hash = URLEncoder.encode("#", "UTF-8");
 				
 				curtcid = inputs.getField("Test_Case_ID")+"--"+rs.getField("Test_Scenario");
-				//startTestCase(curtcid);
-//				ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
+				startTestCase(curtcid);
+				ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
 			
 				DesiredCapabilities capabilities = new DesiredCapabilities();
 				capabilities.setCapability("deviceName", device);
@@ -614,8 +902,82 @@ public class App{
 			dr.get().findElement(By.id("android:id/button1")).click();
 			String result = dr.get().stopRecordingScreen();
 			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
-			Asnconvertor.Result(MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", "", "", "", Balancemsg, "", "", ExecutionStarttime, "", "");
+		//-------------------Result------------------------------
+			String[] convertor = Asnconvertor.Result(MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", "", "", "", Balancemsg, "", "", ExecutionStarttime, "", "");
+			Connection co = fillo.getConnection(Reference_Data);
+			String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
+			Recordset rsr = co.executeQuery(strQuery);
+			while (rsr.next()) {
+				String Node_Type = rsr.getField("Node_To_Validate");
+			test.pass("</table><table><tr><th style= 'min-width: 168px'><b>Test Scenario </b></th>"
+					+ "<th style= 'min-width: 168px'><b>Balance Message </b></th>"
+					+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
+					
+					//Device Result
+					"<tr><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Balancemsg +"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table>");
 			
+					//CIS API
+					test.pass("<br><br><b>CIS Data Verification:</b>" 
+					+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
+					+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a>");
+			
+					//CIS Result
+					if(Node_Type.equalsIgnoreCase("CIS")) {
+					test.pass("<br><br><b>CIS Data:</b>"
+					+ "<br><b>CIS Table: </b><br>" + convertor[3] 
+					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table>");
+					}
+					else {
+					test.pass("<b> EDR File is not generated for the provided MSISDN</b>");
+					}
+					
+					//SDP Result
+					if(Node_Type.equalsIgnoreCase("SDP")) {
+					test.pass("<br><br><b>SDP Data:</b>"
+					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[4]+"/"+convertor[6] + "/Output.xml'>Click to View the SDP CDR</a>");
+					}
+					else {
+					test.pass("<b> SDP CDR File is not generated for the provided MSISDN</b>");
+					}
+					
+					
+					//OCC Result
+					if(Node_Type.equalsIgnoreCase("OCC")) {
+					test.pass("<br><br><b>OCC Data:</b>"
+					+ "<br><b>OCC Table: </b><br>" + convertor[2] 
+					+ "<br><b>XML Link---> </b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[0]+"/"+convertor[1] + "/output.xml'>Click to View the OCC CDR</a>"+"</table>");
+					}
+					else {
+						test.pass("<b> OCC CDR File is not generated for the provided MSISDN</b>");
+						}
+					
+					//AIR
+					if(Node_Type.equalsIgnoreCase("AIR")) 
+					{
+					test.pass("<br><br><b>AIR Data:</b>"
+					+ "<br><b>AIR Table: </b><br>" + convertor[10] 
+					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[11]+"/"+convertor[9] + "/Output.xml'>Click to View the AIR CDR</a>"+"</table>");
+					}
+					else 
+						{
+						test.pass("<b> AIR CDR File is not generated for the provided MSISDN</b>");
+						}
+					
+					//CCN
+					if(Node_Type.equalsIgnoreCase("CCN")) 
+					{
+					test.pass("<br><br><b>CCN Data:</b>"
+					+ "<br><b>CCN Table: </b><br>" + convertor[14] 
+					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[13]+"/"+convertor[12] + "/Output.xml'>Click to View the CCN CDR</a>"+"</table>");
+					}
+					else 
+						{
+						test.pass("<b> CCN CDR File is not generated for the provided MSISDN</b>");
+						}
+
+			extent.flush();
+			endTestCase(curtcid);
+			}
 			}
 			}
 		
@@ -639,8 +1001,8 @@ public class App{
 			String hash = URLEncoder.encode("#", "UTF-8");
 			
 			curtcid = inputs.getField("Test_Case_ID")+"--"+rs.getField("Test_Scenario");
-//			startTestCase(curtcid);
-//			ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
+			startTestCase(curtcid);
+			ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
 			APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 			Runtime run = Runtime.getRuntime();
@@ -755,7 +1117,84 @@ public class App{
 			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
 			
 	//-------------------------- Report ----------------------------------------------//
-			Asnconvertor.Result(MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", "", "", Confirmation, Message, "", "", "", "", "", To_Number, Amount, ExecutionStarttime, "", "");
+			String[] convertor = Asnconvertor.Result(MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", "", "", Confirmation, Message, "", "", "", "", "", To_Number, Amount, ExecutionStarttime, "", "");
+			
+			Connection co = fillo.getConnection(Reference_Data);
+			String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
+			Recordset rsr = co.executeQuery(strQuery);
+			while (rsr.next()) {
+				String Node_Type = rsr.getField("Node_To_Validate");
+			test.pass("</table><table><tr><th style= 'min-width: 168px'><b>Test Scenario </b></th>"
+					+ "<th style= 'min-width: 168px'><b>Test Case </b></th>"
+					+ "<th style= 'min-width: 168px'><b>P2P To Number </b></th>"
+					+ "<th style= 'min-width: 168px'><b>P2P Amount </b></th>"
+					+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
+					
+					//Device Result
+					"<tr><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+To_Number+"</td><td style= 'min-width: 168px'>"+Amount+"</td><td style= 'min-width: 168px'><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table>");
+			
+					//CIS API
+					test.pass("<br><br><b>CIS Data Verification:</b>" 
+					+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
+					+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a>");
+			
+					//CIS Result
+					if(Node_Type.equalsIgnoreCase("CIS")) {
+					test.pass("<br><br><b>CIS Data:</b>"
+					+ "<br><b>CIS Table: </b><br>" + convertor[3] 
+					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table>");
+					}
+					else {
+					test.pass("<b> EDR File is not generated for the provided MSISDN</b>");
+					}
+					
+					//SDP Result
+					if(Node_Type.equalsIgnoreCase("SDP")) {
+					test.pass("<br><br><b>SDP Data:</b>"
+					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[4]+"/"+convertor[6] + "/Output.xml'>Click to View the SDP CDR</a>");
+					}
+					else {
+					test.pass("<b> SDP CDR File is not generated for the provided MSISDN</b>");
+					}
+					
+					
+					//OCC Result
+					if(Node_Type.equalsIgnoreCase("OCC")) {
+					test.pass("<br><br><b>OCC Data:</b>"
+					+ "<br><b>OCC Table: </b><br>" + convertor[2] 
+					+ "<br><b>XML Link---> </b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[0]+"/"+convertor[1] + "/output.xml'>Click to View the OCC CDR</a>"+"</table>");
+					}
+					else {
+						test.pass("<b> OCC CDR File is not generated for the provided MSISDN</b>");
+						}
+					
+					//AIR
+					if(Node_Type.equalsIgnoreCase("AIR")) 
+					{
+					test.pass("<br><br><b>AIR Data:</b>"
+					+ "<br><b>AIR Table: </b><br>" + convertor[10] 
+					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[11]+"/"+convertor[9] + "/Output.xml'>Click to View the AIR CDR</a>"+"</table>");
+					}
+					else 
+						{
+						test.pass("<b> AIR CDR File is not generated for the provided MSISDN</b>");
+						}
+					
+					//CCN
+					if(Node_Type.equalsIgnoreCase("CCN")) 
+					{
+					test.pass("<br><br><b>CCN Data:</b>"
+					+ "<br><b>CCN Table: </b><br>" + convertor[14] 
+					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[13]+"/"+convertor[12] + "/Output.xml'>Click to View the CCN CDR</a>"+"</table>");
+					}
+					else 
+						{
+						test.pass("<b> CCN CDR File is not generated for the provided MSISDN</b>");
+						}
+
+			extent.flush();
+			endTestCase(curtcid);
+			}
 		}
 		}
 		
@@ -773,8 +1212,8 @@ public class App{
 			capabilities.setCapability("appPackage", package_Data);
 			capabilities.setCapability("appActivity", activity_Data);
 			curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
-			//startTestCase(curtcid);
-			//ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario")+"<br>"+inputs.getField("Test_Case"));
+			startTestCase(curtcid);
+			ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario")+"<br>"+inputs.getField("Test_Case"));
 			if (Test_Case.equals("DATA_REGULAR")) {
 				APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
 			Runtime run = Runtime.getRuntime();
@@ -837,12 +1276,82 @@ public class App{
 			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
 			
 	//-------------------------- Report ----------------------------------------------//
-			Asnconvertor.Result(MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", "", Test_Case, "", "", "", "", "", "", "", "", "", ExecutionStarttime, "", "");
-//			test.pass("<b>Test Scenario: <b>"+Test_Scenario+"<br>Test Case: "+ Test_Case+
-//					"</b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
-//			extent.flush();
-//			endTestCase(curtcid);
-//			dr.get().quit();
+			String[] convertor = Asnconvertor.Result(MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", "", Test_Case, "", "", "", "", "", "", "", "", "", ExecutionStarttime, "", "");
+			
+			Connection co = fillo.getConnection(Reference_Data);
+			String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
+			Recordset rsr = co.executeQuery(strQuery);
+			while (rsr.next()) {
+				String Node_Type = rsr.getField("Node_To_Validate");
+			test.pass("</table><table><tr><th style= 'min-width: 168px'><b>Test Scenario </b></th>"
+					+ "<th style= 'min-width: 168px'><b>Test Case </b></th>"
+					+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
+					
+					//Device Result
+					"<tr><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table>");
+			
+					//CIS API
+					test.pass("<br><br><b>CIS Data Verification:</b>" 
+					+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
+					+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a>");
+			
+					//CIS Result
+					if(Node_Type.equalsIgnoreCase("CIS")) {
+					test.pass("<br><br><b>CIS Data:</b>"
+					+ "<br><b>CIS Table: </b><br>" + convertor[3] 
+					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table>");
+					}
+					else {
+					test.pass("<b> EDR File is not generated for the provided MSISDN</b>");
+					}
+					
+					//SDP Result
+					if(Node_Type.equalsIgnoreCase("SDP")) {
+					test.pass("<br><br><b>SDP Data:</b>"
+					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[4]+"/"+convertor[6] + "/Output.xml'>Click to View the SDP CDR</a>");
+					}
+					else {
+					test.pass("<b> SDP CDR File is not generated for the provided MSISDN</b>");
+					}
+					
+					
+					//OCC Result
+					if(Node_Type.equalsIgnoreCase("OCC")) {
+					test.pass("<br><br><b>OCC Data:</b>"
+					+ "<br><b>OCC Table: </b><br>" + convertor[2] 
+					+ "<br><b>XML Link---> </b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[0]+"/"+convertor[1] + "/output.xml'>Click to View the OCC CDR</a>"+"</table>");
+					}
+					else {
+						test.pass("<b> OCC CDR File is not generated for the provided MSISDN</b>");
+						}
+					
+					//AIR
+					if(Node_Type.equalsIgnoreCase("AIR")) 
+					{
+					test.pass("<br><br><b>AIR Data:</b>"
+					+ "<br><b>AIR Table: </b><br>" + convertor[10] 
+					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[11]+"/"+convertor[9] + "/Output.xml'>Click to View the AIR CDR</a>"+"</table>");
+					}
+					else 
+						{
+						test.pass("<b> AIR CDR File is not generated for the provided MSISDN</b>");
+						}
+					
+					//CCN
+					if(Node_Type.equalsIgnoreCase("CCN")) 
+					{
+					test.pass("<br><br><b>CCN Data:</b>"
+					+ "<br><b>CCN Table: </b><br>" + convertor[14] 
+					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[13]+"/"+convertor[12] + "/Output.xml'>Click to View the CCN CDR</a>"+"</table>");
+					}
+					else 
+						{
+						test.pass("<b> CCN CDR File is not generated for the provided MSISDN</b>");
+						}
+
+			extent.flush();
+			endTestCase(curtcid);
+			}
 		}
 			
 			}
