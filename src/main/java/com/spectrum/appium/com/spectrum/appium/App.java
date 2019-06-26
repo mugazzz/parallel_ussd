@@ -419,6 +419,7 @@ public class App{
 				String execu = "adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+startussd+Recharge_Coupon+hash;
 				System.out.println("Execution cmmand: "+execu);
 				run.exec(execu);
+				try {
 				Thread.sleep(4000);
 				By mes = By.id("android:id/message");
 				if (elementExists(mes)) {
@@ -479,6 +480,7 @@ public class App{
 				takeScreenShot("SMS not received");
 			}
 			String result = dr.get().stopRecordingScreen();
+			
 			APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
 			
 			//-------------------------- CDR Conversion -------------------------------------------//
@@ -549,13 +551,17 @@ public class App{
 			extent.flush();
 			endTestCase(curtcid);
 			}
+				}
+		catch (Exception e) { // Thread.sleep(100); }
+			info("Error occured in for the recharge process");
+			}
 		}
 		}
 			
 	
 	//----------------------	Voice Call	 --------------------------//
 		
-		else if(Test_Scenario.equals("LIVE USAGE VOICE")) {
+		else if(Test_Scenario.equals("LIVE_USAGE_VOICE")) {
 			String package_voice = ReadMobileproperties(inputs.getField("Test_Scenario"), "apppackage");
 			String activity_voice = ReadMobileproperties(inputs.getField("Test_Scenario"), "appactivity");
 			DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -654,7 +660,7 @@ public class App{
 		
 	//---------------------------		SMS			----------------------------------------//
 		
-		else if(Test_Scenario.equals("LIVE USAGE SMS")){
+		else if(Test_Scenario.equals("LIVE_USAGE_SMS")){
 			curtcid = inputs.getField("Test_Case_ID")+"-"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
 			startTestCase(curtcid);
 			ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario")+"-"+inputs.getField("Test_Case"));
@@ -671,13 +677,13 @@ public class App{
 			capabilities.setCapability("appActivity", activity_name);
 			APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
+			try {
 			for (int i =1; i<=sms_count; i++) {
 				dr.get().findElement(By.id("com.samsung.android.messaging:id/fab")).click();  
 				Runtime run = Runtime.getRuntime();
 				run.exec("adb -s "+device_name+" shell input text "+To_Receiver);
 				//takeScreenShot("To Receiver");
-				dr.get().findElement(By.id("com.samsung.android.messaging:id/message_edit_text")).click();
-				//run.exec("adb -s "+device_name+" shell input text "+Text_Message);
+				//dr.get().findElement(By.id("com.samsung.android.messaging:id/message_edit_text")).click();
 				dr.get().findElement(By.id("com.samsung.android.messaging:id/message_edit_text")).sendKeys(Text_Message);
 				takeScreenShot("Message Content");
 				dr.get().findElement(By.id("com.samsung.android.messaging:id/send_button1")).click();
@@ -692,6 +698,10 @@ public class App{
 			//-------------------------- CDR Conversion -------------------------------------------//
 			
 			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
+			}
+			catch (Exception e) {
+				info("Error occured while sending SMS");
+			}
 			String[] convertor = Asnconvertor.Result(MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", "", Text_Message, To_Receiver, "", "", "", ExecutionStarttime, "", Count);
 			
 			test.pass("</table><table><tr><th style= 'min-width: 168px'><b>Test Scenario </b></th>"
@@ -760,7 +770,7 @@ public class App{
 	//----------------------	Balance Enquiry		---------------------------//
 		
 		
-		else if(Test_Scenario.equals("BALANCE ENQUIRES")){
+		else if(Test_Scenario.equals("BALANCE_ENQUIRES")){
 				strQuery = "Select * from balance_enquires "
 						+ "where Test_Scenario ='" + Test_Scenario+"'";
 			Recordset rs = conn1.executeQuery(strQuery);
@@ -894,7 +904,7 @@ public class App{
 		
 	//-------------------	P2P Transfer	-----------------------------------//
 		
-		else if (Test_Scenario.equals("P2P TRANSFER")){
+		else if (Test_Scenario.equals("P2P_TRANSFER")){
 			DesiredCapabilities capabilities = new DesiredCapabilities();
 			capabilities.setCapability("deviceName", device);
 			capabilities.setCapability("platformVersion", version);
@@ -1039,12 +1049,14 @@ public class App{
 			
 			test.pass("</table><table><tr><th style= 'min-width: 168px'><b>Test Scenario </b></th>"
 					+ "<th style= 'min-width: 168px'><b>Test Case </b></th>"
+					+ "<th style= 'min-width: 168px'><b>Confirmation</b></th>"
+					+ "<th style= 'min-width: 168px'><b>Message</b></th>"
 					+ "<th style= 'min-width: 168px'><b>P2P To Number </b></th>"
 					+ "<th style= 'min-width: 168px'><b>P2P Amount </b></th>"
-					+"<th style= 'min-width: 168px'><b>sxScreenShot</b></th></tr>" + 
+					+"<th style= 'min-width: 168px'><b>ScreenShot</b></th></tr>" + 
 					
 					//Device Result
-					"<tr><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+To_Number+"</td><td style= 'min-width: 168px'>"+Amount+"</td><td style= 'min-width: 168px'><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>");
+					"<tr><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+Confirmation+"</td><td style= 'min-width: 168px'>"+Message+"</td><td style= 'min-width: 168px'>"+To_Number+"</td><td style= 'min-width: 168px'>"+Amount+"</td><td style= 'min-width: 168px'><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>");
 			
 			//CIS API
 			test.pass("<br><br><b>CIS Data Verification:</b>" 
@@ -1102,7 +1114,7 @@ public class App{
 		
 	//-------------------------		Data	---------------------------//
 		
-		else if (Test_Scenario.equals("LIVE USAGE DATA")){
+		else if (Test_Scenario.equals("LIVE_USAGE_DATA")){
 			String package_Data = ReadMobileproperties(inputs.getField("Test_Case"), "apppackage");
 			String activity_Data = ReadMobileproperties(inputs.getField("Test_Case"), "appactivity");
 			DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -1122,10 +1134,6 @@ public class App{
 			Thread.sleep(2000);
 			try{
 				dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
-			}catch (Exception e) {
-				//e.printStackTrace();
-				 System.out.println("--------++++++---------");
-			 }
 			takeScreenShot("Data Truned On: " + timefold);
 			Thread.sleep(3000);
 			dr.get().findElement(By.id("com.google.android.youtube:id/thumbnail")).click();
@@ -1134,6 +1142,10 @@ public class App{
 			run.exec("adb shell svc data disable");
 			Thread.sleep(2000);
 			takeScreenShot("Data Turned off: " + timefold);
+			}catch (Exception e) {
+				//e.printStackTrace();
+				info("Error occurs while connecting Regular data");
+			 }
 		}
 		else if (Test_Case.equals("DATA_SOCIAL")){
 			APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
