@@ -195,8 +195,8 @@ public class App{
 	//-------------Start Appium server using terminal----------------//
 
 				dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
-				Runtime run = Runtime.getRuntime();
-			
+				try {
+					Runtime run = Runtime.getRuntime();
 					run.exec("adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+startussd);
 					dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 					Thread.sleep(3000);
@@ -298,6 +298,10 @@ public class App{
 				}
 				String result = dr.get().stopRecordingScreen();
 				
+			} catch (Exception e) { // Thread.sleep(100); }
+				info("Error occured in USSD Opting process");
+			}
+				
 				test.pass("<b>Product Name: "+Product_Name+"<br>Product ID: "+inputs.getField("Product_Name")+"<br>Test Scenario: "+Test_Scenario_I+"<br> Test Case: " +Test_Case_I +
 						"<br> Confirmation Alert Message: 	<i>"+ Confirmation + "</i></b>"+
 						"<br> Message Status: 	<i>"+ Message +
@@ -337,14 +341,13 @@ public class App{
 			capabilities.setCapability("appActivity", activity_name);
 
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
-			Runtime run = Runtime.getRuntime();
-
+			try {
+				Runtime run = Runtime.getRuntime();
 				System.out.println("New Recharge code: "+ Recharge_Coupon);
 				String execu = "adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+startussd+Recharge_Coupon+hash;
 				System.out.println("Execution cmmand: "+execu);
 				run.exec(execu);
 				Thread.sleep(4000);
-				
 				By mes = By.id("android:id/message");
 				if (elementExists(mes)) {
 				Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
@@ -405,6 +408,10 @@ public class App{
 			}
 			String result = dr.get().stopRecordingScreen();
 			
+			} catch (Exception e) { // Thread.sleep(100); }
+				info("Error occured in USSD Opting process");
+			}
+			
 			test.pass("<b>Test Scenario: "+Test_Scenario_I+"<br> Test Case: " +Test_Case_I +"<br> Recharge Coupon: <i>"+ Recharge_Coupon + "</i>"+
 					"<br> Confirmation Alert Message: 	<i>"+ Confirmation + "</i></b>"+
 					"<br> Message Status: 	<i>"+ Message +
@@ -434,6 +441,7 @@ public class App{
 			String CALL_DURATION = inputs.getField("CALL_DURATION");
 			int secs = Integer.parseInt(CALL_DURATION);
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
+		try {
 			Runtime run = Runtime.getRuntime();
 			String execu = "adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+Call_To;
 			System.out.println("Execution cmmand: "+execu);
@@ -442,6 +450,9 @@ public class App{
 			takeScreenShot("Call process");
 			run.exec("adb shell input keyevent KEYCODE_ENDCALL");
 			String result = dr.get().stopRecordingScreen();
+		} catch (Exception e) { // Thread.sleep(100); }
+			info("Error occured in voice call");
+		}
 			test.pass("<b>Test Scenario: "+inputs.getField("Test_Scenario")+"<br> Test Case: " +inputs.getField("Test_Case") +
 					"<br> Called To: <i>"+ Call_To +"<br> <a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
 			extent.flush();
@@ -467,6 +478,7 @@ public class App{
 			capabilities.setCapability("bootstrapPort", bsport); 
 			capabilities.setCapability("appPackage", package_name);
 			capabilities.setCapability("appActivity", activity_name);
+		try {
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 			for (int i =1; i<=sms_count; i++) {
 				dr.get().findElement(By.id("com.samsung.android.messaging:id/fab")).click();  
@@ -479,6 +491,7 @@ public class App{
 //				Thread.sleep(000);
 //				info("Started enter...");
 				//run.exec("adb -s "+device_name+" shell input text "+Text_Message);
+				dr.get().findElement(By.xpath("//android.widget.EditText[@text='Enter message']")).click();
 				dr.get().findElement(By.xpath("//android.widget.EditText[@text='Enter message']")).sendKeys(Text_Message);
 				takeScreenShot("Message Content");
 				dr.get().findElement(By.id("send_button1")).click();
@@ -487,6 +500,9 @@ public class App{
 				dr.get().navigate().back();
 			}
 			String result = dr.get().stopRecordingScreen();
+		} catch (Exception e) { // Thread.sleep(100); }
+			info("Error occured in SMS procress");
+		}
 			test.pass("<b>Test Scenario: "+inputs.getField("Test_Scenario")+"<br> Test Case: " +inputs.getField("Test_Case") +
 					"<br> Message: 	<i>"+ Text_Message +"<br> Receiver Number: 	<i>"+ To_Receiver +
 					"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
@@ -523,6 +539,7 @@ public class App{
 				capabilities.setCapability("appActivity", activity_name);
 				
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
+		try {
 			Runtime run = Runtime.getRuntime();
 			run.exec("adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+startussd);
 			dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -567,6 +584,9 @@ public class App{
 			takeScreenShot("Balance Message");
 			dr.get().findElement(By.id("android:id/button1")).click();
 			String result = dr.get().stopRecordingScreen();
+			} catch (Exception e) { // Thread.sleep(100); }
+				info("Error occured in Balance Enquires process");
+			}
 			test.pass("<b>Test Scenario: "+inputs.getField("Test_Scenario")+"<br>Balance Message: <i>"+Balancemsg+
 					"</i></b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
 			extent.flush();
@@ -598,6 +618,7 @@ public class App{
 			startTestCase(curtcid);
 			ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
+		try {
 			Runtime run = Runtime.getRuntime();
 			run.exec("adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+startussd);
 			dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -702,6 +723,9 @@ public class App{
 //			extent.flush();
 //			endTestCase(inputs.getField("Test Case ID"));
 			String result = dr.get().stopRecordingScreen();
+		} catch (Exception e) { // Thread.sleep(100); }
+			info("Error occured in P2P transfer process");
+		}
 			test.pass("<b>Test Scenario: "+inputs.getField("Test_Scenario")+
 					"<br> P2P Transfer To Number: 	<i>"+ To_Number +"</i></b>"+
 					"<br> P2P Transfer Amount: 	<i>"+ Amount +"</i></b>"+
@@ -735,7 +759,7 @@ public class App{
 			run.exec("adb shell svc data enable");
 			Thread.sleep(2000);
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
-			try {
+		try {
 			takeScreenShot("Data Truned On: " + timefold);
 			Thread.sleep(3000);
 			dr.get().findElement(By.id("com.google.android.youtube:id/thumbnail")).click();
@@ -744,8 +768,9 @@ public class App{
 			run.exec("adb shell svc data disable");
 			Thread.sleep(2000);
 			takeScreenShot("Data Turned off: " + timefold);
-			}catch (Exception e) {
-				e.printStackTrace();
+			}
+		catch (Exception e) {
+				info("Error occured in Regular data usage");
 			 }
 			
 		}
@@ -767,7 +792,7 @@ public class App{
 			takeScreenShot("Data Turned off: " + timefold);
 			}
 			catch (Exception e) {
-				e.printStackTrace();
+				info("Error occurs in Social data usage");
 			 }
 		}
 			String result = dr.get().stopRecordingScreen();
@@ -777,14 +802,11 @@ public class App{
 			endTestCase(curtcid);
 			dr.get().quit();
 		}
-		
-			
-			
 			}
 			
 	}
 		 catch (Exception e) {
-			e.printStackTrace();
+			info("+++------------+++");
 		 }
 	}
 	
