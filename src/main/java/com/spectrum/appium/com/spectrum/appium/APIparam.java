@@ -144,33 +144,7 @@ public class APIparam {
 							} else
 								break;
 						}
-//						for (int Iterator = 1; Iterator <= 150; Iterator++) {
-//							if (rs.getField("Parameter" + Iterator).isEmpty() == false) {
-//								info(rs.getField("Parameter" + Iterator) + " : " + rs.getField("Value" + Iterator));
-//								String replaceval = rs.getField("Value" + Iterator);
-//								findandreplace(Des, "${" + rs.getField("Parameter" + Iterator) + "}$", replaceval);
-//								findandreplace(Des, "$current1$", originTransactionID);
-//								findandreplace(Des, "$current2$", originTimeStamp);
-//								//findandreplace(Des, "$subscriberNumber$", MSISDN);
-//								if(rs.getField("Parameter" + Iterator).equals("Data_Object_Name"))
-//								{
-//									objectname = replaceval;
-//								}
-//							
-//								if (rsi.getField("Parameter" + Iterator).isEmpty() == false) {
-//									info(rsi.getField("Parameter" + Iterator) + " : " + rsi.getField("Value" + Iterator));
-//									 replaceval = rsi.getField("Value" + Iterator);
-//									findandreplace(Des, "${" + rsi.getField("Parameter" + Iterator) + "}$", replaceval);
-//									//findandreplace(Des, "$current1$", originTransactionID);
-//									//findandreplace(Des, "$current2$", originTimeStamp);
-//									//findandreplace(Des, "$subscriberNumber$", MSISDN);
-//									if(rsi.getField("Parameter" + Iterator).equals("Data_Object_Name"))
-//									{
-//										objectname = replaceval;
-//									}
-//							} 
-//						}
-//							}
+
 					}
 
 					File file = Des;

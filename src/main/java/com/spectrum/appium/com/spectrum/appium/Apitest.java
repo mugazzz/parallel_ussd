@@ -21,12 +21,14 @@ public class Apitest {
 	public static String sTringv = "";
 	public static String DateTimev = "";
 	
-	
+	 public static void main(String args[]) throws Throwable {
+		 WebService();
+	  }
 	public static void WebService() throws Throwable 
 	{
 		String Test_StepName = "XML Request & Response"; 
 
-		String XMLResponse_Path = Root + "\\API\\Response\\TC_003.xml";
+		String XMLResponse_Path = "C:\\Users\\venureddyg\\git\\parallel_ussd\\Result\\24-Jun-2019\\24-Jun-2019_16-30-49\\AddDifferentDA\\Response\\response.xml";
 		
 		System.out.println(XMLResponse_Path);
 
@@ -68,9 +70,9 @@ public class Apitest {
 //	            		if(DateTime.getLength() !=0){
 //	            			DateTimev = DateTime.item(k).getTextContent();
 //	            		}
-	            	if (Name.equals("dedicatedAccountActiveValue1")) {
+	            	//if (Name.equals("dedicatedAccountActiveValue1")) {
             	System.out.println("Output Value = "+":Name ="+Name+" :Value ="+Value);
-	            }
+	         //   }
 	            	}
 		}
 	    	

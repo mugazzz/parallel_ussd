@@ -1,0 +1,62 @@
+package com.spectrum.appium.com.spectrum.appium;
+
+import java.io.File;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+public class WebServices {
+	
+	  public static void main(String args[]) throws Exception {
+		  WebService();
+	  }
+public static void WebService() throws Exception 
+	{
+		 
+
+		String XMLResponse_Path ="C:\\Users\\venureddyg\\git\\parallel_ussd\\Result\\24-Jun-2019\\24-Jun-2019_16-30-49\\UpdateOffer\\Response\\response.xml";
+String key1="member";
+
+String value1="name";	
+String value2="value";
+		try {
+			
+		    DocumentBuilderFactory dbFactory1 = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder1 = dbFactory1.newDocumentBuilder();
+			Document doc1 = dBuilder1.parse(new File(XMLResponse_Path));
+			doc1.getDocumentElement().normalize();
+
+			NodeList data = doc1.getElementsByTagName(key1);
+
+			int totaldata = data.getLength();
+
+			for (int temp = 0; temp < totaldata; temp++) {
+				Node nNode = data.item(temp);
+
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element eElement = (Element) nNode;
+					
+
+					String sub = eElement.getElementsByTagName(value1).item(0).getTextContent();
+					
+					String value = (eElement.getElementsByTagName(value2).item(0).getTextContent());
+					if(sub.equalsIgnoreCase("accountFlagsAfter")||sub.equalsIgnoreCase("accountFlagsBefore")||sub.equalsIgnoreCase("accountFlagsAfter")||sub.equalsIgnoreCase("dedicatedAccountChangeInformation")||sub.equalsIgnoreCase("accountFlags")||sub.equalsIgnoreCase("accountFlagsBefore")||sub.equalsIgnoreCase("offerInformationList")||sub.equalsIgnoreCase("dedicatedAccountInformation")||sub.equalsIgnoreCase("serviceOfferings")||sub.equalsIgnoreCase("offerInformation")||sub.equalsIgnoreCase("attributeInformationList"))
+					{
+						System.out.println(sub);
+					}else {
+						System.out.println(sub+"=="+value);
+						
+					}
+				}
+
+			} 
+		} catch (Throwable e) {
+			
+			System.setProperty("Order_Status", "FAIL");
+		}
+	}
+
+}
