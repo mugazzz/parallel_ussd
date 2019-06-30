@@ -191,7 +191,7 @@ public class APIparam {
 					info("Response Header  :" + response.getHeaders().toString());
 					info("Response   :" + response.asString());
 					writeresponse(respf, response.asString());
-					String path = fCreateReportFiles(Des, respf, tc ,curtcid, trfold);
+					String path = fCreateReportFiles(Des, respf, tc, curtcid, trfold);
 					System.out.println(path);
 					String outtable = WebService(path);
 					System.out.println(outtable);
@@ -213,9 +213,9 @@ public class APIparam {
 					String captureval = "";
 					String linkv = "";
 					// String ret = "";
-					ExtentTest test = extent.createTest(cellval1+"("+cellval3+")");
+					ExtentTest test = extent.createTest(cellval1 + "(" + cellval3 + ")");
 					test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + path
-							+ "'>Click to View the "+cellval3+" Response file</a></b><br>" + outtable + "</table>");
+							+ "'>Click to View the " + cellval3 + " Response file</a></b><br>" + outtable + "</table>");
 					extent.flush();
 					endTestCase(cellval1);
 				}
@@ -604,14 +604,14 @@ public class APIparam {
 		}
 	}
 
-	public static String fCreateReportFiles(File request, File response, String tc ,String curtcid, String trfold) {
+	public static String fCreateReportFiles(File request, File response, String tc, String curtcid, String trfold) {
 		// File ResultRequest = null, ResultResponse = null;
 		try {
-			File ReqTypFold = new File(trfold + "/" +tc+"__"+curtcid);
+			File ReqTypFold = new File(trfold + "/" + tc + "__" + curtcid);
 			if ((!ReqTypFold.exists()))
 				ReqTypFold.mkdir();
 			System.out.println("Actual Path given: " + ReqTypFold);
-			
+
 			File TCReqFold = new File(ReqTypFold + "/Request");
 			if ((!TCReqFold.exists()))
 				TCReqFold.mkdir();
@@ -811,7 +811,7 @@ public class APIparam {
 		String value = null;
 		String nametag = "name";
 		String valuetag = "value";
-		String tbl = "<table><tr><th>Parameter</th><th>value</th></tr>";
+		String tbl = "<table><tr><th>Parameter</th></tr>";
 		String sot = null;
 		String values;
 		try {
@@ -824,10 +824,9 @@ public class APIparam {
 			NodeList data = doc1.getElementsByTagName(Nodetag);
 
 			int totaldata = data.getLength();
-			// System.out.println(totaldata);
-
+			
 			for (int temp = 0; temp < totaldata; temp++) {
-				// System.out.println("temp " + temp);
+				
 				Node nNode = data.item(temp);
 
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -838,8 +837,7 @@ public class APIparam {
 					NodeList valuetags = eElement.getElementsByTagName(valuetag);
 
 					int tagle = valuetags.getLength();
-					// System.out.println("tag length "+tagle);
-
+					
 					if (sub.equalsIgnoreCase("accountFlagsAfter") || sub.equalsIgnoreCase("accountFlagsBefore")
 							|| sub.equalsIgnoreCase("accountFlagsAfter")
 							|| sub.equalsIgnoreCase("dedicatedAccountChangeInformation")
@@ -849,28 +847,34 @@ public class APIparam {
 							|| sub.equalsIgnoreCase("serviceOfferings") || sub.equalsIgnoreCase("offerInformation")
 							|| sub.equalsIgnoreCase("attributeInformationList")) {
 						sot = sub;
-						
-						value="";
-						// System.out.println("Header----"+sot);
+						value = "";
+						tbl = tbl + "<tr><td>" + sot + "</td></tr>";
+
 					} else if (tagle != 1) {
 						for (int i = 1; i < tagle; i++) {
 							Node vNode = valuetags.item(i);
 							// System.out.println("row "+i);
 							Element eElementval = (Element) vNode;
-
-							value = eElementval.getElementsByTagName("i4").item(0).getTextContent();
-							sot = sub + " == " + value;
-							// System.out.println("hi--i4 tag " + sot);
+ 							
+							if(sub.contains("DateTime")) {
+								values = eElementval.getElementsByTagName("dateTime.iso8601").item(0).getTextContent();
+							}else if(sub.contains("Flags")) {
+								values = eElementval.getElementsByTagName("boolean").item(0).getTextContent();
+							}
+							else {
+								values = eElementval.getElementsByTagName("i4").item(0).getTextContent();
+							}
+							sot = sub + "==" + values;
+							System.out.println("hi--i4 tag " + sot);
+							tbl = tbl + "<tr><td>" + sot + "</td></tr>";
 
 						}
 					} else {
 						sot = sub + " == " + value;
-						// System.out.println(sot);
-						// System.out.println(val);
-
+						tbl = tbl + "<tr><td>" + sot + "</td></tr>";
 					}
 				}
-				tbl = tbl +"<tr><td>"+sub+"</td><td>"+value+"</td></tr>";
+				//tbl = tbl + "<tr><td>" + sot + "</td></tr>";
 
 			}
 		} catch (Throwable e) {
