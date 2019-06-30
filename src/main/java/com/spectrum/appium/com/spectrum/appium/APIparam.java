@@ -17,8 +17,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -27,8 +25,13 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.codoid.products.fillo.Connection;
 import com.codoid.products.fillo.Fillo;
 import com.codoid.products.fillo.Recordset;
@@ -51,34 +54,39 @@ public class APIparam {
 	public static ThreadLocal<Session> nsession = new ThreadLocal<Session>();
 	public static ThreadLocal<Channel> channel = new ThreadLocal<Channel>();
 	public static String ExecutionStarttime = For.format(cal.getTime()).toString();
-	public static HashMap<String,String> tagmap = new HashMap<String,String>();
+	public static HashMap<String, String> tagmap = new HashMap<String, String>();
 	public final static String Reference_Data = System.getProperty("user.dir") + "\\server\\Reference_Sheet.xlsx";
-	public final static String Input_data=  System.getProperty("user.dir") + "\\Input_sheet_V2.xlsx";
+	public final static String Input_data = System.getProperty("user.dir") + "\\Input_sheet_V2.xlsx";
 	private static BufferedReader br;
 	public static String objectname = "";
 	public static String suspendendpoint = "";
 	public static String tc = "";
-	
+	public static String resfolder;
+
+	@SuppressWarnings("unused")
 	public static void main(String args[]) {
-		
+
 		try {
 			createtimestampfold();
+			ExtentReports extent = new ExtentReports();
+			ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(trfold + "\\Master.html");
+			extent.attachReporter(htmlReporter);
 			DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyyMMdd'T'HH:mm:ss");
 			DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSS");
 			LocalDateTime now = LocalDateTime.now();
 			String originTimeStamp1 = dtf1.format(now).toString();
-			String originTimeStamp = originTimeStamp1+"+0000";
+			String originTimeStamp = originTimeStamp1 + "+0000";
 //			SimpleDateFormat formatter6=new SimpleDateFormat("yyyyMMdd'T'HH:mm:ss+SSSS"); 
 //			LocalDateTime originTimeStamp1 = formatter6.parse(originTimeStamp);
 			String originTransactionID = dtf2.format(now).toString();
-			System.out.println(originTimeStamp+" : "+originTransactionID );
+			System.out.println(originTimeStamp + " : " + originTransactionID);
 			System.setProperty("logfilename", trfold + "\\Logs");
 			DOMConfigurator.configure("log4j.xml");
 			info("Starting execution at +:" + ExecutionStarttime);
 			Fillo fillo = new Fillo();
 			Connection conn = fillo.getConnection(Reference_Data);
 			Connection conn1 = fillo.getConnection(Input_data);
-			Recordset rs = null ;
+			Recordset rs = null;
 			Recordset rsi = conn1.executeQuery("Select * from API_Data where \"Execution Control\" = 'Yes'");
 			String cellval1 = "blank";
 			String cellval2 = "blank";
@@ -97,15 +105,15 @@ public class APIparam {
 				cellval2 = "SOAP";
 				cellval3 = rsi.getField("Request_Name");
 				System.out.println(cellval3);
-				//cellval4 = rs.getField("SoapAction");
+				// cellval4 = rs.getField("SoapAction");
 				cellval5 = "http://10.95.214.166:10011/Air";
 				cellval6 = "Post";
-				
+
 				rs = conn.executeQuery("Select * from API_Param where \"Request_Name\" = '" + cellval3 + "'");
 				while (rs.next()) {
-				suspendendpoint =cellval5 = "http://10.95.214.166:10011/Air"; 
-				String requests = "GetAccountDetails";
-				startTestCase(cellval1);
+					suspendendpoint = cellval5 = "http://10.95.214.166:10011/Air";
+					String requests = "GetAccountDetails";
+					startTestCase(cellval1);
 //				for (int curtemplate = 0; curtemplate < 1 ; curtemplate++) {
 //					operation = requests[curtemplate];
 //					cellval3 = requests[curtemplate];
@@ -121,9 +129,8 @@ public class APIparam {
 								findandreplace(Des, "${" + rs.getField("Parameter" + Iterator) + "}$", replaceval);
 								findandreplace(Des, "$current1$", originTransactionID);
 								findandreplace(Des, "$current2$", originTimeStamp);
-								//findandreplace(Des, "$subscriberNumber$", MSISDN);
-								if(rs.getField("Parameter" + Iterator).equals("Data_Object_Name"))
-								{
+								// findandreplace(Des, "$subscriberNumber$", MSISDN);
+								if (rs.getField("Parameter" + Iterator).equals("Data_Object_Name")) {
 									objectname = replaceval;
 								}
 							} else
@@ -136,9 +143,8 @@ public class APIparam {
 								findandreplace(Des, "${" + rsi.getField("Parameter" + Iterator) + "}$", replaceval);
 								findandreplace(Des, "$current1$", originTransactionID);
 								findandreplace(Des, "$current2$", originTimeStamp);
-								//findandreplace(Des, "$subscriberNumber$", MSISDN);
-								if(rsi.getField("Parameter" + Iterator).equals("Data_Object_Name"))
-								{
+								// findandreplace(Des, "$subscriberNumber$", MSISDN);
+								if (rsi.getField("Parameter" + Iterator).equals("Data_Object_Name")) {
 									objectname = replaceval;
 								}
 							} else
@@ -146,76 +152,84 @@ public class APIparam {
 						}
 
 					}
-
-					File file = Des;
-					FileReader fr = new FileReader(file);
-					br = new BufferedReader(fr);
-					String line;
-					String req = "";
-					while ((line = br.readLine()) != null) {
-						req = req + line;
-					}
-					if (cellval3.equals("")) {
-						req = "";
-					}
-					System.out.println(req);
-					info("request Fired:" + req);
-					Response response = null;
-					File respf = null;
-					String userPassword ="techmqatar:techmqatar";
-					System.out.println(userPassword);
-					// String userPassword = "TechMahindra:TechMahindra";
-					//String encoding = new sun.misc.BASE64Encoder().encode(userPassword.getBytes());
-					// String encoding = "dGVjaG1xYXRhcjp0ZWNobXFhdGFy";
-					try {
-								response = (Response) RestAssured.given().request().body(req)
-										.headers("Content-Type", " text/xml","Host ","10.95.214.166:10011", "User-Agent", "UGw Server/5.0/1.0",
-												"Authorization", "Basic " + "bWF2ZXJpYzpFcmljc3NvbnRlc3QxMjNA")
-										.when() // .contentType("text/xml; charset=utf-8")
-										.post(cellval5).then().extract().response();
-							respf = new File(Root + "\\API\\Response\\" + cellval1 + ".xml");
-							//respf = new File(Root + "\\API\\Response\\" + cellval1 + ".json");
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					if (response != null) {
-						info("Response Code  :" + response.getStatusCode());
-						info("Response Header  :" + response.getHeaders().toString());
-						info("Response   :" + response.asString());
-						writeresponse(respf, response.asString());
-						fCreateReportFiles(Des, respf, curtcid, trfold);
-						// System.out.println(response.asString());
-						String respheader = "";
-						for (int i = 0; i < response.getHeaders().asList().size(); i++) {
-							String Header = response.getHeaders().asList().get(i).toString();
-							respheader = respheader + "<br>" + Header;
-						}
-						String res = "";
-						String stat = "";
-						String stattab = "";
-						String fext = "";
-							res = validateresp(respf, cellval1, response.statusCode());
-							stat = res.split("##")[0];
-							stattab = res.split("##")[1];
-							fext = "xml";
-						// for zain ksa
-						String captureval = "";
-						String linkv = "";
-						// String ret = "";
-						endTestCase(cellval1);
-
-					}
 				}
+				File file = Des;
+				FileReader fr = new FileReader(file);
+				br = new BufferedReader(fr);
+				String line;
+				String req = "";
+				while ((line = br.readLine()) != null) {
+					req = req + line;
+				}
+				if (cellval3.equals("")) {
+					req = "";
+				}
+				System.out.println(req);
+				info("request Fired:" + req);
+				Response response = null;
+				File respf = null;
+				// String userPassword = "techmqatar:techmqatar";
+				// System.out.println(userPassword);
+				// String userPassword = "TechMahindra:TechMahindra";
+				// String encoding = new
+				// sun.misc.BASE64Encoder().encode(userPassword.getBytes());
+				// String encoding = "dGVjaG1xYXRhcjp0ZWNobXFhdGFy";
+				try {
+					response = (Response) RestAssured.given().request().body(req)
+							.headers("Content-Type", " text/xml", "Host ", "10.95.214.166:10011", "User-Agent",
+									"UGw Server/5.0/1.0", "Authorization",
+									"Basic " + "bWF2ZXJpYzpFcmljc3NvbnRlc3QxMjNA")
+							.when() // .contentType("text/xml; charset=utf-8")
+							.post(cellval5).then().extract().response();
+					respf = new File(Root + "\\API\\Response\\" + cellval1 + ".xml");
+					// respf = new File(Root + "\\API\\Response\\" + cellval1 + ".json");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				if (response != null) {
+					info("Response Code  :" + response.getStatusCode());
+					info("Response Header  :" + response.getHeaders().toString());
+					info("Response   :" + response.asString());
+					writeresponse(respf, response.asString());
+					String path = fCreateReportFiles(Des, respf, tc ,curtcid, trfold);
+					System.out.println(path);
+					String outtable = WebService(path);
+					System.out.println(outtable);
+					// System.out.println(response.asString());
+					String respheader = "";
+					for (int i = 0; i < response.getHeaders().asList().size(); i++) {
+						String Header = response.getHeaders().asList().get(i).toString();
+						respheader = respheader + "<br>" + Header;
+					}
+					String res = "";
+					String stat = "";
+					String stattab = "";
+					String fext = "";
+					res = validateresp(respf, cellval1, response.statusCode());
+					stat = res.split("##")[0];
+					stattab = res.split("##")[1];
+					fext = "xml";
+					// for zain ksa
+					String captureval = "";
+					String linkv = "";
+					// String ret = "";
+					ExtentTest test = extent.createTest(cellval1+"("+cellval3+")");
+					test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + path
+							+ "'>Click to View the "+cellval3+" Response file</a></b><br>" + outtable + "</table>");
+					extent.flush();
+					endTestCase(cellval1);
+				}
+
 			}
+
 			rs.close();
 			conn.close();
-			} catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			error(e.getMessage());
 		}
 
 	}
-	
 
 	public static String gettagvalue(File resp, String tag, int index) {
 		try {
@@ -239,7 +253,7 @@ public class APIparam {
 			}
 			return retvall;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 			return "";
 		}
@@ -317,9 +331,9 @@ public class APIparam {
 			String retval = "<Table><tr><td>Parameter</td><td>Expected Value</td><td>Actual Value</td></tr>";
 			while (rsi.next()) {
 				int expstatuscode = 200;
-				//if (rs.getField("Expected_Status_Code") == "") {
-				//	expstatuscode = 200;
-				//}
+				// if (rs.getField("Expected_Status_Code") == "") {
+				// expstatuscode = 200;
+				// }
 				retval = retval + "<tr><td>Status Code</td><td>" + expstatuscode + "</td><td>" + statcode
 						+ "</td></tr>";
 				if (expstatuscode != statcode) {
@@ -392,7 +406,7 @@ public class APIparam {
 			}
 			// NodeList nlis = doc.getDocumentElement().getElementsByTagName(param);
 			NodeList nlis = doc.getDocumentElement().getElementsByTagName(param);
-			
+
 			if (nlis.getLength() > inde) {
 				nlis = doc.getDocumentElement().getElementsByTagNameNS("*", param);
 			}
@@ -407,6 +421,7 @@ public class APIparam {
 		return actval;
 	}
 
+	@SuppressWarnings("unused")
 	public static String capturevalues(File resp, String TC, String reqname) {
 		String sendval = "";
 		try {
@@ -589,30 +604,32 @@ public class APIparam {
 		}
 	}
 
-	public static void fCreateReportFiles(File request, File response, String curtcid, String trfold) {
-		//File ResultRequest = null, ResultResponse = null;
+	public static String fCreateReportFiles(File request, File response, String tc ,String curtcid, String trfold) {
+		// File ResultRequest = null, ResultResponse = null;
 		try {
-			File ReqTypFold = new File(trfold + "/" + curtcid); 
+			File ReqTypFold = new File(trfold + "/" +tc+"__"+curtcid);
 			if ((!ReqTypFold.exists()))
 				ReqTypFold.mkdir();
-			System.out.println("Actual Path given: "+ReqTypFold);
+			System.out.println("Actual Path given: " + ReqTypFold);
 			
-			File TCReqFold = new File(ReqTypFold+"/Request");
+			File TCReqFold = new File(ReqTypFold + "/Request");
 			if ((!TCReqFold.exists()))
 				TCReqFold.mkdir();
-			System.out.println("Actual Path given: "+TCReqFold );
-			File TCResFold = new File(ReqTypFold+"/Response");
+			System.out.println("Actual Path given: " + TCReqFold);
+			File TCResFold = new File(ReqTypFold + "/Response");
 			if ((!TCResFold.exists()))
 				TCResFold.mkdir();
-					File ResultRequest = new File(TCReqFold +"/"+"request.xml");
-					File ResultResponse = new File(TCResFold +"/"+"response.xml");
+			File ResultRequest = new File(TCReqFold + "/" + "request.xml");
+			File ResultResponse = new File(TCResFold + "/" + "response.xml");
 			GenerateResponse(request, ResultRequest);
 			GenerateResponse(response, ResultResponse);
+			resfolder = ResultResponse.toString();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			error(e.getMessage());
 		}
+		return resfolder;
 	}
 
 	private static Logger Log = Logger.getLogger(APIparam.class.getName());//
@@ -744,10 +761,10 @@ public class APIparam {
 //			retval = prop.getProperty(propkey);
 //
 //		} catch (Exception e) {
-//			// TODO Auto-generated catch block
+//			
 //			e.printStackTrace();
 //		}
-//
+
 //		return retval;
 //	}
 
@@ -761,7 +778,7 @@ public class APIparam {
 			retval = prop.getProperty(propkey);
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 
@@ -785,5 +802,81 @@ public class APIparam {
 			e.printStackTrace();
 		}
 
+	}
+
+	public static String WebService(String XMLResponse_Path) throws Exception {
+
+		String Nodetag = "member";
+		String sub = null;
+		String value = null;
+		String nametag = "name";
+		String valuetag = "value";
+		String tbl = "<table><tr><th>Parameter</th><th>value</th></tr>";
+		String sot = null;
+		String values;
+		try {
+
+			DocumentBuilderFactory dbFactory1 = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder1 = dbFactory1.newDocumentBuilder();
+			Document doc1 = dBuilder1.parse(new File(XMLResponse_Path));
+			doc1.getDocumentElement().normalize();
+
+			NodeList data = doc1.getElementsByTagName(Nodetag);
+
+			int totaldata = data.getLength();
+			// System.out.println(totaldata);
+
+			for (int temp = 0; temp < totaldata; temp++) {
+				// System.out.println("temp " + temp);
+				Node nNode = data.item(temp);
+
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element eElement = (Element) nNode;
+
+					sub = eElement.getElementsByTagName(nametag).item(0).getTextContent();
+					value = eElement.getElementsByTagName(valuetag).item(0).getTextContent();
+					NodeList valuetags = eElement.getElementsByTagName(valuetag);
+
+					int tagle = valuetags.getLength();
+					// System.out.println("tag length "+tagle);
+
+					if (sub.equalsIgnoreCase("accountFlagsAfter") || sub.equalsIgnoreCase("accountFlagsBefore")
+							|| sub.equalsIgnoreCase("accountFlagsAfter")
+							|| sub.equalsIgnoreCase("dedicatedAccountChangeInformation")
+							|| sub.equalsIgnoreCase("accountFlags") || sub.equalsIgnoreCase("accountFlagsBefore")
+							|| sub.equalsIgnoreCase("offerInformationList")
+							|| sub.equalsIgnoreCase("dedicatedAccountInformation")
+							|| sub.equalsIgnoreCase("serviceOfferings") || sub.equalsIgnoreCase("offerInformation")
+							|| sub.equalsIgnoreCase("attributeInformationList")) {
+						sot = sub;
+						
+						value="";
+						// System.out.println("Header----"+sot);
+					} else if (tagle != 1) {
+						for (int i = 1; i < tagle; i++) {
+							Node vNode = valuetags.item(i);
+							// System.out.println("row "+i);
+							Element eElementval = (Element) vNode;
+
+							value = eElementval.getElementsByTagName("i4").item(0).getTextContent();
+							sot = sub + " == " + value;
+							// System.out.println("hi--i4 tag " + sot);
+
+						}
+					} else {
+						sot = sub + " == " + value;
+						// System.out.println(sot);
+						// System.out.println(val);
+
+					}
+				}
+				tbl = tbl +"<tr><td>"+sub+"</td><td>"+value+"</td></tr>";
+
+			}
+		} catch (Throwable e) {
+
+			System.setProperty("Order_Status", "FAIL");
+		}
+		return tbl;
 	}
 }
