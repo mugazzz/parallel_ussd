@@ -811,7 +811,7 @@ public class APIparam {
 		String value = null;
 		String nametag = "name";
 		String valuetag = "value";
-		String tbl = "<table><tr><th>Parameter</th></tr>";
+		String tbl = "<table><tr><th>Parameter</th><th>Value</th></tr>";
 		String sot = null;
 		String values;
 		try {
@@ -848,7 +848,7 @@ public class APIparam {
 							|| sub.equalsIgnoreCase("attributeInformationList")) {
 						sot = sub;
 						value = "";
-						tbl = tbl + "<tr><td>" + sot + "</td></tr>";
+						tbl = tbl + "<tr><td>" + sub + "</td><td>" + value + "</td></tr>";
 
 					} else if (tagle != 1) {
 						for (int i = 1; i < tagle; i++) {
@@ -866,12 +866,12 @@ public class APIparam {
 							}
 							sot = sub + "==" + values;
 							System.out.println("hi--i4 tag " + sot);
-							tbl = tbl + "<tr><td>" + sot + "</td></tr>";
+							tbl = tbl + "<tr><td>" + sub + "</td><td>" + values + "</td></tr>";
 
 						}
 					} else {
 						sot = sub + " == " + value;
-						tbl = tbl + "<tr><td>" + sot + "</td></tr>";
+						tbl = tbl + "<tr><td>" + sub + "</td><td>" + value + "</td></tr>";
 					}
 				}
 				//tbl = tbl + "<tr><td>" + sot + "</td></tr>";

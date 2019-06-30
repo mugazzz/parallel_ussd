@@ -106,8 +106,7 @@ public class WebServices {
 						sot = sub + "==" + value;
 						System.out.println(sot);
 						tbl = tbl + "<tr><td>" + sot + "</td></tr>";
-						// System.out.println(val);
-
+						
 					}
 				}
 				
