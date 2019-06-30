@@ -29,6 +29,7 @@ import org.testng.annotations.Test;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
+import com.codoid.products.exception.FilloException;
 import com.codoid.products.fillo.Connection;
 import com.codoid.products.fillo.Fillo;
 import com.codoid.products.fillo.Recordset;
@@ -81,9 +82,11 @@ public class App{
 //	}
 	
 	@Test
-	public void Device_1(){
+	public void Device_1() throws FilloException, IOException{
 		
 		App k = new App("device1");
+		//APIHandler.Read_API("C:\\Users\\mugazp\\Downloads\\parallel_ussd-USSD_with_API_v1\\Result\\18-Jun-2019\\18-Jun-2019_14-31-12\\TC_001--Call Home for Less_USSD_OPT_IN_USSD_Long_Code","usageThresholdID", "UpdateUsageThresholdsAndCounters", "curtcid", "trfold", "State", "971520001714");
+		//APIHandler.Read_API("C:\\Users\\mugazp\\Downloads\\parallel_ussd-USSD_with_API_v1\\Result\\18-Jun-2019\\18-Jun-2019_14-31-12\\TC_001--Call Home for Less_USSD_OPT_IN_USSD_Long_Code", "usageThresholdID");
 		//Asnconvertor.Result("971520001714", "820", "USSD_OPT_IN", "T_003", "curtcid", "Call for home", "", "Long_Code", "Confirmation msf", "MSD Message", "", "", "", "", "", "", "", "2019_21_001", "", "");
 		//APIHandler.API(curtcid, trfold, "Before", "971520001714");
 		//Asnconvertor.Result("971520001714", "820", "USSD_OPT_IN", "Test_Case_ID", "curtcid", "Product_Name", "Test_Scenario_I", "Test_Case", "Confirmation", "Message", "Recharge_Coupon","", "", "", "", "", "", "ExecutionStarttime", "", "");
@@ -205,11 +208,17 @@ public class App{
 				}catch (Exception e) {
 					System.out.println("--------++++++---------");
 				}
+				
+	//--------------------	Clear Usage usageThresholdValue	-------------------------------
+				String xml_path = trfold+"//"+curtcid;
+				APIHandler.Read_API(xml_path, "usageThresholdID", "UpdateUsageThresholdsAndCounters", curtcid, trfold, "Before_Execution", MSISDN);
+				
+				
 				Runtime run = Runtime.getRuntime();
 			
 					run.exec("adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+startussd);
 					dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-					Thread.sleep(2000);
+					Thread.sleep(4000);
 					By inputfield = By.id("com.android.phone:id/input_field");
 					if (elementExists(inputfield)) {
 						dr.get().findElement(By.id("com.android.phone:id/input_field"));
@@ -1161,6 +1170,7 @@ public class App{
 			dr.get().findElement(By.xpath("//android.widget.EditText[@text='Password']")).sendKeys("Tester123!");
 			dr.get().findElement(By.xpath("//android.view.ViewGroup[@index=3]")).click();
 			Thread.sleep(6000);
+			takeScreenShot("Logged in: " + timefold);
 			dr.get().navigate().back();
 			//dr.get().findElement(By.xpath("//android.view.ViewGroup[@text='OK']")).click();
 			Thread.sleep(6000);
