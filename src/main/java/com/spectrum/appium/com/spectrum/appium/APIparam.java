@@ -150,7 +150,6 @@ public class APIparam {
 							} else
 								break;
 						}
-
 					}
 				}
 				File file = Des;
@@ -824,9 +823,9 @@ public class APIparam {
 			NodeList data = doc1.getElementsByTagName(Nodetag);
 
 			int totaldata = data.getLength();
-			
+
 			for (int temp = 0; temp < totaldata; temp++) {
-				
+
 				Node nNode = data.item(temp);
 
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -837,7 +836,7 @@ public class APIparam {
 					NodeList valuetags = eElement.getElementsByTagName(valuetag);
 
 					int tagle = valuetags.getLength();
-					
+
 					if (sub.equalsIgnoreCase("accountFlagsAfter") || sub.equalsIgnoreCase("accountFlagsBefore")
 							|| sub.equalsIgnoreCase("accountFlagsAfter")
 							|| sub.equalsIgnoreCase("dedicatedAccountChangeInformation")
@@ -855,17 +854,18 @@ public class APIparam {
 							Node vNode = valuetags.item(i);
 							// System.out.println("row "+i);
 							Element eElementval = (Element) vNode;
- 							
-							if(sub.contains("DateTime")) {
+
+							if (sub.contains("DateTime")) {
 								values = eElementval.getElementsByTagName("dateTime.iso8601").item(0).getTextContent();
-							}else if(sub.contains("Flags")) {
+							} else if (sub.contains("Flags")) {
 								values = eElementval.getElementsByTagName("boolean").item(0).getTextContent();
-							}
-							else {
+							} else if(sub.contains("Value")||sub.contains("masterAccountNumber")||sub.contains("originTransactionID")||sub.contains("currency")) {
+								values = eElementval.getElementsByTagName("string").item(0).getTextContent();
+							}else {
 								values = eElementval.getElementsByTagName("i4").item(0).getTextContent();
 							}
 							sot = sub + "==" + values;
-							System.out.println("hi--i4 tag " + sot);
+							//System.out.println("hi--i4 tag " + sot);
 							tbl = tbl + "<tr><td>" + sub + "</td><td>" + values + "</td></tr>";
 
 						}
@@ -874,7 +874,7 @@ public class APIparam {
 						tbl = tbl + "<tr><td>" + sub + "</td><td>" + value + "</td></tr>";
 					}
 				}
-				//tbl = tbl + "<tr><td>" + sot + "</td></tr>";
+				// tbl = tbl + "<tr><td>" + sot + "</td></tr>";
 
 			}
 		} catch (Throwable e) {

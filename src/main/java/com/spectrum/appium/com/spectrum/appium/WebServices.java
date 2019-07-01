@@ -20,20 +20,18 @@ public class WebServices {
 	public static DateFormat For = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
 	public static Calendar cal = Calendar.getInstance();
 	public static String ExecutionStarttime = For.format(cal.getTime()).toString();
-	
 
 	public static void main(String args[]) throws Exception {
-		
-		String XMLResponsePath="C:\\Users\\venureddyg\\git\\parallel_ussd\\Result\\30-Jun-2019\\30-Jun-2019_15-37-21\\TC_002__GetOffers\\Response\\response.xml";
+
+		String XMLResponsePath = "C:\\Users\\venureddyg\\git\\parallel_ussd\\Result\\30-Jun-2019\\30-Jun-2019_15-37-21\\TC_002__GetOffers\\Response\\response.xml";
 		String data = WebService(XMLResponsePath);
-		 System.out.println(data);
-		
+		System.out.println(data);
+
 	}
 
 	@SuppressWarnings("unused")
 	public static String WebService(String XMLResponse_Path) throws Exception {
 
-		 
 		String Nodetag = "member";
 		String sub;
 		String value = null;
@@ -52,66 +50,57 @@ public class WebServices {
 			NodeList data = doc1.getElementsByTagName(Nodetag);
 
 			int totaldata = data.getLength();
-			
 
 			for (int temp = 0; temp < totaldata; temp++) {
-				
+
 				Node nNode = data.item(temp);
 
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element eElement = (Element) nNode;
-					
-				
-
 					sub = eElement.getElementsByTagName(nametag).item(0).getTextContent();
 					value = eElement.getElementsByTagName(valuetag).item(0).getTextContent();
-					
+
 					NodeList valuetags = eElement.getElementsByTagName(valuetag);
 
 					int tagle = valuetags.getLength();
-					
 
 					if (sub.equalsIgnoreCase("accountFlagsAfter") || sub.equalsIgnoreCase("accountFlagsBefore")
 							|| sub.equalsIgnoreCase("usageCounterUsageThresholdInformation")
 							|| sub.equalsIgnoreCase("usageThresholdInformation")
 							|| sub.equalsIgnoreCase("dedicatedAccountChangeInformation")
-							|| sub.equalsIgnoreCase("accountFlags") || sub.equalsIgnoreCase("accountFlagsBefore")
-							|| sub.equalsIgnoreCase("offerInformationList")
+							|| sub.equalsIgnoreCase("accountFlags") || sub.equalsIgnoreCase("offerInformationList")
 							|| sub.equalsIgnoreCase("dedicatedAccountInformation")
 							|| sub.equalsIgnoreCase("serviceOfferings") || sub.equalsIgnoreCase("offerInformation")
 							|| sub.equalsIgnoreCase("attributeInformationList")) {
 						sot = sub;
-						System.out.println("Header----"+sot);
+						System.out.println("Header----" + sot);
 						tbl = tbl + "<tr><td>" + sot + "</td></tr>";
 					} else if (tagle != 1) {
 						for (int i = 1; i < tagle; i++) {
 							Node vNode = valuetags.item(i);
 							// System.out.println("row "+i);
 							Element eElementval = (Element) vNode;
- 							
-							if(sub.contains("DateTime")) {
+
+							if (sub.contains("DateTime")) {
 								values = eElementval.getElementsByTagName("dateTime.iso8601").item(0).getTextContent();
-							}else if(sub.contains("Flags")) {
+							} else if (sub.contains("Flags")) {
 								values = eElementval.getElementsByTagName("boolean").item(0).getTextContent();
-							}
-							else {
+							} else {
 								values = eElementval.getElementsByTagName("i4").item(0).getTextContent();
 							}
 							sot = sub + "==" + values;
 							System.out.println("hi--i4 tag " + sot);
 							tbl = tbl + "<tr><td>" + sot + "</td></tr>";
-
 						}
 					} else {
 						sot = sub + "==" + value;
 						System.out.println(sot);
 						tbl = tbl + "<tr><td>" + sot + "</td></tr>";
-						
+
 					}
 				}
-				
 
-			}	
+			}
 		} catch (Throwable e) {
 
 			System.setProperty("Order_Status", "FAIL");
