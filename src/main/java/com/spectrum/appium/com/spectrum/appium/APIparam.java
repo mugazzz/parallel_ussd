@@ -838,10 +838,10 @@ public class APIparam {
 					int tagle = valuetags.getLength();
 
 					if (sub.equalsIgnoreCase("accountFlagsAfter") || sub.equalsIgnoreCase("accountFlagsBefore")
-							|| sub.equalsIgnoreCase("accountFlagsAfter")
+							|| sub.equalsIgnoreCase("usageCounterUsageThresholdInformation")
+							|| sub.equalsIgnoreCase("usageThresholdInformation")
 							|| sub.equalsIgnoreCase("dedicatedAccountChangeInformation")
-							|| sub.equalsIgnoreCase("accountFlags") || sub.equalsIgnoreCase("accountFlagsBefore")
-							|| sub.equalsIgnoreCase("offerInformationList")
+							|| sub.equalsIgnoreCase("accountFlags") || sub.equalsIgnoreCase("offerInformationList")
 							|| sub.equalsIgnoreCase("dedicatedAccountInformation")
 							|| sub.equalsIgnoreCase("serviceOfferings") || sub.equalsIgnoreCase("offerInformation")
 							|| sub.equalsIgnoreCase("attributeInformationList")) {
@@ -859,13 +859,14 @@ public class APIparam {
 								values = eElementval.getElementsByTagName("dateTime.iso8601").item(0).getTextContent();
 							} else if (sub.contains("Flags")) {
 								values = eElementval.getElementsByTagName("boolean").item(0).getTextContent();
-							} else if(sub.contains("Value")||sub.contains("masterAccountNumber")||sub.contains("originTransactionID")||sub.contains("currency")) {
+							} else if (sub.contains("Value") || sub.contains("masterAccountNumber")
+									|| sub.contains("originTransactionID") || sub.contains("currency")) {
 								values = eElementval.getElementsByTagName("string").item(0).getTextContent();
-							}else {
+							} else {
 								values = eElementval.getElementsByTagName("i4").item(0).getTextContent();
 							}
 							sot = sub + "==" + values;
-							//System.out.println("hi--i4 tag " + sot);
+							// System.out.println("hi--i4 tag " + sot);
 							tbl = tbl + "<tr><td>" + sub + "</td><td>" + values + "</td></tr>";
 
 						}
