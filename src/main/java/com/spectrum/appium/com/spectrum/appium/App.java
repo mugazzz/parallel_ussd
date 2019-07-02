@@ -218,7 +218,7 @@ public class App{
 			
 					run.exec("adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+startussd);
 					dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-					Thread.sleep(4000);
+					Thread.sleep(5000);
 					By inputfield = By.id("com.android.phone:id/input_field");
 					if (elementExists(inputfield)) {
 						dr.get().findElement(By.id("com.android.phone:id/input_field"));
@@ -238,11 +238,16 @@ public class App{
 							}
 						} while (nxt != "pass");
 						System.out.println("------------------------------");
+						try {
 						info("Entering code : "+ spltussd[currshortcode]);
 //						Thread.sleep(2000);
 						dr.get().findElement(By.id("com.android.phone:id/input_field")).sendKeys(spltussd[currshortcode]);
 						takeScreenShot("Entering code "+ spltussd[currshortcode]);
 						dr.get().findElement(By.id("android:id/button1")).click();
+						}
+						catch (Exception e) { // Thread.sleep(100); }
+							takeScreenShot("Error in option selection");	
+						}
 					}
 					}
 					else {
@@ -258,7 +263,11 @@ public class App{
 					}
 					else {
 						info("Error occured, please check with screenshot");
+						By Send = By.id("android:id/button1");
 						takeScreenShot("Error appears");
+						if(elementExists(Send)) {
+							dr.get().findElement(By.id("android:id/button1")).click();
+						}
 					}
 					}
 					else {
@@ -1265,8 +1274,8 @@ public class App{
 			
 	}
 		 catch (Exception e) {
-			e.printStackTrace();
-			 //System.out.println("--------++++++---------");
+			//e.printStackTrace();
+			System.out.println("--------++++++---------");
 		 }
 	}
 

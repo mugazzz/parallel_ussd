@@ -10221,3 +10221,2210 @@ tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> exit
 logout
 
 Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.9 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.9 !!!
+Last login: Sun Jun 30 17:42:38 2019 from 10.160.130.18
+#!/bin/bash
+
+cd /data/edr_enrichment/sftpcompleted
+
+grep -l 971520001714 *2019-07-01_*|tail -1 > /home/atos/EDRfile.txt
+
+exit
+
+[atos@meydvvmedr02 ~]$ #!/bin/bash
+[atos@meydvvmedr02 ~]$ 
+[atos@meydvvmedr02 ~]$ cd /data/edr_enrichment/sftpcompleted
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ grep -l 971520001714 *2019-07-01_*|tail -1 >  /home/atos/EDRfile.txt
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.213.132 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.213.132 !!!
+#!/bin/bash
+
+cd /cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive/
+
+grep -l 971520001714 *20190701080* |tac|head -1 > /cluster/home/system-oam/tasuser/Auto/CCN_0file.txt
+
+exit
+
+tasuser@SC-1:~> #!/bin/bash
+tasuser@SC-1:~> 
+tasuser@SC-1:~> cd /cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive/
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive> 
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive> grep - l 971520001714 *20190701080* |tac|head -1 > /cluster/home/system-oam/tasuser/Aut o/CCN_0file.txt
+grep: *20190701080*: No such file or directory
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive> 
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive> exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.213.132 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.213.132 !!!
+#!/bin/bash
+
+cd /cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive/
+
+grep -l 971520001714 *20190701080* |tac|head -1 > /cluster/home/system-oam/tasuser/Auto/CCN_1file.txt
+
+exit
+
+tasuser@SC-1:~> #!/bin/bash
+tasuser@SC-1:~> 
+tasuser@SC-1:~> cd /cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive/
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> 
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> grep - l 971520001714 *20190701080* |tac|head -1 > /cluster/home/system-oam/tasuser/Aut o/CCN_1file.txt
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> 
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.9 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.9 !!!
+#!/bin/bash
+
+cd /data/edr_enrichment/sftpcompleted
+
+grep -l 971520001714 *2019-07-01_*|tail -1 > /home/atos/EDRfile.txt
+
+exit
+
+[atos@meydvvmedr02 ~]$ #!/bin/bash
+[atos@meydvvmedr02 ~]$ 
+[atos@meydvvmedr02 ~]$ cd /data/edr_enrichment/sftpcompleted
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ grep -l 971520001714 *2019-07-01_*|tail -1 >  /home/atos/EDRfile.txt
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+################################################################################
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+Last login: Mon Jul  1 14:48:01 2019 from 10.160.130.18
+################################################################################
+# Warning! You have entered into a secured area!                               #
+# Your IP, Login Time, Username have been noted for auditing purposes.         #
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ c
+d /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+Last login: Mon Jul  1 14:48:55 2019 from 10.160.130.18
+################################################################################
+# Warning! You have entered into a secured area!                               #
+# Your IP, Login Time, Username has been noted for auditing purposes.          #
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /hom
+e/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.213.132 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.213.132 !!!
+#!/bin/bash
+
+cd /cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive/
+
+grep -l 971520001714 *20190701105* |tac|head -1 > /cluster/home/system-oam/tasuser/Auto/CCN_0file.txt
+
+exit
+
+tasuser@SC-1:~> #!/bin/bash
+tasuser@SC-1:~> 
+tasuser@SC-1:~> cd /cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive/
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive> 
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive> grep - l 971520001714 *20190701105* |tac|head -1 > /cluster/home/system-oam/tasuser/Aut o/CCN_0file.txt
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive> 
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive> exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.213.132 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.213.132 !!!
+#!/bin/bash
+
+cd /cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive/
+
+grep -l 971520001714 *20190701105* |tac|head -1 > /cluster/home/system-oam/tasuser/Auto/CCN_1file.txt
+
+exit
+
+tasuser@SC-1:~> #!/bin/bash
+tasuser@SC-1:~> 
+tasuser@SC-1:~> cd /cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive/
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> 
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> grep - l 971520001714 *20190701105* |tac|head -1 > /cluster/home/system-oam/tasuser/Aut o/CCN_1file.txt
+grep: *20190701105*: No such file or directory
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> 
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.9 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.9 !!!
+Last login: Mon Jul  1 13:59:35 2019 from 10.44.75.130
+#!/bin/bash
+
+cd /data/edr_enrichment/sftpcompleted
+
+grep -l 971520001714 *2019-07-01_*|tail -1 > /home/atos/EDRfile.txt
+
+exit
+
+[atos@meydvvmedr02 ~]$ #!/bin/bash
+[atos@meydvvmedr02 ~]$ 
+[atos@meydvvmedr02 ~]$ cd /data/edr_enrichment/sftpcompleted
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ grep -l 971520001714 *2019-07-01_*|tail -1 >  /home/atos/EDRfile.txt
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+Last login: Mon Jul  1 14:52:19 2019 from 10.160.130.18
+################################################################################
+# Warning! You have entered into a secured area!                               #
+# Your IP, Login Time, Username has been noted for auditing purposes.          #
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /hom
+e/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+
+# Warning! You have entered into a secured area!                               #
+# Your IP, Login Time, Username have been noted for auditing purposes.         #
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |hea
+d -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+Last login: Mon Jul  1 14:58:03 2019 from 10.160.130.18
+################################################################################
+# Warning! You have entered into a secured area!                               #
+# Your IP, Login Time, Username has been noted for auditing purposes.          #
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /hom
+e/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+Last login: Mon Jul  1 15:01:26 2019 from 10.160.130.18
+################################################################################
+# Warning! You have entered into a secured area!                               #
+# Your IP, Login Time, Username has been noted for auditing purposes.          #
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /hom
+e/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.213.132 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.213.132 !!!
+#!/bin/bash
+
+cd /cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive/
+
+grep -l 971520001714 *20190701110* |tac|head -1 > /cluster/home/system-oam/tasuser/Auto/CCN_0file.txt
+
+exit
+
+tasuser@SC-1:~> #!/bin/bash
+tasuser@SC-1:~> 
+tasuser@SC-1:~> cd /cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive/
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive> 
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive> grep - l 971520001714 *20190701110* |tac|head -1 > /cluster/home/system-oam/tasuser/Aut o/CCN_0file.txt
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive> 
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive> exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.213.132 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.213.132 !!!
+#!/bin/bash
+
+cd /cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive/
+
+grep -l 971520001714 *20190701110* |tac|head -1 > /cluster/home/system-oam/tasuser/Auto/CCN_1file.txt
+
+exit
+
+tasuser@SC-1:~> #!/bin/bash
+tasuser@SC-1:~> 
+tasuser@SC-1:~> cd /cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive/
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> 
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> grep - l 971520001714 *20190701110* |tac|head -1 > /cluster/home/system-oam/tasuser/Aut o/CCN_1file.txt
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> 
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.9 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.9 !!!
+#!/bin/bash
+
+cd /data/edr_enrichment/sftpcompleted
+
+grep -l 971520001714 *2019-07-01_*|tail -1 > /home/atos/EDRfile.txt
+
+exit
+
+[atos@meydvvmedr02 ~]$ #!/bin/bash
+[atos@meydvvmedr02 ~]$ 
+[atos@meydvvmedr02 ~]$ cd /data/edr_enrichment/sftpcompleted
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ grep -l 971520001714 *2019-07-01_*|tail -1 >  /home/atos/EDRfile.txt
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+# Your IP, Login Time, Username has been noted for auditing purposes.          #
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+# Warning! You have entered into a secured area!                               #
+# Your IP, Login Time, Username has been noted for auditing purposes.          #
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfil
+e_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+
+################################################################################
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.213.132 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.213.132 !!!
+#!/bin/bash
+
+cd /cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive/
+
+grep -l 971520001714 *20190701112* |tac|head -1 > /cluster/home/system-oam/tasuser/Auto/CCN_0file.txt
+
+exit
+
+tasuser@SC-1:~> #!/bin/bash
+tasuser@SC-1:~> 
+tasuser@SC-1:~> cd /cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive/
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive> 
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive> grep - l 971520001714 *20190701112* |tac|head -1 > /cluster/home/system-oam/tasuser/Aut o/CCN_0file.txt
+grep: *20190701112*: No such file or directory
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive> 
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive> exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.213.132 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.213.132 !!!
+#!/bin/bash
+
+cd /cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive/
+
+grep -l 971520001714 *20190701112* |tac|head -1 > /cluster/home/system-oam/tasuser/Auto/CCN_1file.txt
+
+exit
+
+tasuser@SC-1:~> #!/bin/bash
+tasuser@SC-1:~> 
+tasuser@SC-1:~> cd /cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive/
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> 
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> grep - l 971520001714 *20190701112* |tac|head -1 > /cluster/home/system-oam/tasuser/Aut o/CCN_1file.txt
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> 
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.9 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.9 !!!
+#!/bin/bash
+
+cd /data/edr_enrichment/sftpcompleted
+
+grep -l 971520001714 *2019-07-01_*|tail -1 > /home/atos/EDRfile.txt
+
+exit
+
+[atos@meydvvmedr02 ~]$ #!/bin/bash
+[atos@meydvvmedr02 ~]$ 
+[atos@meydvvmedr02 ~]$ cd /data/edr_enrichment/sftpcompleted
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ grep -l 971520001714 *2019-07-01_*|tail -1 >  /home/atos/EDRfile.txt
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+################################################################################
+# Warning! You have entered into a secured area!                               #
+# Your IP, Login Time, Username have been noted for auditing purposes.         #
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive
+]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+################################################################################
+# Warning! You have entered into a secured area!                               #
+# Your IP, Login Time, Username has been noted for auditing purposes.          #
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc
+01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+Last login: Mon Jul  1 15:33:18 2019 from 10.160.130.18
+################################################################################
+# Warning! You have entered into a secured area!                               #
+# Your IP, Login Time, Username has been noted for auditing purposes.          #
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /hom
+e/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+# Your IP, Login Time, Username has been noted for auditing purposes.          #
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.213.132 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.213.132 !!!
+#!/bin/bash
+
+cd /cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive/
+
+grep -l 971520001714 *20190701113* |tac|head -1 > /cluster/home/system-oam/tasuser/Auto/CCN_0file.txt
+
+exit
+
+tasuser@SC-1:~> #!/bin/bash
+tasuser@SC-1:~> 
+tasuser@SC-1:~> cd /cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive/
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive> 
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive> grep - l 971520001714 *20190701113* |tac|head -1 > /cluster/home/system-oam/tasuser/Aut o/CCN_0file.txt
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive> 
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive> exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.213.132 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.213.132 !!!
+#!/bin/bash
+
+cd /cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive/
+
+grep -l 971520001714 *20190701113* |tac|head -1 > /cluster/home/system-oam/tasuser/Auto/CCN_1file.txt
+
+exit
+
+tasuser@SC-1:~> #!/bin/bash
+tasuser@SC-1:~> 
+tasuser@SC-1:~> cd /cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive/
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> 
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> grep - l 971520001714 *20190701113* |tac|head -1 > /cluster/home/system-oam/tasuser/Aut o/CCN_1file.txt
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> 
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.9 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.9 !!!
+Last login: Mon Jul  1 15:37:45 2019 from dv04ctxas157.corp.du.ae
+#!/bin/bash
+
+cd /data/edr_enrichment/sftpcompleted
+
+grep -l 971520001714 *2019-07-01_*|tail -1 > /home/atos/EDRfile.txt
+
+exit
+
+[atos@meydvvmedr02 ~]$ #!/bin/bash
+[atos@meydvvmedr02 ~]$ 
+[atos@meydvvmedr02 ~]$ cd /data/edr_enrichment/sftpcompleted
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ grep -l 971520001714 *2019-07-01_*|tail -1 >  /home/atos/EDRfile.txt
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.213.132 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.213.132 !!!
+#!/bin/bash
+
+cd /cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive/
+
+grep -l 971520001714 *20190701114* |tac|head -1 > /cluster/home/system-oam/tasuser/Auto/CCN_0file.txt
+
+exit
+
+tasuser@SC-1:~> #!/bin/bash
+tasuser@SC-1:~> 
+tasuser@SC-1:~> cd /cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive/
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive> 
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive> grep - l 971520001714 *20190701114* |tac|head -1 > /cluster/home/system-oam/tasuser/Aut o/CCN_0file.txt
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive> 
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage0/CCNCDR44/archive> exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.213.132 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.213.132 !!!
+#!/bin/bash
+
+cd /cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive/
+
+grep -l 971520001714 *20190701114* |tac|head -1 > /cluster/home/system-oam/tasuser/Auto/CCN_1file.txt
+
+exit
+
+tasuser@SC-1:~> #!/bin/bash
+tasuser@SC-1:~> 
+tasuser@SC-1:~> cd /cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive/
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> 
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> grep - l 971520001714 *20190701114* |tac|head -1 > /cluster/home/system-oam/tasuser/Aut o/CCN_1file.txt
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> 
+tasuser@SC-1:/cluster/storage/no-backup/ccn/CcnStorage1/CCNCDR44/archive> exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.9 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.9 !!!
+Last login: Mon Jul  1 15:43:34 2019 from 10.160.130.18
+#!/bin/bash
+
+cd /data/edr_enrichment/sftpcompleted
+
+grep -l 971520001714 *2019-07-01_*|tail -1 > /home/atos/EDRfile.txt
+
+exit
+
+[atos@meydvvmedr02 ~]$ #!/bin/bash
+[atos@meydvvmedr02 ~]$ 
+[atos@meydvvmedr02 ~]$ cd /data/edr_enrichment/sftpcompleted
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ grep -l 971520001714 *2019-07-01_*|tail -1 >  /home/atos/EDRfile.txt
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.9 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.9 !!!
+#!/bin/bash
+
+cd /data/edr_enrichment/sftpcompleted
+
+grep -l 971520001714 *2019-07-01_*|tail -1 > /home/atos/EDRfile.txt
+
+exit
+
+[atos@meydvvmedr02 ~]$ #!/bin/bash
+[atos@meydvvmedr02 ~]$ 
+[atos@meydvvmedr02 ~]$ cd /data/edr_enrichment/sftpcompleted
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ grep -l 971520001714 *2019-07-01_*|tail -1 >  /home/atos/EDRfile.txt
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+# Your IP, Login Time, Username has been noted for auditing purposes.          #
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+################################################################################
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.9 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.9 !!!
+#!/bin/bash
+
+cd /data/edr_enrichment/sftpcompleted
+
+grep -l 971520001714 *2019-07-01_*|tail -1 > /home/atos/EDRfile.txt
+
+exit
+
+[atos@meydvvmedr02 ~]$ #!/bin/bash
+[atos@meydvvmedr02 ~]$ 
+[atos@meydvvmedr02 ~]$ cd /data/edr_enrichment/sftpcompleted
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ grep -l 971520001714 *2019-07-01_*|tail -1 >  /home/atos/EDRfile.txt
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+Last login: Mon Jul  1 19:04:56 2019 from 10.160.130.18
+################################################################################
+# Warning! You have entered into a secured area!                               #
+# Your IP, Login Time, Username has been noted for auditing purposes.          #
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /hom
+e/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+# Your IP, Login Time, Username has been noted for auditing purposes.          #
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+Last login: Mon Jul  1 19:10:28 2019 from 10.160.130.18
+################################################################################
+# Warning! You have entered into a secured area!                               #
+# Your IP, Login Time, Username have been noted for auditing purposes.         #
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ c
+d /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.9 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.9 !!!
+#!/bin/bash
+
+cd /data/edr_enrichment/sftpcompleted
+
+grep -l 971520001714 *2019-07-01_*|tail -1 > /home/atos/EDRfile.txt
+
+exit
+
+[atos@meydvvmedr02 ~]$ #!/bin/bash
+[atos@meydvvmedr02 ~]$ 
+[atos@meydvvmedr02 ~]$ cd /data/edr_enrichment/sftpcompleted
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ grep -l 971520001714 *2019-07-01_*|tail -1 >  /home/atos/EDRfile.txt
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+Last login: Mon Jul  1 19:35:55 2019 from 10.160.130.18
+################################################################################
+# Warning! You have entered into a secured area!                               #
+# Your IP, Login Time, Username have been noted for auditing purposes.         #
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ c
+d /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+Last login: Mon Jul  1 19:36:20 2019 from 10.160.130.18
+################################################################################
+# Warning! You have entered into a secured area!                               #
+# Your IP, Login Time, Username has been noted for auditing purposes.          #
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /hom
+e/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.9 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.9 !!!
+Last login: Mon Jul  1 19:37:45 2019 from 10.160.130.18
+#!/bin/bash
+
+cd /data/edr_enrichment/sftpcompleted
+
+grep -l 971520001714 *2019-07-01_*|tail -1 > /home/atos/EDRfile.txt
+
+exit
+
+[atos@meydvvmedr02 ~]$ #!/bin/bash
+[atos@meydvvmedr02 ~]$ 
+[atos@meydvvmedr02 ~]$ cd /data/edr_enrichment/sftpcompleted
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ grep -l 971520001714 *2019-07-01_*|tail -1 >  /home/atos/EDRfile.txt
+[atos@meydvvmedr02 sftpcompleted]$ 
+[atos@meydvvmedr02 sftpcompleted]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+# Your IP, Login Time, Username has been noted for auditing purposes.          #
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /home/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
+Connecting SSH to 10.95.214.6 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.6 !!!
+#!/bin/bash
+
+cd /var/opt/fds/CDR/archive/
+
+grep -l 971520001714 *20190701-1* |tac |head -1 > /home/tasuser/sdpfile.txt
+
+exit
+
+[tasuser@meytvvmsdp01 ~]$ #!/bin/bash
+[tasuser@meytvvmsdp01 ~]$ 
+[tasuser@meytvvmsdp01 ~]$ cd /var/opt/fds/CDR/archive/
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ grep -l 971520001714 *20190701-1* |tac |head -1  > /home/tasuser/sdpfile.txt
+[tasuser@meytvvmsdp01 archive]$ 
+[tasuser@meytvvmsdp01 archive]$ exit
+logout
+
+Disconnected channel and session
+Connecting SSH to 10.95.214.22 - Please wait for few seconds... 
+Successfully Connected to the Host 10.95.214.22 !!!
+Last login: Mon Jul  1 19:40:50 2019 from 10.160.130.18
+################################################################################
+# Warning! You have entered into a secured area!                               #
+# Your IP, Login Time, Username has been noted for auditing purposes.          #
+# This service is restricted to authorized users only.                         #
+# All activities on this system are logged. Unauthorized access will be fully  #
+# investigated and action would be taken appropriately.                        #
+#                                                                              #
+# LOG OFF IMMEDIATELY IF YOU ARE NOT AN AUTHORIZED USER                        #
+################################################################################
+#!/bin/bash
+
+cd /home/tasuser
+
+zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/tasuser/Auto/occfile_22.txt
+
+exit
+
+[tasuser@meytvvmocc01 ~]$ #!/bin/bash
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ cd /hom
+e/tasuser
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ zgrep -l 971520001714 *190701-1* |tac|head -1 > /home/ tasuser/Auto/occfile_22.txt
+[tasuser@meytvvmocc01 ~]$ 
+[tasuser@meytvvmocc01 ~]$ exit
+logout
+
+Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session
