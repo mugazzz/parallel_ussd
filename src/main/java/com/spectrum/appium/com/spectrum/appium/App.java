@@ -698,6 +698,7 @@ public class App{
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 			try {
 			for (int i =1; i<=sms_count; i++) {
+				try {
 				dr.get().findElement(By.id("com.samsung.android.messaging:id/fab")).click();  
 				Runtime run = Runtime.getRuntime();
 				run.exec("adb -s "+device_name+" shell input text "+To_Receiver);
@@ -714,6 +715,11 @@ public class App{
 				dr.get().hideKeyboard();
 				takeScreenShot("Message Content");
 				dr.get().navigate().back();
+				}
+				catch (Exception e) {
+					//e.printStackTrace();
+					System.out.println("--------++++++---------");
+				 }
 			}
 			Thread.sleep(5000);
 			By New_Message = By.id("com.samsung.android.messaging:id/list_unread_count");
@@ -759,11 +765,11 @@ public class App{
 			String result = dr.get().stopRecordingScreen();
 			
 			APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
-			APIHandler.UpdateService(curtcid, trfold, "Service_Revert", MSISDN, "1001");
 			
 			//-------------------------- CDR Conversion -------------------------------------------//
 			
 			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
+			APIHandler.UpdateService(curtcid, trfold, "Service_Revert", MSISDN, "1001");
 			}
 			catch (Exception e) {
 				info("Error occured while sending SMS");
