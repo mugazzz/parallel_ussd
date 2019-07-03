@@ -694,6 +694,7 @@ public class App{
 			capabilities.setCapability("appPackage", package_name);
 			capabilities.setCapability("appActivity", activity_name);
 			APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
+			APIHandler.UpdateService(curtcid, trfold, "Service_Change", MSISDN, "1006");
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 			try {
 			for (int i =1; i<=sms_count; i++) {
@@ -703,15 +704,62 @@ public class App{
 				//takeScreenShot("To Receiver");
 				//dr.get().findElement(By.id("com.samsung.android.messaging:id/message_edit_text")).click();
 				dr.get().findElement(By.id("com.samsung.android.messaging:id/message_edit_text")).sendKeys(Text_Message);
-				takeScreenShot("Message Content");
+				By button = By.id("com.samsung.android.messaging:id/send_button2");
+				if (elementExists(button)) {
+					dr.get().findElement(By.id("com.samsung.android.messaging:id/send_button2")).click();
+				}
+				else {
 				dr.get().findElement(By.id("com.samsung.android.messaging:id/send_button1")).click();
-				takeScreenShot("SMS Status");
+				}
 				dr.get().hideKeyboard();
+				takeScreenShot("Message Content");
 				dr.get().navigate().back();
 			}
+			Thread.sleep(5000);
+			By New_Message = By.id("com.samsung.android.messaging:id/list_unread_count");
+			if (elementExists(New_Message)) {
+			List<MobileElement> elements1 = dr.get().findElements(By.id("com.samsung.android.messaging:id/list_unread_count"));
+			for(MobileElement link : elements1)
+			{
+			{
+				dr.get().findElement(By.id("com.samsung.android.messaging:id/list_unread_count")).click();
+				Message = dr.get().findElement(By.id("com.samsung.android.messaging:id/content_text_view")).getText();
+				info("Message Received : "+ Message);
+				takeScreenShot("Related SMS Notification");
+				By visibile2 = By.xpath("//android.widget.Button[@text='Delete']");
+				if(elementExists(visibile2)) {
+					dr.get().findElement(By.xpath("//android.widget.Button[@text='Delete']")).click();
+				}
+				else {
+					dr.get().findElement(By.id("com.samsung.android.messaging:id/composer_setting_button")).click();
+					dr.get().findElement(By.id("com.samsung.android.messaging:id/composer_drawer_delete_conversation_text")).click();
+				}
+			By Delete = By.id("com.samsung.android.messaging:id/largeLabel");
+				if (elementExists(Delete))
+				{
+					//delete button is displayed
+					}
+				else 
+				{
+					dr.get().findElement(By.id("com.samsung.android.messaging:id/bubble_all_select_checkbox")).click();
+					}
+				dr.get().findElement(By.id("com.samsung.android.messaging:id/largeLabel")).click();
+				dr.get().findElement(By.id("android:id/button1")).click();
+					
+				}
+			}
+			}
+			else
+			{
+				Message = "Message not received for the provided USSD";
+				info("Message not received for the provided USSD");
+				takeScreenShot("SMS not received");
+			}
+			
 			String result = dr.get().stopRecordingScreen();
 			
 			APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
+			APIHandler.UpdateService(curtcid, trfold, "Service_Revert", MSISDN, "1001");
 			
 			//-------------------------- CDR Conversion -------------------------------------------//
 			
