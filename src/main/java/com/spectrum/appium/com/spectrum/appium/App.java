@@ -873,6 +873,8 @@ public class App{
 							+ "<th style= 'min-width: 168px'><b>Test Case </b></th>"
 							+ "<th style= 'min-width: 168px'><b>Called To </b></th>"
 							+ "<th style= 'min-width: 168px'><b>Call Duration </b></th>"
+							+ "<th style= 'min-width: 168px'><b>Confirmation Alert Message: </b></th>"
+							+"<th style= 'min-width: 168px'><b> Message Status: </b></th>"
 							+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
 							
 							//Device Result
