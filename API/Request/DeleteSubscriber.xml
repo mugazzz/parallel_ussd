@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <methodCall>
-<methodName>GetAccountDetails</methodName>
+<methodName>DeleteSubscriber</methodName>
 <params>
  <param>
   <value>
@@ -20,13 +20,13 @@
     <member>
      <name>originTransactionID</name>
      <value>
-      <string>2019070417021911</string>
+      <string>$current1$</string>
      </value>
     </member>
     <member>
      <name>originTimeStamp</name>
      <value>
-      <dateTime.iso8601>20190704T17:02:19+0000</dateTime.iso8601>
+      <dateTime.iso8601>$current2$</dateTime.iso8601>
      </value>
     </member>
     <member>
@@ -36,21 +36,15 @@
      </value>
     </member>
     <member>
-     <name>negotiatedCapabilities</name>
+     <name>subscriberNumber</name>
      <value>
-      <array>
-       <data>
-        <value>
-         <int>268763332</int>
-        </value>
-       </data>
-      </array>
+      <string>$subscriberNumber$</string>
      </value>
     </member>
     <member>
-     <name>subscriberNumber</name>
+     <name>originOperatorID</name>
      <value>
-      <string>971520002574</string>
+      <string>user</string>
      </value>
     </member>
    </struct>
