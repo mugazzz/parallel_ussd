@@ -1612,8 +1612,8 @@ public class App{
 			
 	}
 		 catch (Exception e) {
-			e.printStackTrace();
-			//System.out.println("--------++++++---------");
+			//e.printStackTrace();
+			System.out.println("--------++++++---------");
 		 }
 	}
 
