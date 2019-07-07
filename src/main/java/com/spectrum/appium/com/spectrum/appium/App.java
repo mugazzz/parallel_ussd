@@ -576,19 +576,174 @@ public class App{
 		}
 		}
 	
+	//----------------------	New Activation	 --------------------------//
+		
+		else if(Test_Scenario.equals("NEW_ACTIVATION")) {
+			String package_voice = ReadMobileproperties(inputs.getField("Test_Scenario"), "apppackage");
+			String activity_voice = ReadMobileproperties(inputs.getField("Test_Scenario"), "appactivity");
+			DesiredCapabilities capabilities = new DesiredCapabilities();
+			capabilities.setCapability("deviceName", device);
+			capabilities.setCapability("platformVersion", version);
+			capabilities.setCapability("platformName", "ANDROID");
+			capabilities.setCapability("bootstrapPort", bsport); 
+			capabilities.setCapability("appPackage", package_voice);
+			capabilities.setCapability("appActivity", activity_voice);
+			curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
+			startTestCase(curtcid);
+			ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario")+"<br>"+inputs.getField("Test_Case"));
+			String Call_To = inputs.getField("Call_TO_MSISDN");
+			String CALL_DURATION = inputs.getField("CALL_DURATION");
+			int secs = Integer.parseInt(CALL_DURATION);
+			APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
+			APIHandler.DeleteSubscriber(curtcid, trfold, "Delete_MSISDN", MSISDN);
+			Thread.sleep(3000);
+			APIHandler.InstallSubscriber(curtcid, trfold, "Install_Service", MSISDN, "1001");
+			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
+			Runtime run = Runtime.getRuntime();
+			String execu = "adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+Call_To;
+			System.out.println("Execution cmmand: "+execu);
+			run.exec(execu);
+//			Thread.sleep(4000);
+//			run.exec("adb shell input keyevent KEYCODE_2");
+//			Thread.sleep(3000);
+//			run.exec("adb shell input keyevent KEYCODE_1");
+//			takeScreenShot("Language Selected");
+			takeScreenShot("Call process");
+			Thread.sleep(secs*1000);
+		
+			run.exec("adb shell input keyevent KEYCODE_ENDCALL");
+			
+	//-------------------------- CDR Conversion -------------------------------------------//
+			
+			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
+			
+			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
+			Thread.sleep(8000);
+			By New_Message = By.id("com.samsung.android.messaging:id/list_unread_count");
+			if (elementExists(New_Message)) {
+			List<MobileElement> elements1 = dr.get().findElements(By.id("com.samsung.android.messaging:id/list_unread_count"));
+			for(MobileElement link : elements1)
+			{
+			{
+				dr.get().findElement(By.id("com.samsung.android.messaging:id/list_unread_count")).click();
+				Message = dr.get().findElement(By.id("com.samsung.android.messaging:id/content_text_view")).getText();
+				info("Message Received : "+ Message);
+				takeScreenShot("Related SMS Notification");
+				By visibile2 = By.xpath("//android.widget.Button[@text='Delete']");
+				if(elementExists(visibile2)) {
+					dr.get().findElement(By.xpath("//android.widget.Button[@text='Delete']")).click();
+				}
+				else {
+					dr.get().findElement(By.id("com.samsung.android.messaging:id/composer_setting_button")).click();
+					dr.get().findElement(By.id("com.samsung.android.messaging:id/composer_drawer_delete_conversation_text")).click();
+				}
+			By Delete = By.id("com.samsung.android.messaging:id/largeLabel");
+				if (elementExists(Delete))
+				{
+					//delete button is displayed
+					}
+				else 
+				{
+					dr.get().findElement(By.id("com.samsung.android.messaging:id/bubble_all_select_checkbox")).click();
+					}
+				dr.get().findElement(By.id("com.samsung.android.messaging:id/largeLabel")).click();
+				dr.get().findElement(By.id("android:id/button1")).click();
+					
+				}
+			}
+			}
+			else
+			{
+				Message = "Message not received for the provided USSD";
+				info("Message not received for the provided USSD");
+				takeScreenShot("SMS not received");
+			}
+			
+			String result = dr.get().stopRecordingScreen();
+			
+			APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
+			APIHandler.UpdateBalanceAndDate(curtcid, trfold, "UpdateBalanceAndDate", MSISDN,"2000");
+			
+			
+	//-------------------------- Report ----------------------------------------------//
+			String[] convertor = Asnconvertor.Result(MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", Call_To, "", "", "", "", "", ExecutionStarttime, CALL_DURATION, "");
+			
+			test.pass("</table><table><tr><th style= 'min-width: 168px'><b>MSISDN</b></th>"
+					+"<th style= 'min-width: 168px'><b>Test Scenario </b></th>"
+					+ "<th style= 'min-width: 168px'><b>Test Case </b></th>"
+					+ "<th style= 'min-width: 168px'><b>Called To </b></th>"
+					+ "<th style= 'min-width: 168px'><b>Call Duration </b></th>"
+					+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
+					
+					//Device Result
+					"<tr><td style= 'min-width: 168px'>"+MSISDN+"</td><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+Call_To+"</td><td style= 'min-width: 168px'>"+ CALL_DURATION +"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>");
+			
+			//CIS API
+			test.pass("<br><br><b>CIS Data Verification:</b>" 
+			+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
+			+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a><br>");
+		
+	Connection co = fillo.getConnection(Reference_Data);
+	String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
+	Recordset rsr = co.executeQuery(strQuery);
+	while (rsr.next()) {
+		String Node_Type = rsr.getField("Node_To_Validate");
+		
+			//CIS Result
+			if(Node_Type.equalsIgnoreCase("CIS")) {
+			test.pass("<br><br><b>CIS Data:</b>"
+			+ "<br><b>CIS Table: </b><br>" + convertor[3] 
+			+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table><br>");
+			}
+			
+			//SDP Result
+			if(Node_Type.equalsIgnoreCase("SDP")) {
+			test.pass("<br><br><b>SDP Data:</b>"
+			+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[4]+"/"+convertor[6] + "/Output.xml'>Click to View the SDP CDR</a><br>");
+			}
+			
+			//OCC Result
+			if(Node_Type.equalsIgnoreCase("OCC")) {
+			test.pass("<br><br><b>OCC Data:</b>"
+			+ "<br><b>OCC Table: </b><br>" + convertor[2] 
+			+ "<br><b>XML Link---> </b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[0]+"/"+convertor[1] + "/output.xml'>Click to View the OCC CDR</a>"+"</table><br>");
+			}
+			
+			//AIR
+			if(Node_Type.equalsIgnoreCase("AIR")) 
+			{
+			test.pass("<br><br><b>AIR Data:</b>"
+			+ "<br><b>AIR Table: </b><br>" + convertor[10] 
+			+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[11]+"/"+convertor[9] + "/Output.xml'>Click to View the AIR CDR</a>"+"</table><br>");
+			}
+			
+			//CCN
+			if(Node_Type.equalsIgnoreCase("CCN")) 
+			{
+			test.pass("<br><br><b>CCN Data:</b>"
+			+ "<br><b>CCN Table: </b><br>" + convertor[14] 
+			+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[13]+"/"+convertor[12] + "/Output.xml'>Click to View the CCN CDR</a>"+"</table><br>");
+			}
+
+			extent.flush();
+			endTestCase(curtcid);
+			}
+		}
+		
+
 	
 	//----------------------	API Call	 --------------------------//
 		
 				else if(Test_Scenario.contains("API_")) {
-					curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
-					startTestCase(curtcid);
-					ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
+//					curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
+//					startTestCase(curtcid);
+//					ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
 					String[] Result = APIparam.APIcontrol(Test_Scenario, ExecutionStarttime);
 					
-					test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + Result[0]
-							+ "'>Click to View the " + Result[1] + " Response file</a></b><br>" + Result[2] + "</table>");
-					extent.flush();
-					endTestCase(curtcid);
+//					test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + Result[0]
+//							+ "'>Click to View the " + Result[1] + " Response file</a></b><br>" + Result[2] + "</table>");
+//					extent.flush();
+//					endTestCase(curtcid);
 				}
 		
 	
@@ -1343,8 +1498,8 @@ public class App{
 			
 	}
 		 catch (Exception e) {
-			//e.printStackTrace();
-			System.out.println("--------++++++---------");
+			e.printStackTrace();
+			//System.out.println("--------++++++---------");
 		 }
 	}
 
