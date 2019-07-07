@@ -329,7 +329,6 @@ public class App{
 				APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
 				
 		//-------------------------- CDR Conversion -------------------------------------------//
-				//APIHandler.API(curtcid, trfold, "After");
 				Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
 				
 		//-------------------------- Report ----------------------------------------------//
