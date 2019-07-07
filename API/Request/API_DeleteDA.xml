@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<methodCall>
+<methodName>DeleteDedicatedAccounts</methodName>
+<params>
+ <param>
+  <value>
+   <struct>
+    <member>
+     <name>originNodeType</name>
+     <value>
+      <string>${originNodeType}$</string>
+     </value>
+    </member>
+    <member>
+     <name>originHostName</name>
+     <value>
+      <string>${originHostName}$</string>
+     </value>
+    </member>
+    <member>
+     <name>originTransactionID</name>
+     <value>
+      <string>$current1$</string>
+     </value>
+    </member>
+    <member>
+     <name>originTimeStamp</name>
+     <value>
+      <dateTime.iso8601>$current2$</dateTime.iso8601>
+     </value>
+    </member>
+    <member>
+     <name>subscriberNumberNAI</name>
+     <value>
+      <int>${subscriberNumberNAI}$</int>
+     </value>
+    </member>
+    <member>
+     <name>subscriberNumber</name>
+     <value>
+      <string>${subscriberNumber}$</string>
+     </value>
+    </member>
+    <member>
+     <name>dedicatedAccountIdentifier</name>
+     <value>
+      <array>
+       <data>
+        <value>
+         <struct>
+          <member>
+           <name>dedicatedAccountID</name>
+           <value>
+            <int>${dedicatedAccountID}$</int>
+           </value>
+          </member>
+         </struct>
+        </value>
+       </data>
+      </array>
+     </value>
+    </member>
+   </struct>
+  </value>
+ </param>
+</params>
+</methodCall>

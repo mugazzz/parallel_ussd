@@ -1,0 +1,23 @@
+07-07-2019 12:59:11 INFO [APIparam]: Starting execution at +:07-Jul-2019 12:59:07
+07-07-2019 12:59:11 INFO [APIparam]: ****************************************************************************************
+07-07-2019 12:59:11 INFO [APIparam]: ****************************************************************************************
+07-07-2019 12:59:11 INFO [APIparam]: $$$$$$$$$$$$$$$$$$$$$ TC_014 $$$$$$$$$$$$$$$$$$$$$$$$$
+07-07-2019 12:59:11 INFO [APIparam]: ****************************************************************************************
+07-07-2019 12:59:11 INFO [APIparam]: ****************************************************************************************
+07-07-2019 12:59:11 INFO [APIparam]: Firing Request: API_UpdateUsageThresholdsAndCounters
+07-07-2019 12:59:12 INFO [APIparam]: originNodeType : EXT
+07-07-2019 12:59:12 INFO [APIparam]: originHostName : meydvvmnmt02menalabcorplocal
+07-07-2019 12:59:12 INFO [APIparam]: subscriberNumber : 971520001714
+07-07-2019 12:59:12 INFO [APIparam]: usageThresholdValueNew : 0
+07-07-2019 12:59:12 INFO [APIparam]: usageThresholdID : 50042101
+07-07-2019 12:59:12 INFO [APIparam]: request Fired:<?xml version="1.0" encoding="iso-8859-1"?><methodCall><methodName>UpdateUsageThresholdsAndCounters</methodName><params> <param>  <value>   <struct>    <member>     <name>originNodeType</name>     <value>      <string>EXT</string>     </value>    </member>    <member>     <name>originHostName</name>     <value>      <string>meydvvmnmt02menalabcorplocal</string>     </value>    </member>    <member>     <name>originTransactionID</name>     <value>      <string>2019070712591115</string>     </value>    </member>    <member>     <name>originTimeStamp</name>     <value>      <dateTime.iso8601>20190707T12:59:11+0000</dateTime.iso8601>     </value>    </member>    <member>     <name>subscriberNumberNAI</name>     <value>      <int>${subscriberNumberNAI}$</int>     </value>    </member>    <member>     <name>subscriberNumber</name>     <value>      <string>$subscriberNumber$</string>     </value>    </member>    <member>     <name>usageThresholdUpdateInformation</name>     <value>      <array>       <data>        <value>         <struct>          <member>           <name>usageThresholdID</name>           <value>            <int>50042101</int>           </value>          </member>          <member>           <name>usageThresholdValueNew</name>           <value>            <string>0</string>           </value>          </member>         </struct>        </value>       </data>      </array>     </value>    </member>   </struct>  </value> </param></params></methodCall>
+07-07-2019 12:59:16 INFO [APIparam]: Response Code  :200
+07-07-2019 12:59:16 INFO [APIparam]: Response Header  :Date=Sun, 07 Jul 2019 08:59:41 GMT
+X-Powered-By=Ericsson
+Server=meytvvmair01.menalab.corp.local
+Set-Cookie=JSESSIONID=3v3y7jmxnta7ppvmhlkh3y14;Path=/
+Expires=Thu, 01 Jan 1970 00:00:00 GMT
+Content-Type=text/xml
+Content-Length=281
+07-07-2019 12:59:16 INFO [APIparam]: Response   :<?xml version="1.0" encoding="ISO-8859-1"?><methodResponse><fault><value><struct><member><name>faultCode</name><value><i4>1003</i4></value></member><member><name>faultString</name><value><string>Data out of bounds</string></value></member></struct></value></fault></methodResponse>
+07-07-2019 12:59:17 INFO [App]: XXXXXXXXXXXXXXXXXXXXXXX             -E---N---D-             XXXXXXXXXXXXXXXXXXXXXX

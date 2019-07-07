@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<methodCall>
+<methodName>UpdateServiceClass</methodName>
+<params>
+ <param>
+  <value>
+   <struct>
+    <member>
+     <name>originNodeType</name>
+     <value>
+      <string>${originNodeType}$</string>
+     </value>
+    </member>
+    <member>
+     <name>originHostName</name>
+     <value>
+      <string>${originHostName}$</string>
+     </value>
+    </member>
+    <member>
+     <name>originTransactionID</name>
+     <value>
+      <string>$current1$</string>
+     </value>
+    </member>
+    <member>
+     <name>originTimeStamp</name>
+     <value>
+      <dateTime.iso8601>$current2$</dateTime.iso8601>
+     </value>
+    </member>
+    <member>
+     <name>subscriberNumberNAI</name>
+     <value>
+      <int>1</int>
+     </value>
+    </member>
+    <member>
+     <name>subscriberNumber</name>
+     <value>
+      <string>${subscriberNumber}$</string>
+     </value>
+    </member>
+    <member>
+     <name>serviceClassNew</name>
+     <value>
+      <int>${serviceClassNew}$</int>
+     </value>
+    </member>
+    <member>
+     <name>serviceClassAction</name>
+     <value>
+      <string>SetOriginal</string>
+     </value>
+    </member>
+   </struct>
+  </value>
+ </param>
+</params>
+</methodCall>

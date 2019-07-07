@@ -575,7 +575,22 @@ public class App{
 			}
 		}
 		}
-			
+	
+	
+	//----------------------	API Call	 --------------------------//
+		
+				else if(Test_Scenario.contains("API_")) {
+					curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
+					startTestCase(curtcid);
+					ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
+					String[] Result = APIparam.APIcontrol(Test_Scenario, ExecutionStarttime);
+					
+					test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + Result[0]
+							+ "'>Click to View the " + Result[1] + " Response file</a></b><br>" + Result[2] + "</table>");
+					extent.flush();
+					endTestCase(curtcid);
+				}
+		
 	
 	//----------------------	Voice Call	 --------------------------//
 		
@@ -694,7 +709,7 @@ public class App{
 			capabilities.setCapability("appPackage", package_name);
 			capabilities.setCapability("appActivity", activity_name);
 			APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
-			APIHandler.UpdateService(curtcid, trfold, "Service_Change", MSISDN, "1006");
+			//APIHandler.UpdateService(curtcid, trfold, "Service_Change", MSISDN, "1006");
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 			try {
 			for (int i =1; i<=sms_count; i++) {
@@ -769,7 +784,7 @@ public class App{
 			//-------------------------- CDR Conversion -------------------------------------------//
 			
 			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
-			APIHandler.UpdateService(curtcid, trfold, "Service_Revert", MSISDN, "1001");
+			//APIHandler.UpdateService(curtcid, trfold, "Service_Revert", MSISDN, "1001");
 			}
 			catch (Exception e) {
 				info("Error occured while sending SMS");

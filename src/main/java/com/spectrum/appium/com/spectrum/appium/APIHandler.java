@@ -328,7 +328,403 @@ public class APIHandler {
 		}
 	}
 	
+	public static void InstallSubscriber(String curtcid, String trfold, String State, String MSISDN, String ServiceClass){
+		try {
+			//createtimestampfold();
+			DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyyMMdd'T'HH:mm:ss");
+			DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSS");
+			LocalDateTime now = LocalDateTime.now();
+			String originTimeStamp1 = dtf1.format(now).toString();
+			String originTimeStamp = originTimeStamp1+"+0000";
+//			SimpleDateFormat formatter6=new SimpleDateFormat("yyyyMMdd'T'HH:mm:ss+SSSS"); 
+//			LocalDateTime originTimeStamp1 = formatter6.parse(originTimeStamp);
+			String originTransactionID = dtf2.format(now).toString();
+			System.out.println(originTimeStamp+" : "+originTransactionID );
+			System.setProperty("logfilename", trfold + "\\Logs");
+			DOMConfigurator.configure("log4j.xml");
+			info("Starting execution at +:" + ExecutionStarttime);
+			Fillo fillo = new Fillo();
+			Connection conn = fillo.getConnection(Reference_Data);
+			Recordset rs = conn.executeQuery("Select * from API where Request_Name = 'InstallSubscriber'");
+			String cellval1 = "blank";
+			String cellval2 = "blank";
+			String cellval3 = "blank";
+			String cellval4 = "blank";
+			String cellval5 = "blank";
+			String cellval6 = "blank";
+			File Des = null;
+			File Source = null;
+			while (rs.next()) {
 
+				cellval1 = rs.getField("TestCase_ID");
+				tc = rs.getField("TestCase_ID");
+				cellval2 = rs.getField("Request_Type");
+				cellval3 = rs.getField("Request_Name");
+				cellval4 = rs.getField("SoapAction");
+				cellval5 = rs.getField("NB_URI");
+				cellval6 = rs.getField("Request_Method");
+				suspendendpoint =cellval5 = rs.getField("NB_URI"); 
+				String requests = "InstallSubscriber";
+				startTestCase(cellval1);
+//				for (int curtemplate = 0; curtemplate < 1 ; curtemplate++) {
+//					operation = requests[curtemplate];
+//					cellval3 = requests[curtemplate];
+					info("Firing Request: " + cellval3);
+					if (cellval2.equals("SOAP")) {
+						Source = new File(Root + "\\API\\Request\\" + cellval3 + ".xml");
+						Des = new File(Root + "\\API\\Request_Send\\" + cellval3 + ".xml");
+						GenerateResponse(Source, Des);
+						for (int Iterator = 1; Iterator <= 150; Iterator++) {
+							if (rs.getField("Parameter" + Iterator).isEmpty() == false) {
+								info(rs.getField("Parameter" + Iterator) + " : " + rs.getField("Value" + Iterator));
+								String replaceval = rs.getField("Value" + Iterator);
+								findandreplace(Des, "${" + rs.getField("Parameter" + Iterator) + "}$", replaceval);
+								findandreplace(Des, "$current1$", originTransactionID);
+								findandreplace(Des, "$current2$", originTimeStamp);
+								findandreplace(Des, "$subscriberNumber$", MSISDN);
+								findandreplace(Des, "$serviceClassNew$", ServiceClass);
+								if(rs.getField("Parameter" + Iterator).equals("Data_Object_Name"))
+								{
+									objectname = replaceval;
+								}
+							} else
+								break;
+						}
+					}
+
+					File file = Des;
+					FileReader fr = new FileReader(file);
+					br = new BufferedReader(fr);
+					String line;
+					String req = "";
+					while ((line = br.readLine()) != null) {
+						req = req + line;
+					}
+					if (cellval3.equals("")) {
+						req = "";
+					}
+					System.out.println(req);
+					info("request Fired:" + req);
+					Response response = null;
+					File respf = null;
+					String userPassword ="techmqatar:techmqatar";
+					System.out.println(userPassword);
+					// String userPassword = "TechMahindra:TechMahindra";
+					//String encoding = new sun.misc.BASE64Encoder().encode(userPassword.getBytes());
+					// String encoding = "dGVjaG1xYXRhcjp0ZWNobXFhdGFy";
+					try {
+								response = (Response) RestAssured.given().request().body(req)
+										.headers("Content-Type", " text/xml","Host ","10.95.214.166:10011", "User-Agent", "UGw Server/5.0/1.0",
+												"Authorization", "Basic " + "bWF2ZXJpYzpFcmljc3NvbnRlc3QxMjNA")
+										.when() // .contentType("text/xml; charset=utf-8")
+										.post(cellval5).then().extract().response();
+							respf = new File(Root + "\\API\\Response\\" + cellval1 + ".xml");
+							//respf = new File(Root + "\\API\\Response\\" + cellval1 + ".json");
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					if (response != null) {
+						info("Response Code  :" + response.getStatusCode());
+						info("Response Header  :" + response.getHeaders().toString());
+						info("Response   :" + response.asString());
+						writeresponse(respf, response.asString());
+						fCreateReportFiles(Des, respf, cellval2, curtcid, trfold, State);
+						// System.out.println(response.asString());
+						String respheader = "";
+						for (int i = 0; i < response.getHeaders().asList().size(); i++) {
+							String Header = response.getHeaders().asList().get(i).toString();
+							respheader = respheader + "<br>" + Header;
+						}
+						String res = "";
+						String stat = "";
+						String stattab = "";
+						String fext = "";
+							res = validateresp(respf, cellval1, response.statusCode());
+							stat = res.split("##")[0];
+							stattab = res.split("##")[1];
+							fext = "xml";
+						// for zain ksa
+						String captureval = "";
+						String linkv = "";
+						// String ret = "";
+						endTestCase(cellval1);
+
+					}
+				
+			}
+			rs.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			error(e.getMessage());
+		}
+	}
+	
+	public static void UpdateBalanceAndDate(String curtcid, String trfold, String State, String MSISDN, String dedicatedAccountValueNew){
+		try {
+			//createtimestampfold();
+			DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyyMMdd'T'HH:mm:ss");
+			DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSS");
+			LocalDateTime now = LocalDateTime.now();
+			String originTimeStamp1 = dtf1.format(now).toString();
+			String originTimeStamp = originTimeStamp1+"+0000";
+//			SimpleDateFormat formatter6=new SimpleDateFormat("yyyyMMdd'T'HH:mm:ss+SSSS"); 
+//			LocalDateTime originTimeStamp1 = formatter6.parse(originTimeStamp);
+			String originTransactionID = dtf2.format(now).toString();
+			System.out.println(originTimeStamp+" : "+originTransactionID );
+			System.setProperty("logfilename", trfold + "\\Logs");
+			DOMConfigurator.configure("log4j.xml");
+			info("Starting execution at +:" + ExecutionStarttime);
+			Fillo fillo = new Fillo();
+			Connection conn = fillo.getConnection(Reference_Data);
+			Recordset rs = conn.executeQuery("Select * from API where Request_Name = 'UpdateBalanceAndDate'");
+			String cellval1 = "blank";
+			String cellval2 = "blank";
+			String cellval3 = "blank";
+			String cellval4 = "blank";
+			String cellval5 = "blank";
+			String cellval6 = "blank";
+			File Des = null;
+			File Source = null;
+			while (rs.next()) {
+
+				cellval1 = rs.getField("TestCase_ID");
+				tc = rs.getField("TestCase_ID");
+				cellval2 = rs.getField("Request_Type");
+				cellval3 = rs.getField("Request_Name");
+				cellval4 = rs.getField("SoapAction");
+				cellval5 = rs.getField("NB_URI");
+				cellval6 = rs.getField("Request_Method");
+				suspendendpoint =cellval5 = rs.getField("NB_URI"); 
+				String requests = "UpdateBalanceAndDate";
+				startTestCase(cellval1);
+//				for (int curtemplate = 0; curtemplate < 1 ; curtemplate++) {
+//					operation = requests[curtemplate];
+//					cellval3 = requests[curtemplate];
+					info("Firing Request: " + cellval3);
+					if (cellval2.equals("SOAP")) {
+						Source = new File(Root + "\\API\\Request\\" + cellval3 + ".xml");
+						Des = new File(Root + "\\API\\Request_Send\\" + cellval3 + ".xml");
+						GenerateResponse(Source, Des);
+						for (int Iterator = 1; Iterator <= 150; Iterator++) {
+							if (rs.getField("Parameter" + Iterator).isEmpty() == false) {
+								info(rs.getField("Parameter" + Iterator) + " : " + rs.getField("Value" + Iterator));
+								String replaceval = rs.getField("Value" + Iterator);
+								findandreplace(Des, "${" + rs.getField("Parameter" + Iterator) + "}$", replaceval);
+								findandreplace(Des, "$current1$", originTransactionID);
+								findandreplace(Des, "$current2$", originTimeStamp);
+								findandreplace(Des, "$subscriberNumber$", MSISDN);
+								findandreplace(Des, "$dedicatedAccountValueNew$", dedicatedAccountValueNew);
+								if(rs.getField("Parameter" + Iterator).equals("Data_Object_Name"))
+								{
+									objectname = replaceval;
+								}
+							} else
+								break;
+						}
+					}
+
+					File file = Des;
+					FileReader fr = new FileReader(file);
+					br = new BufferedReader(fr);
+					String line;
+					String req = "";
+					while ((line = br.readLine()) != null) {
+						req = req + line;
+					}
+					if (cellval3.equals("")) {
+						req = "";
+					}
+					System.out.println(req);
+					info("request Fired:" + req);
+					Response response = null;
+					File respf = null;
+					String userPassword ="techmqatar:techmqatar";
+					System.out.println(userPassword);
+					// String userPassword = "TechMahindra:TechMahindra";
+					//String encoding = new sun.misc.BASE64Encoder().encode(userPassword.getBytes());
+					// String encoding = "dGVjaG1xYXRhcjp0ZWNobXFhdGFy";
+					try {
+								response = (Response) RestAssured.given().request().body(req)
+										.headers("Content-Type", " text/xml","Host ","10.95.214.166:10011", "User-Agent", "UGw Server/5.0/1.0",
+												"Authorization", "Basic " + "bWF2ZXJpYzpFcmljc3NvbnRlc3QxMjNA")
+										.when() // .contentType("text/xml; charset=utf-8")
+										.post(cellval5).then().extract().response();
+							respf = new File(Root + "\\API\\Response\\" + cellval1 + ".xml");
+							//respf = new File(Root + "\\API\\Response\\" + cellval1 + ".json");
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					if (response != null) {
+						info("Response Code  :" + response.getStatusCode());
+						info("Response Header  :" + response.getHeaders().toString());
+						info("Response   :" + response.asString());
+						writeresponse(respf, response.asString());
+						fCreateReportFiles(Des, respf, cellval2, curtcid, trfold, State);
+						// System.out.println(response.asString());
+						String respheader = "";
+						for (int i = 0; i < response.getHeaders().asList().size(); i++) {
+							String Header = response.getHeaders().asList().get(i).toString();
+							respheader = respheader + "<br>" + Header;
+						}
+						String res = "";
+						String stat = "";
+						String stattab = "";
+						String fext = "";
+							res = validateresp(respf, cellval1, response.statusCode());
+							stat = res.split("##")[0];
+							stattab = res.split("##")[1];
+							fext = "xml";
+						// for zain ksa
+						String captureval = "";
+						String linkv = "";
+						// String ret = "";
+						endTestCase(cellval1);
+
+					}
+				
+			}
+			rs.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			error(e.getMessage());
+		}
+	}
+	
+	public static void DeleteSubscriber(String curtcid, String trfold, String State, String MSISDN){
+		try {
+			//createtimestampfold();
+			DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyyMMdd'T'HH:mm:ss");
+			DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSS");
+			LocalDateTime now = LocalDateTime.now();
+			String originTimeStamp1 = dtf1.format(now).toString();
+			String originTimeStamp = originTimeStamp1+"+0000";
+//			SimpleDateFormat formatter6=new SimpleDateFormat("yyyyMMdd'T'HH:mm:ss+SSSS"); 
+//			LocalDateTime originTimeStamp1 = formatter6.parse(originTimeStamp);
+			String originTransactionID = dtf2.format(now).toString();
+			System.out.println(originTimeStamp+" : "+originTransactionID );
+			System.setProperty("logfilename", trfold + "\\Logs");
+			DOMConfigurator.configure("log4j.xml");
+			info("Starting execution at +:" + ExecutionStarttime);
+			Fillo fillo = new Fillo();
+			Connection conn = fillo.getConnection(Reference_Data);
+			Recordset rs = conn.executeQuery("Select * from API where Request_Name = 'DeleteSubscriber'");
+			String cellval1 = "blank";
+			String cellval2 = "blank";
+			String cellval3 = "blank";
+			String cellval4 = "blank";
+			String cellval5 = "blank";
+			String cellval6 = "blank";
+			File Des = null;
+			File Source = null;
+			while (rs.next()) {
+
+				cellval1 = rs.getField("TestCase_ID");
+				tc = rs.getField("TestCase_ID");
+				cellval2 = rs.getField("Request_Type");
+				cellval3 = rs.getField("Request_Name");
+				cellval4 = rs.getField("SoapAction");
+				cellval5 = rs.getField("NB_URI");
+				cellval6 = rs.getField("Request_Method");
+				suspendendpoint =cellval5 = rs.getField("NB_URI"); 
+				String requests = "DeleteSubscriber";
+				startTestCase(cellval1);
+//				for (int curtemplate = 0; curtemplate < 1 ; curtemplate++) {
+//					operation = requests[curtemplate];
+//					cellval3 = requests[curtemplate];
+					info("Firing Request: " + cellval3);
+					if (cellval2.equals("SOAP")) {
+						Source = new File(Root + "\\API\\Request\\" + cellval3 + ".xml");
+						Des = new File(Root + "\\API\\Request_Send\\" + cellval3 + ".xml");
+						GenerateResponse(Source, Des);
+						for (int Iterator = 1; Iterator <= 150; Iterator++) {
+							if (rs.getField("Parameter" + Iterator).isEmpty() == false) {
+								info(rs.getField("Parameter" + Iterator) + " : " + rs.getField("Value" + Iterator));
+								String replaceval = rs.getField("Value" + Iterator);
+								findandreplace(Des, "${" + rs.getField("Parameter" + Iterator) + "}$", replaceval);
+								findandreplace(Des, "$current1$", originTransactionID);
+								findandreplace(Des, "$current2$", originTimeStamp);
+								findandreplace(Des, "$subscriberNumber$", MSISDN);
+								if(rs.getField("Parameter" + Iterator).equals("Data_Object_Name"))
+								{
+									objectname = replaceval;
+								}
+							} else
+								break;
+						}
+					}
+
+					File file = Des;
+					FileReader fr = new FileReader(file);
+					br = new BufferedReader(fr);
+					String line;
+					String req = "";
+					while ((line = br.readLine()) != null) {
+						req = req + line;
+					}
+					if (cellval3.equals("")) {
+						req = "";
+					}
+					System.out.println(req);
+					info("request Fired:" + req);
+					Response response = null;
+					File respf = null;
+					String userPassword ="techmqatar:techmqatar";
+					System.out.println(userPassword);
+					// String userPassword = "TechMahindra:TechMahindra";
+					//String encoding = new sun.misc.BASE64Encoder().encode(userPassword.getBytes());
+					// String encoding = "dGVjaG1xYXRhcjp0ZWNobXFhdGFy";
+					try {
+								response = (Response) RestAssured.given().request().body(req)
+										.headers("Content-Type", " text/xml","Host ","10.95.214.166:10011", "User-Agent", "UGw Server/5.0/1.0",
+												"Authorization", "Basic " + "bWF2ZXJpYzpFcmljc3NvbnRlc3QxMjNA")
+										.when() // .contentType("text/xml; charset=utf-8")
+										.post(cellval5).then().extract().response();
+							respf = new File(Root + "\\API\\Response\\" + cellval1 + ".xml");
+							//respf = new File(Root + "\\API\\Response\\" + cellval1 + ".json");
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					if (response != null) {
+						info("Response Code  :" + response.getStatusCode());
+						info("Response Header  :" + response.getHeaders().toString());
+						info("Response   :" + response.asString());
+						writeresponse(respf, response.asString());
+						fCreateReportFiles(Des, respf, cellval2, curtcid, trfold, State);
+						// System.out.println(response.asString());
+						String respheader = "";
+						for (int i = 0; i < response.getHeaders().asList().size(); i++) {
+							String Header = response.getHeaders().asList().get(i).toString();
+							respheader = respheader + "<br>" + Header;
+						}
+						String res = "";
+						String stat = "";
+						String stattab = "";
+						String fext = "";
+							res = validateresp(respf, cellval1, response.statusCode());
+							stat = res.split("##")[0];
+							stattab = res.split("##")[1];
+							fext = "xml";
+						// for zain ksa
+						String captureval = "";
+						String linkv = "";
+						// String ret = "";
+						endTestCase(cellval1);
+
+					}
+				
+			}
+			rs.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			error(e.getMessage());
+		}
+	}
+	
+	
+	
 	public static String gettagvalue(File resp, String tag, int index) {
 		try {
 			String retvall = "";
