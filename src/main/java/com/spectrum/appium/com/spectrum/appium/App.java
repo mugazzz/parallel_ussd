@@ -1368,25 +1368,27 @@ public class App{
 			curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
 			startTestCase(curtcid);
 			ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario")+"<br>"+inputs.getField("Test_Case"));
-			if (Test_Case.equals("DATA_REGULAR")) {
+			if (Test_Case.equals("DATA_NON_SOCIAL")) {
 				APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
 			Runtime run = Runtime.getRuntime();
 			run.exec("adb shell svc data enable");
 			Thread.sleep(2000);
 			try{
 				dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
-			takeScreenShot("Data Truned On: " + timefold);
-			Thread.sleep(3000);
-			dr.get().findElement(By.id("com.google.android.youtube:id/thumbnail")).click();
-			Thread.sleep(15000);
+				takeScreenShot("Data Truned On: " + timefold);
+				Thread.sleep(3000);
+				dr.get().findElement(By.xpath("//android.widget.TextView[@text='Trending']")).click();
+				Thread.sleep(2000);
+				dr.get().findElement(By.id("com.google.android.youtube:id/thumbnail")).click();
+				Thread.sleep(15000);
 			takeScreenShot("Regular Network -- you tube");
-			run.exec("adb shell svc data disable");
-			Thread.sleep(2000);
-			takeScreenShot("Data Turned off: " + timefold);
 			}catch (Exception e) {
 				//e.printStackTrace();
 				info("Error occurs while connecting Regular data");
 			 }
+			run.exec("adb shell svc data disable");
+			Thread.sleep(2000);
+			takeScreenShot("Data Turned off: " + timefold);
 		}
 		else if (Test_Case.equals("DATA_SOCIAL")){
 			APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
@@ -1407,20 +1409,48 @@ public class App{
 			//dr.get().findElement(By.xpath("//android.view.ViewGroup[@text='OK']")).click();
 			Thread.sleep(6000);
 			dr.get().findElement(By.xpath("//android.widget.Button[@text='CONTINUE IN ENGLISH (US)']")).click();
-//			dr.get().findElement(By.xpath("//android.widget.Button[@text='Allow']")).click();
-//			dr.get().findElement(By.xpath("//android.widget.EditText[@text='Search']")).sendKeys("videos");
-//			dr.get().findElement(By.xpath("//android.view.ViewGroup[@index=0]")).click();
-//			Thread.sleep(3000);
+			dr.get().findElement(By.xpath("//android.widget.Button[@text='Allow']")).click();
+			dr.get().findElement(By.xpath("//android.widget.EditText[@text='Search']")).click();
+			dr.get().findElement(By.xpath("//android.widget.EditText[@text='Search']")).sendKeys("videos");
+			dr.get().findElement(By.xpath("//android.view.ViewGroup[@index=0]")).click();
+			Thread.sleep(3000);
 //			dr.get().findElement(By.xpath("//android.view.ViewGroup[@content-desc='Videos']")).click();
 //			dr.get().findElement(By.xpath("//android.view.ViewGroup[@index=2]")).click();
 			takeScreenShot("Social Network -- Facebook");
-			run.exec("adb shell svc data disable");
-			Thread.sleep(2000);
-			takeScreenShot("Data Turned off: " + timefold);
 			}
 			catch (Exception e) {
 				e.printStackTrace();
 			 }
+			run.exec("adb shell svc data disable");
+			Thread.sleep(2000);
+			takeScreenShot("Data Turned off: " + timefold);
+				
+		}
+		else if (Test_Case.equals("DATA_REGULAR")){
+			APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
+				dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
+			Runtime run = Runtime.getRuntime();
+			run.exec("adb shell svc data enable");
+			Thread.sleep(2000);
+			takeScreenShot("Data Truned On: " + timefold);
+			Thread.sleep(1000);
+			try {
+			dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+			dr.get().findElement(By.id("com.android.chrome:id/terms_accept")).click();
+			dr.get().findElement(By.id("com.android.chrome:id/negative_button")).click();
+			dr.get().findElement(By.id("com.android.chrome:id/search_box_text")).click();
+			dr.get().findElement(By.id("com.android.chrome:id/url_bar")).sendKeys("https://m.youtube.com/watch?v=T3q6QcCQZQg");
+			run.exec("adb shell input keyevent KEYCODE_ENTER");
+			Thread.sleep(10000);
+			takeScreenShot("Logged in: " + timefold);
+			dr.get().navigate().back();
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			 }
+			run.exec("adb shell svc data disable");
+			Thread.sleep(2000);
+			takeScreenShot("Data Turned off: " + timefold);
 				
 		}
 			String result = dr.get().stopRecordingScreen();
