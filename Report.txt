@@ -16274,3 +16274,6 @@ e/tasuser
 logout
 
 Disconnected channel and session
+An error occurred while connecting to null: com.jcraft.jsch.JSchException: host must not be null.
+Error while opening channel:com.jcraft.jsch.JSchException: session is down
+Disconnected channel and session

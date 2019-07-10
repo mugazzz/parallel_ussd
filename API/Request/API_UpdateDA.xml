@@ -69,19 +69,19 @@
           <member>
            <name>dedicatedAccountID</name>
            <value>
-            <int>${dedicatedAccountID}$</int>
+            <int>1</int>
            </value>
           </member>
           <member>
-           <name>adjustmentAmountRelative</name>
+           <name>dedicatedAccountValueNew</name>
            <value>
-            <string>${adjustmentAmountRelative}$</string>
+            <string>${dedicatedAccountValueNew}$</string>
            </value>
           </member>
           <member>
            <name>dedicatedAccountUnitType</name>
            <value>
-            <int>${dedicatedAccountUnitType}$</int>
+            <int>1</int>
            </value>
           </member>
          </struct>
