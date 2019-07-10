@@ -72,6 +72,7 @@ public class App{
 	public String Recharge_Coupon = "";
 	public String Balancemsg = "";
 	public String Test_Scenario= "";
+	public String Test_Suite = "Regression";
 
    //-----Main Method-------------//
 	
@@ -263,28 +264,45 @@ public class App{
 					}
 					else {
 						info("Error occured, please check with screenshot");
+						Thread.sleep(2000);
 						By Send = By.id("android:id/button1");
-						takeScreenShot("Error appears");
-						if(elementExists(Send)) {
+						By Messa = By.id("android:id/message");
+						if(elementExists(Messa)) {
+							Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
+							info("Confirmation alert : "+Confirmation);
+							takeScreenShot("Confirmation Screen");
+						}
+						if (elementExists(Send)){
 							dr.get().findElement(By.id("android:id/button1")).click();
+							takeScreenShot("Error");
 						}
 					}
 					}
 					else {
 						info("Error occured, please check with screenshot");
 						takeScreenShot("Error appears");
-//						Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
-//						info("Confirmation alert : "+Confirmation);
+						Thread.sleep(2000);
+						By Send = By.id("android:id/button1");
+						By Messa = By.id("android:id/message");
+						if(elementExists(Messa)) {
+							Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
+							info("Confirmation alert : "+Confirmation);
+							takeScreenShot("Confirmation Screen");
+						}
+						if (elementExists(Send)){
+							dr.get().findElement(By.id("android:id/button1")).click();
+							takeScreenShot("Error");
+						}
 //						dr.get().findElement(By.id("android:id/button1")).click();
-						dr.get().quit();
+						//dr.get().quit();
 					}
 					Thread.sleep(3000);
 
 				
 	//----------------	Notification Message handle	------------//
 				
-				dr.get().quit();
-				dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
+				//dr.get().quit();
+				//dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 				Thread.sleep(3000);
 				By New_Message = By.id("com.samsung.android.messaging:id/list_unread_count");
 				if (elementExists(New_Message)) {
@@ -450,9 +468,18 @@ public class App{
 			else {
 					info("Error occured, please check with screenshot");
 					takeScreenShot("Error appears");
-//					Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
-//					info("Confirmation alert : "+Confirmation);
-//					dr.get().findElement(By.id("android:id/button1")).click();
+					Thread.sleep(2000);
+					By Send = By.id("android:id/button1");
+					By Messa = By.id("android:id/message");
+					if(elementExists(Messa)) {
+						Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
+						info("Confirmation alert : "+Confirmation);
+						takeScreenShot("Confirmation Screen");
+					}
+					if (elementExists(Send)){
+						dr.get().findElement(By.id("android:id/button1")).click();
+						takeScreenShot("Error");
+					}
 					dr.get().quit();	
 				}
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
@@ -587,9 +614,6 @@ public class App{
 			capabilities.setCapability("bootstrapPort", bsport); 
 			capabilities.setCapability("appPackage", package_voice);
 			capabilities.setCapability("appActivity", activity_voice);
-			curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
-			startTestCase(curtcid);
-			ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario")+"<br>"+inputs.getField("Test_Case"));
 			String Call_To = inputs.getField("Call_TO_MSISDN");
 			String CALL_DURATION = inputs.getField("CALL_DURATION");
 			int secs = Integer.parseInt(CALL_DURATION);
@@ -607,13 +631,19 @@ public class App{
 //			Thread.sleep(3000);
 //			run.exec("adb shell input keyevent KEYCODE_1");
 //			takeScreenShot("Language Selected");
-			takeScreenShot("Call process");
+//			takeScreenShot("Call process");
 			Thread.sleep(secs*1000);
 		
 			run.exec("adb shell input keyevent KEYCODE_ENDCALL");
 			
-	//-------------------------- CDR Conversion -------------------------------------------//
+			APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
+			APIHandler.UpdateBalanceAndDate(curtcid, trfold, "UpdateBalanceAndDate", MSISDN,"2000");
 			
+	//-------------------------- CDR Conversion -------------------------------------------//
+			if(Test_Suite.equals("Sanity")) {
+				curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
+				startTestCase(curtcid);
+				ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario")+"<br>"+inputs.getField("Test_Case"));
 			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
 			
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
@@ -659,9 +689,7 @@ public class App{
 			}
 			
 			String result = dr.get().stopRecordingScreen();
-			
-			APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
-			APIHandler.UpdateBalanceAndDate(curtcid, trfold, "UpdateBalanceAndDate", MSISDN,"2000");
+
 			
 			
 	//-------------------------- Report ----------------------------------------------//
@@ -727,6 +755,7 @@ public class App{
 			extent.flush();
 			endTestCase(curtcid);
 			}
+			}
 		}
 		
 
@@ -737,7 +766,7 @@ public class App{
 //					curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
 //					startTestCase(curtcid);
 //					ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
-					String[] Result = APIparam.APIcontrol(Test_Scenario, ExecutionStarttime);
+					String[] Result = APIparam.APIcontrol(Test_Scenario, ExecutionStarttime, inputs.getField("Test_Case_ID"));
 					
 //					test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + Result[0]
 //							+ "'>Click to View the " + Result[1] + " Response file</a></b><br>" + Result[2] + "</table>");

@@ -64,7 +64,7 @@ public class APIparam {
 	public static String resfolder;
 
 	@SuppressWarnings("unused")
-	public static String[] APIcontrol(String Scenario, String ExecutionStarttime) {
+	public static String[] APIcontrol(String Scenario, String ExecutionStarttime, String Test_case) {
 		String[] Result = new String [50];
 		try {
 			createtimestampfold(ExecutionStarttime);
@@ -90,7 +90,9 @@ public class APIparam {
 			Connection conn = fillo.getConnection(Reference_Data);
 			Connection conn1 = fillo.getConnection(Input_data);
 			Recordset rs = null;
-			Recordset rsi = conn1.executeQuery("Select * from API_Data where Request_Name = '"+Scenario+"'");
+			String rs1 = "Select * from API_Data where TestCase_ID = '"+Test_case+"' and Request_Name = '"+Scenario+"'";
+			System.out.println(rs1);
+			Recordset rsi = conn1.executeQuery("Select * from API_Data where TestCase_ID = '"+Test_case+"' and Request_Name = '"+Scenario+"'");
 			String cellval1 = "blank";
 			String cellval2 = "blank";
 			String cellval3 = "blank";
