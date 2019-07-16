@@ -214,7 +214,6 @@ public class App{
 				String xml_path = trfold+"//"+curtcid;
 				APIHandler.Read_API(xml_path, "usageThresholdID", "UpdateUsageThresholdsAndCounters", curtcid, trfold, "Before_Execution", MSISDN);
 				
-				
 				Runtime run = Runtime.getRuntime();
 			
 					run.exec("adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+startussd);
@@ -637,7 +636,7 @@ public class App{
 			run.exec("adb shell input keyevent KEYCODE_ENDCALL");
 			
 			APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
-			APIHandler.UpdateBalanceAndDate(curtcid, trfold, "UpdateBalanceAndDate", MSISDN,"2000");
+			APIHandler.UpdateBalanceAndDate(curtcid, trfold, "UpdateBalanceAndDate", MSISDN,"200000");
 			
 	//-------------------------- CDR Conversion -------------------------------------------//
 			if(Test_Suite.equals("Sanity")) {

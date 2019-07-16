@@ -996,19 +996,27 @@ public class Asnconvertor {
 								File TCFold1 = new File(trfold + "/" + curtcid+"/"+filetype + "/" + filename);
 								if ((!TCFold1.exists()))
 									TCFold1.mkdir();
-								File filecsv = new File(trfold + "/"  + curtcid+"/"+filetype + "/" + filename + "/Output.csv");
+								File filecsv = new File(trfold + "/"  + curtcid+"/"+filetype + "/" + filename + "/Output1.csv");
+								String FileCSV = trfold + "/"  + curtcid+"/"+filetype + "/" + filename+"/";
 								Cis_viewpath=filecsv.toString();
 								System.out.println(Cis_viewpath);
 								if (filecsv.exists()) {
 									filecsv.delete();
 								}
 								filecsv.createNewFile();
-																
-								cistbl=CSVparse(Cis_Filepath,Cis_viewpath,MSISDN);
+								String C_Temp = "E:\\meydvvmcis03_EDR_CISOnline1.csv";
+								String C_Temp1 = "E:\\Output.csv";//Change temprary Drive//
+								System.out.println(Cis_Filepath +" ----  "+C_Temp);
+								Runtime run = Runtime.getRuntime();
+								
+								run.exec("cmd.exe /c COPY "+Cis_Filepath+" "+C_Temp);
+								System.out.println(FileCSV);
+								cistbl=CSVparse(C_Temp,C_Temp1,MSISDN);
+								run.exec("cmd.exe move \""+C_Temp1+"\" \""+FileCSV+"\"");
+								run.exec("cmd.exe move \""+C_Temp+"\" \""+FileCSV+"\"");
 								convertor[5] = filetype;
 								convertor[7] = filename;
 								convertor[3] = cistbl;
-								
 							}
 						}
 					}
@@ -1529,6 +1537,7 @@ public class Asnconvertor {
 		 csvtb=ValidationQuery(getValidationData);
 		 
 		 // To export the required data to csv file
+		 
 		 String Export_Data ="COPY (select * from public.CIS_EDR_Validation_"+num+") TO '"+viewpath+"' DELIMITER '|' CSV HEADER" ;
 		 ExecuteQuery(Export_Data);
 		 return csvtb;

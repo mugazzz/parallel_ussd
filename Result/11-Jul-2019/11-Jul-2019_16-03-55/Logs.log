@@ -1,0 +1,25 @@
+11-07-2019 16:04:47 INFO [APIparam]: Starting execution at +:11-Jul-2019 16:03:55
+11-07-2019 16:04:47 INFO [APIparam]: ****************************************************************************************
+11-07-2019 16:04:47 INFO [APIparam]: ****************************************************************************************
+11-07-2019 16:04:47 INFO [APIparam]: $$$$$$$$$$$$$$$$$$$$$ TC-81 $$$$$$$$$$$$$$$$$$$$$$$$$
+11-07-2019 16:04:47 INFO [APIparam]: ****************************************************************************************
+11-07-2019 16:04:47 INFO [APIparam]: ****************************************************************************************
+11-07-2019 16:04:47 INFO [APIparam]: Firing Request: API_UpdateOffer
+11-07-2019 16:04:47 INFO [APIparam]: originNodeType : EXT
+11-07-2019 16:04:47 INFO [APIparam]: originHostName : meydvvmnmt02menalabcorplocal
+11-07-2019 16:04:47 INFO [APIparam]: subscriberNumberNAI : 1
+11-07-2019 16:04:47 INFO [APIparam]: negotiatedCapabilities : 268763332
+11-07-2019 16:04:47 INFO [APIparam]: subscriberNumber : 971520001714
+11-07-2019 16:04:47 INFO [APIparam]: offerID : 4501
+11-07-2019 16:04:47 INFO [APIparam]: request Fired:<?xml version="1.0" encoding="iso-8859-1"?><methodCall><methodName>UpdateOffer</methodName><params> <param>  <value>   <struct>    <member>     <name>originNodeType</name>     <value>      <string>EXT</string>     </value>    </member>    <member>     <name>originHostName</name>     <value>      <string>meydvvmnmt02menalabcorplocal</string>     </value>    </member>    <member>     <name>originTransactionID</name>     <value>      <string>2019071116044728</string>     </value>    </member>    <member>     <name>originTimeStamp</name>     <value>      <dateTime.iso8601>20190711T16:04:47+0000</dateTime.iso8601>     </value>    </member>    <member>     <name>subscriberNumberNAI</name>     <value>      <int>1</int>     </value>    </member>    <member>     <name>negotiatedCapabilities</name>     <value>      <array>       <data>        <value>         <int>268763332</int>        </value>       </data>      </array>     </value>    </member>    <member>     <name>subscriberNumber</name>     <value>      <string>971520001714</string>     </value>    </member>    <member>     <name>offerID</name>     <value>      <int>4501</int>     </value>    </member>   </struct>  </value> </param></params></methodCall>
+11-07-2019 16:04:47 INFO [APIparam]: Response Code  :200
+11-07-2019 16:04:47 INFO [APIparam]: Response Header  :Date=Thu, 11 Jul 2019 12:05:18 GMT
+X-Powered-By=Ericsson
+Server=meytvvmair01.menalab.corp.local
+Set-Cookie=JSESSIONID=dokkfkuqx59p2hn3yilv2ig1;Path=/
+Expires=Thu, 01 Jan 1970 00:00:00 GMT
+Content-Type=text/xml
+Content-Length=596
+11-07-2019 16:04:47 INFO [APIparam]: Response   :<?xml version="1.0" encoding="ISO-8859-1"?><methodResponse><params><param><value><struct><member><name>availableServerCapabilities</name><value><array><data><value><i4>939860676</i4></value><value><i4>10028</i4></value></data></array></value></member><member><name>negotiatedCapabilities</name><value><array><data><value><i4>268763332</i4></value></data></array></value></member><member><name>originTransactionID</name><value><string>2019071116044728</string></value></member><member><name>responseCode</name><value><i4>136</i4></value></member></struct></value></param></params></methodResponse>
+11-07-2019 16:04:47 INFO [App]: Starting execution at +: 30min&1.5GB AED50 Mon->USSD_OPT_IN->11-Jul-2019 16:03:55
+
