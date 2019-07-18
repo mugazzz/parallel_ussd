@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <methodCall>
-<methodName>GetAccountDetails</methodName>
+<methodName>UpdateOffer</methodName>
 <params>
  <param>
   <value>
@@ -20,13 +20,13 @@
     <member>
      <name>originTransactionID</name>
      <value>
-      <string>2019071817023022</string>
+      <string>2019071816110695</string>
      </value>
     </member>
     <member>
      <name>originTimeStamp</name>
      <value>
-      <dateTime.iso8601>20190718T17:02:30+0000</dateTime.iso8601>
+      <dateTime.iso8601>20190718T16:11:06+0000</dateTime.iso8601>
      </value>
     </member>
     <member>
@@ -51,6 +51,43 @@
      <name>subscriberNumber</name>
      <value>
       <string>971520002574</string>
+     </value>
+    </member>
+    <member>
+     <name>offerID</name>
+     <value>
+      <int>100</int>
+     </value>
+    </member>
+    <member>
+     <name>attributeUpdateInformationList</name>
+     <value>
+      <array>
+       <data>
+        <value>
+         <struct>
+          <member>
+           <name>attributeName</name>
+           <value>
+            <string>IMSI</string>
+           </value>
+          </member>
+          <member>
+           <name>attributeUpdateAction</name>
+           <value>
+            <string>SET</string>
+           </value>
+          </member>
+          <member>
+           <name>attributeValueString</name>
+           <value>
+            <string>424030046672431</string>
+           </value>
+          </member>
+         </struct>
+        </value>
+       </data>
+      </array>
      </value>
     </member>
    </struct>
