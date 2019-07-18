@@ -1004,16 +1004,7 @@ public class Asnconvertor {
 									filecsv.delete();
 								}
 								filecsv.createNewFile();
-								String C_Temp = "E:\\meydvvmcis03_EDR_CISOnline1.csv";
-								String C_Temp1 = "E:\\Output.csv";//Change temprary Drive//
-								System.out.println(Cis_Filepath +" ----  "+C_Temp);
-								Runtime run = Runtime.getRuntime();
-								
-								run.exec("cmd.exe /c COPY "+Cis_Filepath+" "+C_Temp);
-								System.out.println(FileCSV);
-								cistbl=CSVparse(C_Temp,C_Temp1,MSISDN);
-								run.exec("cmd.exe move \""+C_Temp1+"\" \""+FileCSV+"\"");
-								run.exec("cmd.exe move \""+C_Temp+"\" \""+FileCSV+"\"");
+								cistbl=CSVparse(Cis_Filepath,Cis_viewpath,MSISDN);
 								convertor[5] = filetype;
 								convertor[7] = filename;
 								convertor[3] = cistbl;
