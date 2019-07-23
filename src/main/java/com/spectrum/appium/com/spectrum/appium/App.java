@@ -109,7 +109,9 @@ public class App{
 
 		return prop.getProperty(propname);
 	}
-	
+	private App() {
+		
+	}
 	public App(String deviceq) {
 		try {
 			
@@ -861,6 +863,18 @@ public class App{
 	//----------------------	API Call	 --------------------------//
 		
 				else if(Test_Scenario.contains("API_")) {
+					if(Test_Scenario.contains("CIS")) {
+						curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
+						startTestCase(curtcid);
+						ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
+						String [] Result = APIparam.CIS_API(Test_Scenario, ExecutionStarttime, inputs.getField("Test_Case_ID"));
+						
+						test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + Result[0]
+								+ "'>Click to View the " + Result[1] + " Response file</a></b>");
+						extent.flush();
+						
+					}
+					else {
 //					curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
 //					startTestCase(curtcid);
 //					ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
@@ -869,8 +883,9 @@ public class App{
 //					test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + Result[0]
 //							+ "'>Click to View the " + Result[1] + " Response file</a></b><br>" + Result[2] + "</table>");
 //					extent.flush();
-//					endTestCase(curtcid);
-				}
+
+						}
+					}
 		
 	
 	//----------------------	Voice Call	 --------------------------//
@@ -912,9 +927,9 @@ public class App{
 			
 			test.pass("</table><table><tr><th style= 'min-width: 168px'><b>MSISDN</b></th>"
 					+"<th style= 'min-width: 168px'><b>Test Scenario </b></th>"
-					+ "<th style= 'min-width: 168px'><b>Test Case </b></th>"
-					+ "<th style= 'min-width: 168px'><b>Called To </b></th>"
-					+ "<th style= 'min-width: 168px'><b>Call Duration </b></th>"
+					+"<th style= 'min-width: 168px'><b>Test Case </b></th>"
+					+"<th style= 'min-width: 168px'><b>Called To </b></th>"
+					+"<th style= 'min-width: 168px'><b>Call Duration </b></th>"
 					+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
 					
 					//Device Result

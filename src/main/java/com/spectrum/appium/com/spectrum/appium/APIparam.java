@@ -8,20 +8,32 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
+import java.net.URI;
 import java.nio.channels.FileChannel;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.w3c.dom.Document;
@@ -237,6 +249,116 @@ public class APIparam {
 		}
 		return Result;
 
+	}
+	
+	public static String[] CIS_API(String Scenario, String ExecutionStarttime, String Test_case) throws UnsupportedOperationException, IOException {
+		String[] Result = new String [50];
+		File respf = null;
+		String curtcid = "";
+		String url = "";
+		try {
+			createtimestampfold(ExecutionStarttime);
+			System.setProperty("logfilename", trfold + "\\Logs");
+			DOMConfigurator.configure("log4j.xml");
+			//ExtentReports extent = new ExtentReports();
+			//ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(trfold + "\\Master.html");
+			//extent.attachReporter(htmlReporter);
+			info("Starting execution at +:" + ExecutionStarttime);
+			System.setProperty("logfilename", trfold + "\\Logs");
+			DOMConfigurator.configure("log4j.xml");
+			info("Starting execution at +:" + ExecutionStarttime);
+			Fillo fillo = new Fillo();
+			Connection conn = fillo.getConnection(Reference_Data);
+			Connection conn1 = fillo.getConnection(Input_data);
+			Recordset rs = null;
+			Recordset rsi = conn1.executeQuery("Select * from API_Data where TestCase_ID = '"+Test_case+"' and Request_Name = '"+Scenario+"'");
+			while (rsi.next()) {
+			if(Scenario.equalsIgnoreCase("CIS_API_Credit_Amount"))
+			{
+				String MSISDN =rsi.getField("Value1");
+				String INPUT = rsi.getField("Value2");
+				String TO_CREDIT = rsi.getField("Value3");	
+				url = "http://10.95.215.6:8001/cisBusiness/service/fulfillmentService?msisdn="+MSISDN+"&username=c39929de831bbe6b494e45dd5eb2926d&password=2cc935d0922c88fcbc5180b573040968&iname=TIBCO&input="+INPUT+"&clientTransactionId=4122867334537798&circleCode=UAE&opParam2=General%20Cash&adjustmentAction=1&amountToCredit="+TO_CREDIT+"&OpParam1=Complaint&OpParam4=30";
+			}
+			else if(Scenario.equalsIgnoreCase("CIS_API_Debit_Amount")){
+				String MSISDN =rsi.getField("Value1");
+				String INPUT = rsi.getField("Value2");
+				String TO_CREDIT = rsi.getField("Value3");	
+				url = "http://10.95.215.6:8001/cisBusiness/service/fulfillmentService?msisdn="+MSISDN+"&username=c39929de831bbe6b494e45dd5eb2926d&password=2cc935d0922c88fcbc5180b573040968&iname=TIBCO&input="+INPUT+"&clientTransactionId=4122867334537798&circleCode=UAE&opParam2=General%20Cash&adjustmentAction=1&amountToCredit="+"-"+TO_CREDIT+"&OpParam1=Complaint&OpParam4=30";
+			}
+			else if (Scenario.equalsIgnoreCase("CIS_API_Product_Subscription")) {
+				String MSISDN =rsi.getField("Value1");
+				String INPUT = rsi.getField("Value2");
+				url = "http://10.95.215.6:8001/cisBusiness/service/fulfillmentService?msisdn="+MSISDN+"&username=c39929de831bbe6b494e45dd5eb2926d&password=2cc935d0922c88fcbc5180b573040968&iname=TIBCO&input="+INPUT+"&clientTransactionId=1000040996&circleCode=UAE&paySrc=&sendsms=&skipcharging=&productcost=";
+			}
+			else if (Scenario.equalsIgnoreCase("CIS_API_View_History")){
+				String MSISDN =rsi.getField("Value1");
+				url = "http://10.95.215.6:8001/cisBusiness/service/fulfillmentService?input=VIEW_SUBS_HISTORY&msisdn="+MSISDN+"&username=c39929de831bbe6b494e45dd5eb2926d&password=2cc935d0922c88fcbc5180b573040968&circlecode=UAE&iname=TIBCO&clientTransactionID=12345";
+			}
+		HttpClient client = HttpClientBuilder.create().build();
+		HttpPost post = new HttpPost(url);
+
+		// add header
+		post.setHeader("User-Agent", "Mozilla/5.0");
+
+//		List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
+//		urlParameters.add(new BasicNameValuePair("msisdn", "971520001714"));
+//		urlParameters.add(new BasicNameValuePair("username", "c39929de831bbe6b494e45dd5eb2926d"));
+//		urlParameters.add(new BasicNameValuePair("password", "2cc935d0922c88fcbc5180b573040968"));
+//		urlParameters.add(new BasicNameValuePair("iname", "TIBCO"));
+//		urlParameters.add(new BasicNameValuePair("input", "NACT_DebitCredit"));
+//		urlParameters.add(new BasicNameValuePair("clientTransactionId", "4122867334537798"));
+//		urlParameters.add(new BasicNameValuePair("circleCode", "UAE"));
+//		urlParameters.add(new BasicNameValuePair("opParam2", "General%20Cash"));
+//		urlParameters.add(new BasicNameValuePair("adjustmentAction", "1"));
+//		urlParameters.add(new BasicNameValuePair("amountToCredit", "100"));
+//		urlParameters.add(new BasicNameValuePair("OpParam1", "Complaint"));
+//		urlParameters.add(new BasicNameValuePair("OpParam4", "30"));
+//
+//		post.setEntity(new UrlEncodedFormEntity(urlParameters, "UTF-8"));
+		
+		
+		File Des = null;
+		File Source = null;
+
+		HttpResponse response = client.execute(post);
+		System.out.println("Response Code : " 
+	                + response.getStatusLine().getStatusCode());
+
+		BufferedReader rd = new BufferedReader(
+		        new InputStreamReader(response.getEntity().getContent()));
+
+		StringBuffer result = new StringBuffer();
+		String line = "";
+		while ((line = rd.readLine()) != null) {
+			result.append(line);
+		}
+		String Res = result.toString();
+		try
+		{
+			File tresfold = new File(trfold + "/CIS_API_Response/");
+			if ((!tresfold.exists()))
+				tresfold.mkdir();
+		String thisFile = new String( trfold + "/CIS_API_Response/"+Scenario +".xml");
+		Result[0] = trfold+"/CIS_API_Response/"+Scenario +".xml";
+		Result[1] = Scenario;
+		OutputStreamWriter oos = new OutputStreamWriter (new FileOutputStream(thisFile));
+		oos.write (Res);
+		oos.close();
+		oos = null;
+		thisFile=null;
+		}
+		catch (IOException ioe)
+		{
+		System.out.println("IO error: " + ioe);
+		}
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			error(e.getMessage());
+		}
+		return Result;
 	}
 
 	public static String gettagvalue(File resp, String tag, int index) {
