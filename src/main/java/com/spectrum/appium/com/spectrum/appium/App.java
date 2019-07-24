@@ -185,8 +185,7 @@ public class App {
 
 					com.codoid.products.fillo.Connection conn1 = fillo.getConnection(Reference_Data);
 
-					// -------------------------- OPT IN / OUT / Recharge
-					// ------------------------------------//
+					// -------------------------- OPT IN / OUT / Recharge ------------------------------------//
 
 					if (Test_Scenario.equalsIgnoreCase("OPT IN") || Test_Scenario.equalsIgnoreCase("OPT OUT")) {
 						DesiredCapabilities capabilities = new DesiredCapabilities();
