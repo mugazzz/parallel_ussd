@@ -1,0 +1,24 @@
+{
+  "name": "duautomation",
+  "version": "1.0.1",
+  "description": "Du Automation Project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "sathishp@maveric-systems.com",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.4",
+    "ejs": "^2.6.1",
+    "express": "^4.17.1",
+    "express-session": "^1.16.1",
+    "filter-files": "^0.4.0",
+    "maven": "^4.6.0",
+    "multer": "^1.4.1",
+    "mysql": "^2.17.1",
+    "mysql2": "^1.6.5",
+    "req-flash": "0.0.3"
+  }
+}

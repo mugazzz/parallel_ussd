@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Du Automation</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <link rel="icon" href="images/favicon.png" sizes="16x16" type="image/png">    
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.0/css/select.dataTables.min.css">
+        <link rel="stylesheet" href="/css/fontawesome/css/all.css">
+        <link rel='stylesheet' type="text/css" href='/css/dashboard.css'/>
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <!-- Popper JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
+
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
+        <!-- custom javascript -->
+        <script src="/scripts/data.js"></script>
+        <script src="/scripts/custom.js"></script>
+
+    </head>
+    <body>
+        <!-- Static navbar -->
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+            <a class="" href="#"><img src="/images/maveric_logo.png" class="img-logo" alt="maveric_logo"></img></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+              <ul class="navbar-nav ml-auto">
+                  <li class="nav-item">
+                    <a class="nav-link" href="/dashboard"><i class="fas fa-home"></i> <span>Home</span></a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/reports"><i class="fas fa-chart-bar"></i> <span>Reports</span></a>
+                  </li>
+              </ul>
+              <ul class="navbar-nav ml-auto">
+                <% if (user.length > 0) { %>
+                <li class="nav-item">
+                  <a class="nav-link" href="#"><i class="fas fa-user"></i>  <span><%= user %></span></a>
+                </li>
+                <% } %>
+                <li class="nav-item">
+                  <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+                </li>
+              </ul>
+            </div>  
+          </nav>
+          <div class="container-fluid">
+            <div class="row">
+             <!-- <nav class="col-md-2 d-none d-md-block navbar bg-dark navbar-dark sidebar">
+                <div class="text-center div-logo">
+                      <img src="/images/maveric_logo.png" class="justify-align img-logo" alt="maveric_logo"></img>
+                </div>               
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                          <a class="nav-link" href="/home"><i class="fas fa-home fa-3x"></i></a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link active" href="/execute"><i class="fas fa-cogs fa-3x"></i></a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="/reports"><i class="fas fa-chart-bar fa-3x"></i></a>
+                        </li> 
+                      </ul>
+                </div>
+              </nav>-->
+               <!--</div> end row in footer.ejs-->
+          <!--</div> end container-fluid in footer.ejs-->

@@ -1,0 +1,200 @@
+<%- include header %>
+    <main class="col-md-12 ml-sm-auto">
+        <div class="jumbotron bg-light text-medium">
+            <div class="container pt-10">
+                <h5 class="row col-md-12 col-lg-12 font-weight-bold">Welcome to Du Automation Page!</h5>
+                    <div class="row input-form-wrapper">
+                    <div class="row col-md-12 col-lg-12">
+                        <h5 class="row dark-pink col-md-6">Add Test Case</h5>
+                        <div class="col-md-6 ml-sm-auto">
+                            <a href="#" role="button" title="save" class="cust-form-ctrl btn btn-sm btn-success save-ts-btn">Save</a>
+                            <a href="#" role="button" title="add row" class="cust-form-ctrl btn btn-sm btn-success addrow-ts-btn">Add row</a>
+                        </div>
+                        
+                        <table id="tbl-ts-in-form" class="nowrap">
+                            <tbody>
+                                <form action="/save" role="form" method="post">
+                                <tr class="tr-clone hidden"></tr>
+                                <tr class="tr-clone">  
+                                    <td>
+                                        <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="form-check-input" id="customCheck1" checked>
+                                        </div>
+                                    </td>
+                                    <td class="td-row-btn"><a href="#" title="copy row" class="btn btn-light  copy-ts-btn"><i class="far fa-copy"></i></a></td> 
+                                    <td class="td-row-btn"><a href="#" title="delete row" class="btn btn-light delrow-ts-btn"><i class="far fa-trash-alt"></i></a></td>
+                                    <td>
+                                        <input type="text" name="testCaseNo" class="form-control form-control-sm cust-form-ctrl"  placeholder="Test Case ID"> 
+                                    </td>
+                                    <td>
+                                        <select name="testScenario" class="form-control custom-select-sm custom-select cust-form-ctrl" placeholder="Test Scenario">
+                                                <option value="SelectScenario">Select Scenario..</option>
+                                                <option value="OPT IN">OPT IN</option>
+                                                <option value="OPT OUT">OPT OUT</option>
+                                                <option value="RECHARGE">RECHARGE</option>
+                                                <option value="LIVE USAGE DATA">LIVE USAGE DATA</option>
+                                                <option value="LIVE USAGE VOICE">LIVE USAGE VOICE</option>
+                                                <option value="LIVE USAGE SMS">LIVE USAGE SMS</option>
+                                                <option value="P2P TRANSFER">P2P TRANSFER</option>
+                                                <option value="BALANCE ENQUIRES">BALANCE ENQUIRES</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="testCase" class="form-control custom-select-sm custom-select cust-form-ctrl" placeholder="Test Case">
+                                                <option value="SelectTestCase">Select Test Case..</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="testDevice" class="form-control custom-select-sm custom-select cust-form-ctrl" placeholder="Test Device">
+                                                <option value="SelectDevice">Select Device..</option>
+                                                <option value="Device1">Device1</option>
+                                                <option value="Device2">Device2</option>
+                                        </select>
+
+                                    </td>
+                                    <td class="param-list" id="param-list-container"></td>
+                            
+                                </tr>
+                                </form>
+                            </tbody>
+                        
+                        
+                        </table>
+                        
+                    </div>
+                    </div>
+                               
+            <div class="table-responsive-sm table-wrapper" >
+                    <h5 class="row dark-pink col-md-9">Test Cases</h5>
+                <div class="row col-md-12 ts-list-header">
+                    <div class="row col-md-10">
+                        <span>Select a record and click execute to run test case</span>
+                    </div>
+                    
+                    <div class="col-md-2 ml-sm-auto">
+                        <a href="#" role="button" id="btn-execute" class="btn btn-sm btn-success">Execute</a>
+                        <a href="#" role="button" id="btn-delete-row" class="btn btn-sm btn-danger">Delete</a>
+                    </div>
+                </div>
+                <% if (testCases.length > 0) {%>
+                    <table id="test-case-list" class="table display compact table-striped table-bordered hover nowrap" style="width:100%">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">select</th>
+                                <th scope="col">ID</th>
+                                <th scope="col">Scenario</th>
+                                <th scope="col">Test Case</th>
+                                <th scope="col">Device</th>
+                                <th scope="col">MSISDN</th>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Recharge Coupon</th>
+                                <th scope="col">Call To MSISDN</th>
+                                <th scope="col">Call Duration</th>
+                                <th scope="col">Receiver MSISDN</th>
+                                <th scope="col">Message To Send</th>
+                                <th scope="col">SMS Count</th>
+                                <th scope="col">Tranfer Amt</th>
+                                <th scope="col">Tranfer to MSISDN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% testCases.forEach((testCase, index) => { %>
+                                <tr>
+                                    <td data-testcase_id="<%= testCase.row_id %>"></td>
+                                    <td><%= testCase.Test_Case_ID %></td>
+                                    <td><%= testCase.Test_Scenario %></td>
+                                    <td><%= testCase.Test_Case %></td>
+                                    <td><%= testCase.Test_Device %></td>
+                                    <td><%= testCase.MSISDN %></td>
+                                    <td><%= testCase.Product_Name %></td>
+                                    <td><%= testCase.Recharge_Coupon %></td>
+                                    <td><%= testCase.Call_TO_MSISDN %></td>
+                                    <td><%= testCase.CALL_DURATION %></td>
+                                    <td><%= testCase.RECEIVER_MSISDN %></td>
+                                    <td><%= testCase.Message_To_Send %></td>
+                                    <td><%= testCase.SMS_COUNT %></td>
+                                    <td><%= testCase.TRANSFER_AMOUNT %></td>
+                                    <td><%= testCase.TRANSFER_TO_MSISDN %></td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                <% } else { %>
+                    <p class="text-center">No testcases found. Please add test case.</p>
+                <% } %>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Delete test case-->
+    <form id="delete-row-form" action="/delete" method="post">
+        <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalDeleteLabel" aria-hidden="true">
+           <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                         <h5 class="modal-title" id="myModalDeleteLabel">Delete Test Case</h5>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  </div>
+                  <div class="modal-body">
+                         <strong>Are you sure to delete below test cases?</strong>
+                         <input type="hidden" name="delete_test_row_id" class="form-control-plaintext" id="delete_test_row_id">
+                         <input type="text" name="delete_test_id" class="form-control-plaintext" id="delete_test_id" readonly required>
+                  </div>
+                  <div class="modal-footer">
+                       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                       <button type="submit" class="btn btn-success">Delete</button>
+                  </div>
+                   </div>
+           </div>
+        </div>
+    </form>
+
+    <!-- Modal Execute test cases -->
+    <form id="execute-row-form" action="/execute" method="post">
+        <div class="modal fade" id="ExecuteModal" tabindex="-1" role="dialog" aria-labelledby="myModalExecuteLabel" aria-hidden="true">
+           <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                         <h5 class="modal-title" id="myModalExecuteLabel">Execute Test Case</h5>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  </div>
+                  <div class="modal-body">
+                         <strong>Are you sure to execute below test cases?</strong>
+                         <input type="hidden" name="execute_test_row_id" class="form-control-plaintext" id="execute_test_row_id">
+                         <input type="text" name="execute_test_id" class="form-control-plaintext" id="execute_test_id" readonly required>
+                  </div>
+                  <div class="modal-footer">
+                       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                       <button type="submit" class="btn btn-success btn-modal-execute">Execute</button>
+                  </div>
+                   </div>
+           </div>
+        </div>
+    </form>
+
+    <div class="modal fade" id="myLoadingModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myLoadingModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+               <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myLoadingModalLabel">Execute Test Case</h5>
+                     </div>
+                   <div class="modal-body">
+                         <div class="d-flex justify-content-center">
+                            <strong>Executing...</strong>
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Executing...</span>
+                            </div>
+                        </div>
+                   </div>
+                </div>
+            </div>
+         </div>
+    <div class="custom-alert alert alert-success alert-dismissible fade show" style="display:none" role="alert">
+        <strong>test case created successfully</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+<%- include footer %>

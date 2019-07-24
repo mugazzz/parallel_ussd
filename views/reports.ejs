@@ -1,0 +1,38 @@
+<%- include header %>
+
+<main class="col-md-12 ml-sm-auto col-lg-10">
+  <div class="jumbotron bg-light">
+    <div class="container">
+      <h5 class="col-md-12 col-lg-12 font-weight-bold">Reports</h5>
+      <div class="col-md-12 col-lg-12 file-list-section dt-tbl-custom">
+        <% if (fileList.length > 0) {%>
+          <table id="report-list" class="table display compact table-striped table-bordered hover" >
+              <thead class="thead-dark">
+                  <tr>
+                      <th scope="col">Date</th>
+                      <th scope="col">Time</th>
+                      <th scope="col">Report Link</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <% fileList.forEach((file, index) => { %>
+                        <tr>
+                          <td>
+                              <%= file.split("\\")[2] %>
+                          </td>
+                          <td>
+                              <%= file.split("\\")[3].split("_")[1] %>
+                          </td>
+                          <td>
+                            <a href="<%= file %>" target="_blank">Master.html</a>               
+                          </td>
+                        </tr>
+                  <% }) %>
+                </tbody>
+          </table>
+      <% } %>
+      </div>
+  </div>
+  </div>
+</main>
+<%- include footer %>

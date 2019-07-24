@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Du Automation</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel='stylesheet' type="text/css" href="/css/login.css"/>
+   
+</head>
+<body id="clrblk">
+    <div class="container">  
+        <div class="signin-form">
+                <form action="/login" method="post">
+                    <div class="text-center">
+                        <img src="/images/maveric_logo.png" class="img-fluid" alt="maveric_logo"></img>
+                        <br><br>
+                        <h4>Sign in</h4>
+                    </div> 
+                    <div class="or-seperator"></div>
+                    <div class="form-group">
+                        <input type="text" class="form-control input-lg" name="username" placeholder="Username" required="required">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control input-lg" name="password" placeholder="Password" required="required">
+                    </div>  
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-lg btn-block signup-btn">Sign in</button>
+                    </div>
+                    <% if (message.length > 0) { %>
+                        <div class="alert alert-danger col-sm-12"><%= message %></div>
+                    <% } %>
+                </form>
+                <div class="text-center small">Don't have an account? <a href="/signup">Sign up</a></div>
+        </div>
+
+        
+       
+    </div>
+</body>
+</html>

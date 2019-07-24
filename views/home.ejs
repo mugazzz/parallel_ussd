@@ -1,0 +1,49 @@
+<%- include header %>
+
+<main class="col-md-12 ml-sm-auto col-lg-10">
+  <div class="jumbotron bg-light">
+    <div class="container">
+      <h5 class="col-md-12 col-lg-12 font-weight-bold">Welcome to Du Automation Page!</h5>
+      <br>
+      <div class="input-form">
+      <p class="col-md-12">Add Test Case</p>
+      <div class="col-md-12 col-lg-12">
+        <form action="/save" role="form" method="post">
+          <div class="form-row"> 
+            <div class="form-group col-md-2">
+                <label for="testCaseNo">Test Case No</label>
+                <input type="text" id="testCaseNo" name="testCaseNo" class="form-control"  placeholder="Test Case No">
+            </div>
+            <div class="form-group col-md-2">
+                <label for="testScenario">Test Scenario</label>
+                <select id="testScenario" name="testScenario" class="form-control custom-select" placeholder="Test Scenario">
+                  <option value="SelectScenario">Select Scenario..</option>
+                  <option value="OPT IN">OPT IN</option>
+                  <option value="OPT OUT">OPT OUT</option>
+                  <option value="RECHARGE">RECHARGE</option>
+                  <option value="LIVE USAGE DATA">LIVE USAGE DATA</option>
+                  <option value="LIVE USAGE VOICE">LIVE USAGE VOICE</option>
+                  <option value="LIVE USAGE SMS">LIVE USAGE SMS</option>
+                  <option value="P2P TRANSFER">P2P TRANSFER</option>
+                  <option value="BALANCE ENQUIRES">BALANCE ENQUIRES</option>
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="testCase">Test Case</label>
+              <select id="testCase" name="testCase" class="form-control custom-select" placeholder="Test Case">
+                <option value="SelectTestCase">Select Test Case..</option>
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="testcaseDesc">Test Case Description</label>
+              <input type="text" class="form-control" name="testcaseDesc" id="testcaseDesc" placeholder="Test Case Description">
+            </div>
+          </div>
+          <div class="param-list" id="param-list-container"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+</main>
+<%- include footer %>
