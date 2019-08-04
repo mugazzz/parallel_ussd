@@ -347,13 +347,18 @@ public class App{
 				String result = dr.get().stopRecordingScreen();
 				APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
 				
-		//-------------------------- CDR Conversion -------------------------------------------//
+		//--------------------------	CIS DB	----------------------------------------------//				
+				String Result = Asnconvertor.cis_db("adhoc", MSISDN);
+				
+				
+		//-------------------------- CDR Conversion ------------------------------------------//
 				Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
 				
-		//-------------------------- Report ----------------------------------------------//
+				
+		//------------------------------ Report ----------------------------------------------//
 				String[] convertor = Asnconvertor.Result(MSISDN, Product_ID, Test_Scenario, Test_Case_ID, curtcid, Product_Name, Test_Scenario_I, Test_Case, Confirmation, Message, Recharge_Coupon,"", "", "", "", "", "", ExecutionStarttime, "", "");
 			
-				test.pass("</table><table><tr><th style= 'min-width: 168px'><b>Product Name</b></th>"
+				test.pass("</table><br><br><table><tr><th style= 'min-width: 168px'><b>Product Name</b></th>"
 						+"<th style= 'min-width: 168px'><b>Product ID: </b></th>"
 						+ "<th style= 'min-width: 168px'><b>Test Scenario: </b></th>"
 						+ "<th style= 'min-width: 168px'><b>Test Case: </b></th>"
@@ -369,7 +374,10 @@ public class App{
 					test.pass("<br><br><b>CIS Data Verification:</b>" 
 					+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
 					+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a><br>");
-				
+					
+					//CIS DB
+					test.pass("<br><br><table>" + Result + "</table> <br>");
+					
 			Connection co = fillo.getConnection(Reference_Data);
 			String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
 			Recordset rsr = co.executeQuery(strQuery);
@@ -864,14 +872,15 @@ public class App{
 		
 				else if(Test_Scenario.contains("API_")) {
 					if(Test_Scenario.contains("CIS")) {
-						curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
-						startTestCase(curtcid);
-						ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
+//						curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
+//						startTestCase(curtcid);
+//						ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
+
 						String [] Result = APIparam.CIS_API(Test_Scenario, ExecutionStarttime, inputs.getField("Test_Case_ID"));
 						
-						test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + Result[0]
-								+ "'>Click to View the " + Result[1] + " Response file</a></b>");
-						extent.flush();
+//						test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + Result[0]
+//								+ "'>Click to View the " + Result[1] + " Response file</a></b>");
+//						extent.flush();
 						
 					}
 					else {
@@ -888,6 +897,18 @@ public class App{
 					}
 		
 	
+	//----------------------	CIS_DB	-------------------------------//
+				else if(Test_Scenario.contains("CIS_DB")) {
+					String Result = Asnconvertor.cis_db("adhoc", MSISDN);
+					ExtentTest test = extent.createTest("CIS_DB_" + MSISDN + "_Output");
+					
+					
+					test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank'></a></b><br>" + Result
+							+ "</table>");
+					extent.flush();
+				}
+		
+		
 	//----------------------	Voice Call	 --------------------------//
 		
 		else if(Test_Scenario.equals("LIVE_USAGE_VOICE")) {
