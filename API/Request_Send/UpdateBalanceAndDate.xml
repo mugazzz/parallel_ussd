@@ -20,13 +20,13 @@
     <member>
      <name>originTransactionID</name>
      <value>
-      <string>2019072212482931</string>
+      <string>2019080611095897</string>
      </value>
     </member>
     <member>
      <name>originTimeStamp</name>
      <value>
-      <dateTime.iso8601>20190722T12:48:29+0000</dateTime.iso8601>
+      <dateTime.iso8601>20190806T11:09:58+0000</dateTime.iso8601>
      </value>
     </member>
     <member>
@@ -50,7 +50,7 @@
     <member>
      <name>subscriberNumber</name>
      <value>
-      <string>971520002574</string>
+      <string>971520001714</string>
      </value>
     </member>
     <member>

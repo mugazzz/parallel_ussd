@@ -2,12 +2,12 @@
 <testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="5680" started-at="2019-08-04T11:45:06Z" finished-at="2019-08-04T11:45:11Z">
+  <suite name="Default suite" duration-ms="135719" started-at="2019-08-04T15:00:02Z" finished-at="2019-08-04T15:02:18Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="5680" started-at="2019-08-04T11:45:06Z" finished-at="2019-08-04T11:45:11Z">
+    <test name="Default test" duration-ms="135719" started-at="2019-08-04T15:00:02Z" finished-at="2019-08-04T15:02:18Z">
       <class name="com.spectrum.appium.com.spectrum.appium.App">
-        <test-method status="PASS" signature="Device_1()[pri:0, instance:com.spectrum.appium.com.spectrum.appium.App@1dfe2924]" name="Device_1" duration-ms="5637" started-at="2019-08-04T11:45:06Z" finished-at="2019-08-04T11:45:11Z">
+        <test-method status="PASS" signature="Device_1()[pri:0, instance:com.spectrum.appium.com.spectrum.appium.App@1dfe2924]" name="Device_1" duration-ms="135681" started-at="2019-08-04T15:00:02Z" finished-at="2019-08-04T15:02:18Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- Device_1 -->
