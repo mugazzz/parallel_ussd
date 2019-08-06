@@ -246,6 +246,7 @@ public class App{
 //						Thread.sleep(2000);
 						dr.get().findElement(By.id("com.android.phone:id/input_field")).sendKeys(spltussd[currshortcode]);
 						takeScreenShot("Entering code "+ spltussd[currshortcode]);
+						dr.get().hideKeyboard();
 						dr.get().findElement(By.id("android:id/button1")).click();
 						}
 						catch (Exception e) { // Thread.sleep(100); }
@@ -1237,6 +1238,7 @@ public class App{
 				info("Entering code : "+ spltussd[currshortcode]);
 				dr.get().findElement(By.id("com.android.phone:id/input_field")).sendKeys(spltussd[currshortcode]);
 				takeScreenShot("Entering code "+ spltussd[currshortcode]);
+				dr.get().hideKeyboard();
 				dr.get().findElement(By.id("android:id/button1")).click();
 			}
 			}
@@ -1367,6 +1369,7 @@ public class App{
 //				Thread.sleep(2000);
 				dr.get().findElement(By.id("com.android.phone:id/input_field")).sendKeys(spltussd[currshortcode]);
 				takeScreenShot("Entering code "+ spltussd[currshortcode]);
+				dr.get().hideKeyboard();
 				dr.get().findElement(By.id("android:id/button1")).click();
 				} 
 				catch (Exception e) { // Thread.sleep(100); }
