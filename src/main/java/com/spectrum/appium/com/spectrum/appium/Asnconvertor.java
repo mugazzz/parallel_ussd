@@ -1054,9 +1054,13 @@ public class Asnconvertor {
 				e.printStackTrace();
 			}
 			System.out.println("Table available: "+table_data + table_data1);
-			String renewal = "Renewal Table is: "+table_data1;
-			String Adhoc = "Adhoc Table is: "+table_data;		
-			return Adhoc + renewal;
+			if(table_data1.equalsIgnoreCase(null)) {
+				table_data1 = " ";
+			}
+			if(table_data.equalsIgnoreCase(null)){
+				table_data=" ";
+			}
+			return table_data1 + table_data;
 		}
 		
 		public static String ValidationQuery(String Validatin_Query, String Table) throws SQLException {
@@ -1609,8 +1613,7 @@ public class Asnconvertor {
 	}
 
 	public static String displayActorAdhoc(ResultSet rs) throws SQLException {
-		String tbl ="<style>table, th, td {border: 1px solid black;border-collapse: collapse;}th, td ,caption{padding:5px;text-align:left;}</style>"
-	+"<table>" + "<caption>Adhoc Table</caption>" + "<tr>" + "<th>msisdn</th>" + "<th>product_id</th>" + "<th>status</th>"
+		String tbl ="<br><table>" + "<caption align='left'>Adhoc Table:</caption>" + "<tr>" + "<th>msisdn</th>" + "<th>product_id</th>" + "<th>status</th>"
 				+ "<th>start_date</th>" + "<th>expiry_date</th>" + "<th>product_cost</th>" + "<th>srcchannel</th>"
 				+ "<th>network_status</th>" + "</tr>";
 		while (rs.next()) {
@@ -1632,8 +1635,7 @@ public class Asnconvertor {
 	}
 	
 	public static String displayActorRenew(ResultSet rs) throws SQLException {
-		String tbl = "<style>table, th, td {border: 1px solid black;border-collapse: collapse;}th, td ,caption{padding:5px;text-align:left;}</style>"+
-	"<table>" +"<caption>Renewal Table</caption>" +  "<tr>" + "<th>msisdn</th>" + "<th>last_renewal_date</th>" + "<th>renewal_date</th>"
+		String tbl = "<table>" +"<caption align='left'>Renewal Table:</caption>" +  "<tr>" + "<th>msisdn</th>" + "<th>last_renewal_date</th>" + "<th>renewal_date</th>"
 				+ "<th>status</th>" + "<th>activation_date</th>" + "<th>product_id</th>"
 				+ "<th>product_description</th>" + "<th>product_type</th>" + "<th>srcchannel</th>"
 				+ "<th>product_category</th>" + "<th>product_purchase_type</th>" + "<th>language_id</th>"

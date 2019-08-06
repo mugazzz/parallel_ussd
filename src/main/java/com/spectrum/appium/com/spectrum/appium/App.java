@@ -58,7 +58,8 @@ public class App{
 	public String Product_ID = "";
 	public String Confirmation = "";
 	public String Amount = "";
-	public String To_Number = "";	
+	public String To_Number = "";
+	
 	public String curtcid1 = "";
 	public static String udid;
 	public String Message = "";
@@ -164,7 +165,7 @@ public class App{
 			starter(port_number);
 			Connection conn1 = fillo.getConnection(Reference_Data);
 			
-	//-------------------------- OPT IN / OUT / Recharge ------------------------------------//
+	  //-------------------------- OPT IN / OUT / Recharge ------------------------------------//
 			
 			if(Test_Scenario.equals("USSD_OPT_IN") || Test_Scenario.equals("USSD_OPT_OUT") ) 
 			{
@@ -204,6 +205,7 @@ public class App{
 				ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Product_Name")+"--"+inputs.getField("Test_Scenario")+"-"+inputs.getField("Test_Case"));
 				
 	//-------------Start Appium server using terminal----------------//
+				
 				APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
 				try{
 					dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
@@ -300,7 +302,7 @@ public class App{
 
 				
 	//----------------	Notification Message handle	------------//
-				
+				try {
 				//dr.get().quit();
 				//dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 				Thread.sleep(3000);
@@ -345,10 +347,13 @@ public class App{
 				}
 				String result = dr.get().stopRecordingScreen();
 				APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
-				
+				}
+				catch (Exception e) {
+					//e.printStackTrace();
+					System.out.println("--------++++++---------");
+				 }	
 		//--------------------------	CIS DB	----------------------------------------------//				
-				
-				String Result = Asnconvertor.cis_db("adhoc", MSISDN);
+				String Result = Asnconvertor.cis_db("both", MSISDN);
 				
 				
 		//-------------------------- CDR Conversion ------------------------------------------//
@@ -371,12 +376,12 @@ public class App{
 						);
 				
 					//CIS API
-					test.pass("<br><br><b>CIS Data Verification:</b>" 
+					test.pass("<br><br><b>CS Get Account Details Response:</b>" 
 					+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
 					+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a><br>");
 					
 					//CIS DB
-					test.pass("<br><br><table>" + Result + "</table> <br>");
+					test.pass("<br><br><b>CIS DB Data:</b><table>" + Result + "</table> <br>");
 					
 			Connection co = fillo.getConnection(Reference_Data);
 			String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
@@ -387,7 +392,7 @@ public class App{
 					//CIS Result
 					if(Node_Type.equalsIgnoreCase("CIS")) {
 					test.pass("<br><br><b>CIS Data:</b>"
-					+ "<br><b>CIS Table: </b><br>" + convertor[3] 
+					+ "<br><b>CIS EDR: </b><br>" + convertor[3] 
 					+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table><br>");
 					}
 					
@@ -493,6 +498,7 @@ public class App{
 				}
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 			Thread.sleep(3000);
+			try {
 			By New_Message = By.id("com.samsung.android.messaging:id/list_unread_count");
 			if (elementExists(New_Message)) {
 			List<MobileElement> elements1 = dr.get().findElements(By.id("com.samsung.android.messaging:id/list_unread_count"));
@@ -533,12 +539,13 @@ public class App{
 				takeScreenShot("SMS not received");
 			}
 			String result = dr.get().stopRecordingScreen();
+			}
+			catch (Exception e) {
+				//e.printStackTrace();
+				System.out.println("--------++++++---------");
+			 }
 			
 			APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
-			
-		//--------------------------	CIS DB	----------------------------------------------//				
-			
-			String Result = Asnconvertor.cis_db("adhoc", MSISDN);
 			
 		//-------------------------- CDR Conversion -------------------------------------------//
 			
@@ -559,13 +566,10 @@ public class App{
 					);
 			
 			//CIS API
-			test.pass("<br><br><b>CIS Data Verification:</b>" 
+			test.pass("<br><br><b>CS Get Account Details Response:</b>" 
 			+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
 			+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a><br>");
 		
-			//CIS DB
-			test.pass("<br><br><table>" + Result + "</table> <br>");
-			
 		Connection co = fillo.getConnection(Reference_Data);
 		String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
 		Recordset rsr = co.executeQuery(strQuery);
@@ -575,7 +579,7 @@ public class App{
 				//CIS Result
 				if(Node_Type.equalsIgnoreCase("CIS")) {
 				test.pass("<br><br><b>CIS Data:</b>"
-				+ "<br><b>CIS Table: </b><br>" + convertor[3] 
+				+ "<br><b>CIS EDR: </b><br>" + convertor[3] 
 				+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table><br>");
 				}
 				
@@ -648,11 +652,7 @@ public class App{
 			String result = dr.get().stopRecordingScreen();
 			
 			APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
-			
-	//--------------------------	CIS DB	----------------------------------------------//				
-			String Result = Asnconvertor.cis_db("adhoc", MSISDN);
-	
-	//-------------------------- CDR Conversion -------------------------------------------//
+			//-------------------------- CDR Conversion -------------------------------------------//
 			
 			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
 			
@@ -670,13 +670,10 @@ public class App{
 					"<tr><td style= 'min-width: 168px'>"+MSISDN+"</td><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+Call_To+"</td><td style= 'min-width: 168px'>"+ CALL_DURATION +"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>");
 			
 			//CIS API
-			test.pass("<br><br><b>CIS Data Verification:</b>" 
+			test.pass("<br><br><b>CS Get Account Details Response:</b>" 
 			+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
 			+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a><br>");
 		
-			//CIS DB
-			test.pass("<br><br><table>" + Result + "</table> <br>");
-			
 	Connection co = fillo.getConnection(Reference_Data);
 	String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
 	Recordset rsr = co.executeQuery(strQuery);
@@ -686,7 +683,7 @@ public class App{
 			//CIS Result
 			if(Node_Type.equalsIgnoreCase("CIS")) {
 			test.pass("<br><br><b>CIS Data:</b>"
-			+ "<br><b>CIS Table: </b><br>" + convertor[3] 
+			+ "<br><b>CIS EDR: </b><br>" + convertor[3] 
 			+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table><br>");
 			}
 			
@@ -761,10 +758,6 @@ public class App{
 			APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
 			APIHandler.UpdateBalanceAndDate(curtcid, trfold, "UpdateBalanceAndDate", MSISDN,"200000");
 			
-	//--------------------------	CIS DB	----------------------------------------------//				
-			
-			String Result = Asnconvertor.cis_db("adhoc", MSISDN);
-			
 	//-------------------------- CDR Conversion -------------------------------------------//
 			if(Test_Suite.equals("Sanity")) {
 				curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
@@ -774,6 +767,7 @@ public class App{
 			
 			dr.set(new AndroidDriver(new URL("http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 			Thread.sleep(8000);
+		try {
 			By New_Message = By.id("com.samsung.android.messaging:id/list_unread_count");
 			if (elementExists(New_Message)) {
 			List<MobileElement> elements1 = dr.get().findElements(By.id("com.samsung.android.messaging:id/list_unread_count"));
@@ -816,7 +810,11 @@ public class App{
 			
 			String result = dr.get().stopRecordingScreen();
 
-			
+		}
+		catch (Exception e) {
+			//e.printStackTrace();
+			System.out.println("--------++++++---------");
+		 }
 			
 	//-------------------------- Report ----------------------------------------------//
 			String[] convertor = Asnconvertor.Result(MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", Call_To, "", "", "", "", "", ExecutionStarttime, CALL_DURATION, "");
@@ -832,13 +830,10 @@ public class App{
 					"<tr><td style= 'min-width: 168px'>"+MSISDN+"</td><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+Call_To+"</td><td style= 'min-width: 168px'>"+ CALL_DURATION +"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>");
 			
 			//CIS API
-			test.pass("<br><br><b>CIS Data Verification:</b>" 
+			test.pass("<br><br><b>CS Get Account Details Response:</b>" 
 			+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
 			+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a><br>");
 		
-			//CIS DB
-			test.pass("<br><br><table>" + Result + "</table> <br>");
-			
 	Connection co = fillo.getConnection(Reference_Data);
 	String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
 	Recordset rsr = co.executeQuery(strQuery);
@@ -848,7 +843,7 @@ public class App{
 			//CIS Result
 			if(Node_Type.equalsIgnoreCase("CIS")) {
 			test.pass("<br><br><b>CIS Data:</b>"
-			+ "<br><b>CIS Table: </b><br>" + convertor[3] 
+			+ "<br><b>CIS EDR: </b><br>" + convertor[3] 
 			+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table><br>");
 			}
 			
@@ -960,12 +955,7 @@ public class App{
 			String result = dr.get().stopRecordingScreen();
 			
 			APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
-			
-	//--------------------------	CIS DB	----------------------------------------------//				
-			
-			String Result = Asnconvertor.cis_db("adhoc", MSISDN);
-			
-	//-------------------------- CDR Conversion -------------------------------------------//
+			//-------------------------- CDR Conversion -------------------------------------------//
 			
 			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
 			
@@ -983,13 +973,10 @@ public class App{
 					"<tr><td style= 'min-width: 168px'>"+MSISDN+"</td><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+Call_To+"</td><td style= 'min-width: 168px'>"+ CALL_DURATION +"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>");
 			
 			//CIS API
-			test.pass("<br><br><b>CIS Data Verification:</b>" 
+			test.pass("<br><br><b>CS Get Account Details Response:</b>" 
 			+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
 			+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a><br>");
 		
-			//CIS DB
-			test.pass("<br><br><table>" + Result + "</table> <br>");
-			
 	Connection co = fillo.getConnection(Reference_Data);
 	String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
 	Recordset rsr = co.executeQuery(strQuery);
@@ -999,7 +986,7 @@ public class App{
 			//CIS Result
 			if(Node_Type.equalsIgnoreCase("CIS")) {
 			test.pass("<br><br><b>CIS Data:</b>"
-			+ "<br><b>CIS Table: </b><br>" + convertor[3] 
+			+ "<br><b>CIS EDR: </b><br>" + convertor[3] 
 			+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table><br>");
 			}
 			
@@ -1127,8 +1114,7 @@ public class App{
 			
 			APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
 			
-					
-		//-------------------------- CDR Conversion -------------------------------------------//
+			//-------------------------- CDR Conversion -------------------------------------------//
 			
 			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
 			//APIHandler.UpdateService(curtcid, trfold, "Service_Revert", MSISDN, "1001");
@@ -1136,11 +1122,6 @@ public class App{
 			catch (Exception e) {
 				info("Error occured while sending SMS");
 			}
-			
-			//--------------------------	CIS DB	----------------------------------------------//				
-			
-			String Result = Asnconvertor.cis_db("adhoc", MSISDN);
-			
 			String[] convertor = Asnconvertor.Result(MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", "", Text_Message, To_Receiver, "", "", "", ExecutionStarttime, "", Count);
 			
 			test.pass("</table><table><tr><th style= 'min-width: 168px'><b>Test Scenario </b></th>"
@@ -1154,13 +1135,10 @@ public class App{
 					"<tr><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+Text_Message+"</td><td style= 'min-width: 168px'>"+To_Receiver+"</td><td style= 'min-width: 168px'>"+ Count +"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>");
 			
 				//CIS API
-				test.pass("<br><br><b>CIS Data Verification:</b>" 
+				test.pass("<br><br><b>CS Get Account Details Response:</b>" 
 				+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
 				+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a><br>");
 			
-				//CIS DB
-				test.pass("<br><br><table>" + Result + "</table> <br>");
-				
 		Connection co = fillo.getConnection(Reference_Data);
 		String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
 		Recordset rsr = co.executeQuery(strQuery);
@@ -1170,7 +1148,7 @@ public class App{
 				//CIS Result
 				if(Node_Type.equalsIgnoreCase("CIS")) {
 				test.pass("<br><br><b>CIS Data:</b>"
-				+ "<br><b>CIS Table: </b><br>" + convertor[3] 
+				+ "<br><b>CIS EDR: </b><br>" + convertor[3] 
 				+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table><br>");
 				}
 				
@@ -1293,7 +1271,7 @@ public class App{
 					"<tr><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Balancemsg +"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>");
 			
 			//CIS API
-			test.pass("<br><br><b>CIS Data Verification:</b>" 
+			test.pass("<br><br><b>CS Get Account Details Response:</b>" 
 			+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
 			+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a><br>");
 		
@@ -1306,7 +1284,7 @@ public class App{
 			//CIS Result
 			if(Node_Type.equalsIgnoreCase("CIS")) {
 			test.pass("<br><br><b>CIS Data:</b>"
-			+ "<br><b>CIS Table: </b><br>" + convertor[3] 
+			+ "<br><b>CIS EDR: </b><br>" + convertor[3] 
 			+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table><br>");
 			}
 			
@@ -1481,16 +1459,12 @@ public class App{
 			String result = dr.get().stopRecordingScreen();
 			
 			APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
-		
-		//--------------------------	CIS DB	----------------------------------------------//				
 			
-			String Result = Asnconvertor.cis_db("adhoc", MSISDN);
-			
-		//-------------------------- CDR Conversion -------------------------------------------//
+			//-------------------------- CDR Conversion -------------------------------------------//
 			
 			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
 			
-		//-------------------------- Report ----------------------------------------------//
+	//-------------------------- Report ----------------------------------------------//
 			String[] convertor = Asnconvertor.Result(MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", "", "", Confirmation, Message, "", "", "", "", "", To_Number, Amount, ExecutionStarttime, "", "");
 			
 			test.pass("</table><table><tr><th style= 'min-width: 168px'><b>Test Scenario </b></th>"
@@ -1505,13 +1479,10 @@ public class App{
 					"<tr><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+Confirmation+"</td><td style= 'min-width: 168px'>"+Message+"</td><td style= 'min-width: 168px'>"+To_Number+"</td><td style= 'min-width: 168px'>"+Amount+"</td><td style= 'min-width: 168px'><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>");
 			
 			//CIS API
-			test.pass("<br><br><b>CIS Data Verification:</b>" 
+			test.pass("<br><br><b>CS Get Account Details Response:</b>" 
 			+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
 			+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a><br>");
 		
-			//CIS DB
-			test.pass("<br><br><table>" + Result + "</table> <br>");
-			
 	Connection co = fillo.getConnection(Reference_Data);
 	String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
 	Recordset rsr = co.executeQuery(strQuery);
@@ -1521,7 +1492,7 @@ public class App{
 			//CIS Result
 			if(Node_Type.equalsIgnoreCase("CIS")) {
 			test.pass("<br><br><b>CIS Data:</b>"
-			+ "<br><b>CIS Table: </b><br>" + convertor[3] 
+			+ "<br><b>CIS EDR: </b><br>" + convertor[3] 
 			+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table><br>");
 			}
 			
@@ -1664,16 +1635,12 @@ public class App{
 			String result = dr.get().stopRecordingScreen();
 			
 			APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
-		
-		//--------------------------	CIS DB	----------------------------------------------//				
 			
-			String Result = Asnconvertor.cis_db("adhoc", MSISDN);
-			
-		//-------------------------- CDR Conversion -------------------------------------------//
+			//-------------------------- CDR Conversion -------------------------------------------//
 			
 			Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
 			
-		//-------------------------- Report ----------------------------------------------//
+	//-------------------------- Report ----------------------------------------------//
 			String[] convertor = Asnconvertor.Result(MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", "", Test_Case, "", "", "", "", "", "", "", "", "", ExecutionStarttime, "", "");
 			
 			test.pass("</table><table><tr><th style= 'min-width: 168px'><b>Test Scenario </b></th>"
@@ -1684,13 +1651,10 @@ public class App{
 					"<tr><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>");
 			
 			//CIS API
-			test.pass("<br><br><b>CIS Data Verification:</b>" 
+			test.pass("<br><br><b>CS Get Account Details Response:</b>" 
 			+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
 			+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a><br>");
 		
-			//CIS DB
-			test.pass("<br><br><table>" + Result + "</table> <br>");
-			
 		Connection co = fillo.getConnection(Reference_Data);
 		String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
 		Recordset rsr = co.executeQuery(strQuery);
@@ -1700,7 +1664,7 @@ public class App{
 				//CIS Result
 				if(Node_Type.equalsIgnoreCase("CIS")) {
 				test.pass("<br><br><b>CIS Data:</b>"
-				+ "<br><b>CIS Table: </b><br>" + convertor[3] 
+				+ "<br><b>CIS EDR: </b><br>" + convertor[3] 
 				+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table><br>");
 				}
 				
