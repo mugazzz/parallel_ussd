@@ -74,7 +74,7 @@ public class App {
 	public String Test_Scenario_I = "";
 	public String Recharge_Coupon = "";
 	public String Balancemsg = "";
-	public static String loginUser = "Tester";
+	public static String loginUser = "";
 	public static String execution_status;
 	public static String ipaddress;
 
