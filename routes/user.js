@@ -19,7 +19,7 @@ exports.login = function(req, res){
        let name= post.username;
        let pass= post.password;
       
-       let sql="SELECT username,email,password FROM mav_user WHERE username='"+name+"' and password = '"+pass+"'";                           
+       let sql="SELECT username,email,password,ip_address FROM mav_user WHERE username='"+name+"' and password = '"+pass+"'";                           
       // console.log(req.session);
        db.query(sql, function(err, results){ 
          if(err){
@@ -67,7 +67,8 @@ exports.login = function(req, res){
                   password:post.password,
                   firstname:post.first_name,
                   lastname:post.last_name,
-                  email:post.email
+                  email:post.email,
+                  ip_address:post.ip_address
                   };
  
        let sql = "INSERT INTO mav_user SET ?";

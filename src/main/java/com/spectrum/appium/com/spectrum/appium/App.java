@@ -885,8 +885,8 @@ public class App {
 			}
 			stmt0.close();
 			dbCon.close();
-		} catch (Exception e) {
-
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

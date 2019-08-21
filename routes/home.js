@@ -1,6 +1,6 @@
 exports.home = function(req, res, next){
 	let userId = req.session.userId;
- //console.log(req.session);
+ console.log(req.session);
  if(userId == null){
 	 res.redirect("/login");
 	 return;
@@ -10,7 +10,7 @@ exports.home = function(req, res, next){
 	
 		db.query(sql, function(err, results){
 			//console.log(results);
-			res.render('home.ejs', {user:userId});	  
+			res.render('home.ejs', {user:userId,ipaddress:req.session.user.ip_address});	  
 		 
 });
 }
@@ -26,7 +26,7 @@ exports.dashboard = function(req, res){
 		 let tsQuery = "SELECT * FROM  mav_test_case WHERE created_by='"+userId+"' ORDER BY created DESC";
 	 
 		 db.query(tsQuery, (err,results) =>{
-			res.render('dashboard.ejs', {user:userId,testCases:results,data:results,message:message});
+			res.render('dashboard.ejs', {user:userId,ipaddress:req.session.user.ip_address,testCases:results,data:results,message:message});
 		 });
 
 		} 

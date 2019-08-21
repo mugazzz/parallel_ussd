@@ -68,7 +68,7 @@ exports.getReport = function (req,res){
             return (file.search("Master.html") > -1)
             
         })
-        res.render('reports.ejs', {user:userId,fileList:fileListArr});
+        res.render('reports.ejs', {user:userId,ipaddress:req.session.user.ip_address,fileList:fileListArr});
     }
     
 
