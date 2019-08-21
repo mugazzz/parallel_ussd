@@ -23,6 +23,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -73,7 +74,7 @@ public class App {
 	public String Test_Scenario_I = "";
 	public String Recharge_Coupon = "";
 	public String Balancemsg = "";
-	public static String loginUser = "venureddy";
+	public static String loginUser = "Tester";
 	public static String execution_status;
 
 	Connection dbCon = null;
@@ -128,6 +129,12 @@ public class App {
 			dbCon = DriverManager.getConnection(dbURL, username, password);
 			stmt0 = dbCon.prepareStatement(usercase);
 			inputs0 = stmt0.executeQuery(usercase);
+			createtimestampfold();
+			ExtentReports extent = new ExtentReports();
+			ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(trfold + "\\Master.html");
+			System.setProperty("logfilename", trfold + "\\Logs");
+			DOMConfigurator.configure("log4j.xml");
+			
 			while (inputs0.next()) {
 				try {
 					String test_case_id = inputs0.getString("test_case_id");
@@ -145,11 +152,6 @@ public class App {
 					stmt = dbCon.prepareStatement(inputQuery);
 					inputs = stmt.executeQuery(inputQuery);
 					// Recordset inputs = conn.executeQuery(inputQuery);
-					createtimestampfold();
-					ExtentReports extent = new ExtentReports();
-					ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(trfold + "\\Master.html");
-					System.setProperty("logfilename", trfold + "\\Logs");
-					DOMConfigurator.configure("log4j.xml");
 					while (inputs.next()) {
 						Runtime rt = Runtime.getRuntime();
 						String device = inputs.getString("Test_Device");
@@ -168,6 +170,8 @@ public class App {
 						String device_name = ReadMobileproperties(device, "DeviceName");
 						String package_name = ReadMobileproperties(device, "apppackage");
 						String activity_name = ReadMobileproperties(device, "appactivity");
+						String package_name1 = ReadMobileproperties(device, "apppackage1");
+						String activity_name1 = ReadMobileproperties(device, "appactivity1");
 						String version = ReadMobileproperties(device, "version");
 						String bsport = ReadMobileproperties(device, "bootstrapport");
 
@@ -229,11 +233,21 @@ public class App {
 								 dr.set(new AndroidDriver(new URL(
 								 "http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") +
 								 "/wd/hub"), capabilities));
-								Runtime run = Runtime.getRuntime();
-
-								run.exec("adb -s " + device_name
-										+ " shell am start -a android.intent.action.CALL -d tel:" + startussd);
-								dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+								 dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+								 Thread.sleep(1000);
+							
+							//---------- Dial Number -------------//
+								 
+								 dr.get().findElement(By.id("com.samsung.android.dialer:id/star")).click();
+								 dr.get().findElement(By.id("com.samsung.android.dialer:id/digits")).sendKeys(startussd);
+								 dr.get().findElement(By.id("com.samsung.android.dialer:id/pound")).click();
+								 takeScreenShot("Dialed Number");
+								 dr.get().findElement(By.id("com.samsung.android.dialer:id/dialButtonImage")).click();
+//								 Runtime run = Runtime.getRuntime();
+//								run.exec("adb -s " + device_name
+//										+ " shell am start -a android.intent.action.CALL -d tel:" + startussd);
+								 
+								
 								Thread.sleep(3000);
 								By inputfield = By.id("com.android.phone:id/input_field");
 								if (elementExists(inputfield)) {
@@ -285,11 +299,18 @@ public class App {
 								Thread.sleep(3000);
 
 								// ---------------- Notification Message handle ------------//
+								DesiredCapabilities capabilities1 = new DesiredCapabilities();
+								capabilities1.setCapability("deviceName", device);
+								capabilities1.setCapability("platformVersion", version);
+								capabilities1.setCapability("platformName", "ANDROID");
+								capabilities1.setCapability("bootstrapPort", bsport);
+								capabilities1.setCapability("appPackage", package_name1);
+								capabilities1.setCapability("appActivity", activity_name1);
 
 								dr.get().quit();
 								dr.set(new AndroidDriver(new URL(
 										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
-										capabilities));
+										capabilities1));
 								Thread.sleep(3000);
 								By New_Message = By.id("com.samsung.android.messaging:id/list_unread_count");
 								if (elementExists(New_Message)) {
@@ -382,17 +403,29 @@ public class App {
 								dr.set(new AndroidDriver(new URL(
 										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 										capabilities));
-								Runtime run = Runtime.getRuntime();
-
-								System.out.println("New Recharge code: " + Recharge_Coupon);
-								String execu = "adb -s " + device_name
-										+ " shell am start -a android.intent.action.CALL -d tel:" + startussd
-										+ Recharge_Coupon + hash;
-								System.out.println("Execution cmmand: " + execu);
-								run.exec(execu);
+								
+								 dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+								 Thread.sleep(1000);
+								
+								//---------- Dial Number -------------//
+								 
+								 dr.get().findElement(By.id("com.samsung.android.dialer:id/star")).click();
+								 dr.get().findElement(By.id("com.samsung.android.dialer:id/digits")).sendKeys(startussd+Recharge_Coupon);
+								 dr.get().findElement(By.id("com.samsung.android.dialer:id/pound")).click();
+								 takeScreenShot("Dialed Number");
+								 dr.get().findElement(By.id("com.samsung.android.dialer:id/dialButtonImage")).click();
+								
+//								Runtime run = Runtime.getRuntime();
+//
+//								System.out.println("New Recharge code: " + Recharge_Coupon);
+//								String execu = "adb -s " + device_name
+//										+ " shell am start -a android.intent.action.CALL -d tel:" + startussd
+//										+ Recharge_Coupon + hash;
+//								System.out.println("Execution cmmand: " + execu);
+//								run.exec(execu);
+								 
 								Thread.sleep(4000);
-
-								By mes = By.id("android:id/message");
+									By mes = By.id("android:id/message");
 								if (elementExists(mes)) {
 									Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
 									info("Confirmation alert : " + Confirmation);
@@ -408,14 +441,22 @@ public class App {
 //					dr.get().findElement(By.id("android:id/button1")).click();
 									dr.get().quit();
 								}
+								
+								DesiredCapabilities capabilities1 = new DesiredCapabilities();
+								capabilities1.setCapability("deviceName", device);
+								capabilities1.setCapability("platformVersion", version);
+								capabilities1.setCapability("platformName", "ANDROID");
+								capabilities1.setCapability("bootstrapPort", bsport);
+								capabilities1.setCapability("appPackage", package_name1);
+								capabilities1.setCapability("appActivity", activity_name1);
 								dr.set(new AndroidDriver(new URL(
 										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
-										capabilities));
+										capabilities1));
+								
 								Thread.sleep(3000);
 								By New_Message = By.id("com.samsung.android.messaging:id/list_unread_count");
 								if (elementExists(New_Message)) {
-									List<MobileElement> elements1 = dr.get()
-											.findElements(By.id("com.samsung.android.messaging:id/list_unread_count"));
+									List<MobileElement> elements1 = dr.get().findElements(By.id("com.samsung.android.messaging:id/list_unread_count"));
 									for (MobileElement link : elements1) {
 										{
 											dr.get().findElement(
@@ -495,14 +536,28 @@ public class App {
 							dr.set(new AndroidDriver(new URL(
 									"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 									capabilities));
-							Runtime run = Runtime.getRuntime();
-							String execu = "adb -s " + device_name
-									+ " shell am start -a android.intent.action.CALL -d tel:" + Call_To;
-							System.out.println("Execution cmmand: " + execu);
-							run.exec(execu);
-							Thread.sleep(secs * 1000);
+							dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+							Thread.sleep(2000);
+							
+							//---------- Dial Number -------------//
+							 
+							 dr.get().findElement(By.id("com.samsung.android.dialer:id/nine")).click();
+							 String Call_No = Call_To.substring(1);
+							 dr.get().findElement(By.id("com.samsung.android.dialer:id/digits")).sendKeys(Call_No);
+							 //dr.get().findElement(By.id("com.samsung.android.dialer:id/pound")).click();
+							 dr.get().findElement(By.id("com.samsung.android.dialer:id/dialButtonImage")).click();
+							 takeScreenShot("Dialed Number");
+							 
+//							Runtime run = Runtime.getRuntime();
+//							String execu = "adb -s " + device_name
+//									+ " shell am start -a android.intent.action.CALL -d tel:" + Call_To;
+//							System.out.println("Execution cmmand: " + execu);
+//							run.exec(execu);
+							 
+							Thread.sleep(secs * 1000+5000);
 							takeScreenShot("Call process");
-							run.exec("adb shell input keyevent KEYCODE_ENDCALL");
+							dr.get().findElement(By.id("com.samsung.android.incallui:id/disconnect_button")).click();
+//							run.exec("adb shell input keyevent KEYCODE_ENDCALL");
 							String result = dr.get().stopRecordingScreen();
 							test.pass("<b>Test Scenario: " + inputs.getString("Test_Scenario") + "<br> Test Case: "
 									+ inputs.getString("Test_Case") + "<br> Called To: <i>" + Call_To + "<br> <a href='"
@@ -530,17 +585,19 @@ public class App {
 							capabilities.setCapability("platformVersion", version);
 							capabilities.setCapability("platformName", "ANDROID");
 							capabilities.setCapability("bootstrapPort", bsport);
-							capabilities.setCapability("appPackage", package_name);
-							capabilities.setCapability("appActivity", activity_name);
+							capabilities.setCapability("appPackage", package_name1);
+							capabilities.setCapability("appActivity", activity_name1);
 							dr.set(new AndroidDriver(new URL(
 									"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 									capabilities));
 							for (int i = 1; i <= sms_count; i++) {
 								dr.get().findElement(By.id("com.samsung.android.messaging:id/fab")).click();
-								Runtime run = Runtime.getRuntime();
-								run.exec("adb -s " + device_name + " shell input text " + To_Receiver);
+								Thread.sleep(2000);
+//								Runtime run = Runtime.getRuntime();
+								dr.get().findElement(By.id("com.samsung.android.messaging:id/recipients_editor_to")).sendKeys(To_Receiver);
+//								run.exec("adb -s " + device_name + " shell input text " + To_Receiver);
 								// takeScreenShot("To Receiver");
-								// dr.get().findElement(By.id("message_edit_text")).click();
+								 dr.get().findElement(By.id("message_edit_text")).click();
 
 								// run.exec("adb -s "+device_name+" shell input tap 170 1050");
 //				Thread.sleep(000);
@@ -552,6 +609,7 @@ public class App {
 								dr.get().findElement(By.id("send_button1")).click();
 								takeScreenShot("SMS Status");
 								dr.get().hideKeyboard();
+								takeScreenShot("SMS Send");
 								dr.get().navigate().back();
 							}
 							String result = dr.get().stopRecordingScreen();
@@ -593,10 +651,20 @@ public class App {
 								dr.set(new AndroidDriver(new URL(
 										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 										capabilities));
-								Runtime run = Runtime.getRuntime();
-								run.exec("adb -s " + device_name
-										+ " shell am start -a android.intent.action.CALL -d tel:" + startussd);
 								dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+								Thread.sleep(2000);
+								
+								//---------- Dial Number -------------//
+								 
+								 dr.get().findElement(By.id("com.samsung.android.dialer:id/star")).click();
+								 dr.get().findElement(By.id("com.samsung.android.dialer:id/digits")).sendKeys(startussd);
+								 dr.get().findElement(By.id("com.samsung.android.dialer:id/pound")).click();
+								 takeScreenShot("Dialed Number");
+								 dr.get().findElement(By.id("com.samsung.android.dialer:id/dialButtonImage")).click();
+								
+//								Runtime run = Runtime.getRuntime();
+//								run.exec("adb -s " + device_name
+//										+ " shell am start -a android.intent.action.CALL -d tel:" + startussd);
 								Thread.sleep(2000);
 								By inputfield = By.id("com.android.phone:id/input_field");
 								if (elementExists(inputfield)) {
@@ -672,11 +740,22 @@ public class App {
 								dr.set(new AndroidDriver(new URL(
 										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 										capabilities));
-								Runtime run = Runtime.getRuntime();
-								run.exec("adb -s " + device_name
-										+ " shell am start -a android.intent.action.CALL -d tel:" + startussd);
 								dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 								Thread.sleep(2000);
+								
+								//---------- Dial Number -------------//
+								 
+								 dr.get().findElement(By.id("com.samsung.android.dialer:id/star")).click();
+								 dr.get().findElement(By.id("com.samsung.android.dialer:id/digits")).sendKeys(startussd);
+								 dr.get().findElement(By.id("com.samsung.android.dialer:id/pound")).click();
+								 takeScreenShot("Dialed Number");
+								 dr.get().findElement(By.id("com.samsung.android.dialer:id/dialButtonImage")).click();
+								
+//								Runtime run = Runtime.getRuntime();
+//								run.exec("adb -s " + device_name
+//										+ " shell am start -a android.intent.action.CALL -d tel:" + startussd);
+								
+								 Thread.sleep(2000);
 								By inputfield = By.id("com.android.phone:id/input_field");
 								if (elementExists(inputfield)) {
 									String[] spltussd = ussdstr.split(",");
@@ -701,17 +780,19 @@ public class App {
 										dr.get().findElement(By.id("android:id/button1")).click();
 									}
 									Thread.sleep(2000);
-									To_Number = inputs.getString("TRANSFER_TO_MSISDN");
-									dr.get().findElement(By.id("com.android.phone:id/input_field")).sendKeys(To_Number);
-									takeScreenShot("Entering Mobile Number: " + To_Number);
-									dr.get().findElement(By.id("android:id/button1")).click();
 									Amount = inputs.getString("TRANSFER_AMOUNT");
 									dr.get().findElement(By.id("com.android.phone:id/input_field")).sendKeys(Amount);
 									takeScreenShot("Entering Transfer Amount: " + Amount);
 									dr.get().findElement(By.id("android:id/button1")).click();
+									To_Number = inputs.getString("TRANSFER_TO_MSISDN");
+									dr.get().findElement(By.id("com.android.phone:id/input_field")).sendKeys(To_Number);
+									takeScreenShot("Entering Mobile Number: " + To_Number);
+									dr.get().findElement(By.id("android:id/button1")).click();
+									if (elementExists(inputfield)) {
 									dr.get().findElement(By.id("com.android.phone:id/input_field")).sendKeys("1");
 									takeScreenShot("Enter Code to Confirm");
 									dr.get().findElement(By.id("android:id/button1")).click();
+									}
 									Thread.sleep(2000);
 									Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
 									info("Confirmation alert : " + Confirmation);
@@ -728,9 +809,16 @@ public class App {
 //				dr.get().findElement(By.id("android:id/button1")).click();
 									dr.get().quit();
 								}
+								DesiredCapabilities capabilitiese = new DesiredCapabilities();
+							capabilitiese.setCapability("deviceName", device);
+							capabilitiese.setCapability("platformVersion", version);
+							capabilitiese.setCapability("platformName", "ANDROID");
+							capabilitiese.setCapability("bootstrapPort", bsport);
+							capabilitiese.setCapability("appPackage", package_name1);
+							capabilitiese.setCapability("appActivity", activity_name1);
 								dr.set(new AndroidDriver(new URL(
 										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
-										capabilities));
+										capabilitiese));
 								Thread.sleep(3000);
 								By New_Message = By.id("com.samsung.android.messaging:id/list_unread_count");
 								if (elementExists(New_Message)) {
@@ -804,6 +892,12 @@ public class App {
 						else if (Test_Scenario.equals("LIVE USAGE DATA")) {
 							String package_Data = ReadMobileproperties(inputs.getString("Test_Case"), "apppackage");
 							String activity_Data = ReadMobileproperties(inputs.getString("Test_Case"), "appactivity");
+							String package_Data1 = ReadMobileproperties(inputs.getString("Test_Case"), "apppackage1");
+							String activity_Data1 = ReadMobileproperties(inputs.getString("Test_Case"), "appactivity1");
+							
+																			
+					//-------------- YouTube activity -------------------//
+							
 							DesiredCapabilities capabilities = new DesiredCapabilities();
 							capabilities.setCapability("deviceName", device);
 							capabilities.setCapability("platformVersion", version);
@@ -811,46 +905,118 @@ public class App {
 							capabilities.setCapability("bootstrapPort", bsport);
 							capabilities.setCapability("appPackage", package_Data);
 							capabilities.setCapability("appActivity", activity_Data);
+							
+							DesiredCapabilities capabilities1 = new DesiredCapabilities();
+							capabilities1.setCapability("deviceName", device);
+							capabilities1.setCapability("platformVersion", version);
+							capabilities1.setCapability("platformName", "ANDROID");
+							capabilities1.setCapability("bootstrapPort", bsport);
+							capabilities1.setCapability("appPackage", package_Data1);
+							capabilities1.setCapability("appActivity", activity_Data1);
+							
 							curtcid = inputs.getString("Test_Case_ID") + "--" + inputs.getString("Test_Scenario") + "_"
 									+ inputs.getString("Test_Case");
 							startTestCase(curtcid);
 							ExtentTest test = extent.createTest(inputs.getString("Test_Case_ID") + ": <br>"
 									+ inputs.getString("Test_Scenario") + "<br>" + inputs.getString("Test_Case"));
 							if (Test_Case.equals("DATA_REGULAR")) {
-								Runtime run = Runtime.getRuntime();
-								run.exec("adb shell svc data enable");
+								
+								//-------------	Data Turn ON --------------------------//
+								
+								dr.set(new AndroidDriver(new URL(
+										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+										capabilities1));
 								Thread.sleep(2000);
+								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Connections']")).click();
+								Thread.sleep(2000);
+								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Data usage']")).click();
+								Thread.sleep(2000);
+								dr.get().findElement(By.id("android:id/switch_widget")).click();
+								Thread.sleep(2000);
+								takeScreenShot("Data Turned On: " + timefold);
+								
+//								Runtime run = Runtime.getRuntime();
+//								run.exec("adb shell svc data enable");
+//								Thread.sleep(2000);
 								dr.set(new AndroidDriver(new URL(
 										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 										capabilities));
-								takeScreenShot("Data Truned On: " + timefold);
 								Thread.sleep(3000);
-								dr.get().findElement(By.id("com.google.android.youtube:id/thumbnail")).click();
+								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Trending']")).click();
+								Thread.sleep(2000);
+								dr.get().findElement(By.xpath("//android.view.ViewGroup[@index='1']")).click();
 								Thread.sleep(15000);
 								takeScreenShot("Regular Network -- you tube");
-								run.exec("adb shell svc data disable");
+																
+						//-------------	Data Turn OFF --------------------------//
+																					
+								dr.set(new AndroidDriver(new URL(
+										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+										capabilities1));
 								Thread.sleep(2000);
-								takeScreenShot("Data Turned off: " + timefold);
+								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Connections']")).click();
+								Thread.sleep(2000);
+								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Data usage']")).click();
+								Thread.sleep(2000);
+								dr.get().findElement(By.id("android:id/switch_widget")).click();
+								takeScreenShot("Data Truned OFF: " + timefold);
+																
+//								run.exec("adb shell svc data disable");
+//								Thread.sleep(2000);
+//								takeScreenShot("Data Turned off: " + timefold);
+								
 							} else if (Test_Case.equals("DATA_SOCIAL")) {
+								
+						//-------------	Data Turn ON --------------------------//
+								
+								dr.set(new AndroidDriver(new URL(
+										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+										capabilities1));
+								Thread.sleep(2000);
+								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Connections']")).click();
+								Thread.sleep(2000);
+								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Data usage']")).click();
+								Thread.sleep(2000);
+								dr.get().findElement(By.id("android:id/switch_widget")).click();
+								Thread.sleep(2000);
+								takeScreenShot("Data Turned On: " + timefold);
+								
 								dr.set(new AndroidDriver(new URL(
 										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 										capabilities));
-								Runtime run = Runtime.getRuntime();
-								run.exec("adb shell svc data enable");
-								Thread.sleep(2000);
-								takeScreenShot("Data Truned On: " + timefold);
-								Thread.sleep(1000);
+									dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+							//	Runtime run = Runtime.getRuntime();
+							//	run.exec("adb shell svc data enable");
+							//	Thread.sleep(2000);
+							//	takeScreenShot("Data Truned On: " + timefold);
+							//	Thread.sleep(5000);
+								dr.get().findElement(
+										By.xpath("//android.widget.EditText[@text='Phone number or email address']")).click();
 								dr.get().findElement(
 										By.xpath("//android.widget.EditText[@text='Phone number or email address']"))
 										.sendKeys("mugaz25@yahoo.com");
 								dr.get().findElement(By.xpath("//android.widget.EditText[@text='Password']"))
 										.sendKeys("Tester123!");
 								dr.get().findElement(By.xpath("//android.view.ViewGroup[@index=3]")).click();
-								Thread.sleep(6000);
+								Thread.sleep(5000);
 								takeScreenShot("Social Network -- Facebook");
-								run.exec("adb shell svc data disable");
+								
+						//-------------	Data Turn OFF --------------------------//
+								
+								dr.set(new AndroidDriver(new URL(
+										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+										capabilities1));
 								Thread.sleep(2000);
-								takeScreenShot("Data Turned off: " + timefold);
+								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Connections']")).click();
+								Thread.sleep(2000);
+								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Data usage']")).click();
+								Thread.sleep(2000);
+								dr.get().findElement(By.id("android:id/switch_widget")).click();
+								takeScreenShot("Data Truned OFF: " + timefold);
+								
+//								run.exec("adb shell svc data disable");
+//								Thread.sleep(2000);
+//								takeScreenShot("Data Turned off: " + timefold);
 							}
 							String result = dr.get().stopRecordingScreen();
 							test.pass("<b>Test Scenario: <b>" + Test_Scenario + "<br>Test Case: " + Test_Case
@@ -885,8 +1051,8 @@ public class App {
 			}
 			stmt0.close();
 			dbCon.close();
-		} 
-		catch (Exception e) {
+		} catch (Exception e) {
+
 			e.printStackTrace();
 		}
 	}
@@ -1006,7 +1172,8 @@ public class App {
 
 	public void takeScreenShot(String scdesc) throws IOException, InterruptedException {
 		// Set folder name to store screenshots.
-		String destDir = trfold + "/" + curtcid + "/";
+		String destDir =trfold + "\\" + curtcid + "\\";
+		System.out.println("Screenshot Folder: "+destDir);
 		// Capture screenshot.
 		File scrFile = ((TakesScreenshot) dr.get()).getScreenshotAs(OutputType.FILE);
 		// Set date format to set It as screenshot file name.
