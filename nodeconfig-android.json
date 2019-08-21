@@ -1,0 +1,29 @@
+{
+	"capabilities": [{
+		"deviceName": "520036285334b4f5",
+		"version": "9.0",
+		"maxInstances": 3,
+		"platformName": "ANDROID",
+		"automationName": "UiAutomator2",
+		"browserName":"Android"
+	}],
+	"configuration": {
+		
+		"nodeTimeout":120,
+		"hubPort": 4444,
+		"proxy": "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
+		"hub":"http://192.168.1.89:4444",
+		"host": "0.0.0.0",
+		"hubHost":"192.168.1.89",
+		"nodePolling":2000,
+		"port": 4723,
+		"registerCycle": 10000,
+		"unregisterIfStillDownAfter": 60000,
+		"downPollingLimit": 2,
+		"register": true,
+		"cleanUpCycle": 2000,
+		"timeout": 30000,
+		"maxSession": 1,
+		"role": "node"
+	}
+}

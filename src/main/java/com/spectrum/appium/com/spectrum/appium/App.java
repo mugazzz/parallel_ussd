@@ -76,6 +76,7 @@ public class App {
 	public String Balancemsg = "";
 	public static String loginUser = "Tester";
 	public static String execution_status;
+	public static String ipaddress;
 
 	Connection dbCon = null;
 	Statement stmt = null;
@@ -83,6 +84,10 @@ public class App {
 	ResultSet inputs = null;
 	ResultSet inputs0 = null;
 	Statement stmtu = null;
+	Statement stmtip = null;
+	ResultSet inputsip = null;
+	Statement stmtuser = null;
+	ResultSet inputsuser = null;
 
 	public String updatef = "";
 
@@ -124,11 +129,21 @@ public class App {
 			// String username = "";
 
 			// -----------Get input data------------//
+			String user= "SELECT * FROM `mav_tc_execute` ORDER BY 'row_id' DESC";
+			dbCon = DriverManager.getConnection(dbURL, username, password);
+			stmtuser = dbCon.prepareStatement(user);
+			inputsuser = stmtuser.executeQuery(user);
+			while(inputsuser.next()){
+				loginUser =inputsuser.getString("created_by");				
+			}
 			String usercase = "SELECT * FROM `mav_tc_execute` WHERE created_by='" + loginUser
 					+ "' AND NOT execution_status='Completed' AND NOT execution_status='Failed'";
-			dbCon = DriverManager.getConnection(dbURL, username, password);
+			
 			stmt0 = dbCon.prepareStatement(usercase);
 			inputs0 = stmt0.executeQuery(usercase);
+			
+			
+			
 			createtimestampfold();
 			ExtentReports extent = new ExtentReports();
 			ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(trfold + "\\Master.html");
@@ -153,6 +168,13 @@ public class App {
 					inputs = stmt.executeQuery(inputQuery);
 					// Recordset inputs = conn.executeQuery(inputQuery);
 					while (inputs.next()) {
+						String ip = "SELECT * FROM `mav_user` WHERE username='" + loginUser+ "'" ;
+						stmtip = dbCon.prepareStatement(ip);
+						inputsip = stmt0.executeQuery(ip);
+						while(inputsip.next()){
+						ipaddress= inputsip.getString("ip_address");
+							System.out.println("User IP address "+ipaddress);
+						}
 						Runtime rt = Runtime.getRuntime();
 						String device = inputs.getString("Test_Device");
 						System.out.println(device);
@@ -181,7 +203,7 @@ public class App {
 //					+ "\\src\\test\\resources\\server\\selenium-server-standalone-3.14.0.jar -role hub -port 4444");
 						rt.exec(execu1);
 
-//			rt.exec("cmd /c start appium -a 127.0.0.1 -p " + port_number
+//			rt.exec("cmd /c start appium -a ipaddress -p " + port_number
 //			+ " --no-reset --bootstrap-port " + bsport + " --nodeconfig "
 //			+ basedir + "\\server\\Node1-config_"
 //			+ port_number + ".json");
@@ -231,7 +253,7 @@ public class App {
 								// -------------Start Appium server using terminal----------------//
 
 								 dr.set(new AndroidDriver(new URL(
-								 "http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") +
+								 "http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") +
 								 "/wd/hub"), capabilities));
 								 dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 								 Thread.sleep(1000);
@@ -309,7 +331,7 @@ public class App {
 
 								dr.get().quit();
 								dr.set(new AndroidDriver(new URL(
-										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 										capabilities1));
 								Thread.sleep(3000);
 								By New_Message = By.id("com.samsung.android.messaging:id/list_unread_count");
@@ -401,7 +423,7 @@ public class App {
 								capabilities.setCapability("appActivity", activity_name);
 
 								dr.set(new AndroidDriver(new URL(
-										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 										capabilities));
 								
 								 dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -450,7 +472,7 @@ public class App {
 								capabilities1.setCapability("appPackage", package_name1);
 								capabilities1.setCapability("appActivity", activity_name1);
 								dr.set(new AndroidDriver(new URL(
-										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 										capabilities1));
 								
 								Thread.sleep(3000);
@@ -534,7 +556,7 @@ public class App {
 							String CALL_DURATION = inputs.getString("CALL_DURATION");
 							int secs = Integer.parseInt(CALL_DURATION);
 							dr.set(new AndroidDriver(new URL(
-									"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+									"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 									capabilities));
 							dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 							Thread.sleep(2000);
@@ -588,7 +610,7 @@ public class App {
 							capabilities.setCapability("appPackage", package_name1);
 							capabilities.setCapability("appActivity", activity_name1);
 							dr.set(new AndroidDriver(new URL(
-									"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+									"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 									capabilities));
 							for (int i = 1; i <= sms_count; i++) {
 								dr.get().findElement(By.id("com.samsung.android.messaging:id/fab")).click();
@@ -649,7 +671,7 @@ public class App {
 								capabilities.setCapability("appActivity", activity_name);
 
 								dr.set(new AndroidDriver(new URL(
-										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 										capabilities));
 								dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 								Thread.sleep(2000);
@@ -738,7 +760,7 @@ public class App {
 								ExtentTest test = extent.createTest(inputs.getString("Test_Case_ID") + ": <br>"
 										+ inputs.getString("Test_Scenario"));
 								dr.set(new AndroidDriver(new URL(
-										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 										capabilities));
 								dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 								Thread.sleep(2000);
@@ -817,7 +839,7 @@ public class App {
 							capabilitiese.setCapability("appPackage", package_name1);
 							capabilitiese.setCapability("appActivity", activity_name1);
 								dr.set(new AndroidDriver(new URL(
-										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 										capabilitiese));
 								Thread.sleep(3000);
 								By New_Message = By.id("com.samsung.android.messaging:id/list_unread_count");
@@ -924,7 +946,7 @@ public class App {
 								//-------------	Data Turn ON --------------------------//
 								
 								dr.set(new AndroidDriver(new URL(
-										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 										capabilities1));
 								Thread.sleep(2000);
 								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Connections']")).click();
@@ -939,7 +961,7 @@ public class App {
 //								run.exec("adb shell svc data enable");
 //								Thread.sleep(2000);
 								dr.set(new AndroidDriver(new URL(
-										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 										capabilities));
 								Thread.sleep(3000);
 								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Trending']")).click();
@@ -951,7 +973,7 @@ public class App {
 						//-------------	Data Turn OFF --------------------------//
 																					
 								dr.set(new AndroidDriver(new URL(
-										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 										capabilities1));
 								Thread.sleep(2000);
 								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Connections']")).click();
@@ -970,7 +992,7 @@ public class App {
 						//-------------	Data Turn ON --------------------------//
 								
 								dr.set(new AndroidDriver(new URL(
-										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 										capabilities1));
 								Thread.sleep(2000);
 								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Connections']")).click();
@@ -982,7 +1004,7 @@ public class App {
 								takeScreenShot("Data Turned On: " + timefold);
 								
 								dr.set(new AndroidDriver(new URL(
-										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 										capabilities));
 									dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 							//	Runtime run = Runtime.getRuntime();
@@ -1004,7 +1026,7 @@ public class App {
 						//-------------	Data Turn OFF --------------------------//
 								
 								dr.set(new AndroidDriver(new URL(
-										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 										capabilities1));
 								Thread.sleep(2000);
 								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Connections']")).click();
@@ -1216,7 +1238,7 @@ public class App {
 
 		// Build the Appium service
 		AppiumServiceBuilder builder = new AppiumServiceBuilder();
-		builder.withIPAddress("127.0.0.1");
+		builder.withIPAddress(ipaddress);
 		int port1 = Integer.parseInt(port);
 		builder.usingPort(port1);
 		builder.withArgument(GeneralServerFlag.SESSION_OVERRIDE);
