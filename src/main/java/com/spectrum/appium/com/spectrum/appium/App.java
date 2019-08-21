@@ -170,7 +170,7 @@ public class App {
 					while (inputs.next()) {
 						String ip = "SELECT * FROM `mav_user` WHERE username='" + loginUser+ "'" ;
 						stmtip = dbCon.prepareStatement(ip);
-						inputsip = stmt0.executeQuery(ip);
+						inputsip = stmtip.executeQuery(ip);
 						while(inputsip.next()){
 						ipaddress= inputsip.getString("ip_address");
 							System.out.println("User IP address "+ipaddress);
