@@ -39,6 +39,7 @@ import com.codoid.products.fillo.Fillo;
 import com.codoid.products.fillo.Recordset;
 
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
@@ -57,8 +58,10 @@ public class App {
 	public String ExecutionStarttime = For.format(cal.getTime()).toString();
 	public final String Data = Root + "\\Input_sheet_V2.xlsx";
 	public final String Reference_Data = Root + "\\server\\Reference_Sheet.xlsx";
+	public static String cdrfiles = System.getProperty("user.dir") + "\\CDR";
 	public String curtcid = "";
 	public String Product_Name = "";
+	public String Product_ID = "";
 	public String Confirmation = "";
 	public String Amount = "";
 	public String To_Number = "";
@@ -118,6 +121,10 @@ public class App {
 		return prop.getProperty(propname);
 	}
 
+	private App() {
+		
+	}
+	
 	public App(String deviceq) throws SQLException {
 		try {
 			execution_status = "initiated";
@@ -141,9 +148,7 @@ public class App {
 			
 			stmt0 = dbCon.prepareStatement(usercase);
 			inputs0 = stmt0.executeQuery(usercase);
-			
-			
-			
+						
 			createtimestampfold();
 			ExtentReports extent = new ExtentReports();
 			ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(trfold + "\\Master.html");
@@ -168,7 +173,7 @@ public class App {
 					inputs = stmt.executeQuery(inputQuery);
 					// Recordset inputs = conn.executeQuery(inputQuery);
 					while (inputs.next()) {
-						String ip = "SELECT * FROM `mav_user` WHERE username='" + loginUser+ "'" ;
+						String ip = "SELECT * FROM `mav_user` WHERE username='" + loginUser + "'" ;
 						stmtip = dbCon.prepareStatement(ip);
 						inputsip = stmtip.executeQuery(ip);
 						while(inputsip.next()){
@@ -184,8 +189,13 @@ public class App {
 						String Test_Case_ID = inputs.getString("Test_Case_ID");
 						Prod_ID = inputs.getString("Product_Name");
 						Recharge_Coupon = inputs.getString("Recharge_Coupon");
+						String Call_To = inputs.getString("Call_TO_MSISDN");
+						String CALL_DURATION = inputs.getString("CALL_DURATION");
+						
+						
 						info("Starting execution at +: " + Prod_ID + "->" + Test_Scenario + "->" + ExecutionStarttime);
 						extent.attachReporter(htmlReporter);
+						
 						// String Mobile = rs.getField("Device_Name");
 						String basedir = System.getProperty("user.dir");
 						String port_number = ReadMobileproperties(device, "appiumport");
@@ -196,6 +206,7 @@ public class App {
 						String activity_name1 = ReadMobileproperties(device, "appactivity1");
 						String version = ReadMobileproperties(device, "version");
 						String bsport = ReadMobileproperties(device, "bootstrapport");
+						
 
 						String execu1 = "java -jar" + basedir
 								+ "\\src\\test\\resources\\server\\selenium-server-standalone-3.14.0.jar -role hub -port 4444";
@@ -250,15 +261,22 @@ public class App {
 										+ inputs.getString("Product_Name") + "--" + inputs.getString("Test_Scenario")
 										+ "-" + inputs.getString("Test_Case"));
 
-								// -------------Start Appium server using terminal----------------//
-
+				// ------------- Start Appium server using terminal----------------//
+								APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
+								
 								 dr.set(new AndroidDriver(new URL(
 								 "http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") +
 								 "/wd/hub"), capabilities));
+								 
+				//-------------- Clear Usage usageThresholdValue	-------------------------------
+									String xml_path = trfold+"//"+curtcid;
+									APIHandler.Read_API(xml_path, "usageThresholdID", "UpdateUsageThresholdsAndCounters", curtcid, trfold, "Before_Execution", MSISDN);
+									
+								 
 								 dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 								 Thread.sleep(1000);
 							
-							//---------- Dial Number -------------//
+				//---------- Dial Number -------------//
 								 
 								 dr.get().findElement(By.id("com.samsung.android.dialer:id/star")).click();
 								 dr.get().findElement(By.id("com.samsung.android.dialer:id/digits")).sendKeys(startussd);
@@ -288,14 +306,21 @@ public class App {
 												}
 											} while (nxt != "pass");
 											System.out.println("------------------------------");
+										try {
 											info("Entering code : " + spltussd[currshortcode]);
 //						Thread.sleep(2000);
 											dr.get().findElement(By.id("com.android.phone:id/input_field"))
 													.sendKeys(spltussd[currshortcode]);
 											takeScreenShot("Entering code " + spltussd[currshortcode]);
+											dr.get().hideKeyboard();
 											dr.get().findElement(By.id("android:id/button1")).click();
 										}
-									} else {
+										catch (Exception e) { // Thread.sleep(100); }
+											takeScreenShot("Error in option selection");	
+										}
+									}
+									}
+										else {
 										info("Menu options are not available");
 									}
 									Thread.sleep(3000);
@@ -307,20 +332,42 @@ public class App {
 										dr.get().findElement(By.id("android:id/button1")).click();
 									} else {
 										info("Error occured, please check with screenshot");
-										takeScreenShot("Error appears");
-										dr.get().quit();
+										Thread.sleep(2000);
+										By Send = By.id("android:id/button1");
+										By Messa = By.id("android:id/message");
+										if(elementExists(Messa)) {
+											Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
+											info("Confirmation alert : "+Confirmation);
+											takeScreenShot("Confirmation Screen");
+										}
+										if (elementExists(Send)){
+											dr.get().findElement(By.id("android:id/button1")).click();
+											takeScreenShot("Error");
+										}
 									}
-								} else {
+								} else 
+									{
 									info("Error occured, please check with screenshot");
 									takeScreenShot("Error appears");
-//						Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
-//						info("Confirmation alert : "+Confirmation);
-//						dr.get().findElement(By.id("android:id/button1")).click();
-									dr.get().quit();
+									Thread.sleep(2000);
+									By Send = By.id("android:id/button1");
+									By Messa = By.id("android:id/message");
+									if(elementExists(Messa)) {
+										Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
+										info("Confirmation alert : "+Confirmation);
+										takeScreenShot("Confirmation Screen");
+									}
+									if (elementExists(Send)){
+										dr.get().findElement(By.id("android:id/button1")).click();
+										takeScreenShot("Error");
+									}
+//									dr.get().findElement(By.id("android:id/button1")).click();
+									//dr.get().quit();
 								}
 								Thread.sleep(3000);
 
 								// ---------------- Notification Message handle ------------//
+							try {
 								DesiredCapabilities capabilities1 = new DesiredCapabilities();
 								capabilities1.setCapability("deviceName", device);
 								capabilities1.setCapability("platformVersion", version);
@@ -329,7 +376,6 @@ public class App {
 								capabilities1.setCapability("appPackage", package_name1);
 								capabilities1.setCapability("appActivity", activity_name1);
 
-								dr.get().quit();
 								dr.set(new AndroidDriver(new URL(
 										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 										capabilities1));
@@ -381,20 +427,93 @@ public class App {
 									takeScreenShot("SMS not received");
 								}
 								String result = dr.get().stopRecordingScreen();
-
-								test.pass("<b>Product Name: " + Product_Name + "<br>Product ID: "
-										+ inputs.getString("Product_Name") + "<br>Test Scenario: " + Test_Scenario_I
-										+ "<br> Test Case: " + Test_Case_I + "<br> Confirmation Alert Message: 	<i>"
-										+ Confirmation + "</i></b>" + "<br> Message Status: 	<i>" + Message
-										+ "</i></b><Br><a href='" + curtcid
-										+ "/ScreenShots.html' target='_blank'>ScreenShots</a>");
-								extent.flush();
-								endTestCase(curtcid);
+								APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
+							}
+							catch (Exception e) {
+								//e.printStackTrace();
+								System.out.println("--------++++++---------");
+							 }	
+					//--------------------------	CIS DB	----------------------------------------------//				
+							String Result = Asnconvertor.cis_db("both", MSISDN);
+							
+							
+					//-------------------------- CDR Conversion ------------------------------------------//
+							Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
+							
+							
+					//------------------------------ Report ----------------------------------------------//
+							String[] convertor = Asnconvertor.Result(trfold, MSISDN, Product_ID, Test_Scenario, Test_Case_ID, curtcid, Product_Name, Test_Scenario_I, Test_Case, Confirmation, Message, Recharge_Coupon,"", "", "", "", "", "", ExecutionStarttime, "", "");
+						
+							test.pass("</table><br><br><table><tr><th style= 'min-width: 168px'><b>Product Name</b></th>"
+									+"<th style= 'min-width: 168px'><b>Product ID: </b></th>"
+									+ "<th style= 'min-width: 168px'><b>Test Scenario: </b></th>"
+									+ "<th style= 'min-width: 168px'><b>Test Case: </b></th>"
+									+ "<th style= 'min-width: 168px'><b>Confirmation Alert Message: </b></th>"
+									+"<th style= 'min-width: 168px'><b> Message Status: </b></th>"
+									+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
+									
+									//Device Result
+									"<tr><td style= 'min-width: 168px'>"+Product_Name+"</td><td style= 'min-width: 168px'>"+Product_ID+"</td><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+ Confirmation +"</td><td style= 'min-width: 168px'>"+ Message+"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>"
+									);
+							
+								//CIS API
+								test.pass("<br><br><b>CS Get Account Details Response:</b>" 
+								+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
+								+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a><br>");
+								
+								//CIS DB
+								test.pass("<br><br><b>CIS DB Data:</b><table>" + Result + "</table> <br>");
+								
+						com.codoid.products.fillo.Connection co = fillo.getConnection(Reference_Data);
+						String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
+						Recordset rsr = co.executeQuery(strQuery);
+						while (rsr.next()) {
+							String Node_Type = rsr.getField("Node_To_Validate");
+							
+								//CIS Result
+								if(Node_Type.equalsIgnoreCase("CIS")) {
+								test.pass("<br><br><b>CIS Data:</b>"
+								+ "<br><b>CIS EDR: </b><br>" + convertor[3] 
+								+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table><br>");
+								}
+								
+								//SDP Result
+								if(Node_Type.equalsIgnoreCase("SDP")) {
+								test.pass("<br><br><b>SDP Data:</b>"
+								+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[4]+"/"+convertor[6] + "/Output.xml'>Click to View the SDP CDR</a><br>");
+								}
+								
+								//OCC Result
+								if(Node_Type.equalsIgnoreCase("OCC")) {
+								test.pass("<br><br><b>OCC Data:</b>"
+								+ "<br><b>OCC Table: </b><br>" + convertor[2] 
+								+ "<br><b>XML Link---> </b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[0]+"/"+convertor[1] + "/output.xml'>Click to View the OCC CDR</a>"+"</table><br>");
+								}
+								
+								//AIR
+								if(Node_Type.equalsIgnoreCase("AIR")) 
+								{
+								test.pass("<br><br><b>AIR Data:</b>"
+								+ "<br><b>AIR Table: </b><br>" + convertor[10] 
+								+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[11]+"/"+convertor[9] + "/Output.xml'>Click to View the AIR CDR</a>"+"</table><br>");
+								}
+								
+								//CCN
+								if(Node_Type.equalsIgnoreCase("CCN")) 
+								{
+								test.pass("<br><br><b>CCN Data:</b>"
+								+ "<br><b>CCN Table: </b><br>" + convertor[14] 
+								+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[13]+"/"+convertor[12] + "/Output.xml'>Click to View the CCN CDR</a>"+"</table><br>");
+								}
+							extent.flush();
+							endTestCase(curtcid);
 							}
 						}
+						}
 
-						// ----------------------------- Recharge Coupon
-						// ---------------------------------------------//
+						
+						
+			// ----------------------------- Recharge Coupon ---------------------------------------------//
 
 						if (Test_Scenario.equals("RECHARGE")) {
 
@@ -421,7 +540,8 @@ public class App {
 								capabilities.setCapability("bootstrapPort", bsport);
 								capabilities.setCapability("appPackage", package_name);
 								capabilities.setCapability("appActivity", activity_name);
-
+								
+								APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
 								dr.set(new AndroidDriver(new URL(
 										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 										capabilities));
@@ -445,7 +565,7 @@ public class App {
 //										+ Recharge_Coupon + hash;
 //								System.out.println("Execution cmmand: " + execu);
 //								run.exec(execu);
-								 
+						try { 
 								Thread.sleep(4000);
 									By mes = By.id("android:id/message");
 								if (elementExists(mes)) {
@@ -458,10 +578,19 @@ public class App {
 								} else {
 									info("Error occured, please check with screenshot");
 									takeScreenShot("Error appears");
-//					Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
-//					info("Confirmation alert : "+Confirmation);
-//					dr.get().findElement(By.id("android:id/button1")).click();
-									dr.get().quit();
+									Thread.sleep(2000);
+									By Send = By.id("android:id/button1");
+									By Messa = By.id("android:id/message");
+									if(elementExists(Messa)) {
+										Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
+										info("Confirmation alert : "+Confirmation);
+										takeScreenShot("Confirmation Screen");
+									}
+									if (elementExists(Send)){
+										dr.get().findElement(By.id("android:id/button1")).click();
+										takeScreenShot("Error");
+									}
+									dr.get().quit();	
 								}
 								
 								DesiredCapabilities capabilities1 = new DesiredCapabilities();
@@ -474,8 +603,8 @@ public class App {
 								dr.set(new AndroidDriver(new URL(
 										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 										capabilities1));
-								
 								Thread.sleep(3000);
+						try {
 								By New_Message = By.id("com.samsung.android.messaging:id/list_unread_count");
 								if (elementExists(New_Message)) {
 									List<MobileElement> elements1 = dr.get().findElements(By.id("com.samsung.android.messaging:id/list_unread_count"));
@@ -523,72 +652,320 @@ public class App {
 								}
 								String result = dr.get().stopRecordingScreen();
 
-								test.pass("<b>Test Scenario: " + Test_Scenario_I + "<br> Test Case: " + Test_Case_I
-										+ "<br> Recharge Coupon: <i>" + Recharge_Coupon + "</i>"
-										+ "<br> Confirmation Alert Message: 	<i>" + Confirmation + "</i></b>"
-										+ "<br> Message Status: 	<i>" + Message + "</i></b><Br><a href='" + curtcid
-										+ "/ScreenShots.html' target='_blank'>ScreenShots</a>");
-								extent.flush();
-								endTestCase(curtcid);
-							}
 						}
+						catch (Exception e) {
+							//e.printStackTrace();
+							System.out.println("--------++++++---------");
+						 }
+						
+						APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
+						
+					//-------------------------- CDR Conversion -------------------------------------------//
+						
+						Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
+						
+					//-------------------------- Report ----------------------------------------------//
+						String[] convertor = Asnconvertor.Result(trfold, MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, Confirmation, Message,"", "", "", "", "", "", "", ExecutionStarttime, "", "");
+						
+						test.pass("</table><table><tr><th style= 'min-width: 168px'><b>Test Scenario: </b></th>"
+								+ "<th style= 'min-width: 168px'><b>Test Case: </b></th>"
+								+ "<th style= 'min-width: 168px'><b>Recharge Coupon: </b></th>"
+								+ "<th style= 'min-width: 168px'><b>Confirmation Alert Message: </b></th>"
+								+"<th style= 'min-width: 168px'><b> Message Status: </b></th>"
+								+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
+								
+								//Device Result
+								"<tr><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+Recharge_Coupon+"</td><td style= 'min-width: 168px'>"+ Confirmation +"</td><td style= 'min-width: 168px'>"+ Message+"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>"
+								);
+						
+						//CIS API
+						test.pass("<br><br><b>CS Get Account Details Response:</b>" 
+						+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
+						+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a><br>");
+					
+					com.codoid.products.fillo.Connection co = fillo.getConnection(Reference_Data);
+					String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
+					Recordset rsr = co.executeQuery(strQuery);
+					while (rsr.next()) {
+						String Node_Type = rsr.getField("Node_To_Validate");
+						
+							//CIS Result
+							if(Node_Type.equalsIgnoreCase("CIS")) {
+							test.pass("<br><br><b>CIS Data:</b>"
+							+ "<br><b>CIS EDR: </b><br>" + convertor[3] 
+							+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table><br>");
+							}
+							
+							//SDP Result
+							if(Node_Type.equalsIgnoreCase("SDP")) {
+							test.pass("<br><br><b>SDP Data:</b>"
+							+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[4]+"/"+convertor[6] + "/Output.xml'>Click to View the SDP CDR</a><br>");
+							}
+							
+							//OCC Result
+							if(Node_Type.equalsIgnoreCase("OCC")) {
+							test.pass("<br><br><b>OCC Data:</b>"
+							+ "<br><b>OCC Table: </b><br>" + convertor[2] 
+							+ "<br><b>XML Link---> </b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[0]+"/"+convertor[1] + "/output.xml'>Click to View the OCC CDR</a>"+"</table><br>");
+							}
+							
+							//AIR
+							if(Node_Type.equalsIgnoreCase("AIR")) 
+							{
+							test.pass("<br><br><b>AIR Data:</b>"
+							+ "<br><b>AIR Table: </b><br>" + convertor[10] 
+							+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[11]+"/"+convertor[9] + "/Output.xml'>Click to View the AIR CDR</a>"+"</table><br>");
+							}
+							
+							//CCN
+							if(Node_Type.equalsIgnoreCase("CCN")) 
+							{
+							test.pass("<br><br><b>CCN Data:</b>"
+							+ "<br><b>CCN Table: </b><br>" + convertor[14] 
+							+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[13]+"/"+convertor[12] + "/Output.xml'>Click to View the CCN CDR</a>"+"</table><br>");
+							}
 
-						// ---------------------- Voice Call --------------------------//
-
-						else if (Test_Scenario.equals("LIVE USAGE VOICE")) {
-							String package_voice = ReadMobileproperties(inputs.getString("Test_Scenario"),
-									"apppackage");
-							String activity_voice = ReadMobileproperties(inputs.getString("Test_Scenario"),
-									"appactivity");
+						extent.flush();
+						endTestCase(curtcid);
+						}
+							}
+					catch (Exception e) { // Thread.sleep(100); }
+						info("Error occured in for the recharge process");
+						}
+					}
+					}
+						
+						
+						//----------------------	Voice Call	 --------------------------//
+						
+						else if(Test_Scenario.equals("LIVE USAGE VOICE")) {
+							String package_voice = ReadMobileproperties(Test_Scenario, "apppackage");
+							String activity_voice = ReadMobileproperties(Test_Scenario, "appactivity");
 							DesiredCapabilities capabilities = new DesiredCapabilities();
 							capabilities.setCapability("deviceName", device);
 							capabilities.setCapability("platformVersion", version);
 							capabilities.setCapability("platformName", "ANDROID");
-							capabilities.setCapability("bootstrapPort", bsport);
+							capabilities.setCapability("bootstrapPort", bsport); 
 							capabilities.setCapability("appPackage", package_voice);
 							capabilities.setCapability("appActivity", activity_voice);
-							curtcid = inputs.getString("Test_Case_ID") + "--" + inputs.getString("Test_Scenario") + "_"
-									+ inputs.getString("Test_Case");
+							curtcid = Test_Case_ID+"--"+Test_Scenario+"_"+Test_Scenario;
 							startTestCase(curtcid);
-							ExtentTest test = extent.createTest(inputs.getString("Test_Case_ID") + ": <br>"
-									+ inputs.getString("Test_Scenario") + "<br>" + inputs.getString("Test_Case"));
-							String Call_To = inputs.getString("Call_TO_MSISDN");
-							String CALL_DURATION = inputs.getString("CALL_DURATION");
-							int secs = Integer.parseInt(CALL_DURATION);
-							dr.set(new AndroidDriver(new URL(
-									"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
-									capabilities));
-							dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-							Thread.sleep(2000);
+							ExtentTest test = extent.createTest(Test_Case_ID+": <br>"+Test_Scenario+"<br>"+Test_Scenario);
 							
-							//---------- Dial Number -------------//
-							 
-							 dr.get().findElement(By.id("com.samsung.android.dialer:id/nine")).click();
-							 String Call_No = Call_To.substring(1);
-							 dr.get().findElement(By.id("com.samsung.android.dialer:id/digits")).sendKeys(Call_No);
-							 //dr.get().findElement(By.id("com.samsung.android.dialer:id/pound")).click();
-							 dr.get().findElement(By.id("com.samsung.android.dialer:id/dialButtonImage")).click();
+							int secs = Integer.parseInt(CALL_DURATION);
+							APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
+							dr.set(new AndroidDriver(new URL("http://"+ipaddress+":" +  ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
+							Thread.sleep(3000);
+							dr.get().findElement(By.id("com.samsung.android.dialer:id/zero")).click();
+							 //dr.get().findElement(By.id("com.samsung.android.dialer:id/digits")).clear();
+							 dr.get().findElement(By.id("com.samsung.android.dialer:id/digits")).sendKeys(Call_To);
 							 takeScreenShot("Dialed Number");
-							 
+							 dr.get().findElement(By.id("com.samsung.android.dialer:id/dialButtonImage")).click();
+							
+							
 //							Runtime run = Runtime.getRuntime();
-//							String execu = "adb -s " + device_name
-//									+ " shell am start -a android.intent.action.CALL -d tel:" + Call_To;
-//							System.out.println("Execution cmmand: " + execu);
+//							String execu = "adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+Call_To;
+//							System.out.println("Execution cmmand: "+execu);
 //							run.exec(execu);
-							 
-							Thread.sleep(secs * 1000+5000);
+							Thread.sleep(secs*1000);
 							takeScreenShot("Call process");
+							try {
 							dr.get().findElement(By.id("com.samsung.android.incallui:id/disconnect_button")).click();
-//							run.exec("adb shell input keyevent KEYCODE_ENDCALL");
+							}
+							catch (Exception e) {
+								//e.printStackTrace();
+								System.out.println("User didn't pick the call");
+							 }
+							//com.samsung.android.incallui:id/disconnect_button
 							String result = dr.get().stopRecordingScreen();
-							test.pass("<b>Test Scenario: " + inputs.getString("Test_Scenario") + "<br> Test Case: "
-									+ inputs.getString("Test_Case") + "<br> Called To: <i>" + Call_To + "<br> <a href='"
-									+ curtcid + "/ScreenShots.html' target='_blank'>ScreenShots</a>");
+							
+							APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
+							//-------------------------- CDR Conversion -------------------------------------------//
+							
+							Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
+							
+					//-------------------------- Report ----------------------------------------------//
+							String[] convertor = Asnconvertor.Result(trfold, MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", Call_To, "", "", "", "", "", ExecutionStarttime, CALL_DURATION, "" );
+							
+							test.pass("</table><table><tr><th style= 'min-width: 168px'><b>MSISDN</b></th>"
+									+"<th style= 'min-width: 168px'><b>Test Scenario </b></th>"
+									+"<th style= 'min-width: 168px'><b>Test Case </b></th>"
+									+"<th style= 'min-width: 168px'><b>Called To </b></th>"
+									+"<th style= 'min-width: 168px'><b>Call Duration </b></th>"
+									+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
+									
+									//Device Result
+									"<tr><td style= 'min-width: 168px'>"+MSISDN+"</td><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+Call_To+"</td><td style= 'min-width: 168px'>"+ CALL_DURATION +"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>");
+							
+							//CIS API
+							test.pass("<br><br><b>CS Get Account Details Response:</b>" 
+							+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
+							+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a><br>");
+						
+					com.codoid.products.fillo.Connection co = fillo.getConnection(Reference_Data);
+					String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
+					Recordset rsr = co.executeQuery(strQuery);
+					while (rsr.next()) {
+						String Node_Type = rsr.getField("Node_To_Validate");
+						
+							//CIS Result
+							if(Node_Type.equalsIgnoreCase("CIS")) {
+							test.pass("<br><br><b>CIS Data:</b>"
+							+ "<br><b>CIS EDR: </b><br>" + convertor[3] 
+							+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table><br>");
+							}
+							
+							//SDP Result
+							if(Node_Type.equalsIgnoreCase("SDP")) {
+							test.pass("<br><br><b>SDP Data:</b>"
+							+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[4]+"/"+convertor[6] + "/Output.xml'>Click to View the SDP CDR</a><br>");
+							}
+							
+							//OCC Result
+							if(Node_Type.equalsIgnoreCase("OCC")) {
+							test.pass("<br><br><b>OCC Data:</b>"
+							+ "<br><b>OCC Table: </b><br>" + convertor[2] 
+							+ "<br><b>XML Link---> </b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[0]+"/"+convertor[1] + "/output.xml'>Click to View the OCC CDR</a>"+"</table><br>");
+							}
+							
+							//AIR
+							if(Node_Type.equalsIgnoreCase("AIR")) 
+							{
+							test.pass("<br><br><b>AIR Data:</b>"
+							+ "<br><b>AIR Table: </b><br>" + convertor[10] 
+							+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[11]+"/"+convertor[9] + "/Output.xml'>Click to View the AIR CDR</a>"+"</table><br>");
+							}
+							
+							//CCN
+							if(Node_Type.equalsIgnoreCase("CCN")) 
+							{
+							test.pass("<br><br><b>CCN Data:</b>"
+							+ "<br><b>CCN Table: </b><br>" + convertor[14] 
+							+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[13]+"/"+convertor[12] + "/Output.xml'>Click to View the CCN CDR</a>"+"</table><br>");
+							}
+
 							extent.flush();
 							endTestCase(curtcid);
-							dr.get().quit();
-
+							}
 						}
+						
+						
+						//----------------------	Video Call	 --------------------------//
+						
+						else if(Test_Scenario.equals("LIVE USAGE VIDEO CALL")) {
+							String package_voice = ReadMobileproperties(Test_Scenario, "apppackage");
+							String activity_voice = ReadMobileproperties(Test_Scenario, "appactivity");
+							DesiredCapabilities capabilities = new DesiredCapabilities();
+							capabilities.setCapability("deviceName", device);
+							capabilities.setCapability("platformVersion", version);
+							capabilities.setCapability("platformName", "ANDROID");
+							capabilities.setCapability("bootstrapPort", bsport); 
+							capabilities.setCapability("appPackage", package_voice);
+							capabilities.setCapability("appActivity", activity_voice);
+							curtcid = Test_Case_ID+"--"+Test_Scenario+"_"+Test_Scenario;
+							startTestCase(curtcid);
+							ExtentTest test = extent.createTest(Test_Case_ID+": <br>"+Test_Scenario+"<br>"+Test_Scenario);
+							String cal_nuber = Call_To.substring(1, Call_To.length());
+							int secs = Integer.parseInt(CALL_DURATION);
+							APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
+							dr.set(new AndroidDriver(new URL("http://"+ipaddress+":" +  ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
+							Thread.sleep(3000);
+							dr.get().findElement(By.id("com.samsung.android.dialer:id/zero")).click();
+							 //dr.get().findElement(By.id("com.samsung.android.dialer:id/digits")).clear();
+							 dr.get().findElement(By.id("com.samsung.android.dialer:id/digits")).sendKeys(cal_nuber);
+							 takeScreenShot("Dialed Number");
+							 dr.get().findElement(By.id("com.samsung.android.dialer:id/left_frame_image_view")).click();
+							
+							
+//							Runtime run = Runtime.getRuntime();
+//							String execu = "adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+Call_To;
+//							System.out.println("Execution cmmand: "+execu);
+//							run.exec(execu);
+							Thread.sleep(secs*1000);
+							takeScreenShot("Call process");
+							try {
+							dr.get().findElement(By.id("com.samsung.android.incallui:id/display_texture_view")).click();
+							}
+							catch (Exception e) {
+								//e.printStackTrace();
+								System.out.println("End user didn't connect the call");
+							 }
+							 Thread.sleep(1000);
+							 dr.get().findElement(By.id("com.samsung.android.incallui:id/disconnect_button_icon")).click();
+				
+							//com.samsung.android.incallui:id/disconnect_button
+							String result = dr.get().stopRecordingScreen();
+							
+							APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
+							//-------------------------- CDR Conversion -------------------------------------------//
+							
+							Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
+							
+					//-------------------------- Report ----------------------------------------------//
+							String[] convertor = Asnconvertor.Result(trfold, MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", Call_To, "", "", "", "", "", ExecutionStarttime, CALL_DURATION, "" );
+							
+							test.pass("</table><table><tr><th style= 'min-width: 168px'><b>MSISDN</b></th>"
+									+"<th style= 'min-width: 168px'><b>Test Scenario </b></th>"
+									+"<th style= 'min-width: 168px'><b>Test Case </b></th>"
+									+"<th style= 'min-width: 168px'><b>Called To </b></th>"
+									+"<th style= 'min-width: 168px'><b>Call Duration </b></th>"
+									+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
+									
+									//Device Result
+									"<tr><td style= 'min-width: 168px'>"+MSISDN+"</td><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+Call_To+"</td><td style= 'min-width: 168px'>"+ CALL_DURATION +"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>");
+							
+							//CIS API
+							test.pass("<br><br><b>CS Get Account Details Response:</b>" 
+							+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
+							+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a><br>");
+						
+					com.codoid.products.fillo.Connection co = fillo.getConnection(Reference_Data);
+					String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
+					Recordset rsr = co.executeQuery(strQuery);
+					while (rsr.next()) {
+						String Node_Type = rsr.getField("Node_To_Validate");
+						
+							//CIS Result
+							if(Node_Type.equalsIgnoreCase("CIS")) {
+							test.pass("<br><br><b>CIS Data:</b>"
+							+ "<br><b>CIS EDR: </b><br>" + convertor[3] 
+							+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table><br>");
+							}
+							
+							//SDP Result
+							if(Node_Type.equalsIgnoreCase("SDP")) {
+							test.pass("<br><br><b>SDP Data:</b>"
+							+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[4]+"/"+convertor[6] + "/Output.xml'>Click to View the SDP CDR</a><br>");
+							}
+							
+							//OCC Result
+							if(Node_Type.equalsIgnoreCase("OCC")) {
+							test.pass("<br><br><b>OCC Data:</b>"
+							+ "<br><b>OCC Table: </b><br>" + convertor[2] 
+							+ "<br><b>XML Link---> </b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[0]+"/"+convertor[1] + "/output.xml'>Click to View the OCC CDR</a>"+"</table><br>");
+							}
+							
+							//AIR
+							if(Node_Type.equalsIgnoreCase("AIR")) 
+							{
+							test.pass("<br><br><b>AIR Data:</b>"
+							+ "<br><b>AIR Table: </b><br>" + convertor[10] 
+							+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[11]+"/"+convertor[9] + "/Output.xml'>Click to View the AIR CDR</a>"+"</table><br>");
+							}
+							
+							//CCN
+							if(Node_Type.equalsIgnoreCase("CCN")) 
+							{
+							test.pass("<br><br><b>CCN Data:</b>"
+							+ "<br><b>CCN Table: </b><br>" + convertor[14] 
+							+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[13]+"/"+convertor[12] + "/Output.xml'>Click to View the CCN CDR</a>"+"</table><br>");
+							}
+
+							extent.flush();
+							endTestCase(curtcid);
+							}
+						}
+						
 
 						// --------------------------- SMS ----------------------------------------//
 
@@ -609,9 +986,12 @@ public class App {
 							capabilities.setCapability("bootstrapPort", bsport);
 							capabilities.setCapability("appPackage", package_name1);
 							capabilities.setCapability("appActivity", activity_name1);
+							APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
+							
 							dr.set(new AndroidDriver(new URL(
 									"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 									capabilities));
+						try {
 							for (int i = 1; i <= sms_count; i++) {
 								dr.get().findElement(By.id("com.samsung.android.messaging:id/fab")).click();
 								Thread.sleep(2000);
@@ -633,16 +1013,83 @@ public class App {
 								dr.get().hideKeyboard();
 								takeScreenShot("SMS Send");
 								dr.get().navigate().back();
-							}
+							}}
+						catch (Exception e) {
+							//e.printStackTrace();
+							System.out.println("--------++++++---------");
+						 }
 							String result = dr.get().stopRecordingScreen();
-							test.pass("<b>Test Scenario: " + inputs.getString("Test_Scenario") + "<br> Test Case: "
-									+ inputs.getString("Test_Case") + "<br> Message: 	<i>" + Text_Message
-									+ "<br> Receiver Number: 	<i>" + To_Receiver + "</i></b><Br><a href='" + curtcid
-									+ "/ScreenShots.html' target='_blank'>ScreenShots</a>");
+							APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
+							
+				//-------------------------- CDR Conversion -------------------------------------------//
+							
+							Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
+							//APIHandler.UpdateService(curtcid, trfold, "Service_Revert", MSISDN, "1001");
+							
+							
+							String[] convertor = Asnconvertor.Result(trfold, MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", "", Text_Message, To_Receiver, "", "", "", ExecutionStarttime, "", Count);
+							
+							test.pass("</table><table><tr><th style= 'min-width: 168px'><b>Test Scenario </b></th>"
+									+ "<th style= 'min-width: 168px'><b>Test Case </b></th>"
+									+ "<th style= 'min-width: 168px'><b>Message </b></th>"
+									+ "<th style= 'min-width: 168px'><b>Receiver Number </b></th>"
+									+ "<th style= 'min-width: 168px'><b>Number of SMS sent </b></th>"
+									+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
+									
+									//Device Result
+									"<tr><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+Text_Message+"</td><td style= 'min-width: 168px'>"+To_Receiver+"</td><td style= 'min-width: 168px'>"+ Count +"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>");
+							
+								//CIS API
+								test.pass("<br><br><b>CS Get Account Details Response:</b>" 
+								+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
+								+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a><br>");
+							
+						com.codoid.products.fillo.Connection co = fillo.getConnection(Reference_Data);
+						String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
+						Recordset rsr = co.executeQuery(strQuery);
+						while (rsr.next()) {
+							String Node_Type = rsr.getField("Node_To_Validate");
+							
+								//CIS Result
+								if(Node_Type.equalsIgnoreCase("CIS")) {
+								test.pass("<br><br><b>CIS Data:</b>"
+								+ "<br><b>CIS EDR: </b><br>" + convertor[3] 
+								+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table><br>");
+								}
+								
+								//SDP Result
+								if(Node_Type.equalsIgnoreCase("SDP")) {
+								test.pass("<br><br><b>SDP Data:</b>"
+								+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[4]+"/"+convertor[6] + "/Output.xml'>Click to View the SDP CDR</a><br>");
+								}
+								
+								//OCC Result
+								if(Node_Type.equalsIgnoreCase("OCC")) {
+								test.pass("<br><br><b>OCC Data:</b>"
+								+ "<br><b>OCC Table: </b><br>" + convertor[2] 
+								+ "<br><b>XML Link---> </b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[0]+"/"+convertor[1] + "/output.xml'>Click to View the OCC CDR</a>"+"</table><br>");
+								}
+								
+								//AIR
+								if(Node_Type.equalsIgnoreCase("AIR")) 
+								{
+								test.pass("<br><br><b>AIR Data:</b>"
+								+ "<br><b>AIR Table: </b><br>" + convertor[10] 
+								+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[11]+"/"+convertor[9] + "/Output.xml'>Click to View the AIR CDR</a>"+"</table><br>");
+								}
+								
+								//CCN
+								if(Node_Type.equalsIgnoreCase("CCN")) 
+								{
+								test.pass("<br><br><b>CCN Data:</b>"
+								+ "<br><b>CCN Table: </b><br>" + convertor[14] 
+								+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[13]+"/"+convertor[12] + "/Output.xml'>Click to View the CCN CDR</a>"+"</table><br>");
+								}
+
 							extent.flush();
 							endTestCase(curtcid);
-							dr.get().quit();
-
+							}
+						
 						}
 
 						// ---------------------- Balance Enquiry ---------------------------//
@@ -728,14 +1175,68 @@ public class App {
 								takeScreenShot("Balance Message");
 								dr.get().findElement(By.id("android:id/button1")).click();
 								String result = dr.get().stopRecordingScreen();
-								test.pass("<b>Test Scenario: " + inputs.getString("Test_Scenario")
-										+ "<br>Balance Message: <i>" + Balancemsg + "</i></b><Br><a href='" + curtcid
-										+ "/ScreenShots.html' target='_blank'>ScreenShots</a>");
+								Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
+							//-------------------Result------------------------------
+								String[] convertor = Asnconvertor.Result(trfold, MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", "", "", "", Balancemsg, "", "", ExecutionStarttime, "", "");
+						
+								test.pass("</table><table><tr><th style= 'min-width: 168px'><b>Test Scenario </b></th>"
+										+ "<th style= 'min-width: 168px'><b>Balance Message </b></th>"
+										+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
+										
+										//Device Result
+										"<tr><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Balancemsg +"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>");
+								
+								//CIS API
+								test.pass("<br><br><b>CS Get Account Details Response:</b>" 
+								+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
+								+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a><br>");
+							
+						com.codoid.products.fillo.Connection co = fillo.getConnection(Reference_Data);
+						String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
+						Recordset rsr = co.executeQuery(strQuery);
+						while (rsr.next()) {
+							String Node_Type = rsr.getField("Node_To_Validate");
+							
+								//CIS Result
+								if(Node_Type.equalsIgnoreCase("CIS")) {
+								test.pass("<br><br><b>CIS Data:</b>"
+								+ "<br><b>CIS EDR: </b><br>" + convertor[3] 
+								+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table><br>");
+								}
+								
+								//SDP Result
+								if(Node_Type.equalsIgnoreCase("SDP")) {
+								test.pass("<br><br><b>SDP Data:</b>"
+								+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[4]+"/"+convertor[6] + "/Output.xml'>Click to View the SDP CDR</a><br>");
+								}
+								
+								//OCC Result
+								if(Node_Type.equalsIgnoreCase("OCC")) {
+								test.pass("<br><br><b>OCC Data:</b>"
+								+ "<br><b>OCC Table: </b><br>" + convertor[2] 
+								+ "<br><b>XML Link---> </b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[0]+"/"+convertor[1] + "/output.xml'>Click to View the OCC CDR</a>"+"</table><br>");
+								}
+								
+								//AIR
+								if(Node_Type.equalsIgnoreCase("AIR")) 
+								{
+								test.pass("<br><br><b>AIR Data:</b>"
+								+ "<br><b>AIR Table: </b><br>" + convertor[10] 
+								+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[11]+"/"+convertor[9] + "/Output.xml'>Click to View the AIR CDR</a>"+"</table><br>");
+								}
+								
+								//CCN
+								if(Node_Type.equalsIgnoreCase("CCN")) 
+								{
+								test.pass("<br><br><b>CCN Data:</b>"
+								+ "<br><b>CCN Table: </b><br>" + convertor[14] 
+								+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[13]+"/"+convertor[12] + "/Output.xml'>Click to View the CCN CDR</a>"+"</table><br>");
+								}
 								extent.flush();
 								endTestCase(curtcid);
-
-							}
-						}
+								}
+								}
+								}
 
 						// ------------------- P2P Transfer -----------------------------------//
 
@@ -757,6 +1258,7 @@ public class App {
 
 								curtcid = inputs.getString("Test_Case_ID") + "--" + rs.getField("Test_Scenario");
 								startTestCase(curtcid);
+								APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
 								ExtentTest test = extent.createTest(inputs.getString("Test_Case_ID") + ": <br>"
 										+ inputs.getString("Test_Scenario"));
 								dr.set(new AndroidDriver(new URL(
@@ -802,6 +1304,7 @@ public class App {
 										dr.get().findElement(By.id("android:id/button1")).click();
 									}
 									Thread.sleep(2000);
+								try {
 									Amount = inputs.getString("TRANSFER_AMOUNT");
 									dr.get().findElement(By.id("com.android.phone:id/input_field")).sendKeys(Amount);
 									takeScreenShot("Entering Transfer Amount: " + Amount);
@@ -823,6 +1326,10 @@ public class App {
 
 									// Notification Message handle
 									dr.get().quit();
+								} 
+								catch (Exception e) { // Thread.sleep(100); }
+									e.printStackTrace();
+								}
 								} else {
 									info("Error occured, please check with screenshot");
 									takeScreenShot("Error appears");
@@ -844,15 +1351,13 @@ public class App {
 								Thread.sleep(3000);
 								By New_Message = By.id("com.samsung.android.messaging:id/list_unread_count");
 								if (elementExists(New_Message)) {
-									List<MobileElement> elements1 = dr.get()
-											.findElements(By.id("com.samsung.android.messaging:id/list_unread_count"));
+									List<MobileElement> elements1 = dr.get().findElements(By.id("com.samsung.android.messaging:id/list_unread_count"));
 									for (MobileElement link : elements1) {
 										{
 											dr.get().findElement(
 													By.id("com.samsung.android.messaging:id/list_unread_count"))
 													.click();
-											List<MobileElement> elements2 = dr.get().findElements(
-													By.id("com.samsung.android.messaging:id/content_text_view"));
+											List<MobileElement> elements2 = dr.get().findElements(By.id("com.samsung.android.messaging:id/content_text_view"));
 											for (MobileElement link1 : elements1) {
 												Message = dr.get()
 														.findElement(By.id(
@@ -893,21 +1398,79 @@ public class App {
 									info("Message not received for the provided USSD");
 									takeScreenShot("SMS not received");
 								}
-//			test.pass("<b>Test Case ID:"+inputs.getString("Test Case ID")+"<br> Test Case Description: " +inputs.getString("Product_Name") +"</b><Br><a href='"+curtcid+"/ScreenShots.html' target='_blank'>ScreenShots</a>");
-//			extent.flush();
-//			endTestCase(inputs.getString("Test Case ID"));
 								String result = dr.get().stopRecordingScreen();
-								test.pass("<b>Test Scenario: " + inputs.getString("Test_Scenario")
-										+ "<br> P2P Transfer To Number: 	<i>" + To_Number + "</i></b>"
-										+ "<br> P2P Transfer Amount: 	<i>" + Amount + "</i></b>"
-										+ "<br> Confirmation Alert Message: 	<i>" + Confirmation + "</i></b>"
-										+ "<br> Message Status: 	<i>" + Message + "</i></b><Br><a href='" + curtcid
-										+ "/ScreenShots.html' target='_blank'>ScreenShots</a>");
+								APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
+								
+						//-------------------------- CDR Conversion -------------------------------------------//
+								
+								Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
+								
+						//-------------------------- Report ----------------------------------------------//
+								String[] convertor = Asnconvertor.Result(trfold, MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", "", "", Confirmation, Message, "", "", "", "", "", To_Number, Amount, ExecutionStarttime, "", "");
+								
+								test.pass("</table><table><tr><th style= 'min-width: 168px'><b>Test Scenario </b></th>"
+										+ "<th style= 'min-width: 168px'><b>Test Case </b></th>"
+										+ "<th style= 'min-width: 168px'><b>Confirmation</b></th>"
+										+ "<th style= 'min-width: 168px'><b>Message</b></th>"
+										+ "<th style= 'min-width: 168px'><b>P2P To Number </b></th>"
+										+ "<th style= 'min-width: 168px'><b>P2P Amount </b></th>"
+										+"<th style= 'min-width: 168px'><b>ScreenShot</b></th></tr>" + 
+										
+										//Device Result
+										"<tr><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+Confirmation+"</td><td style= 'min-width: 168px'>"+Message+"</td><td style= 'min-width: 168px'>"+To_Number+"</td><td style= 'min-width: 168px'>"+Amount+"</td><td style= 'min-width: 168px'><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>");
+								
+								//CIS API
+								test.pass("<br><br><b>CS Get Account Details Response:</b>" 
+								+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
+								+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a><br>");
+							
+						com.codoid.products.fillo.Connection co = fillo.getConnection(Reference_Data);
+						String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
+						Recordset rsr = co.executeQuery(strQuery);
+						while (rsr.next()) {
+							String Node_Type = rsr.getField("Node_To_Validate");
+							
+								//CIS Result
+								if(Node_Type.equalsIgnoreCase("CIS")) {
+								test.pass("<br><br><b>CIS Data:</b>"
+								+ "<br><b>CIS EDR: </b><br>" + convertor[3] 
+								+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table><br>");
+								}
+								
+								//SDP Result
+								if(Node_Type.equalsIgnoreCase("SDP")) {
+								test.pass("<br><br><b>SDP Data:</b>"
+								+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[4]+"/"+convertor[6] + "/Output.xml'>Click to View the SDP CDR</a><br>");
+								}
+								
+								//OCC Result
+								if(Node_Type.equalsIgnoreCase("OCC")) {
+								test.pass("<br><br><b>OCC Data:</b>"
+								+ "<br><b>OCC Table: </b><br>" + convertor[2] 
+								+ "<br><b>XML Link---> </b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[0]+"/"+convertor[1] + "/output.xml'>Click to View the OCC CDR</a>"+"</table><br>");
+								}
+								
+								//AIR
+								if(Node_Type.equalsIgnoreCase("AIR")) 
+								{
+								test.pass("<br><br><b>AIR Data:</b>"
+								+ "<br><b>AIR Table: </b><br>" + convertor[10] 
+								+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[11]+"/"+convertor[9] + "/Output.xml'>Click to View the AIR CDR</a>"+"</table><br>");
+								}
+								
+								//CCN
+								if(Node_Type.equalsIgnoreCase("CCN")) 
+								{
+								test.pass("<br><br><b>CCN Data:</b>"
+								+ "<br><b>CCN Table: </b><br>" + convertor[14] 
+								+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[13]+"/"+convertor[12] + "/Output.xml'>Click to View the CCN CDR</a>"+"</table><br>");
+								}
+							
 								extent.flush();
 								endTestCase(curtcid);
-								dr.get().quit();
+								}
 							}
-						}
+							}
 
 						// ------------------------- Data ---------------------------//
 
@@ -944,7 +1507,7 @@ public class App {
 							if (Test_Case.equals("DATA_REGULAR")) {
 								
 								//-------------	Data Turn ON --------------------------//
-								
+							try {
 								dr.set(new AndroidDriver(new URL(
 										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 										capabilities1));
@@ -963,13 +1526,22 @@ public class App {
 								dr.set(new AndroidDriver(new URL(
 										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 										capabilities));
+								try {
 								Thread.sleep(3000);
 								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Trending']")).click();
 								Thread.sleep(2000);
 								dr.get().findElement(By.xpath("//android.view.ViewGroup[@index='1']")).click();
 								Thread.sleep(15000);
 								takeScreenShot("Regular Network -- you tube");
-																
+								}
+								catch (Exception e) {
+									//e.printStackTrace();
+									System.out.println("--------++++++---------");
+								 }
+							}
+							catch (Exception e) {
+								e.printStackTrace();
+							 }						
 						//-------------	Data Turn OFF --------------------------//
 																					
 								dr.set(new AndroidDriver(new URL(
@@ -986,6 +1558,7 @@ public class App {
 //								run.exec("adb shell svc data disable");
 //								Thread.sleep(2000);
 //								takeScreenShot("Data Turned off: " + timefold);
+								
 								
 							} else if (Test_Case.equals("DATA_SOCIAL")) {
 								
@@ -1006,7 +1579,8 @@ public class App {
 								dr.set(new AndroidDriver(new URL(
 										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 										capabilities));
-									dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+								try {
+								dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 							//	Runtime run = Runtime.getRuntime();
 							//	run.exec("adb shell svc data enable");
 							//	Thread.sleep(2000);
@@ -1022,6 +1596,11 @@ public class App {
 								dr.get().findElement(By.xpath("//android.view.ViewGroup[@index=3]")).click();
 								Thread.sleep(5000);
 								takeScreenShot("Social Network -- Facebook");
+								}
+								catch (Exception e) {
+									//e.printStackTrace();
+									System.out.println("--------++++++---------");
+								 }
 								
 						//-------------	Data Turn OFF --------------------------//
 								
@@ -1041,12 +1620,73 @@ public class App {
 //								takeScreenShot("Data Turned off: " + timefold);
 							}
 							String result = dr.get().stopRecordingScreen();
-							test.pass("<b>Test Scenario: <b>" + Test_Scenario + "<br>Test Case: " + Test_Case
-									+ "</b><Br><a href='" + curtcid
-									+ "/ScreenShots.html' target='_blank'>ScreenShots</a>");
+							APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
+							
+							//-------------------------- CDR Conversion -------------------------------------------//
+							
+							Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
+							
+					//-------------------------- Report ----------------------------------------------//
+							String[] convertor = Asnconvertor.Result(trfold, MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", "", Test_Case, "", "", "", "", "", "", "", "", "", ExecutionStarttime, "", "");
+							
+							test.pass("</table><table><tr><th style= 'min-width: 168px'><b>Test Scenario </b></th>"
+									+ "<th style= 'min-width: 168px'><b>Test Case </b></th>"
+									+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
+									
+									//Device Result
+									"<tr><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>");
+							
+							//CIS API
+							test.pass("<br><br><b>CS Get Account Details Response:</b>" 
+							+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
+							+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a><br>");
+						
+						com.codoid.products.fillo.Connection co = fillo.getConnection(Reference_Data);
+						String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
+						Recordset rsr = co.executeQuery(strQuery);
+						while (rsr.next()) {
+							String Node_Type = rsr.getField("Node_To_Validate");
+							
+								//CIS Result
+								if(Node_Type.equalsIgnoreCase("CIS")) {
+								test.pass("<br><br><b>CIS Data:</b>"
+								+ "<br><b>CIS EDR: </b><br>" + convertor[3] 
+								+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output.csv'>Click to View the EDR</a>"+"</table><br>");
+								}
+								
+								//SDP Result
+								if(Node_Type.equalsIgnoreCase("SDP")) {
+								test.pass("<br><br><b>SDP Data:</b>"
+								+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[4]+"/"+convertor[6] + "/Output.xml'>Click to View the SDP CDR</a><br>");
+								}
+								
+								//OCC Result
+								if(Node_Type.equalsIgnoreCase("OCC")) {
+								test.pass("<br><br><b>OCC Data:</b>"
+								+ "<br><b>OCC Table: </b><br>" + convertor[2] 
+								+ "<br><b>XML Link---> </b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[0]+"/"+convertor[1] + "/output.xml'>Click to View the OCC CDR</a>"+"</table><br>");
+								}
+								
+								//AIR
+								if(Node_Type.equalsIgnoreCase("AIR")) 
+								{
+								test.pass("<br><br><b>AIR Data:</b>"
+								+ "<br><b>AIR Table: </b><br>" + convertor[10] 
+								+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[11]+"/"+convertor[9] + "/Output.xml'>Click to View the AIR CDR</a>"+"</table><br>");
+								}
+								
+								//CCN
+								if(Node_Type.equalsIgnoreCase("CCN")) 
+								{
+								test.pass("<br><br><b>CCN Data:</b>"
+								+ "<br><b>CCN Table: </b><br>" + convertor[14] 
+								+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[13]+"/"+convertor[12] + "/Output.xml'>Click to View the CCN CDR</a>"+"</table><br>");
+								}
+
 							extent.flush();
 							endTestCase(curtcid);
-							dr.get().quit();
+							}
+							
 						}
 
 						stmtu = dbCon.prepareStatement(updateq);
@@ -1054,6 +1694,7 @@ public class App {
 						execution_status = "Completed";
 						System.out.println(execution_status);
 					}
+					copydir(cdrfiles, trfold+"/"+curtcid+"\\CDRrawfiles");
 					stmt.close();
 
 				} catch (Exception e) {
@@ -1074,10 +1715,23 @@ public class App {
 			stmt0.close();
 			dbCon.close();
 		} catch (Exception e) {
-
 			e.printStackTrace();
 		}
 	}
+	
+public static void copydir(String Source, String Destination) {
+		
+		File srcDir = new File(Source);
+
+		
+		File destDir = new File(Destination);
+
+		try {
+		    FileUtils.copyDirectory(srcDir, destDir);
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+	} 
 
 	public boolean elementExists(By locator) {
 		dr.get().manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);

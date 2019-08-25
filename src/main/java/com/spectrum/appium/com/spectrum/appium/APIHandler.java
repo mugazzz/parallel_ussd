@@ -43,7 +43,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
 public class APIHandler {
-	public static final String Result_FLD = System.getProperty("user.dir") + "\\Result";
+	public static final String Result_FLD = System.getProperty("user.dir") + "\\reports";
 	public static final String Root = System.getProperty("user.dir");// .replace("\\", "/");
 	public static DateFormat For = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
 	public static Calendar cal = Calendar.getInstance();
@@ -76,7 +76,7 @@ public class APIHandler {
 //			LocalDateTime originTimeStamp1 = formatter6.parse(originTimeStamp);
 			String originTransactionID = dtf2.format(now).toString();
 			System.out.println(originTimeStamp+" : "+originTransactionID );
-			System.setProperty("logfilename", trfold + "\\Logs");
+			//System.setProperty("logfilename", trfold + "\\Logs");
 			DOMConfigurator.configure("log4j.xml");
 			info("Starting execution at +:" + ExecutionStarttime);
 			Fillo fillo = new Fillo();

@@ -57,7 +57,7 @@ import com.jcraft.jsch.Session;
 
 
 public class Asnconvertor {
-	public static String Result_FLD = System.getProperty("user.dir") + "\\Result";
+	public static String Result_FLD = System.getProperty("user.dir") + "\\reports";
 	static File resfold = null;
 	static String trfold = "";
 	static String timefold = "";
@@ -782,14 +782,14 @@ public class Asnconvertor {
 		}
 		}
 		
-		public static String[] Result(String MSISDN, String Prod_ID, String input, String Test_Case_ID, String curtcid, String Product_Name, String Test_Scenario_I, String Test_Case, String Confirmation, String Message, String Recharge_Coupon, String Voice_Call_To, String Text_Message, String SMS_To_Receiver, String Balancemsg, String p2p_To_Number, String p2p_Amount, String ExecutionStarttime, String CALL_DURATION, String Count)
+		public static String[] Result(String trfold, String MSISDN, String Prod_ID, String input, String Test_Case_ID, String curtcid, String Product_Name, String Test_Scenario_I, String Test_Case, String Confirmation, String Message, String Recharge_Coupon, String Voice_Call_To, String Text_Message, String SMS_To_Receiver, String Balancemsg, String p2p_To_Number, String p2p_Amount, String ExecutionStarttime, String CALL_DURATION, String Count)
 		{
 			String[] convertor = new String [50];
 			try {
 				/////////////////////////////////////////////////////////////////////////////
 				
 				createtimestampfold(ExecutionStarttime);
-				System.setProperty("logfilename", trfold + "\\Logs");
+				//System.setProperty("logfilename", trfold + "\\Logs");
 				DOMConfigurator.configure("log4j.xml");
 				ExtentReports extent = new ExtentReports();
 				ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(trfold + "\\Master.html");
@@ -1010,7 +1010,7 @@ public class Asnconvertor {
 								if ((!TCFold1.exists()))
 									TCFold1.mkdir();
 								File filecsv = new File(trfold + "/"  + curtcid+"/"+filetype + "/" + filename + "/Output1.csv");
-								String FileCSV = trfold + "/"  + curtcid+"/"+filetype + "/" + filename+"/";
+								String FileCSV = "trfold + '/'  + curtcid+'/'+filetype + '/' + filename+'/'";
 								Cis_viewpath=filecsv.toString();
 								System.out.println(Cis_viewpath);
 								if (filecsv.exists()) {
@@ -1025,7 +1025,6 @@ public class Asnconvertor {
 						}
 					}
 				}
-				copydir(cdrfiles, trfold+"\\"+curtcid+"\\CDRrawfiles");
 
 				}
 
