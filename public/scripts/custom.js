@@ -2,12 +2,13 @@ $(document).ready(function() {
    
     let testCases = {};
     testCases['SelectScenario'] = ['Select Test Case..']
-    testCases['OPT IN'] = ['','Short Code','Long Code'];
-    testCases['OPT OUT'] = ['','Short Code', 'Long Code'];
+    testCases['OPT IN'] = ['','Long Code'];
+    testCases['OPT OUT'] = ['','Long Code'];
     testCases['RECHARGE'] = ['','Recharge_More_Time','Recharge_More_International','Recharge_More_Data','Recharge_More_Credit'];
     testCases['LIVE USAGE DATA'] = ['','DATA_REGULAR','DATA_SOCIAL'];
     testCases['LIVE USAGE VOICE'] = ['','Du-du calls: VOICE_DU','Du-du calls: VOICE_DU_OFF','Du-du calls: VOICE_DU_WK','Du-du calls: VOICE_DU_OFF_WK','Du-CUG calls: VOICE_DU_CUG','Du-CUG calls: VOICE_DU_OFF_CUG','Du-CUG calls: VOICE_DU_WK_CUG','Du-CUG calls: VOICE_DU_OFF_WK_CUG','Roaming calls: VOICE_INT_ROAM','Du-National calls: VOICE_NAT','Du-National calls: VOICE_NAT_OFF','Du-National calls: VOICE_NAT_WK','Du-National calls: VOICE_NAT_OFF_WK','Du-International calls: VOICE_INT_IDD','Du-International calls: VOICE_INT_IDD_OFF','Du-International calls: VOICE_INT_IDD_WK','Du-International calls: VOICE_INT_IDD_OFF_WK'];
-    testCases['LIVE USAGE SMS'] = ['','SMS_DU_TO_DU','SMS_DU_TO_Local','SMS_DU_International'];
+    testCases['LIVE USAGE VIDEO CALL'] = ['','Du-du calls: VIDEO_DU','Du-du calls: VIDEO_DU_OFF','Du-du calls: VIDEO_DU_WK','Du-du calls: VIDEO_DU_OFF_WK','Du-CUG calls: VIDEO_DU_CUG','Du-CUG calls: VIDEO_DU_OFF_CUG','Du-CUG calls: VIDEO_DU_WK_CUG','Du-CUG calls: VIDEO_DU_OFF_WK_CUG','Roaming calls: VIDEO_INT_ROAM','Du-National calls: VIDEO_NAT','Du-National calls: VIDEO_NAT_OFF','Du-National calls: VIDEO_NAT_WK','Du-National calls: VIDEO_NAT_OFF_WK','Du-International calls: VIDEO_INT_IDD','Du-International calls: VIDEO_INT_IDD_OFF','Du-International calls: VIDEO_INT_IDD_WK','Du-International calls: VIDEO_INT_IDD_OFF_WK'];
+	testCases['LIVE USAGE SMS'] = ['','SMS_DU_TO_DU','SMS_DU_TO_Local','SMS_DU_International'];
 
     let paramList = {};
     paramList['OPT IN'] = ['MSISDN','Product_Name'];
@@ -15,6 +16,7 @@ $(document).ready(function() {
     paramList['RECHARGE'] = ['MSISDN','Recharge_Coupon'];
     paramList['LIVE USAGE DATA'] = ['MSISDN'];
     paramList['LIVE USAGE VOICE'] = ['MSISDN','Call_TO_MSISDN','CALL_DURATION'];
+	paramList['LIVE USAGE VIDEO CALL'] = ['MSISDN','Call_TO_MSISDN','CALL_DURATION'];
     paramList['LIVE USAGE SMS'] = ['MSISDN','RECEIVER_MSISDN','Message_To_Send','SMS_COUNT'];
     paramList['P2P TRANSFER'] = ['MSISDN','TRANSFER_TO_MSISDN','TRANSFER_AMOUNT'];
     paramList['BALANCE ENQUIRES'] = ['MSISDN'];
@@ -200,6 +202,7 @@ $('#report-list').DataTable({"order":[[ 0, 'desc' ]]});
                                     <option value="RECHARGE">RECHARGE</option>
                                     <option value="LIVE USAGE DATA">LIVE USAGE DATA</option>
                                     <option value="LIVE USAGE VOICE">LIVE USAGE VOICE</option>
+									<option value="LIVE USAGE VOICE">LIVE USAGE VIDEO CALL</option>
                                     <option value="LIVE USAGE SMS">LIVE USAGE SMS</option>
                                     <option value="P2P TRANSFER">P2P TRANSFER</option>
                                     <option value="BALANCE ENQUIRES">BALANCE ENQUIRES</option>
