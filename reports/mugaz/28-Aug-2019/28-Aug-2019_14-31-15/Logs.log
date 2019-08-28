@@ -1,0 +1,30 @@
+28-08-2019 14:31:16 INFO [App]: Starting execution at +: ->P2P TRANSFER->28-Aug-2019 14:31:15
+
+28-08-2019 14:31:22 INFO [App]: ****************************************************************************************
+28-08-2019 14:31:22 INFO [App]: ****************************************************************************************
+28-08-2019 14:31:22 INFO [App]: $$$$$$$$$$$$$$$$$$$$$ TC_002--P2P TRANSFER $$$$$$$$$$$$$$$$$$$$$$$$$
+28-08-2019 14:31:22 INFO [App]: ****************************************************************************************
+28-08-2019 14:31:22 INFO [App]: ****************************************************************************************
+28-08-2019 14:31:48 INFO [App]: Entering code : 2
+
+28-08-2019 14:31:51 INFO [App]: Entering code : 2
+
+28-08-2019 14:32:03 INFO [App]: Confirmation alert : more time': AED 10.0 has been transferred from your More Time balance to 971520001714. Thank you for using the Mobile Credit Transfer service.
+
+28-08-2019 14:32:23 INFO [App]: Message not received for the provided USSD
+
+28-08-2019 14:32:24 INFO [App]: XXXXXXXXXXXXXXXXXXXXXXX             -E---N---D-             XXXXXXXXXXXXXXXXXXXXXX
+28-08-2019 14:32:25 INFO [App]: Starting execution at +: ->BALANCE ENQUIRES->28-Aug-2019 14:31:15
+
+28-08-2019 14:32:27 INFO [App]: ****************************************************************************************
+28-08-2019 14:32:27 INFO [App]: ****************************************************************************************
+28-08-2019 14:32:27 INFO [App]: $$$$$$$$$$$$$$$$$$$$$ TC_001--BALANCE ENQUIRES $$$$$$$$$$$$$$$$$$$$$$$$$
+28-08-2019 14:32:27 INFO [App]: ****************************************************************************************
+28-08-2019 14:32:27 INFO [App]: ****************************************************************************************
+28-08-2019 14:32:52 INFO [App]: Entering code : 1
+
+28-08-2019 14:33:24 INFO [App]: Confirmation alert : <br>1000 International minutes with Friends & Family bundle starting from 69 dirhams. Dial *135*90# 
+----------
+Your 'more time' balance is AED 1777.37
+
+28-08-2019 14:33:25 INFO [App]: XXXXXXXXXXXXXXXXXXXXXXX             -E---N---D-             XXXXXXXXXXXXXXXXXXXXXX

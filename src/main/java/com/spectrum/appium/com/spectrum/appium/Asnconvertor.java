@@ -313,7 +313,6 @@ public class Asnconvertor {
 					close();
 
 					try {
-
 						JSch jsch = new JSch();
 						Session session = jsch.getSession(SDP_Unix_username, SDP_unix_hostname, 22);
 						session.setPassword(SDP_Unix_password);
@@ -788,13 +787,13 @@ public class Asnconvertor {
 			try {
 				/////////////////////////////////////////////////////////////////////////////
 				
-				createtimestampfold(ExecutionStarttime);
-				//System.setProperty("logfilename", trfold + "\\Logs");
-				DOMConfigurator.configure("log4j.xml");
-				ExtentReports extent = new ExtentReports();
-				ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(trfold + "\\Master.html");
-				extent.attachReporter(htmlReporter);
-				info("Starting execution at +:" + ExecutionStarttime);
+//				createtimestampfold(ExecutionStarttime);
+//				//System.setProperty("logfilename", trfold + "\\Logs");
+//				DOMConfigurator.configure("log4j.xml");
+//				ExtentReports extent = new ExtentReports();
+//				ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(trfold + "\\Master.html");
+//				extent.attachReporter(htmlReporter);
+//				info("Starting execution at +:" + ExecutionStarttime);
 //				String Data = "TestData.xlsx";
 				Fillo fillo = new Fillo();
 //				Connection conn = fillo.getConnection(Data);
@@ -823,7 +822,7 @@ public class Asnconvertor {
 							filename = child.getAbsoluteFile().getName();
 							if(!filetype.equalsIgnoreCase("CIS")) {
 														
-							startTestCase("Parsing File " + filename);
+							//startTestCase("Parsing File " + filename);
 							String schemaname = "";
 							File TCFold = new File(trfold + "/" + curtcid+"/"+filetype);
 							if ((!TCFold.exists()))
@@ -832,7 +831,7 @@ public class Asnconvertor {
 							if ((!TCFold1.exists()))
 								TCFold1.mkdir();
 							File file = new File(trfold + "/" + curtcid+"/"+filetype + "/" + filename + "/output.xml");
-							// System.out.println(trfold+"/"+ refid + "/output.xml");
+							System.out.println("SDP------>"+trfold+"/"+ curtcid + filetype+"/output.xml");
 							if (file.exists()) {
 								file.delete();
 							}
@@ -933,6 +932,8 @@ public class Asnconvertor {
 							else if(filetype.equals("SDP")) {
 								convertor[4] = filetype;
 								convertor[6] = filename;
+								System.out.println("SDP Path: ----------%%%%%%%%%--> "+convertor[4]+convertor[6]);
+								
 							}
 							
 							else if(filetype.equals("AIR")){

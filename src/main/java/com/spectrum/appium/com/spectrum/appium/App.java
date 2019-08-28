@@ -223,8 +223,7 @@ public class App {
 
 						com.codoid.products.fillo.Connection conn1 = fillo.getConnection(Reference_Data);
 
-						// -------------------------- OPT IN / OUT / Recharge
-						// ------------------------------------//
+						// -------------------------- OPT IN / OUT / Recharge  ------------------------------------//
 
 						if (Test_Scenario.equalsIgnoreCase("OPT IN") || Test_Scenario.equalsIgnoreCase("OPT OUT")) {
 							DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -1186,11 +1185,7 @@ public class App {
 										//Device Result
 										"<tr><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Balancemsg +"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>");
 								
-								//CIS API
-								test.pass("<br><br><b>CS Get Account Details Response:</b>" 
-								+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
-								+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a><br>");
-							
+														
 						com.codoid.products.fillo.Connection co = fillo.getConnection(Reference_Data);
 						String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
 						Recordset rsr = co.executeQuery(strQuery);
@@ -1620,6 +1615,7 @@ public class App {
 //								takeScreenShot("Data Turned off: " + timefold);
 							}
 							String result = dr.get().stopRecordingScreen();
+							
 							APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
 							
 							//-------------------------- CDR Conversion -------------------------------------------//

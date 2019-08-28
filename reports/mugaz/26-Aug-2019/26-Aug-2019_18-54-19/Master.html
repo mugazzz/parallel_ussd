@@ -1,0 +1,641 @@
+
+<!DOCTYPE html>
+<html>
+
+
+<head>
+	<meta charset='utf-8' /> 
+	<meta name='description' content='' />
+	<meta name='robots' content='noodp, noydir' />
+	<meta name='viewport' content='width=device-width, initial-scale=1' />
+	<meta id="timeStampFormat" name="timeStampFormat" content='MMM d, yyyy hh:mm:ss a'/>
+	
+	<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600' rel='stylesheet' type='text/css' />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+		<link href='https://cdn.rawgit.com/anshooarora/extentreports-java/b4a58fcfd1e137bd9287244035a7c80d3d73b3af/dist/css/extent.css' type='text/css' rel='stylesheet' />
+	
+	<title>ExtentReports</title>
+
+	<style type='text/css'>
+	</style>
+</head>
+
+	<body class='extent standard default hide-overflow '>
+		<div id='theme-selector' alt='Click to toggle theme. To enable by default, use theme configuration.' title='Click to toggle theme. To enable by default, use theme configuration.'>
+			<span><i class='material-icons'>desktop_windows</i></span>
+		</div>
+
+<nav>
+	<div class="nav-wrapper">
+		<a href="#!" class="brand-logo blue darken-3">Extent</a>
+
+		<!-- slideout menu -->
+		<ul id='slide-out' class='side-nav fixed hide-on-med-and-down'>
+			<li class='waves-effect active'><a href='#!' view='test-view' onclick="configureView(0);chartsView('test');"><i class='material-icons'>dashboard</i></a></li>
+						<li class='waves-effect'><a href='#!' onclick="configureView(-1);chartsView('dashboard');" view='dashboard-view'><i class='material-icons'>track_changes</i></i></a></li>
+		</ul>
+
+		<!-- report name -->
+		<span class='report-name'>ExtentReports</span>
+		
+		<!-- report headline -->
+		<span class='report-headline'></span>
+
+		<!-- nav-right -->
+		<ul id='nav-mobile' class='right hide-on-med-and-down nav-right'>
+			<li>
+                <a href='#!'>
+                    <span class='label suite-start-time blue darken-3'>Aug 26, 2019 06:54:19 PM</span>
+				</a>
+			</li>
+			<li>
+                <a href='#!'>
+                    <span class='label blue darken-3'>3.1.5</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</nav>
+
+		<!-- container -->
+		<div class='container'>
+
+<div id='test-view' class='view'>
+				
+	<section id='controls'>
+		<div class='controls grey lighten-4'>
+			<!-- test toggle -->
+			<div class='chip transparent'>
+				<a class='dropdown-button tests-toggle' data-activates='tests-toggle' data-constrainwidth='true' data-beloworigin='true' data-hover='true' href='#'>
+					<i class='material-icons'>warning</i> Status
+				</a>
+				<ul id='tests-toggle' class='dropdown-content'>
+											<li status='pass'><a href='#!'>Pass <i class='material-icons green-text'>check_circle</i></a></li>
+					<li class='divider'></li>
+					<li status='clear' clear='true'><a href='#!'>Clear Filters <i class='material-icons'>clear</i></a></li>
+				</ul>
+			</div>
+			<!-- test toggle -->
+
+			<!-- category toggle -->
+			<!-- category toggle -->
+
+			<!-- clear filters -->
+			<div class='chip transparent hide'>
+				<a class='' id='clear-filters' alt='Clear Filters' title='Clear Filters'>
+					<i class='material-icons'>close</i> Clear
+				</a>
+			</div>
+			<!-- clear filters -->
+
+			<!-- enable dashboard -->
+			<div id='toggle-test-view-charts' class='chip transparent'>
+				<a class='pink-text' id='enable-dashboard' alt='Enable Dashboard' title='Enable Dashboard'>
+					<i class='material-icons'>track_changes</i> Dashboard
+				</a>
+			</div>
+			<!-- enable dashboard -->
+
+			<!-- search -->
+			<div class='chip transparent' alt='Search Tests' title='Search Tests'>
+				<a href="#" class='search-div'>
+					<i class='material-icons'>search</i> Search
+				</a>
+
+				<div class='input-field left hide'>
+					<input id='search-tests' type='text' class='validate browser-default' placeholder='Search Tests...'>
+				</div>
+				
+			</div>
+			<!-- search -->
+		</div>
+	</section>
+
+
+<div id='test-view-charts' class='subview-full'>
+	<div id='charts-row' class='row nm-v nm-h'>
+		<div class='col s12 m6 l6 np-h'>
+			<div class='card-panel nm-v'>
+				<div class='left panel-name'>Tests</div>
+				<div class='chart-box'>
+					<canvas id='parent-analysis' width='100' height='80'></canvas>
+				</div>
+				<div class='block text-small'>
+					<span class='tooltipped' data-position='top' data-tooltip='100%'><span class='strong'>7</span> test(s) passed</span>
+				</div>
+				<div class='block text-small'>
+					<span class='strong tooltipped' data-position='top' data-tooltip='0%'>0</span> test(s) failed, <span class='strong tooltipped' data-position='top' data-tooltip='0%'>0</span> others
+				</div>
+			</div>
+		</div>
+		
+		<div class='col s12 m6 l6 np-h'>
+			<div class='card-panel nm-v'>
+				<div class='left panel-name'>Steps</div>
+				<div class='chart-box'>
+					<canvas id='child-analysis' width='100' height='80'></canvas>
+				</div>
+				<div class='block text-small'>
+					<span class='tooltipped' data-position='top' data-tooltip='100%'><span class='strong'>35</span> step(s) passed</span>
+				</div>
+				<div class='block text-small'>
+					<span class='strong tooltipped' data-position='top' data-tooltip='0%'>0</span> step(s) failed, <span class='strong tooltipped' data-position='top' data-tooltip='0%'>0</span> others
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</div>
+
+	<div class='subview-left left'>
+		
+		<div class='view-summary'>
+			<h5>Tests</h5>
+			<ul id='test-collection' class='test-collection'>
+				
+				
+				<li class='test displayed active  pass' status='pass' bdd='false' test-id='1'>
+					<div class='test-heading'>
+						<span class='test-name'>TC_001: <br>Call Home for Less--OPT IN-Short Code</span>
+						<span class='test-time'>Aug 26, 2019 06:54:25 PM</span>
+						<span class='test-status right pass'>pass</span>
+					</div>
+					<div class='test-content hide'>
+<div class='test-time-info'>
+	<span class='label start-time'>Aug 26, 2019 06:54:25 PM</span>
+	<span class='label end-time'>Aug 26, 2019 06:56:55 PM</span>
+	<span class='label time-taken grey lighten-1 white-text'>0h 2m 29s+454ms</span>
+</div>
+	<div class='test-steps'>
+		<table class='bordered table-results'>
+			<thead>
+				<tr>
+					<th>Status</th>
+					<th>Timestamp</th>
+					<th>Details</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>6:56:53 PM</td>
+					<td class='step-details'></table><br><br><table><tr><th style= 'min-width: 168px'><b>Product Name</b></th><th style= 'min-width: 168px'><b>Product ID: </b></th><th style= 'min-width: 168px'><b>Test Scenario: </b></th><th style= 'min-width: 168px'><b>Test Case: </b></th><th style= 'min-width: 168px'><b>Confirmation Alert Message: </b></th><th style= 'min-width: 168px'><b> Message Status: </b></th><th style= 'min-width: 168px'><b> ScreenShot</b></th></tr><tr><td style= 'min-width: 168px'>Call Home for Less</td><td style= 'min-width: 168px'></td><td style= 'min-width: 168px'>OPT IN</td><td style= 'min-width: 168px'>Short Code</td><td style= 'min-width: 168px'>1000 International Minutes with Friends & Family bundles starting from 69 dirhams. Dial *135*90#. Thanks for using du interactive service</td><td style= 'min-width: 168px'>Message not received for the provided USSD</td><td style= 'min-width: 168px'><a href='TC_001--820_OPT IN_Short Code/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>6:56:53 PM</td>
+					<td class='step-details'><br><br><b>CS Get Account Details Response:</b><br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_001--820_OPT IN_Short Code\CS_API_VALIDATION\Before_Execution\Response\response.xml'>Click to View the Response</a><br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_001--820_OPT IN_Short Code\CS_API_VALIDATION\After_Execution\Response\response.xml'>Click to View the Response</a><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>6:56:53 PM</td>
+					<td class='step-details'><br><br><b>CIS DB Data:</b><table><table><caption align='left'>Renewal Table:</caption><tr><th>msisdn</th><th>last_renewal_date</th><th>renewal_date</th><th>status</th><th>activation_date</th><th>product_id</th><th>product_description</th><th>product_type</th><th>srcchannel</th><th>product_category</th><th>product_purchase_type</th><th>language_id</th><th>network_status</th></tr><br><table><caption align='left'>Adhoc Table:</caption><tr><th>msisdn</th><th>product_id</th><th>status</th><th>start_date</th><th>expiry_date</th><th>product_cost</th><th>srcchannel</th><th>network_status</th></tr><tr><td style= 'min-width: 162px'>971520002574	</td><td style= 'min-width: 162px'>820	</td><td style= 'min-width: 162px'>0	</td><td style= 'min-width: 162px'>2019-08-26 14:19:46	</td><td style= 'min-width: 162px'>2047-01-10 14:19:46	</td><td style= 'min-width: 162px'>0	</td><td style= 'min-width: 162px'>ussd	</td><td style= 'min-width: 162px'>null</td></tr style= 'min-width: 162px'></table> <br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>6:56:54 PM</td>
+					<td class='step-details'><br><br><b>CIS Data:</b><br><b>CIS EDR: </b><br>null<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_001--820_OPT IN_Short Code/null/null/Output.csv'>Click to View the EDR</a></table><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>6:56:54 PM</td>
+					<td class='step-details'><br><br><b>SDP Data:</b><br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_001--820_OPT IN_Short Code/null/null/Output.xml'>Click to View the SDP CDR</a><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>6:56:54 PM</td>
+					<td class='step-details'><br><br><b>AIR Data:</b><br><b>AIR Table: </b><br>null<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_001--820_OPT IN_Short Code/null/null/Output.xml'>Click to View the AIR CDR</a></table><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>6:56:55 PM</td>
+					<td class='step-details'><br><br><b>OCC Data:</b><br><b>OCC Table: </b><br>null<br><b>XML Link---> </b><a style = 'color:hotpink' target = '_blank' href = 'TC_001--820_OPT IN_Short Code/null/null/output.xml'>Click to View the OCC CDR</a></table><br></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+					</div>
+				</li>
+				
+				
+				<li class='test displayed active  pass' status='pass' bdd='false' test-id='2'>
+					<div class='test-heading'>
+						<span class='test-name'>TC_002: <br>Call Home for Less--OPT OUT-Short Code</span>
+						<span class='test-time'>Aug 26, 2019 06:56:57 PM</span>
+						<span class='test-status right pass'>pass</span>
+					</div>
+					<div class='test-content hide'>
+<div class='test-time-info'>
+	<span class='label start-time'>Aug 26, 2019 06:56:57 PM</span>
+	<span class='label end-time'>Aug 26, 2019 06:59:02 PM</span>
+	<span class='label time-taken grey lighten-1 white-text'>0h 2m 4s+894ms</span>
+</div>
+	<div class='test-steps'>
+		<table class='bordered table-results'>
+			<thead>
+				<tr>
+					<th>Status</th>
+					<th>Timestamp</th>
+					<th>Details</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>6:59:01 PM</td>
+					<td class='step-details'></table><br><br><table><tr><th style= 'min-width: 168px'><b>Product Name</b></th><th style= 'min-width: 168px'><b>Product ID: </b></th><th style= 'min-width: 168px'><b>Test Scenario: </b></th><th style= 'min-width: 168px'><b>Test Case: </b></th><th style= 'min-width: 168px'><b>Confirmation Alert Message: </b></th><th style= 'min-width: 168px'><b> Message Status: </b></th><th style= 'min-width: 168px'><b> ScreenShot</b></th></tr><tr><td style= 'min-width: 168px'>Call Home for Less</td><td style= 'min-width: 168px'></td><td style= 'min-width: 168px'>OPT OUT</td><td style= 'min-width: 168px'>Short Code</td><td style= 'min-width: 168px'>1000 International Minutes with Friends & Family bundles starting from 69 dirhams. Dial *135*90#. Thanks for using du interactive service</td><td style= 'min-width: 168px'>Message not received for the provided USSD</td><td style= 'min-width: 168px'><a href='TC_002--820_OPT OUT_Short Code/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>6:59:01 PM</td>
+					<td class='step-details'><br><br><b>CS Get Account Details Response:</b><br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_002--820_OPT OUT_Short Code\CS_API_VALIDATION\Before_Execution\Response\response.xml'>Click to View the Response</a><br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_002--820_OPT OUT_Short Code\CS_API_VALIDATION\After_Execution\Response\response.xml'>Click to View the Response</a><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>6:59:01 PM</td>
+					<td class='step-details'><br><br><b>CIS DB Data:</b><table><table><caption align='left'>Renewal Table:</caption><tr><th>msisdn</th><th>last_renewal_date</th><th>renewal_date</th><th>status</th><th>activation_date</th><th>product_id</th><th>product_description</th><th>product_type</th><th>srcchannel</th><th>product_category</th><th>product_purchase_type</th><th>language_id</th><th>network_status</th></tr><br><table><caption align='left'>Adhoc Table:</caption><tr><th>msisdn</th><th>product_id</th><th>status</th><th>start_date</th><th>expiry_date</th><th>product_cost</th><th>srcchannel</th><th>network_status</th></tr><tr><td style= 'min-width: 162px'>971520002574	</td><td style= 'min-width: 162px'>820	</td><td style= 'min-width: 162px'>4	</td><td style= 'min-width: 162px'>2019-08-26 14:19:46	</td><td style= 'min-width: 162px'>2019-08-26 18:58:00	</td><td style= 'min-width: 162px'>0	</td><td style= 'min-width: 162px'>ussd	</td><td style= 'min-width: 162px'>null</td></tr style= 'min-width: 162px'></table> <br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>6:59:01 PM</td>
+					<td class='step-details'><br><br><b>CIS Data:</b><br><b>CIS EDR: </b><br>null<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_002--820_OPT OUT_Short Code/null/null/Output.csv'>Click to View the EDR</a></table><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>6:59:02 PM</td>
+					<td class='step-details'><br><br><b>SDP Data:</b><br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_002--820_OPT OUT_Short Code/null/null/Output.xml'>Click to View the SDP CDR</a><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>6:59:02 PM</td>
+					<td class='step-details'><br><br><b>OCC Data:</b><br><b>OCC Table: </b><br>null<br><b>XML Link---> </b><a style = 'color:hotpink' target = '_blank' href = 'TC_002--820_OPT OUT_Short Code/null/null/output.xml'>Click to View the OCC CDR</a></table><br></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+					</div>
+				</li>
+				
+				
+				<li class='test displayed active  pass' status='pass' bdd='false' test-id='3'>
+					<div class='test-heading'>
+						<span class='test-name'>TC_003: <br>RECHARGE- <br>Recharge_More_International</span>
+						<span class='test-time'>Aug 26, 2019 06:59:04 PM</span>
+						<span class='test-status right pass'>pass</span>
+					</div>
+					<div class='test-content hide'>
+<div class='test-time-info'>
+	<span class='label start-time'>Aug 26, 2019 06:59:04 PM</span>
+	<span class='label end-time'>Aug 26, 2019 07:00:43 PM</span>
+	<span class='label time-taken grey lighten-1 white-text'>0h 1m 39s+241ms</span>
+</div>
+	<div class='test-steps'>
+		<table class='bordered table-results'>
+			<thead>
+				<tr>
+					<th>Status</th>
+					<th>Timestamp</th>
+					<th>Details</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>7:00:42 PM</td>
+					<td class='step-details'></table><table><tr><th style= 'min-width: 168px'><b>Test Scenario: </b></th><th style= 'min-width: 168px'><b>Test Case: </b></th><th style= 'min-width: 168px'><b>Recharge Coupon: </b></th><th style= 'min-width: 168px'><b>Confirmation Alert Message: </b></th><th style= 'min-width: 168px'><b> Message Status: </b></th><th style= 'min-width: 168px'><b> ScreenShot</b></th></tr><tr><td style= 'min-width: 168px'>RECHARGE</td><td style= 'min-width: 168px'>Recharge_More_International</td><td style= 'min-width: 168px'>189348653076336</td><td style= 'min-width: 168px'>That voucher is already redeemed.  Please use a different voucher to recharge.</td><td style= 'min-width: 168px'>As requested, you've been opted out from the New Call Home For Less promotion.</td><td style= 'min-width: 168px'><a href='TC_003--RECHARGE_Recharge_More_International/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>7:00:42 PM</td>
+					<td class='step-details'><br><br><b>CS Get Account Details Response:</b><br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_003--RECHARGE_Recharge_More_International\CS_API_VALIDATION\Before_Execution\Response\response.xml'>Click to View the Response</a><br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_003--RECHARGE_Recharge_More_International\CS_API_VALIDATION\After_Execution\Response\response.xml'>Click to View the Response</a><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>7:00:43 PM</td>
+					<td class='step-details'><br><br><b>SDP Data:</b><br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_003--RECHARGE_Recharge_More_International/null/null/Output.xml'>Click to View the SDP CDR</a><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>7:00:43 PM</td>
+					<td class='step-details'><br><br><b>AIR Data:</b><br><b>AIR Table: </b><br>null<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_003--RECHARGE_Recharge_More_International/null/null/Output.xml'>Click to View the AIR CDR</a></table><br></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+					</div>
+				</li>
+				
+				
+				<li class='test displayed active  pass' status='pass' bdd='false' test-id='4'>
+					<div class='test-heading'>
+						<span class='test-name'>TC_004: <br>LIVE USAGE DATA<br>DATA_REGULAR</span>
+						<span class='test-time'>Aug 26, 2019 07:00:45 PM</span>
+						<span class='test-status right pass'>pass</span>
+					</div>
+					<div class='test-content hide'>
+<div class='test-time-info'>
+	<span class='label start-time'>Aug 26, 2019 07:00:45 PM</span>
+	<span class='label end-time'>Aug 26, 2019 07:03:26 PM</span>
+	<span class='label time-taken grey lighten-1 white-text'>0h 2m 40s+844ms</span>
+</div>
+	<div class='test-steps'>
+		<table class='bordered table-results'>
+			<thead>
+				<tr>
+					<th>Status</th>
+					<th>Timestamp</th>
+					<th>Details</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>7:03:25 PM</td>
+					<td class='step-details'></table><table><tr><th style= 'min-width: 168px'><b>Test Scenario </b></th><th style= 'min-width: 168px'><b>Test Case </b></th><th style= 'min-width: 168px'><b> ScreenShot</b></th></tr><tr><td style= 'min-width: 168px'>LIVE USAGE DATA</td><td style= 'min-width: 168px'>DATA_REGULAR</td><td style= 'min-width: 168px'><a href='TC_004--LIVE USAGE DATA_DATA_REGULAR/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>7:03:25 PM</td>
+					<td class='step-details'><br><br><b>CS Get Account Details Response:</b><br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_004--LIVE USAGE DATA_DATA_REGULAR\CS_API_VALIDATION\Before_Execution\Response\response.xml'>Click to View the Response</a><br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_004--LIVE USAGE DATA_DATA_REGULAR\CS_API_VALIDATION\After_Execution\Response\response.xml'>Click to View the Response</a><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>7:03:25 PM</td>
+					<td class='step-details'><br><br><b>SDP Data:</b><br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_004--LIVE USAGE DATA_DATA_REGULAR/null/null/Output.xml'>Click to View the SDP CDR</a><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>7:03:25 PM</td>
+					<td class='step-details'><br><br><b>OCC Data:</b><br><b>OCC Table: </b><br>null<br><b>XML Link---> </b><a style = 'color:hotpink' target = '_blank' href = 'TC_004--LIVE USAGE DATA_DATA_REGULAR/null/null/output.xml'>Click to View the OCC CDR</a></table><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>7:03:26 PM</td>
+					<td class='step-details'><br><br><b>CCN Data:</b><br><b>CCN Table: </b><br>null<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_004--LIVE USAGE DATA_DATA_REGULAR/null/null/Output.xml'>Click to View the CCN CDR</a></table><br></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+					</div>
+				</li>
+				
+				
+				<li class='test displayed active  pass' status='pass' bdd='false' test-id='5'>
+					<div class='test-heading'>
+						<span class='test-name'>TC_005: <br>LIVE USAGE VOICE<br>LIVE USAGE VOICE</span>
+						<span class='test-time'>Aug 26, 2019 07:03:28 PM</span>
+						<span class='test-status right pass'>pass</span>
+					</div>
+					<div class='test-content hide'>
+<div class='test-time-info'>
+	<span class='label start-time'>Aug 26, 2019 07:03:28 PM</span>
+	<span class='label end-time'>Aug 26, 2019 07:05:26 PM</span>
+	<span class='label time-taken grey lighten-1 white-text'>0h 1m 58s+284ms</span>
+</div>
+	<div class='test-steps'>
+		<table class='bordered table-results'>
+			<thead>
+				<tr>
+					<th>Status</th>
+					<th>Timestamp</th>
+					<th>Details</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>7:05:26 PM</td>
+					<td class='step-details'></table><table><tr><th style= 'min-width: 168px'><b>MSISDN</b></th><th style= 'min-width: 168px'><b>Test Scenario </b></th><th style= 'min-width: 168px'><b>Test Case </b></th><th style= 'min-width: 168px'><b>Called To </b></th><th style= 'min-width: 168px'><b>Call Duration </b></th><th style= 'min-width: 168px'><b> ScreenShot</b></th></tr><tr><td style= 'min-width: 168px'>971520002574</td><td style= 'min-width: 168px'>LIVE USAGE VOICE</td><td style= 'min-width: 168px'>Du-du calls: VOICE_DU_WK</td><td style= 'min-width: 168px'>971520001714</td><td style= 'min-width: 168px'>20</td><td style= 'min-width: 168px'><a href='TC_005--LIVE USAGE VOICE_LIVE USAGE VOICE/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>7:05:26 PM</td>
+					<td class='step-details'><br><br><b>CS Get Account Details Response:</b><br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_005--LIVE USAGE VOICE_LIVE USAGE VOICE\CS_API_VALIDATION\Before_Execution\Response\response.xml'>Click to View the Response</a><br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_005--LIVE USAGE VOICE_LIVE USAGE VOICE\CS_API_VALIDATION\After_Execution\Response\response.xml'>Click to View the Response</a><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>7:05:26 PM</td>
+					<td class='step-details'><br><br><b>SDP Data:</b><br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_005--LIVE USAGE VOICE_LIVE USAGE VOICE/null/null/Output.xml'>Click to View the SDP CDR</a><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>7:05:26 PM</td>
+					<td class='step-details'><br><br><b>CCN Data:</b><br><b>CCN Table: </b><br>null<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_005--LIVE USAGE VOICE_LIVE USAGE VOICE/null/null/Output.xml'>Click to View the CCN CDR</a></table><br></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+					</div>
+				</li>
+				
+				
+				<li class='test displayed active  pass' status='pass' bdd='false' test-id='6'>
+					<div class='test-heading'>
+						<span class='test-name'>TC_006: <br>LIVE USAGE DATA<br>DATA_SOCIAL</span>
+						<span class='test-time'>Aug 26, 2019 07:05:28 PM</span>
+						<span class='test-status right pass'>pass</span>
+					</div>
+					<div class='test-content hide'>
+<div class='test-time-info'>
+	<span class='label start-time'>Aug 26, 2019 07:05:28 PM</span>
+	<span class='label end-time'>Aug 26, 2019 07:08:45 PM</span>
+	<span class='label time-taken grey lighten-1 white-text'>0h 3m 16s+514ms</span>
+</div>
+	<div class='test-steps'>
+		<table class='bordered table-results'>
+			<thead>
+				<tr>
+					<th>Status</th>
+					<th>Timestamp</th>
+					<th>Details</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>7:08:44 PM</td>
+					<td class='step-details'></table><table><tr><th style= 'min-width: 168px'><b>Test Scenario </b></th><th style= 'min-width: 168px'><b>Test Case </b></th><th style= 'min-width: 168px'><b> ScreenShot</b></th></tr><tr><td style= 'min-width: 168px'>LIVE USAGE DATA</td><td style= 'min-width: 168px'>DATA_SOCIAL</td><td style= 'min-width: 168px'><a href='TC_006--LIVE USAGE DATA_DATA_SOCIAL/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>7:08:44 PM</td>
+					<td class='step-details'><br><br><b>CS Get Account Details Response:</b><br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_006--LIVE USAGE DATA_DATA_SOCIAL\CS_API_VALIDATION\Before_Execution\Response\response.xml'>Click to View the Response</a><br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_006--LIVE USAGE DATA_DATA_SOCIAL\CS_API_VALIDATION\After_Execution\Response\response.xml'>Click to View the Response</a><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>7:08:44 PM</td>
+					<td class='step-details'><br><br><b>SDP Data:</b><br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_006--LIVE USAGE DATA_DATA_SOCIAL/null/null/Output.xml'>Click to View the SDP CDR</a><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>7:08:44 PM</td>
+					<td class='step-details'><br><br><b>OCC Data:</b><br><b>OCC Table: </b><br>null<br><b>XML Link---> </b><a style = 'color:hotpink' target = '_blank' href = 'TC_006--LIVE USAGE DATA_DATA_SOCIAL/null/null/output.xml'>Click to View the OCC CDR</a></table><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>7:08:45 PM</td>
+					<td class='step-details'><br><br><b>CCN Data:</b><br><b>CCN Table: </b><br>null<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_006--LIVE USAGE DATA_DATA_SOCIAL/null/null/Output.xml'>Click to View the CCN CDR</a></table><br></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+					</div>
+				</li>
+				
+				
+				<li class='test displayed active  pass' status='pass' bdd='false' test-id='7'>
+					<div class='test-heading'>
+						<span class='test-name'>TC_007: <br>LIVE USAGE SMS-SMS_DU_TO_DU</span>
+						<span class='test-time'>Aug 26, 2019 07:08:47 PM</span>
+						<span class='test-status right pass'>pass</span>
+					</div>
+					<div class='test-content hide'>
+<div class='test-time-info'>
+	<span class='label start-time'>Aug 26, 2019 07:08:47 PM</span>
+	<span class='label end-time'>Aug 26, 2019 07:14:43 PM</span>
+	<span class='label time-taken grey lighten-1 white-text'>0h 5m 56s+429ms</span>
+</div>
+	<div class='test-steps'>
+		<table class='bordered table-results'>
+			<thead>
+				<tr>
+					<th>Status</th>
+					<th>Timestamp</th>
+					<th>Details</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>7:14:42 PM</td>
+					<td class='step-details'></table><table><tr><th style= 'min-width: 168px'><b>Test Scenario </b></th><th style= 'min-width: 168px'><b>Test Case </b></th><th style= 'min-width: 168px'><b>Message </b></th><th style= 'min-width: 168px'><b>Receiver Number </b></th><th style= 'min-width: 168px'><b>Number of SMS sent </b></th><th style= 'min-width: 168px'><b> ScreenShot</b></th></tr><tr><td style= 'min-width: 168px'>LIVE USAGE SMS</td><td style= 'min-width: 168px'>SMS_DU_TO_DU</td><td style= 'min-width: 168px'>Testing SMS content</td><td style= 'min-width: 168px'>971520001714</td><td style= 'min-width: 168px'>1</td><td style= 'min-width: 168px'><a href='TC_007-LIVE USAGE SMS_SMS_DU_TO_DU/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>7:14:42 PM</td>
+					<td class='step-details'><br><br><b>CS Get Account Details Response:</b><br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_007-LIVE USAGE SMS_SMS_DU_TO_DU\CS_API_VALIDATION\Before_Execution\Response\response.xml'>Click to View the Response</a><br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_007-LIVE USAGE SMS_SMS_DU_TO_DU\CS_API_VALIDATION\After_Execution\Response\response.xml'>Click to View the Response</a><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>7:14:43 PM</td>
+					<td class='step-details'><br><br><b>CIS Data:</b><br><b>CIS EDR: </b><br>null<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_007-LIVE USAGE SMS_SMS_DU_TO_DU/null/null/Output.csv'>Click to View the EDR</a></table><br></td>
+				</tr>
+				<tr class='log' status='pass'>
+					<td class='status pass' title='pass' alt='pass'><i class='material-icons'>check_circle</i></td>
+					<td class='timestamp'>7:14:43 PM</td>
+					<td class='step-details'><br><br><b>SDP Data:</b><br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = 'TC_007-LIVE USAGE SMS_SMS_DU_TO_DU/null/null/Output.xml'>Click to View the SDP CDR</a><br></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!-- subview left -->
+
+	<div class='subview-right left'>
+		<div class='view-summary'>
+			<h5 class='test-name'></h5>
+
+			<div id='step-filters' class="right">
+				<span class="blue-text" status="info" alt="info" title="info"><i class="material-icons">info_outline</i></span>
+				<span class="green-text" status="pass" alt="pass" title="pass"><i class="material-icons">check_circle</i></span>
+				<span class="red-text" status="fail" alt="fail" title="fail"><i class="material-icons">cancel</i></span>
+				<span class="red-text text-darken-4" status="fatal" alt="fatal" title="fatal"><i class="material-icons">cancel</i></span>
+				<span class="pink-text text-lighten-1" status="error" alt="error" title="error"><i class="material-icons">error</i></span>
+				<span class="orange-text" alt="warning" status="warning" title="warning"><i class="material-icons">warning</i></span>
+				<span class="teal-text" status="skip" alt="skip" title="skip"><i class="material-icons">redo</i></span>
+				<span status="clear" alt="Clear filters" title="Clear filters"><i class="material-icons">clear</i></span>
+			</div>
+		</div>
+	</div>
+	<!-- subview right -->
+
+</div>
+<!-- test view -->
+<!-- category view -->
+<!-- exception view -->
+<div id='dashboard-view' class='view hide'>
+	<div class='card-panel transparent np-v'>
+		<h5>Dashboard</h5>
+
+		<div class='row'>
+			<div class='col s2'>
+				<div class='card-panel r'>
+					Tests
+					<div class='panel-lead'>7</div>
+				</div>
+			</div>
+			<div class='col s2'>
+				<div class='card-panel r'>
+					Steps
+					<div class='panel-lead'>35</div>
+				</div>
+			</div>
+			<div class='col s2'>
+				<div class='card-panel r'>
+					Start
+					<div class='panel-lead'>Aug 26, 2019 06:54:19 PM</div>
+				</div>
+			</div>
+			<div class='col s2'>
+				<div class='card-panel r'>
+			 		End
+			 		<div class='panel-lead'>Aug 26, 2019 07:14:43 PM</div>
+				</div>
+			</div>
+			<div class='col s2'>
+				<div class='card-panel r'>
+					Time Taken
+					<div class='panel-lead'>0h 20m 23s+651ms</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- dashboard view -->
+<!-- testrunner-logs view -->
+		</div>
+		<!-- container -->
+
+		<script>
+			var statusGroup = {
+				passParent: 7,
+				failParent: 0,
+				fatalParent: 0,
+				errorParent: 0,
+				warningParent: 0,
+				skipParent: 0,
+				exceptionsParent: 0,
+				
+				passChild: 35,
+				failChild: 0,
+				fatalChild: 0,
+				errorChild: 0,
+				warningChild: 0,
+				skipChild: 0,
+				infoChild: 0,
+				exceptionsChild: 0,
+				
+				passGrandChild: 0,
+				failGrandChild: 0,
+				fatalGrandChild: 0,
+				errorGrandChild: 0,
+				warningGrandChild: 0,
+				skipGrandChild: 0,
+				infoGrandChild: 0,
+				exceptionsGrandChild: 0,
+			};
+		</script>
+		
+			<script src='https://cdn.rawgit.com/anshooarora/extentreports-java/fca20fb7653aade98810546ab96a2a4360e3e712/dist/js/extent.js' type='text/javascript'></script>
+		
+		
+ 		<script type='text/javascript'>
+ 		</script>
+	</body>
+	
+</html>
