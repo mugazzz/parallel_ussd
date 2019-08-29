@@ -457,9 +457,9 @@ public class Asnconvertor {
 					int t1=Integer.parseInt(stime1)*1000;
 					path1= input1.getField("Path");
 
-					OCC_unix_hostname = input1.getField("IP_HostName");
-					OCC_Unix_username = input1.getField("User_Name");
-					OCC_Unix_password = input1.getField("Password");
+					OCC_unix_hostname1 = input1.getField("IP_HostName");
+					OCC_Unix_username1= input1.getField("User_Name");
+					OCC_Unix_password1 = input1.getField("Password");
 					Thread.sleep(t1);
 					
 					// String date= Present_date();
