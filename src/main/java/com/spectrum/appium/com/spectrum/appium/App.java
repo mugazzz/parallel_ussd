@@ -1153,6 +1153,7 @@ public class App {
 										info("Entering code : " + spltussd[currshortcode]);
 										dr.get().findElement(By.id("com.android.phone:id/input_field"))
 												.sendKeys(spltussd[currshortcode]);
+										dr.get().hideKeyboard();
 										takeScreenShot("Entering code " + spltussd[currshortcode]);
 										dr.get().findElement(By.id("android:id/button1")).click();
 									}
@@ -1295,6 +1296,7 @@ public class App {
 //				Thread.sleep(2000);
 										dr.get().findElement(By.id("com.android.phone:id/input_field"))
 												.sendKeys(spltussd[currshortcode]);
+										dr.get().hideKeyboard();
 										takeScreenShot("Entering code " + spltussd[currshortcode]);
 										dr.get().findElement(By.id("android:id/button1")).click();
 									}
@@ -1302,14 +1304,17 @@ public class App {
 								try {
 									Amount = inputs.getString("TRANSFER_AMOUNT");
 									dr.get().findElement(By.id("com.android.phone:id/input_field")).sendKeys(Amount);
+									dr.get().hideKeyboard();
 									takeScreenShot("Entering Transfer Amount: " + Amount);
 									dr.get().findElement(By.id("android:id/button1")).click();
 									To_Number = inputs.getString("TRANSFER_TO_MSISDN");
 									dr.get().findElement(By.id("com.android.phone:id/input_field")).sendKeys(To_Number);
+									dr.get().hideKeyboard();
 									takeScreenShot("Entering Mobile Number: " + To_Number);
 									dr.get().findElement(By.id("android:id/button1")).click();
 									if (elementExists(inputfield)) {
 									dr.get().findElement(By.id("com.android.phone:id/input_field")).sendKeys("1");
+									dr.get().hideKeyboard();
 									takeScreenShot("Enter Code to Confirm");
 									dr.get().findElement(By.id("android:id/button1")).click();
 									}
