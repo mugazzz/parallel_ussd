@@ -1,5 +1,0 @@
-transaction_time|product_name|event_type|access_channel|result_description|result_code|offer_id|service_class|input|requested_product_id|expiry_date|subscription_mode|a_party_msisdn|product_validity|vat_fee|iname|network_status
-28/08/2019 19:04:09:065||USSDBrowsing|USSD|SUCCESS|0|||||||971520002574||||
-28/08/2019 19:04:13:142||USSDBrowsing|USSD|SUCCESS|0|||||||971520002574||||
-28/08/2019 19:10:41:954||USSDBrowsing|USSD|SUCCESS|0|||||||971520002574||||
-28/08/2019 19:10:45:729||USSDBrowsing|USSD|SUCCESS|0|||||||971520002574||||

@@ -30,10 +30,12 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.Reporter;
 import org.testng.annotations.Test;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.codoid.products.fillo.Fillo;
 import com.codoid.products.fillo.Recordset;
@@ -270,9 +272,7 @@ public class App {
 				//-------------- Clear Usage usageThresholdValue	-------------------------------
 									String xml_path = trfold+"//"+curtcid;
 									APIHandler.Read_API(xml_path, "usageThresholdID", "UpdateUsageThresholdsAndCounters", curtcid, trfold, "Before_Execution", MSISDN);
-									
-								 
-								 dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+									dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 								 Thread.sleep(1000);
 							
 				//---------- Dial Number -------------//
@@ -365,7 +365,7 @@ public class App {
 								}
 								Thread.sleep(3000);
 
-								// ---------------- Notification Message handle ------------//
+		// ---------------- Notification Message handle ------------//
 							try {
 								DesiredCapabilities capabilities1 = new DesiredCapabilities();
 								capabilities1.setCapability("deviceName", device);
@@ -452,13 +452,34 @@ public class App {
 									+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
 									
 									//Device Result
-									"<tr><td style= 'min-width: 168px'>"+Product_Name+"</td><td style= 'min-width: 168px'>"+Product_ID+"</td><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+ Confirmation +"</td><td style= 'min-width: 168px'>"+ Message+"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>"
-									);
+									"<tr><td style= 'min-width: 168px'>"+Product_Name+"</td><td style= 'min-width: 168px'>"+Product_ID+"</td><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+ Confirmation +"</td><td style= 'min-width: 168px'>"+ Message+"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>");
 							
+							
+						//Validation
+							//Confirmation screen Validation
+							String Confirmation1 = "As requested, you've been opted out from the New Call Home For Less promotion";
+							if(!Confirmation.equalsIgnoreCase(Confirmation1)) {
+								test.log(Status.FAIL, "<br>Confirmation alert appears wrong <br>");
+								test.fail("<i>Actual confirmaiton message appears: "+Confirmation+"</i><br><br>");
+							}else {
+								test.log(Status.PASS, "<br>Confirmation alert appears successfully <br><br>");
+							}
+							
+							//Confirmation screen Validation
+							String Message1 = "As requested, you've been opted out from the New Call Home For Less promotion";
+							if(!Message.equalsIgnoreCase(Message1)) {
+								test.log(Status.FAIL, "<br> SMS is not received or not related to the process<br>");
+								test.fail("<i>Actual SMS appears: "+Message+"</i><br><br>");
+							}
+							else {
+								test.log(Status.PASS, "<br>SMS is received successfully <br><br>");
+								
+							}
+													
 								//CIS API
-								test.pass("<br><br><b>CS Get Account Details Response:</b>" 
+								test.pass("<br></tr><tr><b>CS Get Account Details Response:</b>" 
 								+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
-								+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a><br>");
+								+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a></tr><br><tr>");
 								
 								//CIS DB
 								test.pass("<br><br><b>CIS DB Data:</b><table>" + Result + "</table> <br>");
@@ -676,7 +697,7 @@ public class App {
 								//Device Result
 								"<tr><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+Recharge_Coupon+"</td><td style= 'min-width: 168px'>"+ Confirmation +"</td><td style= 'min-width: 168px'>"+ Message+"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>"
 								);
-						
+
 						//CIS API
 						test.pass("<br><br><b>CS Get Account Details Response:</b>" 
 						+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
