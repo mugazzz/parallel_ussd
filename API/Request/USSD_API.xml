@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<request type="pull">
+	<msisdn>$subscriberNumber$</msisdn>
+    <subscriberInput>$USSD_CODE$</subscriberInput>
+    <vlr>971</vlr>                                                                                                                              
+	<sessionId>$current2$</sessionId>
+</request>

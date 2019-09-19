@@ -123,12 +123,21 @@ public class APIparam {
 				cellval3 = rsi.getField("Request_Name");
 				System.out.println(cellval3);
 				// cellval4 = rs.getField("SoapAction");
+				if(Scenario.contains("USSD_API")) {
+					cellval5 = "http://10.95.215.6:8001/cisBusiness/ussd/httpService";
+				}else {
 				cellval5 = "http://10.95.214.166:10011/Air";
+				}
 				cellval6 = "Post";
 
 				rs = conn.executeQuery("Select * from API_Param where Request_Name = '" + cellval3 + "'");
 				while (rs.next()) {
-					suspendendpoint = cellval5 = "http://10.95.214.166:10011/Air";
+					if(Scenario.contains("USSD_API")) {
+					suspendendpoint = cellval5 = "http://10.95.215.6:8001/cisBusiness/ussd/httpService";
+					}
+					else {
+						suspendendpoint = cellval5 = "http://10.95.214.166:10011/Air";
+					}
 					String requests = cellval3;
 					startTestCase(cellval1);
 //				for (int curtemplate = 0; curtemplate < 1 ; curtemplate++) {
@@ -191,6 +200,14 @@ public class APIparam {
 				// sun.misc.BASE64Encoder().encode(userPassword.getBytes());
 				// String encoding = "dGVjaG1xYXRhcjp0ZWNobXFhdGFy";
 				try {
+					if(Scenario.contains("USSD_API")) {
+						response = (Response) RestAssured.given().request().body(req)
+								.headers("Content-Type", " text/xml")
+								.when() // .contentType("text/xml; charset=utf-8")
+								.post(cellval5).then().extract().response();
+						respf = new File(Root + "\\API\\Response\\" + cellval1 + ".xml");
+					}
+					else {
 					response = (Response) RestAssured.given().request().body(req)
 							.headers("Content-Type", " text/xml", "Host ", "10.95.214.166:10011", "User-Agent",
 									"UGw Server/5.0/1.0", "Authorization",
@@ -199,6 +216,7 @@ public class APIparam {
 							.post(cellval5).then().extract().response();
 					respf = new File(Root + "\\API\\Response\\" + cellval1 + ".xml");
 					// respf = new File(Root + "\\API\\Response\\" + cellval1 + ".json");
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -207,7 +225,7 @@ public class APIparam {
 					info("Response Header  :" + response.getHeaders().toString());
 					info("Response   :" + response.asString());
 					writeresponse(respf, response.asString());
-					String path = fCreateReportFiles(Des, respf, tc, curtcid, trfold);
+					String path = fCreateReportFiles(Des, respf, tc, curtcid, trfold, cellval1);
 					Result[0] = path;
 					System.out.println(path);
 					String outtable = WebService(path);
@@ -250,6 +268,128 @@ public class APIparam {
 		return Result;
 
 	}
+	
+	
+	
+	public static String[] USSDcontrol(String Scenario, String ExecutionStarttime, String Test_case, String USSD, String MSISDN, String currshortcode, String env) {
+		String[] Result = new String [50];
+		String curtcid = Test_case+"_"+Scenario;
+		try {
+			createtimestampfold(ExecutionStarttime);
+//			System.setProperty("logfilename", trfold+curtcid++ "\\Logs");
+//			DOMConfigurator.configure("log4j.xml");
+			//ExtentReports extent = new ExtentReports();
+			//ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(trfold + "\\Master.html");
+			//extent.attachReporter(htmlReporter);
+			info("Starting execution at +:" + ExecutionStarttime);
+			DateTimeFormatter dtf1 = DateTimeFormatter.ofPattern("yyyyMMdd'T'HH:mm:ss");
+			DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSS");
+			LocalDateTime now = LocalDateTime.now();
+			String originTimeStamp1 = dtf1.format(now).toString();
+			String originTimeStamp = originTimeStamp1 + "+0000";
+//			SimpleDateFormat formatter6=new SimpleDateFormat("yyyyMMdd'T'HH:mm:ss+SSSS"); 
+//			LocalDateTime originTimeStamp1 = formatter6.parse(originTimeStamp);
+			String originTransactionID = dtf2.format(now).toString();
+			System.out.println(originTimeStamp + " : " + originTransactionID);
+			System.setProperty("logfilename", trfold + "\\Logs");
+			DOMConfigurator.configure("log4j.xml");
+			info("Starting execution at +:" + ExecutionStarttime);
+			String cellval5="";
+			String cellval6="";
+			File Des = null;
+			File Source = null;
+					// cellval4 = rs.getField("SoapAction");
+					cellval5 = "http://"+env+":8001/cisBusiness/ussd/httpService";
+					suspendendpoint = cellval5 = "http://"+env+":8001/cisBusiness/ussd/httpService";
+				cellval6 = "Post";
+					
+					String requests = Scenario;
+					startTestCase(Test_case);
+					info("Firing Request: " + requests);
+						Source = new File(Root + "\\API\\Request\\" + requests + ".xml");
+						Des = new File(Root + "\\API\\Request_Send\\" + requests + ".xml");
+						GenerateResponse(Source, Des);
+								findandreplace(Des, "$current1$", originTransactionID);
+								findandreplace(Des, "$current2$", ExecutionStarttime);
+								findandreplace(Des, "$USSD_CODE$", USSD);
+								findandreplace(Des, "$subscriberNumber$", MSISDN);
+				File file = Des;
+				FileReader fr = new FileReader(file);
+				br = new BufferedReader(fr);
+				String line;
+				String req = "";
+				while ((line = br.readLine()) != null) {
+					req = req + line;
+				}
+				if (requests.equals("")) {
+					req = "";
+				}
+				System.out.println(req);
+				info("request Fired:" + req);
+				Response response = null;
+				File respf = null;
+				// String userPassword = "techmqatar:techmqatar";
+				// System.out.println(userPassword);
+				// String userPassword = "TechMahindra:TechMahindra";
+				// String encoding = new
+				// sun.misc.BASE64Encoder().encode(userPassword.getBytes());
+				// String encoding = "dGVjaG1xYXRhcjp0ZWNobXFhdGFy";
+				try {
+						response = (Response) RestAssured.given().request().body(req)
+								.headers("Content-Type", " text/xml")
+								.when() // .contentType("text/xml; charset=utf-8")
+								.post(cellval5).then().extract().response();
+						respf = new File(Root + "\\API\\Response\\" + requests + ".xml");
+					}
+				 catch (Exception e) {
+					e.printStackTrace();
+				}
+				if (response != null) {
+					info("Response Code  :" + response.getStatusCode());
+					info("Response Header  :" + response.getHeaders().toString());
+					info("Response   :" + response.asString());
+					writeresponse(respf, response.asString());
+					String path = fCreateReportFiles(Des, respf, tc, curtcid, trfold, currshortcode);
+					Result[0] = path;
+					System.out.println(path);
+					String outtable = WebService(path);
+//					System.out.println(outtable);
+//					// System.out.println(response.asString());
+//					String respheader = "";
+//					for (int i = 0; i < response.getHeaders().asList().size(); i++) {
+//						String Header = response.getHeaders().asList().get(i).toString();
+//						respheader = respheader + "<br>" + Header;
+//					}
+//					String res = "";
+//					String stat = "";
+//					String stattab = "";
+//					String fext = "";
+//					res = validateresp(respf, Test_case, response.statusCode());
+//					stat = res.split("##")[0];
+//					stattab = res.split("##")[1];
+//					fext = "xml";
+//					// for zain ksa
+//					String captureval = "";
+//					String linkv = "";
+//					// String ret = "";
+//					Result[1] = requests;
+//					Result[2] = outtable;
+//					ExtentTest test = extent.createTest(cellval1 + "(" + cellval3 + ")");
+//					test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + path
+//							+ "'>Click to View the " + cellval3 + " Response file</a></b><br>" + outtable + "</table>");
+//					extent.flush();
+//					endTestCase(cellval1);
+				}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			error(e.getMessage());
+		}
+		return Result;
+
+	}
+	
+	
 	
 	public static String[] CIS_API(String Scenario, String ExecutionStarttime, String Test_case) throws UnsupportedOperationException, IOException {
 		String[] Result = new String [50];
@@ -754,9 +894,10 @@ public class APIparam {
 		}
 	}
 
-	public static String fCreateReportFiles(File request, File response, String tc, String curtcid, String trfold) {
+	public static String fCreateReportFiles(File request, File response, String tc, String curtcid, String trfold, String USSD) {
 		// File ResultRequest = null, ResultResponse = null;
 		try {
+			String USSD_ = USSD.replace("*", "_");
 			File ReqTypFold = new File(trfold + "/" + tc + "__" + curtcid);
 			if ((!ReqTypFold.exists()))
 				ReqTypFold.mkdir();
@@ -769,8 +910,8 @@ public class APIparam {
 			File TCResFold = new File(ReqTypFold + "/Response");
 			if ((!TCResFold.exists()))
 				TCResFold.mkdir();
-			File ResultRequest = new File(TCReqFold + "/" + "request.xml");
-			File ResultResponse = new File(TCResFold + "/" + "response.xml");
+			File ResultRequest = new File(TCReqFold + "/" +USSD_+ "_request.xml");
+			File ResultResponse = new File(TCResFold + "/"+USSD_ + "_response.xml");
 			GenerateResponse(request, ResultRequest);
 			GenerateResponse(response, ResultResponse);
 			resfolder = ResultResponse.toString();
