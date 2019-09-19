@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<request type="pull">
-	<msisdn>971520002574</msisdn>
-    <subscriberInput>135*20</subscriberInput>
-    <vlr>971</vlr>                                                                                                                              
-	<sessionId>19-Sep-2019 10:26:24</sessionId>
-</request>
