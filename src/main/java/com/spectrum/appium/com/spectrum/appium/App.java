@@ -79,7 +79,6 @@ public class App {
 	public String Balancemsg = "";
 	public static String loginUser = "";
 	public static String execution_status;
-	public static String ipaddress;
 
 	Connection dbCon = null;
 	Statement stmt = null;
@@ -96,13 +95,13 @@ public class App {
 
 	// -----Main Method-------------//
 
-//	public static void main (String[] args) {
-//	App k = new App("device1");
+//	public static void main (String[] args) throws SQLException {
+//	App k = new App();
 //	}
 
 	@Test
 	public void Device_1() throws SQLException {
-		App k = new App("device1");
+		//App k = new App();
 	}
 
 ////	@Test
@@ -120,12 +119,8 @@ public class App {
 
 		return prop.getProperty(propname);
 	}
-
-	private App() {
-		
-	}
 	
-	public App(String deviceq) throws SQLException {
+	public App() throws SQLException {
 		try {
 			Fillo fillo = new Fillo();
 			com.codoid.products.fillo.Connection conn = fillo.getConnection(Data);
@@ -143,191 +138,197 @@ public class App {
 			
 			while (inputs.next()) {
 				Runtime rt = Runtime.getRuntime();
-//						String device = inputs.getField("Test_Device");
-//						System.out.println(device);
-//						String MSISDN = inputs.getField("MSISDN");
+						String device = inputs.getField("Test_Device");
+						System.out.println(device);
+						String MSISDN = inputs.getField("MSISDN");
 						String Test_Scenario = inputs.getField("Test_Scenario");
-//						String Test_Case = inputs.getField("Test_Case");
+						String Test_Case = inputs.getField("Test_Case");
 						String Test_Case_ID = inputs.getField("Test_Case_ID");
-//						Prod_ID = inputs.getField("Product_Name");
-//						Recharge_Coupon = inputs.getField("Recharge_Coupon");
-//						String Call_To = inputs.getField("Call_TO_MSISDN");
-//						String CALL_DURATION = inputs.getField("CALL_DURATION");
+						Prod_ID = inputs.getField("Product_Name");
+						Recharge_Coupon = inputs.getField("Recharge_Coupon");
+						String Call_To = inputs.getField("Call_TO_MSISDN");
+						String CALL_DURATION = inputs.getField("CALL_DURATION");
 						
 						
 						info("Starting execution at +: " + Prod_ID + "->" + Test_Scenario + "->" + ExecutionStarttime);
 						extent.attachReporter(htmlReporter);
 						
-						// String Mobile = rs.getField("Device_Name");
-//						String basedir = System.getProperty("user.dir");
-//						String port_number = ReadMobileproperties(device, "appiumport");
-//						String device_name = ReadMobileproperties(device, "DeviceName");
-//						String package_name = ReadMobileproperties(device, "apppackage");
-//						String activity_name = ReadMobileproperties(device, "appactivity");
-//						String package_name1 = ReadMobileproperties(device, "apppackage1");
-//						String activity_name1 = ReadMobileproperties(device, "appactivity1");
-//						String version = ReadMobileproperties(device, "version");
-//						String bsport = ReadMobileproperties(device, "bootstrapport");
+						 //String Mobile = inputs.getField("Test_Device");
+						String basedir = System.getProperty("user.dir");
+						String port_number = ReadMobileproperties(device, "appiumport");
+						String device_name = ReadMobileproperties(device, "DeviceName");
+						String package_name = ReadMobileproperties(device, "apppackage");
+						String activity_name = ReadMobileproperties(device, "appactivity");
+						String package_name1 = ReadMobileproperties(device, "apppackage1");
+						String activity_name1 = ReadMobileproperties(device, "appactivity1");
+						String version = ReadMobileproperties(device, "version");
+						String bsport = ReadMobileproperties(device, "bootstrapport");
 //						
 //
-//						String execu1 = "java -jar" + basedir
-//								+ "\\src\\test\\resources\\server\\selenium-server-standalone-3.14.0.jar -role hub -port 4444";
+						String execu1 = "java -jar" + basedir
+								+ "\\src\\test\\resources\\server\\selenium-server-standalone-3.14.0.jar -role hub -port 4444";
 ////			rt.exec("cmd /c start java -jar " + basedir
 ////					+ "\\src\\test\\resources\\server\\selenium-server-standalone-3.14.0.jar -role hub -port 4444");
-//						rt.exec(execu1);
+						rt.exec(execu1);
 //
 ////			rt.exec("cmd /c start appium -a ipaddress -p " + port_number
 ////			+ " --no-reset --bootstrap-port " + bsport + " --nodeconfig "
 ////			+ basedir + "\\server\\Node1-config_"
 ////			+ port_number + ".json");
 //
-//						starter(port_number);
+						starter(port_number);
 
 						com.codoid.products.fillo.Connection conn1 = fillo.getConnection(Reference_Data);
 
-//						// -------------------------- OPT IN / OUT / Recharge  ------------------------------------//
-//
-//						if (Test_Scenario.equalsIgnoreCase("OPT IN") || Test_Scenario.equalsIgnoreCase("OPT OUT")) {
-//							DesiredCapabilities capabilities = new DesiredCapabilities();
-//							capabilities.setCapability("deviceName", device);
-//							capabilities.setCapability("platformVersion", version);
-//							capabilities.setCapability("platformName", "ANDROID");
-//							capabilities.setCapability("bootstrapPort", bsport);
-//							capabilities.setCapability("appPackage", package_name);
-//							capabilities.setCapability("appActivity", activity_name);
-//
-//							if (Test_Scenario.equals("All")) {
-//								strQuery = "Select * from ussd_code_data " + "where Product_Name= '" + Prod_ID + "'"
-//										+ " and Execution='Yes'";
-//							} else {
-//								strQuery = "Select * from ussd_code_data " + "where Product_Name= '" + Prod_ID + "'"
-//										+ " and Test_Scenario ='" + Test_Scenario + "' " + "and Test_Case ='"
-//										+ Test_Case + "'";
-//							}
-//
-//							Recordset rs = conn1.executeQuery(strQuery);
-//
-//							while (rs.next()) {
-//								Product_Name = rs.getField("Product_Name");
-//								String ussdstr = rs.getField("USSD_Sequence");
-//								Test_Case_I = rs.getField("Test_Case");
-//								Test_Scenario_I = rs.getField("Test_Scenario");
-//								String startussd = URLEncoder.encode(rs.getField("USSD_Code"), "UTF-8");
-//								String hash = URLEncoder.encode("#", "UTF-8");
-//
-//								curtcid = inputs.getField("Test_Case_ID") + "--" + rs.getField("Product_ID") + "_"
-//										+ rs.getField("Test_Scenario") + "_" + rs.getField("Test_Case");
-//								startTestCase(curtcid);
-//								ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID") + ": <br>"
-//										+ inputs.getField("Product_Name") + "--" + inputs.getField("Test_Scenario")
-//										+ "-" + inputs.getField("Test_Case"));
-//
+						// -------------------------- OPT IN / OUT / Recharge  ------------------------------------//
+
+						if (Test_Scenario.equalsIgnoreCase("USSD_OPT_IN") || Test_Scenario.equalsIgnoreCase("OPT OUT")) {
+							DesiredCapabilities capabilities = new DesiredCapabilities();
+							capabilities.setCapability("deviceName", device);
+							capabilities.setCapability("platformVersion", version);
+							capabilities.setCapability("platformName", "ANDROID");
+							capabilities.setCapability("bootstrapPort", bsport);
+							capabilities.setCapability("appPackage", package_name);
+							capabilities.setCapability("appActivity", activity_name);
+
+							if (Test_Scenario.equals("All")) {
+								strQuery = "Select * from ussd_code_data " + "where Product_Name= '" + Prod_ID + "'"
+										+ " and Execution='Yes'";
+							} else {
+								strQuery = "Select * from ussd_code_data " + "where Product_Name= '" + Prod_ID + "'"
+										+ " and Test_Scenario ='" + Test_Scenario + "' " + "and Test_Case ='"
+										+ Test_Case + "'";
+							}
+
+							Recordset rs = conn1.executeQuery(strQuery);
+
+							while (rs.next()) {
+								String Product_Name1 = rs.getField("Product_Name");
+								String Product_Name2 = Product_Name1.replace(" ", "_");
+								String Product_Name3 = Product_Name2.replace("*", "_");
+								String Product_Name4 = Product_Name3.replace("(", "_");
+								String Product_Name5 = Product_Name4.replace("#", "_");
+								String Product_Name7 = Product_Name5.replace("%23", "_");
+								Product_Name = Product_Name7.replace(")", "_");
+								String ussdstr = rs.getField("USSD_Sequence");
+								Test_Case_I = rs.getField("Test_Case");
+								Test_Scenario_I = rs.getField("Test_Scenario");
+								String startussd = URLEncoder.encode(rs.getField("USSD_Code"), "UTF-8");
+								String hash = URLEncoder.encode("#", "UTF-8");
+
+								curtcid = inputs.getField("Test_Case_ID") + "--" +Product_Name;
+								startTestCase(curtcid);
+								ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID") + ": <br>"
+										+ inputs.getField("Product_Name"));
+
 //				// ------------- Start Appium server using terminal----------------//
 //								APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
 //								
-//								 dr.set(new AndroidDriver(new URL(
-//								 "http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") +
-//								 "/wd/hub"), capabilities));
+								 dr.set(new AndroidDriver(new URL(
+								 "http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") +
+								 "/wd/hub"), capabilities));
 //								 
 //				//-------------- Clear Usage usageThresholdValue	-------------------------------
 //									String xml_path = trfold+"//"+curtcid;
 //									APIHandler.Read_API(xml_path, "usageThresholdID", "UpdateUsageThresholdsAndCounters", curtcid, trfold, "Before_Execution", MSISDN);
 //									
 //								 
-//								 dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-//								 Thread.sleep(1000);
-//							
-//				//---------- Dial Number -------------//
-//								 
-//								 dr.get().findElement(By.id("com.samsung.android.dialer:id/star")).click();
-//								 dr.get().findElement(By.id("com.samsung.android.dialer:id/digits")).sendKeys(startussd);
-//								 dr.get().findElement(By.id("com.samsung.android.dialer:id/pound")).click();
-//								 takeScreenShot("Dialed Number");
-//								 dr.get().findElement(By.id("com.samsung.android.dialer:id/dialButtonImage")).click();
-////								 Runtime run = Runtime.getRuntime();
-////								run.exec("adb -s " + device_name
-////										+ " shell am start -a android.intent.action.CALL -d tel:" + startussd);
-//								 
-//								
-//								Thread.sleep(3000);
-//								By inputfield = By.id("com.android.phone:id/input_field");
-//								if (elementExists(inputfield)) {
-//									dr.get().findElement(By.id("com.android.phone:id/input_field"));
-//									if (ussdstr.length() >= 1) {
-//										String[] spltussd = ussdstr.split(",");
-//										for (int currshortcode = 0; currshortcode < spltussd.length; currshortcode++) {
-//											String nxt = "fail";
-//											do {
-//												try {
-//													System.out.println("------------------------------");
-//													Thread.sleep(1000);
-//													nxt = "pass";
-//												} catch (Exception e) { // Thread.sleep(100); }
-//
-//												}
-//											} while (nxt != "pass");
-//											System.out.println("------------------------------");
-//										try {
-//											info("Entering code : " + spltussd[currshortcode]);
-////						Thread.sleep(2000);
-//											dr.get().findElement(By.id("com.android.phone:id/input_field"))
-//													.sendKeys(spltussd[currshortcode]);
-//											takeScreenShot("Entering code " + spltussd[currshortcode]);
-//											dr.get().hideKeyboard();
-//											dr.get().findElement(By.id("android:id/button1")).click();
-//										}
-//										catch (Exception e) { // Thread.sleep(100); }
-//											takeScreenShot("Error in option selection");	
-//										}
-//									}
-//									}
-//										else {
-//										info("Menu options are not available");
-//									}
-//									Thread.sleep(3000);
-//									By messag = By.id("android:id/message");
-//									if (elementExists(messag)) {
-//										Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
-//										info("Confirmation alert : " + Confirmation);
-//										takeScreenShot("Confirmation Screen");
-//										dr.get().findElement(By.id("android:id/button1")).click();
-//									} else {
-//										info("Error occured, please check with screenshot");
-//										Thread.sleep(2000);
-//										By Send = By.id("android:id/button1");
-//										By Messa = By.id("android:id/message");
-//										if(elementExists(Messa)) {
-//											Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
-//											info("Confirmation alert : "+Confirmation);
-//											takeScreenShot("Confirmation Screen");
-//										}
-//										if (elementExists(Send)){
-//											dr.get().findElement(By.id("android:id/button1")).click();
-//											takeScreenShot("Error");
-//										}
-//									}
-//								} else 
-//									{
-//									info("Error occured, please check with screenshot");
-//									takeScreenShot("Error appears");
-//									Thread.sleep(2000);
-//									By Send = By.id("android:id/button1");
-//									By Messa = By.id("android:id/message");
-//									if(elementExists(Messa)) {
-//										Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
-//										info("Confirmation alert : "+Confirmation);
-//										takeScreenShot("Confirmation Screen");
-//									}
-//									if (elementExists(Send)){
-//										dr.get().findElement(By.id("android:id/button1")).click();
-//										takeScreenShot("Error");
-//									}
-////									dr.get().findElement(By.id("android:id/button1")).click();
-//									//dr.get().quit();
-//								}
-//								Thread.sleep(3000);
-//
-//								// ---------------- Notification Message handle ------------//
+								 dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+								 Thread.sleep(1000);
+							
+				//---------- Dial Number -------------//
+								 
+								 String startuss = startussd.replace("%23", "#");
+								 dr.get().findElement(By.id("com.samsung.android.dialer:id/star")).click();
+								 dr.get().findElement(By.id("com.samsung.android.dialer:id/digits")).sendKeys(startuss);
+								 dr.get().findElement(By.id("com.samsung.android.dialer:id/pound")).click();
+								 takeScreenShot("Dialed Number");
+								 dr.get().findElement(By.id("com.samsung.android.dialer:id/dialButtonImage")).click();
+//								 Runtime run = Runtime.getRuntime();
+//								run.exec("adb -s " + device_name
+//										+ " shell am start -a android.intent.action.CALL -d tel:" + startussd);
+								 
+								
+								Thread.sleep(3000);
+								By inputfield = By.id("com.android.phone:id/input_field");
+								if (elementExists(inputfield)) {
+									dr.get().findElement(By.id("com.android.phone:id/input_field"));
+									if (ussdstr.length() >= 1) {
+										String[] spltussd = ussdstr.split(",");
+										for (int currshortcode = 0; currshortcode < spltussd.length; currshortcode++) {
+											String nxt = "fail";
+											do {
+												try {
+													System.out.println("------------------------------");
+													Thread.sleep(1000);
+													nxt = "pass";
+												} catch (Exception e) { // Thread.sleep(100); }
+
+												}
+											} while (nxt != "pass");
+											System.out.println("------------------------------");
+										try {
+											info("Entering code : " + spltussd[currshortcode]);
+//						Thread.sleep(2000);
+											dr.get().findElement(By.id("com.android.phone:id/input_field"))
+													.sendKeys(spltussd[currshortcode]);
+											takeScreenShot("Entering code " + spltussd[currshortcode]);
+											dr.get().hideKeyboard();
+											dr.get().findElement(By.id("android:id/button1")).click();
+										}
+										catch (Exception e) { // Thread.sleep(100); }
+											takeScreenShot("Error in option selection");	
+										}
+									}
+									}
+										else {
+										info("Menu options are not available");
+									}
+									Thread.sleep(3000);
+									takeScreenShot("Menu option");
+									By messag = By.id("android:id/message");
+									if (elementExists(messag)) {
+										Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
+										info("Confirmation alert : " + Confirmation);
+										takeScreenShot("Confirmation Screen");
+										dr.get().findElement(By.id("android:id/button1")).click();
+									} else {
+										info("Menu options are not available");
+										Thread.sleep(2000);
+										By Send = By.id("android:id/button1");
+										By Messa = By.id("android:id/message");
+										if(elementExists(Messa)) {
+											Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
+											info("Confirmation alert : "+Confirmation);
+											takeScreenShot("Confirmation Screen");
+										}
+										if (elementExists(Send)){
+											dr.get().findElement(By.id("android:id/button1")).click();
+											//takeScreenShot("Error");
+										}
+									}
+								} else 
+									{
+									info("Menu options are not available");
+									takeScreenShot("Error appears");
+									Thread.sleep(2000);
+									By Send = By.id("android:id/button1");
+									By Messa = By.id("android:id/message");
+									if(elementExists(Messa)) {
+										Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
+										info("Confirmation alert : "+Confirmation);
+										takeScreenShot("Confirmation Screen");
+									}
+									if (elementExists(Send)){
+										dr.get().findElement(By.id("android:id/button1")).click();
+										takeScreenShot("Error");
+									}
+//									dr.get().findElement(By.id("android:id/button1")).click();
+									//dr.get().quit();
+								}
+								Thread.sleep(3000);
+
+								// ---------------- Notification Message handle ------------//
 //							try {
 //								DesiredCapabilities capabilities1 = new DesiredCapabilities();
 //								capabilities1.setCapability("deviceName", device);
@@ -338,7 +339,7 @@ public class App {
 //								capabilities1.setCapability("appActivity", activity_name1);
 //
 //								dr.set(new AndroidDriver(new URL(
-//										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+//										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 //										capabilities1));
 //								Thread.sleep(3000);
 //								By New_Message = By.id("com.samsung.android.messaging:id/list_unread_count");
@@ -388,7 +389,7 @@ public class App {
 //									takeScreenShot("SMS not received");
 //								}
 //								String result = dr.get().stopRecordingScreen();
-//								APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
+////								APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
 //							}
 //							catch (Exception e) {
 //								//e.printStackTrace();
@@ -405,18 +406,16 @@ public class App {
 //					//------------------------------ Report ----------------------------------------------//
 //							String[] convertor = Asnconvertor.Result(trfold, MSISDN, Product_ID, Test_Scenario, Test_Case_ID, curtcid, Product_Name, Test_Scenario_I, Test_Case, Confirmation, Message, Recharge_Coupon,"", "", "", "", "", "", ExecutionStarttime, "", "");
 //						
-//							test.pass("</table><br><br><table><tr><th style= 'min-width: 168px'><b>Product Name</b></th>"
-//									+"<th style= 'min-width: 168px'><b>Product ID: </b></th>"
+							test.pass("</table><br><br><table><tr><th style= 'min-width: 168px'><b>Scenario</b></th>"
 //									+ "<th style= 'min-width: 168px'><b>Test Scenario: </b></th>"
 //									+ "<th style= 'min-width: 168px'><b>Test Case: </b></th>"
 //									+ "<th style= 'min-width: 168px'><b>Confirmation Alert Message: </b></th>"
-//									+"<th style= 'min-width: 168px'><b> Message Status: </b></th>"
-//									+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
-//									
-//									//Device Result
-//									"<tr><td style= 'min-width: 168px'>"+Product_Name+"</td><td style= 'min-width: 168px'>"+Product_ID+"</td><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+ Confirmation +"</td><td style= 'min-width: 168px'>"+ Message+"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>"
-//									);
-//							
+									+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
+									
+									//Device Result
+									"<tr><td style= 'min-width: 168px'>"+Product_Name1+"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>"
+									);
+							
 //								//CIS API
 //								test.pass("<br><br><b>CS Get Account Details Response:</b>" 
 //								+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
@@ -466,11 +465,10 @@ public class App {
 //								+ "<br><b>CCN Table: </b><br>" + convertor[14] 
 //								+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[13]+"/"+convertor[12] + "/Output.xml'>Click to View the CCN CDR</a>"+"</table><br>");
 //								}
-//							extent.flush();
-//							endTestCase(curtcid);
-//							}
-//						}
-//						}
+							extent.flush();
+							endTestCase(curtcid);
+							}
+						}
 //
 //						
 //						
@@ -504,7 +502,7 @@ public class App {
 //								
 //								APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
 //								dr.set(new AndroidDriver(new URL(
-//										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+//										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 //										capabilities));
 //								
 //								 dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -537,7 +535,7 @@ public class App {
 //									Thread.sleep(3000);
 //									dr.get().quit();
 //								} else {
-//									info("Error occured, please check with screenshot");
+//									info("Menu options are not available");
 //									takeScreenShot("Error appears");
 //									Thread.sleep(2000);
 //									By Send = By.id("android:id/button1");
@@ -562,7 +560,7 @@ public class App {
 //								capabilities1.setCapability("appPackage", package_name1);
 //								capabilities1.setCapability("appActivity", activity_name1);
 //								dr.set(new AndroidDriver(new URL(
-//										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+//										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 //										capabilities1));
 //								Thread.sleep(3000);
 //						try {
@@ -699,47 +697,47 @@ public class App {
 //						
 //						//----------------------	Voice Call	 --------------------------//
 //						
-//						else if(Test_Scenario.equals("LIVE USAGE VOICE")) {
-//							String package_voice = ReadMobileproperties(Test_Scenario, "apppackage");
-//							String activity_voice = ReadMobileproperties(Test_Scenario, "appactivity");
-//							DesiredCapabilities capabilities = new DesiredCapabilities();
-//							capabilities.setCapability("deviceName", device);
-//							capabilities.setCapability("platformVersion", version);
-//							capabilities.setCapability("platformName", "ANDROID");
-//							capabilities.setCapability("bootstrapPort", bsport); 
-//							capabilities.setCapability("appPackage", package_voice);
-//							capabilities.setCapability("appActivity", activity_voice);
-//							curtcid = Test_Case_ID+"--"+Test_Scenario+"_"+Test_Scenario;
-//							startTestCase(curtcid);
-//							ExtentTest test = extent.createTest(Test_Case_ID+": <br>"+Test_Scenario+"<br>"+Test_Scenario);
-//							
-//							int secs = Integer.parseInt(CALL_DURATION);
+						else if(Test_Scenario.equals("LIVE USAGE VOICE")) {
+							String package_voice = ReadMobileproperties(Test_Scenario, "apppackage");
+							String activity_voice = ReadMobileproperties(Test_Scenario, "appactivity");
+							DesiredCapabilities capabilities = new DesiredCapabilities();
+							capabilities.setCapability("deviceName", device);
+							capabilities.setCapability("platformVersion", version);
+							capabilities.setCapability("platformName", "ANDROID");
+							capabilities.setCapability("bootstrapPort", bsport); 
+							capabilities.setCapability("appPackage", package_voice);
+							capabilities.setCapability("appActivity", activity_voice);
+							curtcid = Test_Case_ID+"--"+Test_Scenario+"_"+Test_Scenario;
+							startTestCase(curtcid);
+							ExtentTest test = extent.createTest(Test_Case_ID+": <br>"+Test_Scenario+"<br>"+Test_Scenario);
+							
+							int secs = Integer.parseInt(CALL_DURATION);
 //							APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
-//							dr.set(new AndroidDriver(new URL("http://"+ipaddress+":" +  ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
-//							Thread.sleep(3000);
+							dr.set(new AndroidDriver(new URL("http://127.0.0.1:" +  ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
+							Thread.sleep(3000);
 //							dr.get().findElement(By.id("com.samsung.android.dialer:id/zero")).click();
 //							 //dr.get().findElement(By.id("com.samsung.android.dialer:id/digits")).clear();
 //							 dr.get().findElement(By.id("com.samsung.android.dialer:id/digits")).sendKeys(Call_To);
 //							 takeScreenShot("Dialed Number");
 //							 dr.get().findElement(By.id("com.samsung.android.dialer:id/dialButtonImage")).click();
-//							
-//							
-////							Runtime run = Runtime.getRuntime();
-////							String execu = "adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+Call_To;
-////							System.out.println("Execution cmmand: "+execu);
-////							run.exec(execu);
-//							Thread.sleep(secs*1000);
-//							takeScreenShot("Call process");
-//							try {
-//							dr.get().findElement(By.id("com.samsung.android.incallui:id/disconnect_button")).click();
-//							}
-//							catch (Exception e) {
-//								//e.printStackTrace();
-//								System.out.println("User didn't pick the call");
-//							 }
-//							//com.samsung.android.incallui:id/disconnect_button
-//							String result = dr.get().stopRecordingScreen();
-//							
+							
+							
+							Runtime run = Runtime.getRuntime();
+							String execu = "adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+Call_To;
+							System.out.println("Execution cmmand: "+execu);
+							run.exec(execu);
+							Thread.sleep(secs*1000);
+							takeScreenShot("Call process");
+							try {
+							dr.get().findElement(By.id("com.samsung.android.incallui:id/disconnect_button")).click();
+							}
+							catch (Exception e) {
+								//e.printStackTrace();
+								System.out.println("User didn't pick the call");
+							 }
+							//com.samsung.android.incallui:id/disconnect_button
+							String result = dr.get().stopRecordingScreen();
+							
 //							APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
 //							//-------------------------- CDR Conversion -------------------------------------------//
 //							
@@ -748,17 +746,17 @@ public class App {
 //					//-------------------------- Report ----------------------------------------------//
 //							String[] convertor = Asnconvertor.Result(trfold, MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", Call_To, "", "", "", "", "", ExecutionStarttime, CALL_DURATION, "" );
 //							
-//							test.pass("</table><table><tr><th style= 'min-width: 168px'><b>MSISDN</b></th>"
-//									+"<th style= 'min-width: 168px'><b>Test Scenario </b></th>"
-//									+"<th style= 'min-width: 168px'><b>Test Case </b></th>"
-//									+"<th style= 'min-width: 168px'><b>Called To </b></th>"
-//									+"<th style= 'min-width: 168px'><b>Call Duration </b></th>"
-//									+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
-//									
-//									//Device Result
-//									"<tr><td style= 'min-width: 168px'>"+MSISDN+"</td><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+Call_To+"</td><td style= 'min-width: 168px'>"+ CALL_DURATION +"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>");
-//							
-//							//CIS API
+							test.pass("</table><table><tr><th style= 'min-width: 168px'><b>MSISDN</b></th>"
+									+"<th style= 'min-width: 168px'><b>Test Scenario </b></th>"
+									+"<th style= 'min-width: 168px'><b>Test Case </b></th>"
+									+"<th style= 'min-width: 168px'><b>Called To </b></th>"
+									+"<th style= 'min-width: 168px'><b>Call Duration </b></th>"
+									+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
+									
+									//Device Result
+									"<tr><td style= 'min-width: 168px'>"+MSISDN+"</td><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+Call_To+"</td><td style= 'min-width: 168px'>"+ CALL_DURATION +"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>");
+							
+							//CIS API
 //							test.pass("<br><br><b>CS Get Account Details Response:</b>" 
 //							+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
 //							+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a><br>");
@@ -805,10 +803,9 @@ public class App {
 //							+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[13]+"/"+convertor[12] + "/Output.xml'>Click to View the CCN CDR</a>"+"</table><br>");
 //							}
 //
-//							extent.flush();
-//							endTestCase(curtcid);
-//							}
-//						}
+							extent.flush();
+							endTestCase(curtcid);
+						}
 //						
 //						
 //						//----------------------	Video Call	 --------------------------//
@@ -829,7 +826,7 @@ public class App {
 //							String cal_nuber = Call_To.substring(1, Call_To.length());
 //							int secs = Integer.parseInt(CALL_DURATION);
 //							APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
-//							dr.set(new AndroidDriver(new URL("http://"+ipaddress+":" +  ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
+//							dr.set(new AndroidDriver(new URL("http://127.0.0.1:" +  ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
 //							Thread.sleep(3000);
 //							dr.get().findElement(By.id("com.samsung.android.dialer:id/zero")).click();
 //							 //dr.get().findElement(By.id("com.samsung.android.dialer:id/digits")).clear();
@@ -950,7 +947,7 @@ public class App {
 //							APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
 //							
 //							dr.set(new AndroidDriver(new URL(
-//									"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+//									"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 //									capabilities));
 //						try {
 //							for (int i = 1; i <= sms_count; i++) {
@@ -1071,11 +1068,11 @@ public class App {
 							else if (Test_Scenario.contains("USSD_API")){
 								curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario");
 								startTestCase(curtcid);
-								ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
+								//ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
 
 								String USSD = inputs.getField("USSD_CODE");
 								String Menu_Option = inputs.getField("Menu_Options");
-								String MSISDN = inputs.getField("MSISDN");
+								//String MSISDN = inputs.getField("MSISDN");
 								String Env = inputs.getField("Environment");
 								String[] Result = APIparam.USSDcontrol(Test_Scenario, ExecutionStarttime, inputs.getField("Test_Case_ID"), USSD, MSISDN, "First_USSD_", Env);
 								if (Menu_Option.equals("")) {
@@ -1107,19 +1104,19 @@ public class App {
 									}
 									}
 								
-								test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + Result[0]
-										+ "'>Click to View the " + Result[1] + " Response file</a></b>");
+//								test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + Result[0]
+//										+ "'>Click to View the " + Result[1] + " Response file</a></b><br>" + Result[2] + "</table>");
 //								extent.flush();
 								}
 							else {
-//							curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
-//							startTestCase(curtcid);
-//							ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
+							curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
+							startTestCase(curtcid);
+							ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
 							String[] Result = APIparam.APIcontrol(Test_Scenario, ExecutionStarttime, inputs.getField("Test_Case_ID"));
 							
-//							test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + Result[0]
-//									+ "'>Click to View the " + Result[1] + " Response file</a></b><br>" + Result[2] + "</table>");
-//							extent.flush();
+							test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + Result[0]
+									+ "'>Click to View the " + Result[1] + " Response file</a></b><br>" + Result[2] + "</table>");
+							extent.flush();
 
 								}
 							}
@@ -1154,7 +1151,7 @@ public class App {
 //								capabilities.setCapability("appActivity", activity_name);
 //
 //								dr.set(new AndroidDriver(new URL(
-//										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+//										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 //										capabilities));
 //								dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 //								Thread.sleep(2000);
@@ -1195,7 +1192,7 @@ public class App {
 //										dr.get().findElement(By.id("android:id/button1")).click();
 //									}
 //								} else {
-//									info("Error occured, please check with screenshot");
+//									info("Menu options are not available");
 //									takeScreenShot("Error appears");
 ////				Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
 ////				info("Confirmation alert : "+Confirmation);
@@ -1295,7 +1292,7 @@ public class App {
 //								ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID") + ": <br>"
 //										+ inputs.getField("Test_Scenario"));
 //								dr.set(new AndroidDriver(new URL(
-//										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+//										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 //										capabilities));
 //								dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 //								Thread.sleep(2000);
@@ -1368,7 +1365,7 @@ public class App {
 //									e.printStackTrace();
 //								}
 //								} else {
-//									info("Error occured, please check with screenshot");
+//									info("Menu options are not available");
 //									takeScreenShot("Error appears");
 ////				Confirmation = dr.get().findElement(By.id("android:id/message")).getText();
 ////				info("Confirmation alert : "+Confirmation);
@@ -1383,7 +1380,7 @@ public class App {
 //							capabilitiese.setCapability("appPackage", package_name1);
 //							capabilitiese.setCapability("appActivity", activity_name1);
 //								dr.set(new AndroidDriver(new URL(
-//										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+//										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 //										capabilitiese));
 //								Thread.sleep(3000);
 //								By New_Message = By.id("com.samsung.android.messaging:id/list_unread_count");
@@ -1546,7 +1543,7 @@ public class App {
 //								//-------------	Data Turn ON --------------------------//
 //							try {
 //								dr.set(new AndroidDriver(new URL(
-//										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+//										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 //										capabilities1));
 //								Thread.sleep(2000);
 //								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Connections']")).click();
@@ -1561,7 +1558,7 @@ public class App {
 ////								run.exec("adb shell svc data enable");
 ////								Thread.sleep(2000);
 //								dr.set(new AndroidDriver(new URL(
-//										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+//										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 //										capabilities));
 //								try {
 //								Thread.sleep(3000);
@@ -1582,7 +1579,7 @@ public class App {
 //						//-------------	Data Turn OFF --------------------------//
 //																					
 //								dr.set(new AndroidDriver(new URL(
-//										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+//										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 //										capabilities1));
 //								Thread.sleep(2000);
 //								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Connections']")).click();
@@ -1602,7 +1599,7 @@ public class App {
 //						//-------------	Data Turn ON --------------------------//
 //								
 //								dr.set(new AndroidDriver(new URL(
-//										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+//										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 //										capabilities1));
 //								Thread.sleep(2000);
 //								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Connections']")).click();
@@ -1614,7 +1611,7 @@ public class App {
 //								takeScreenShot("Data Turned On: " + timefold);
 //								
 //								dr.set(new AndroidDriver(new URL(
-//										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+//										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 //										capabilities));
 //								try {
 //								dr.get().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -1642,7 +1639,7 @@ public class App {
 //						//-------------	Data Turn OFF --------------------------//
 //								
 //								dr.set(new AndroidDriver(new URL(
-//										"http://"+ipaddress+":" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+//										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
 //										capabilities1));
 //								Thread.sleep(2000);
 //								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Connections']")).click();
@@ -1726,8 +1723,9 @@ public class App {
 //						}
 //						}
 //							
-			}
-		} catch (Exception e) {
+//			}
+		} 
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -1905,7 +1903,7 @@ public static void copydir(String Source, String Destination) {
 
 		// Build the Appium service
 		AppiumServiceBuilder builder = new AppiumServiceBuilder();
-		builder.withIPAddress(ipaddress);
+		builder.withIPAddress("127.0.0.1");
 		int port1 = Integer.parseInt(port);
 		builder.usingPort(port1);
 		builder.withArgument(GeneralServerFlag.SESSION_OVERRIDE);

@@ -55,7 +55,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
 public class APIparam {
-	public static final String Result_FLD = System.getProperty("user.dir") + "\\Result";
+	public static final String Result_FLD = System.getProperty("user.dir") + "\\reports";
 	public static final String Root = System.getProperty("user.dir");// .replace("\\", "/");
 	public static DateFormat For = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
 	public static Calendar cal = Calendar.getInstance();
@@ -340,6 +340,7 @@ public class APIparam {
 								.when() // .contentType("text/xml; charset=utf-8")
 								.post(cellval5).then().extract().response();
 						respf = new File(Root + "\\API\\Response\\" + requests + ".xml");
+						Result[1] = requests;
 					}
 				 catch (Exception e) {
 					e.printStackTrace();
@@ -353,27 +354,26 @@ public class APIparam {
 					Result[0] = path;
 					System.out.println(path);
 					String outtable = WebService(path);
-//					System.out.println(outtable);
-//					// System.out.println(response.asString());
-//					String respheader = "";
-//					for (int i = 0; i < response.getHeaders().asList().size(); i++) {
-//						String Header = response.getHeaders().asList().get(i).toString();
-//						respheader = respheader + "<br>" + Header;
-//					}
-//					String res = "";
-//					String stat = "";
-//					String stattab = "";
-//					String fext = "";
-//					res = validateresp(respf, Test_case, response.statusCode());
-//					stat = res.split("##")[0];
-//					stattab = res.split("##")[1];
-//					fext = "xml";
-//					// for zain ksa
-//					String captureval = "";
-//					String linkv = "";
-//					// String ret = "";
-//					Result[1] = requests;
-//					Result[2] = outtable;
+					System.out.println(outtable);
+					// System.out.println(response.asString());
+					String respheader = "";
+					for (int i = 0; i < response.getHeaders().asList().size(); i++) {
+						String Header = response.getHeaders().asList().get(i).toString();
+						respheader = respheader + "<br>" + Header;
+					}
+					String res = "";
+					String stat = "";
+					String stattab = "";
+					String fext = "";
+					res = validateresp1(respf, Test_case, response.statusCode());
+					stat = res.split("##")[0];
+					stattab = res.split("##")[1];
+					fext = "xml";
+					// for zain ksa
+					String captureval = "";
+					String linkv = "";
+					// String ret = "";
+					Result[2] = outtable;
 //					ExtentTest test = extent.createTest(cellval1 + "(" + cellval3 + ")");
 //					test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + path
 //							+ "'>Click to View the " + cellval3 + " Response file</a></b><br>" + outtable + "</table>");
@@ -603,6 +603,76 @@ public class APIparam {
 			return "";
 		}
 
+	}
+	
+	public static String validateresp1(File resp, String TC, int statcode) {
+		try {
+			File inputFile = resp;
+			Fillo fillo = new Fillo();
+			Connection conn1 = fillo.getConnection(Input_data);
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			dbFactory.setNamespaceAware(true);
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(inputFile);
+			doc.getDocumentElement().normalize();
+			Recordset rsi = conn1.executeQuery("Select * from Execution_Sheet where TestCase_ID = '" + TC + "'");
+			String status = "Pass";
+
+			String retval = "<Table><tr><td>Parameter</td><td>Expected Value</td><td>Actual Value</td></tr>";
+			while (rsi.next()) {
+				int expstatuscode = 200;
+				// if (rs.getField("Expected_Status_Code") == "") {
+				// expstatuscode = 200;
+				// }
+				retval = retval + "<tr><td>Status Code</td><td>" + expstatuscode + "</td><td>" + statcode
+						+ "</td></tr>";
+				if (expstatuscode != statcode) {
+					status = "Fail";
+				}
+				for (int Iterator = 1; Iterator <= 40; Iterator++) {
+					if (rsi.getField("Parameter" + Iterator).isEmpty() == false) {
+						String param = rsi.getField("Parameter" + Iterator).toString();
+						String expectedval = rsi.getField("Value" + Iterator);
+						// NodeList nlis = doc.getDocumentElement().getElementsByTagName(param);
+						NodeList nlis = doc.getDocumentElement().getElementsByTagName(param);
+						String actval = "";
+						if (nlis.getLength() == 0) {
+							nlis = doc.getDocumentElement().getElementsByTagNameNS("*", param);
+						}
+						if (nlis.getLength() != 0) {
+							actval = nlis.item(0).getTextContent();
+						} else {
+							actval = "";
+						}
+
+						retval = retval + "<tr><td>" + param + "</td><td>" + expectedval + "</td><td>" + actval
+								+ "</td></tr>";
+						if (status.equals("Pass")) {
+							if (expectedval.equals(actval)) {
+								status = "Pass";
+							} else {
+								status = "Fail";
+							}
+
+						}
+					} else
+						break;
+				}
+
+			}
+			retval = retval + "</table>";
+			String sendval = "";
+			if (status.equals("Pass")) {
+				sendval = "Pass##" + retval;
+			} else {
+				sendval = "Fail##" + retval;
+			}
+			return sendval;
+		} catch (Exception e) {
+			e.printStackTrace();
+			error(e.getMessage());
+			return "";
+		}
 	}
 
 	public static String validateresp(File resp, String TC, int statcode) {
@@ -1136,7 +1206,9 @@ public class APIparam {
 							|| sub.equalsIgnoreCase("accountFlags") || sub.equalsIgnoreCase("offerInformationList")
 							|| sub.equalsIgnoreCase("dedicatedAccountInformation")
 							|| sub.equalsIgnoreCase("serviceOfferings") || sub.equalsIgnoreCase("offerInformation")
-							|| sub.equalsIgnoreCase("attributeInformationList")) {
+							|| sub.equalsIgnoreCase("attributeInformationList")
+							|| sub.equalsIgnoreCase("applicationResponse")
+							|| sub.equalsIgnoreCase("freeflowState")) {
 						sot = sub;
 						value = "";
 						tbl = tbl + "<tr><td>" + sub + "</td><td>" + value + "</td></tr>";
