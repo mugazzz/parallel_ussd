@@ -365,15 +365,15 @@ public class APIparam {
 					String stat = "";
 					String stattab = "";
 					String fext = "";
-					res = validateresp1(respf, Test_case, response.statusCode());
-					stat = res.split("##")[0];
-					stattab = res.split("##")[1];
-					fext = "xml";
+//					res = validateresp1(respf, Test_case, response.statusCode());
+//					stat = res.split("##")[0];
+//					stattab = res.split("##")[1];
+//					fext = "xml";
 					// for zain ksa
 					String captureval = "";
 					String linkv = "";
 					// String ret = "";
-					Result[2] = outtable;
+					//Result[2] = outtable;
 //					ExtentTest test = extent.createTest(cellval1 + "(" + cellval3 + ")");
 //					test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + path
 //							+ "'>Click to View the " + cellval3 + " Response file</a></b><br>" + outtable + "</table>");
