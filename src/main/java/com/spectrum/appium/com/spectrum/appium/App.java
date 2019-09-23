@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -142,13 +143,16 @@ public class App {
 //						System.out.println(device);
 						String MSISDN = inputs.getField("MSISDN");
 						String Test_Scenario = inputs.getField("Test_Scenario");
-//						String Test_Case = inputs.getField("Test_Case");
+						String Test_Case = inputs.getField("Test_Case");
 						String Test_Case_ID = inputs.getField("Test_Case_ID");
 //						Prod_ID = inputs.getField("Product_Name");
 //						Recharge_Coupon = inputs.getField("Recharge_Coupon");
 //						String Call_To = inputs.getField("Call_TO_MSISDN");
 //						String CALL_DURATION = inputs.getField("CALL_DURATION");
-						
+						String ProductofferID = inputs.getField("Value1");
+						String ExpireDate = inputs.getField("Value2");
+						String offerState = inputs.getField("Value3");
+						String table_type = inputs.getField("Table");
 						
 						info("Starting execution at +: " + Test_Case_ID + "->" + Test_Scenario + "->" + ExecutionStarttime);
 						extent.attachReporter(htmlReporter);
@@ -1114,17 +1118,88 @@ public class App {
 							ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
 							String[] Result = APIparam.APIcontrol(Test_Scenario, ExecutionStarttime, inputs.getField("Test_Case_ID"));
 							
+							//
+							
 							test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + Result[0]
 									+ "'>Click to View the " + Result[1] + " Response file</a></b><br>" + Result[2] + "</table>");
 							extent.flush();
 
 								}
 							}
+						
+						else if(Test_Scenario.contains("CIS_DB"))
+						{
+							String validate = "null";
+							String Statu = "null";
+							String Reason = "null";
+							curtcid = inputs.getField("Test_Case_ID")+"--"+Test_Case+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
+							startTestCase(curtcid);
+							ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+" : "+Test_Case+" : "+inputs.getField("Test_Scenario"));
+							String val[]  = new String[10];
+							String para[] = new String[10];
+							for (int Iterator = 1; Iterator <= 150; Iterator++) {
+								if (inputs.getField("Parameter" + Iterator).isEmpty() == false) {
+									val[Iterator] = inputs.getField("Parameter" + Iterator);
+									para[Iterator] = inputs.getField("Value" + Iterator);
+									
+								} else
+									break;
+							}
+							String vl = Arrays.toString(val);
+							String k = vl.replace("null, ", "");
+							String v = k.replace(", null", "");
+							String strArray[] = v. split(",");
+							String w = v.replace("[", "");
+							String x = w.replace("]", "");
+							System.out.println("Value:-----> "+(x));
+							
+							if(table_type.equalsIgnoreCase("adhoc")) {
+							validate = "select "+x+" from rs_adhoc_products where msisdn="+MSISDN+" order by last_action_date desc limit 1";
+							}
+							else if(table_type.equalsIgnoreCase("renewal")) {
+							 validate = "select "+x+" from renewal where msisdn="+MSISDN+" order by last_action_date desc limit 1";
+							}
+							System.out.println(validate);
+							String dbURL = "jdbc:postgresql://10.95.214.136:5444/scs";
+							Properties parameters = new Properties();
+							parameters.put("user", "mugazmaveric1");
+							parameters.put("password", "maverick");
+
+							java.sql.Connection conn11 = DriverManager.getConnection(dbURL, parameters);
+							System.out.println("Opened database successfully");
+							Statement st = conn11.createStatement();
+							ResultSet rs = st.executeQuery(validate);
+							int len = strArray.length;
+							System.out.println("Length of string: "+len);
+							while (rs.next()) {
+							for (int i =1; i<=len; i++) {
+								String colname = val[i];
+								String valueq = rs.getObject(i).toString();
+								if (valueq.equalsIgnoreCase(para[i])) {
+									System.out.println(colname+" is equal: "+valueq);
+								}
+								else {
+									Statu = "Fail";
+									Reason = "DB validation failed as the "+colname+" is "+valueq;
+									System.out.println(Reason);
+								}
+							}
+							}							
+							String Result = Asnconvertor.cis_db(table_type, MSISDN);
+							System.out.println(Result);
+							test.pass(Result+ "</table>");
+							if(Statu.contains("Fail")) {
+								test.fail(Reason);
+							}
+							extent.flush();
+						}
+						
 						else {
 							System.out.println("Please check the entered scenario name");
 						}
 						
-
+			}
+						
 						// ---------------------- Balance Enquiry ---------------------------//
 //
 //						else if (Test_Scenario.equals("BALANCE ENQUIRES")) {
@@ -1724,7 +1799,7 @@ public class App {
 //						}
 //							
 //			}
-		} 
+	
 		}catch (Exception e) {
 			e.printStackTrace();
 		}

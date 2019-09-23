@@ -1045,22 +1045,19 @@ public class Asnconvertor {
 				} else if (table.equalsIgnoreCase("renewal")) {
 					table_data=ValidationQuery(validate_renewal, table);
 
-				}else {
-					table_data=ValidationQuery(validate_adhoc, "adhoc");
-					table_data1=ValidationQuery(validate_renewal, "renewal");
 				}
 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			System.out.println("Table available: "+table_data + table_data1);
-			if(table_data1.equalsIgnoreCase(null)) {
-				table_data1 = " ";
-			}
-			if(table_data.equalsIgnoreCase(null)){
-				table_data=" ";
-			}
-			return table_data1 + table_data;
+//			if(table_data1.equalsIgnoreCase(null)) {
+//				table_data1 = " ";
+//			}
+//			if(table_data.equalsIgnoreCase(null)){
+//				table_data=" ";
+//			}
+			return table_data;
 		}
 		
 		public static String ValidationQuery(String Validatin_Query, String Table) throws SQLException {
