@@ -1117,8 +1117,8 @@ public class App {
 							startTestCase(curtcid);
 							ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
 							String[] Result = APIparam.APIcontrol(Test_Scenario, ExecutionStarttime, inputs.getField("Test_Case_ID"));
-							
-							//
+							String tab = APIparam.WebService2(Result[0], "58");
+							System.out.println("Service Tab---->"+tab);
 							
 							test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + Result[0]
 									+ "'>Click to View the " + Result[1] + " Response file</a></b><br>" + Result[2] + "</table>");

@@ -269,7 +269,95 @@ public class APIparam {
 
 	}
 	
-	
+	public static String WebService2(String XMLResponse_Path, String OfferId) throws Exception {
+//		String OfferId = "58";
+		//System.out.println(OfferId[0]);
+
+		String Nodetag = "member";
+		String sub = null;
+		String tbl = null;
+		
+
+		String nametag = "name";
+		 //String tbl = "<table><tr><th>Parameter</th><th>Value</th></tr>";
+		try {
+			System.out.println("XML PAATHHH: "+XMLResponse_Path);
+			System.out.println("Offer IDDDD: "+ OfferId);
+			DocumentBuilderFactory dbFactory1 = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder1 = dbFactory1.newDocumentBuilder();
+			Document doc1 = dBuilder1.parse(new File(XMLResponse_Path));
+			doc1.getDocumentElement().normalize();
+
+			NodeList data = doc1.getElementsByTagName(Nodetag);
+
+			int totaldata = data.getLength();
+			//System.out.println(totaldata);
+
+			for (int temp = 0; temp < totaldata; temp++) {
+
+				Node nNode = data.item(temp);
+
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element eElement = (Element) nNode;
+
+					sub = eElement.getElementsByTagName("name").item(0).getTextContent();
+
+					if (sub.equalsIgnoreCase("offerInformation")) {
+						System.out.println(sub);
+						Node nvalue = eElement.getElementsByTagName(nametag).item(0).getNextSibling();
+						if (nvalue.getNodeType() == Node.ELEMENT_NODE) {
+							Element vElement = (Element) nvalue;
+
+							NodeList offerdata = vElement.getElementsByTagName("struct");
+
+							int offerDataLength = offerdata.getLength();
+							//System.out.println("   offerDataLength  " + offerDataLength);
+
+							for (int i = 0; i < offerDataLength; i++) {
+
+								Node oNode = offerdata.item(i);
+
+								if (oNode.getNodeType() == Node.ELEMENT_NODE) {
+									Element offElement = (Element) oNode;
+									
+									NodeList memberdata= offElement.getElementsByTagName("member");
+									
+									for (int j = 0; j < memberdata.getLength(); j++) {
+										String datavalue = offElement.getElementsByTagName("value").item(1)
+												.getTextContent();
+										
+										if(OfferId.equalsIgnoreCase(datavalue)) {
+											String dataname = offElement.getElementsByTagName("name").item(j)
+													.getTextContent();
+										 datavalue = offElement.getElementsByTagName("value").item(j)
+													.getTextContent();
+
+											System.out.println(dataname + "==" + datavalue);
+											tbl = dataname+datavalue;
+											
+										}else {
+											System.out.println("not found");
+											break;
+											
+										}
+										
+									}
+								}
+
+							}
+
+						} 
+
+					} 
+
+				} 
+			}
+
+		} catch (Throwable e) {
+			System.out.println("Error occurs------------");
+		}
+		return tbl;
+	}
 	
 	public static String[] USSDcontrol(String Scenario, String ExecutionStarttime, String Test_case, String USSD, String MSISDN, String currshortcode, String env) {
 		String[] Result = new String [50];
