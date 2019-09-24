@@ -279,7 +279,8 @@ public class APIparam {
 		
 
 		String nametag = "name";
-		 //String tbl = "<table><tr><th>Parameter</th><th>Value</th></tr>";
+		// String tbl = "<table><tr><th>Parameter</th><th>Value</th></tr>";
+		 
 		try {
 			System.out.println("XML PAATHHH: "+XMLResponse_Path);
 			System.out.println("Offer IDDDD: "+ OfferId);
@@ -302,7 +303,7 @@ public class APIparam {
 
 					sub = eElement.getElementsByTagName("name").item(0).getTextContent();
 
-					if (sub.equalsIgnoreCase("offerInformation")) {
+					if (sub.contains("offerInformation")) {
 						System.out.println(sub);
 						Node nvalue = eElement.getElementsByTagName(nametag).item(0).getNextSibling();
 						if (nvalue.getNodeType() == Node.ELEMENT_NODE) {
@@ -333,10 +334,10 @@ public class APIparam {
 													.getTextContent();
 
 											System.out.println(dataname + "==" + datavalue);
-											tbl = dataname+datavalue;
+											tbl = dataname+" "+datavalue;
 											
 										}else {
-											System.out.println("not found");
+											//System.out.println("not found");
 											break;
 											
 										}

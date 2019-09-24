@@ -1154,10 +1154,15 @@ public class App {
 							System.out.println("Value:-----> "+(x));
 							
 							if(table_type.equalsIgnoreCase("adhoc")) {
-							validate = "select "+x+" from rs_adhoc_products where msisdn="+MSISDN+" order by last_action_date desc limit 1";
+								//validate = "select * from rs_adhoc_products where product_id="+MSISDN+" order by last_action_date desc limit 1";
+
+								validate = "select "+x+" from rs_adhoc_products where msisdn="+MSISDN+" order by last_action_date desc limit 1";
 							}
 							else if(table_type.equalsIgnoreCase("renewal")) {
-							 validate = "select "+x+" from renewal where msisdn="+MSISDN+" order by last_action_date desc limit 1";
+							 
+								 validate = "select * from renewal where product_id= 1547";
+
+								//validate = "select "+x+" from renewal where msisdn="+MSISDN+" order by last_action_date desc limit 1";
 							}
 							System.out.println(validate);
 							String dbURL = "jdbc:postgresql://10.95.214.136:5444/scs";
