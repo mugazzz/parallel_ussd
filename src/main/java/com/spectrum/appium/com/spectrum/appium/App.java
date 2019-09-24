@@ -150,9 +150,11 @@ public class App {
 //						String Call_To = inputs.getField("Call_TO_MSISDN");
 //						String CALL_DURATION = inputs.getField("CALL_DURATION");
 						String ProductofferID = inputs.getField("Value1");
-						String ExpireDate = inputs.getField("Value2");
-						String offerState = inputs.getField("Value3");
+						String offerState = inputs.getField("Value2");
+						String ExpireDate = inputs.getField("Value3");
 						String table_type = inputs.getField("Table");
+						String attributeName = inputs.getField("Value4");
+						String attributeValue = inputs.getField("Value5");
 						
 						info("Starting execution at +: " + Test_Case_ID + "->" + Test_Scenario + "->" + ExecutionStarttime);
 						extent.attachReporter(htmlReporter);
@@ -1117,8 +1119,63 @@ public class App {
 							startTestCase(curtcid);
 							ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
 							String[] Result = APIparam.APIcontrol(Test_Scenario, ExecutionStarttime, inputs.getField("Test_Case_ID"));
-							String tab = APIparam.WebService2(Result[0], "58");
-							System.out.println("Service Tab---->"+tab);
+							
+					//Product ID validation
+							
+							String[] ProductofferID1 = ProductofferID.split(",");
+							String[] offerState1 = offerState.split(",");
+							String[] ExpireDate1 = ExpireDate.split(",");
+														
+							for (int i = 0; i < ProductofferID1.length; i++) {
+								String nxt = "fail";
+								do {
+									try {
+										System.out.println("------------------------------");
+										Thread.sleep(1000);
+										nxt = "pass";
+									} catch (Exception e) { // Thread.sleep(100); }
+
+									}
+								} while (nxt != "pass");
+								System.out.println("------------------------------");
+							try {
+								info("For Product ID : " + ProductofferID1[i]);
+								info("Status is : " + offerState1[i]);
+								info("ExpireDate is : " + ExpireDate1[i]);
+							}
+							catch (Exception e) { // Thread.sleep(100); }
+								takeScreenShot("Error in provided product ID list");	
+							}
+						}	
+							
+					//Attribute Validation
+							
+							String[] attributeName1 = attributeName.split(",");
+							String[] attributeValue1 = attributeValue.split(",");
+							
+							for (int i = 0; i < attributeName1.length; i++) {
+								String nxt = "fail";
+								do {
+									try {
+										System.out.println("------------------------------");
+										Thread.sleep(1000);
+										nxt = "pass";
+									} catch (Exception e) { // Thread.sleep(100); }
+
+									}
+								} while (nxt != "pass");
+								System.out.println("------------------------------");
+							try {
+								info("For Attribute : " + attributeName1[i]);
+								info("Related attribute value is : " + attributeValue1[i]);
+							}
+							catch (Exception e) { // Thread.sleep(100); }
+								takeScreenShot("Error in provided product ID list");	
+							}
+						}	
+							
+							//String tab = APIparam.WebService2(Result[0], "58");
+							//System.out.println("Service Tab---->"+tab);
 							
 							test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + Result[0]
 									+ "'>Click to View the " + Result[1] + " Response file</a></b><br>" + Result[2] + "</table>");
@@ -1160,9 +1217,9 @@ public class App {
 							}
 							else if(table_type.equalsIgnoreCase("renewal")) {
 							 
-								 validate = "select * from renewal where product_id= 1547";
+								 //validate = "select * from renewal where product_id= 1547";
 
-								//validate = "select "+x+" from renewal where msisdn="+MSISDN+" order by last_action_date desc limit 1";
+								validate = "select "+x+" from renewal where msisdn="+MSISDN+" order by last_action_date desc limit 1";
 							}
 							System.out.println(validate);
 							String dbURL = "jdbc:postgresql://10.95.214.136:5444/scs";
