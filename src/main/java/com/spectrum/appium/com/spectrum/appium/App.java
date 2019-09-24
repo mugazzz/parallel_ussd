@@ -1231,18 +1231,25 @@ public class App {
 							System.out.println("Opened database successfully");
 							Statement st = conn11.createStatement();
 							ResultSet rs = st.executeQuery(validate);
+							System.out.println("ESS:----"+rs.toString());
 							int len = strArray.length;
 							System.out.println("Length of string: "+len);
+							String valueq = null;
 							while (rs.next()) {
 							for (int i =1; i<=len; i++) {
 								String colname = val[i];
-								String valueq = rs.getObject(i).toString();
+								try{
+								valueq = rs.getObject(i).toString();
+								}
+								catch (Exception e){
+									info("Problem with the provided pramater "+colname+" in DB, either its 'null' or empty");
+								}
 								if (valueq.equalsIgnoreCase(para[i])) {
 									System.out.println(colname+" is equal: "+valueq);
 								}
 								else {
 									Statu = "Fail";
-									Reason = "DB validation failed as the "+colname+" is "+valueq;
+									Reason = "DB validation failed as the "+colname+" is "+valueq+" and "+para[i];
 									System.out.println(Reason);
 								}
 							}

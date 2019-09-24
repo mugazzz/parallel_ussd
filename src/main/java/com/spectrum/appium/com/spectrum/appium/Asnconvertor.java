@@ -1039,7 +1039,9 @@ public class Asnconvertor {
 		public static String cis_db(String table, String MSISDN) {
 			try {
 				String validate_adhoc = "select msisdn, product_id, status,start_date, expiry_date,product_cost,srcchannel,network_status from rs_adhoc_products where msisdn="+MSISDN+" order by last_action_date desc limit 1";
-				String validate_renewal = "select msisdn,last_renewal_date,renewal_date,status,activation_date,product_id,product_description,product_type,srcchannel,product_category,product_purchase_type,language_id,network_status from renewal where msisdn="+MSISDN+" order by last_action_date desc limit 1";
+				String validate_renewal = "select * from renewal where msisdn="+MSISDN+" order by last_action_date desc limit 1";
+
+				//String validate_renewal = "select msisdn,last_renewal_date,renewal_date,status,activation_date,product_id,product_description,product_type,srcchannel,product_category,product_purchase_type,language_id,network_status from renewal where msisdn="+MSISDN+" order by last_action_date desc limit 1";
 				if (table.equalsIgnoreCase("adhoc")) {
 					table_data=ValidationQuery(validate_adhoc, table);
 				} else if (table.equalsIgnoreCase("renewal")) {
