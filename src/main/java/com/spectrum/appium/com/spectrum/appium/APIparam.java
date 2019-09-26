@@ -270,7 +270,7 @@ public class APIparam {
 
 	}
 	
-	public static String[] WebService2(String XMLResponse_Path, String givenoff, String AtrrID ) throws Exception {
+	public static String[] WebService2(String XMLResponse_Path, String givenoff, String AtrrID, String givenpam) throws Exception {
 
 //		String AtrrID = "umsVm2MMS";
 //		String givenoff = "101";
@@ -281,10 +281,13 @@ public class APIparam {
 		String nametag = "name";
 		int atti=0;
 		int off=0;
+		int pam = 0;
+		
 		String[] membervalue = new String[20];
 		String[] offervalue = new String[20];
+		String[] pamvalue = new String[20];
 		String[] total = new String[3];
-			
+					
 
 		try {
 
@@ -305,7 +308,67 @@ public class APIparam {
 					Element eElement = (Element) nNode;
 
 					sub = eElement.getElementsByTagName("name").item(0).getTextContent();
+					
+					if (sub.contains("pamInformationList")) {
+						System.out.println(sub);
+						Node nvalue = eElement.getElementsByTagName(nametag).item(0).getNextSibling();
+						if (nvalue.getNodeType() == Node.ELEMENT_NODE) {
+							System.out.println("----------> Path: "+XMLResponse_Path+", OfferID: "+givenoff+", Attribute NAme: "+AtrrID);
 
+							Element vElement = (Element) nvalue;
+
+							NodeList structList = vElement.getElementsByTagName("struct");
+
+							int structDataLength = structList.getLength();
+							
+							for (int i = 0; i < structDataLength; i++) {
+
+								Node sNode = structList.item(i);
+
+								if (sNode.getNodeType() == Node.ELEMENT_NODE) {
+									Element structElement = (Element) sNode;
+
+									NodeList memberList = structElement.getChildNodes();
+									
+									
+
+									for (int j = 0; j < memberList.getLength(); j++) {
+										Node mNode = memberList.item(j);
+										if (mNode.getNodeType() == Node.ELEMENT_NODE) {
+											Element memElement = (Element) mNode;
+
+											String dta = memElement.getElementsByTagName("name").item(0)
+													.getTextContent();
+											String val = memElement.getElementsByTagName("value").item(0)
+													.getTextContent();
+											
+											if (dta.contains("pamClassID")&&val.contains(givenpam)) {
+												pam=1;
+												
+												for (int k = 0; k < memberList.getLength(); k++) {
+
+													Node mNodedup = memberList.item(k);
+
+													if (mNode.getNodeType() == Node.ELEMENT_NODE) {
+														Element memElementdup = (Element) mNodedup;
+														
+														 String[] offertag = new String[20];
+														 String[] offertagvalue = new String[20];
+														 offertag[k]= memElementdup.getElementsByTagName("name").item(0).getTextContent();
+														 offertagvalue[k]= memElementdup.getElementsByTagName("value").item(0).getTextContent();
+														 System.out.println(offertag+"=="+offertagvalue);
+														 pamvalue[k]= offertag[k]+" = "+ offertagvalue[k];
+
+													}
+												}
+					}
+										}
+									}
+								}
+							}
+						}
+					}
+					
 					if (sub.contains("offerInformation")) {
 						System.out.println(sub);
 						Node nvalue = eElement.getElementsByTagName(nametag).item(0).getNextSibling();
@@ -326,6 +389,8 @@ public class APIparam {
 									Element structElement = (Element) sNode;
 
 									NodeList memberList = structElement.getChildNodes();
+									
+									
 
 									for (int j = 0; j < memberList.getLength(); j++) {
 										Node mNode = memberList.item(j);
@@ -438,6 +503,14 @@ public class APIparam {
 				System.out.println("Attribute is empty");
 				}
 			}
+			if(pam==0) {
+				if(!givenpam.equals("")) {
+					total[0]="Failed";
+				}
+				else {
+				System.out.println("Pam is empty");
+				}
+			}
 			if(off==0) {
 				total[2]="Failed";
 				System.out.println("offer not found");
@@ -448,8 +521,9 @@ public class APIparam {
 		}
 		String member1 = Arrays.toString(membervalue).replace("null, ", "");
 		String offer1 = Arrays.toString(offervalue).replace("null, ", "");
+		String pam1 = Arrays.toString(pamvalue).replace("null, ", "");
 		
-		total[1] = member1+offer1;
+		total[1] = member1+offer1+pam1;
 		return total;
 
 	}
