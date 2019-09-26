@@ -156,6 +156,7 @@ public class App {
 						String table_type = inputs.getField("Table");
 						String attributeName = inputs.getField("Value4");
 						String attributeValue = inputs.getField("Value5");
+						String Pam = inputs.getField("Value5");
 						
 						String Productofferv = inputs.getField("Parameter1");
 						String offerStatev = inputs.getField("Parameter2");
