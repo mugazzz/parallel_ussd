@@ -19,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -269,21 +270,24 @@ public class APIparam {
 
 	}
 	
-	public static String WebService2(String XMLResponse_Path, String OfferId) throws Exception {
-//		String OfferId = "58";
-		//System.out.println(OfferId[0]);
+	public static String[] WebService2(String XMLResponse_Path, String givenoff, String AtrrID ) throws Exception {
+
+//		String AtrrID = "umsVm2MMS";
+//		String givenoff = "101";
 
 		String Nodetag = "member";
 		String sub = null;
-		String tbl = null;
-		
 
 		String nametag = "name";
-		// String tbl = "<table><tr><th>Parameter</th><th>Value</th></tr>";
-		 
+		int atti=0;
+		int off=0;
+		String[] membervalue = new String[20];
+		String[] offervalue = new String[20];
+		String[] total = new String[3];
+			
+
 		try {
-			System.out.println("XML PAATHHH: "+XMLResponse_Path);
-			System.out.println("Offer IDDDD: "+ OfferId);
+
 			DocumentBuilderFactory dbFactory1 = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder1 = dbFactory1.newDocumentBuilder();
 			Document doc1 = dBuilder1.parse(new File(XMLResponse_Path));
@@ -292,7 +296,6 @@ public class APIparam {
 			NodeList data = doc1.getElementsByTagName(Nodetag);
 
 			int totaldata = data.getLength();
-			//System.out.println(totaldata);
 
 			for (int temp = 0; temp < totaldata; temp++) {
 
@@ -307,57 +310,148 @@ public class APIparam {
 						System.out.println(sub);
 						Node nvalue = eElement.getElementsByTagName(nametag).item(0).getNextSibling();
 						if (nvalue.getNodeType() == Node.ELEMENT_NODE) {
+							System.out.println("----------> Path: "+XMLResponse_Path+", OfferID: "+givenoff+", Attribute NAme: "+AtrrID);
+
 							Element vElement = (Element) nvalue;
 
-							NodeList offerdata = vElement.getElementsByTagName("struct");
+							NodeList structList = vElement.getElementsByTagName("struct");
 
-							int offerDataLength = offerdata.getLength();
-							//System.out.println("   offerDataLength  " + offerDataLength);
+							int structDataLength = structList.getLength();
+							
+							for (int i = 0; i < structDataLength; i++) {
 
-							for (int i = 0; i < offerDataLength; i++) {
+								Node sNode = structList.item(i);
 
-								Node oNode = offerdata.item(i);
+								if (sNode.getNodeType() == Node.ELEMENT_NODE) {
+									Element structElement = (Element) sNode;
 
-								if (oNode.getNodeType() == Node.ELEMENT_NODE) {
-									Element offElement = (Element) oNode;
-									
-									NodeList memberdata= offElement.getElementsByTagName("member");
-									
-									for (int j = 0; j < memberdata.getLength(); j++) {
-										String datavalue = offElement.getElementsByTagName("value").item(1)
-												.getTextContent();
-										
-										if(OfferId.equalsIgnoreCase(datavalue)) {
-											String dataname = offElement.getElementsByTagName("name").item(j)
+									NodeList memberList = structElement.getChildNodes();
+
+									for (int j = 0; j < memberList.getLength(); j++) {
+										Node mNode = memberList.item(j);
+										if (mNode.getNodeType() == Node.ELEMENT_NODE) {
+											Element memElement = (Element) mNode;
+
+											String dta = memElement.getElementsByTagName("name").item(0)
 													.getTextContent();
-										 datavalue = offElement.getElementsByTagName("value").item(j)
+											String val = memElement.getElementsByTagName("value").item(0)
 													.getTextContent();
+											
+											if (dta.contains("offerID")&&val.contains(givenoff)) {
+												off=1;
+												//memElement.getParentNode().getChildNodes().getLength();
+												String att=memElement.getParentNode().getFirstChild().getTextContent();
+												
+												if(att.contains("attributeInformationList")) {
+													Node nvalu=	memElement.getPreviousSibling().getPreviousSibling().getFirstChild().getNextSibling();
+													if (nvalu.getNodeType() == Node.ELEMENT_NODE) {
+														Element vElemen = (Element) nvalu;
+														NodeList structLis = vElemen.getElementsByTagName("struct");
 
-											System.out.println(dataname + "==" + datavalue);
-											tbl = dataname+" "+datavalue;
+														for (int i1 = 0; i1 < structLis.getLength(); i1++) {
+
+															Node oNode = structLis.item(i1);
+															if (oNode.getNodeType() == Node.ELEMENT_NODE) {
+																Element offElement = (Element) oNode;
+																NodeList memberdata = offElement
+																		.getElementsByTagName("member");
+																for (int j1 = 0; j1 < memberdata.getLength(); j1++) {
+													
+																	String datavalue = offElement
+																			.getElementsByTagName("value").item(0)
+																			.getTextContent();
+
+																	if (AtrrID.equalsIgnoreCase(datavalue)) {
+																		atti=1;
+																		String[] datavalue2 = new String[20];
+																		String[] dataname2 = new String[20];
+																		dataname2[j1]= offElement
+																				.getElementsByTagName("name").item(j1)
+																				.getTextContent();
+																		datavalue2[j1] = offElement.getElementsByTagName("value")
+																				.item(j1).getTextContent();
+
+																		//System.out.println(dataname2[j1] + "==" + datavalue2[j1]);
+																		
+																		membervalue[j1]= dataname2[j1]+" = "+ datavalue2[j1];
+
+
+																	} else {
+																		//System.out.println("Given AtrrID "+AtrrID+" not found matching for given OfferId "+givenoff);
+
+																		break;
+
+																	}
+
+																}
+															}
+														}
+													}else {
+														
+													}
+												}else {
 											
-										}else {
-											//System.out.println("not found");
-											break;
-											
+													System.out.println("Offer ID is not having attributeInformationList");
+												}
+																							
+												for (int k = 0; k < memberList.getLength(); k++) {
+
+													Node mNodedup = memberList.item(k);
+
+													if (mNode.getNodeType() == Node.ELEMENT_NODE) {
+														Element memElementdup = (Element) mNodedup;
+														
+														 String[] offertag = new String[20];
+														 String[] offertagvalue = new String[20];
+														 offertag[k]= memElementdup.getElementsByTagName("name").item(0).getTextContent();
+														 offertagvalue[k]= memElementdup.getElementsByTagName("value").item(0).getTextContent();
+														 System.out.println(offertag+"=="+offertagvalue);
+														 offervalue[k]= offertag[k]+" = "+ offertagvalue[k];
+
+													}
+												}
+											} else {
+											}
+
 										}
-										
+
 									}
+
+								} else {
+									// continue;
 								}
 
 							}
 
-						} 
+						}
 
-					} 
+					}
 
-				} 
+				}
 			}
+			
+			if(atti==0) {
+				if(!AtrrID.equals("")) {
+					total[0]="Failed";
+				}
+				else {
+				System.out.println("Attribute is empty");
+				}
+			}
+			if(off==0) {
+				total[2]="Failed";
+				System.out.println("offer not found");
+			} 
 
 		} catch (Throwable e) {
-			System.out.println("Error occurs------------");
+
 		}
-		return tbl;
+		String member1 = Arrays.toString(membervalue).replace("null, ", "");
+		String offer1 = Arrays.toString(offervalue).replace("null, ", "");
+		
+		total[1] = member1+offer1;
+		return total;
+
 	}
 	
 	public static String[] USSDcontrol(String Scenario, String ExecutionStarttime, String Test_case, String USSD, String MSISDN, String currshortcode, String env) {

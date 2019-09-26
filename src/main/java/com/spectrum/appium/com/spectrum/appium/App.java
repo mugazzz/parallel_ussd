@@ -149,12 +149,19 @@ public class App {
 //						Recharge_Coupon = inputs.getField("Recharge_Coupon");
 //						String Call_To = inputs.getField("Call_TO_MSISDN");
 //						String CALL_DURATION = inputs.getField("CALL_DURATION");
+						
 						String ProductofferID = inputs.getField("Value1");
 						String offerState = inputs.getField("Value2");
 						String ExpireDate = inputs.getField("Value3");
 						String table_type = inputs.getField("Table");
 						String attributeName = inputs.getField("Value4");
 						String attributeValue = inputs.getField("Value5");
+						
+						String Productofferv = inputs.getField("Parameter1");
+						String offerStatev = inputs.getField("Parameter2");
+						String ExpireDatev = inputs.getField("Parameter3");
+						String attributeNamev = inputs.getField("Parameter4");
+						String attributeValuev = inputs.getField("Parameter5");
 						
 						info("Starting execution at +: " + Test_Case_ID + "->" + Test_Scenario + "->" + ExecutionStarttime);
 						extent.attachReporter(htmlReporter);
@@ -1115,9 +1122,9 @@ public class App {
 								extent.flush();
 								}
 							else {
-							curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
+						curtcid = inputs.getField("Test_Case_ID")+"--"+Test_Case+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
 							startTestCase(curtcid);
-							ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
+							ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Case"));
 							String[] Result = APIparam.APIcontrol(Test_Scenario, ExecutionStarttime, inputs.getField("Test_Case_ID"));
 							
 					//Product ID validation
@@ -1125,6 +1132,11 @@ public class App {
 							String[] ProductofferID1 = ProductofferID.split(",");
 							String[] offerState1 = offerState.split(",");
 							String[] ExpireDate1 = ExpireDate.split(",");
+							String[] attributeName1 = attributeName.split(",");
+							String[] attributeValue1 = attributeValue.split(",");
+							String[] report = new String[100];
+							String state = "Pass";
+							
 														
 							for (int i = 0; i < ProductofferID1.length; i++) {
 								String nxt = "fail";
@@ -1142,45 +1154,104 @@ public class App {
 								info("For Product ID : " + ProductofferID1[i]);
 								info("Status is : " + offerState1[i]);
 								info("ExpireDate is : " + ExpireDate1[i]);
-							}
-							catch (Exception e) { // Thread.sleep(100); }
-								takeScreenShot("Error in provided product ID list");	
-							}
-						}	
-							
-					//Attribute Validation
-							
-							String[] attributeName1 = attributeName.split(",");
-							String[] attributeValue1 = attributeValue.split(",");
-							
-							for (int i = 0; i < attributeName1.length; i++) {
-								String nxt = "fail";
-								do {
-									try {
-										System.out.println("------------------------------");
-										Thread.sleep(1000);
-										nxt = "pass";
-									} catch (Exception e) { // Thread.sleep(100); }
-
+								info("Attribute Name is : " + attributeName1[i]);
+								info("Attribute Value is : " + attributeValue1[i]);
+								
+								String ResultAPI[] = APIparam.WebService2(Result[0], ProductofferID1[i].trim(), attributeName1[i].trim());
+								String ResultAP = ResultAPI[0];
+								String ResultAP2 = ResultAPI[2];
+								System.out.println("ResultAP2---------> "+ResultAP2);
+								try {
+									if(ResultAP2.equals("Failed")) {
+										state= "Failed";
+										report[98] = "<li>Given Offer ID: <b>"+ProductofferID1[i]+"</b> itself is not available</li>";
 									}
-								} while (nxt != "pass");
-								System.out.println("------------------------------");
-							try {
-								info("For Attribute : " + attributeName1[i]);
-								info("Related attribute value is : " + attributeValue1[i]);
+									}
+									catch (Exception e) { // Thread.sleep(100); }
+										
+									}
+								System.out.println("ResultAP---------> "+ResultAP);
+								try {
+								if(ResultAP.equals("Failed")) {
+									state= "Failed";
+									report[99] = "<li>Given Attribute name: <b>"+attributeName1[i]+ "</b> is not available for the offer ID: <b>"+ProductofferID1[i]+"</b></li>";
+								}
+								}
+								catch (Exception e) { // Thread.sleep(100); }
+									
+								}
+								
+								String resultap = ResultAPI[1].replace(", null", "").replace("][", ", ").replace(" = ", ", ").replace("[", "").replace("]", "");
+								System.out.println("Result List----> "+resultap);
+								String[] Firstwrap = resultap.split(",");
+								for(int l=0; l<=Firstwrap.length; l++) {
+									System.out.println(Firstwrap[l]+"----->"+Firstwrap[l+1]);
+									if(Firstwrap[l].trim().equalsIgnoreCase(Productofferv.trim())) {
+										if(Firstwrap[l+1].trim().equalsIgnoreCase(ProductofferID1[i].trim())) {
+											info("Product ID : " + ProductofferID1[i]+ "is validated");
+										}
+										else {
+											state = "Failed";
+											report[0+l] = "<li>For Offer ID: <b>"+ProductofferID1[i]+"</b> ---> Product ID <b>: " + ProductofferID1[i]+ "</b> is not correct and the actual Value is "+Firstwrap[l+1]+"</li>";
+										}
+										
+									}
+									if(Firstwrap[l].trim().equalsIgnoreCase(offerStatev.trim())) {
+										if(Firstwrap[l+1].trim().equalsIgnoreCase(offerState1[i].trim())) {
+											info("OfferState : " + offerState1[i]+ "is validated");
+										}
+										else {
+											state = "Failed";
+											report[1+l] = "<li>For Offer ID: <b>"+ProductofferID1[i]+"</b> ---> OfferState : <b>" + offerState1[i]+ "</b> is not correct and the actual Value is "+Firstwrap[l+1]+"</li>";
+										}
+									}
+									if(Firstwrap[l].trim().equalsIgnoreCase(ExpireDatev.trim())) {
+										if(Firstwrap[l+1].trim().equalsIgnoreCase(ExpireDate1[i].trim())) {
+											info("Expire Date : " + ExpireDate1[i]+ "is validated");
+										}
+										else {
+											state = "Failed";
+											report[2+l] = "<li>For Offer ID: <b>"+ProductofferID1[i]+"</b> ---> Expire Date <b>: " + ExpireDate1[i]+ "</b> is not correct and the actual Value is "+Firstwrap[l+1]+"</li>";
+										}
+									}
+									if(Firstwrap[l].trim().equalsIgnoreCase(attributeNamev.trim())) {
+										if(Firstwrap[l+1].trim().equalsIgnoreCase(attributeName1[i].trim())) {
+											info("<br>For Offer ID: "+ProductofferID1[i]+"</b> ----> Attribute Name : <b>" + attributeName1[i]+ "</b> is validated");
+										}
+										else {
+											state = "Failed";
+											report[3+l]="<li>For Offer ID: <b>"+ProductofferID1[i]+"</b> Attribute Name : <b>" + attributeName1[i]+ "</b> is not correct and the actual Value is "+Firstwrap[l+1]+"</li>";
+										}
+									}
+									if(Firstwrap[l].trim().equalsIgnoreCase(attributeValuev.trim())) {
+										if(Firstwrap[l+1].trim().equalsIgnoreCase(attributeValue1[i].trim())) {
+											info("Attribute Value : " + attributeValue1[i]+ " is validated");
+										}
+										else {
+											state = "Failed";
+											report[4+l] = "<li>For Offer ID: <b>"+ProductofferID1[i]+" -----> Attribute Value of <b>" + attributeName1[i]+ " = " + attributeValue1[i]+ "</b> is not correct and the actual Value is "+Firstwrap[l+1]+"</li>";
+										}
+									}
+							}
+								
+									
 							}
 							catch (Exception e) { // Thread.sleep(100); }
-								takeScreenShot("Error in provided product ID list");	
+							
 							}
 						}	
-							
-							//String tab = APIparam.WebService2(Result[0], "58");
+							info("Status -----> "+state);
 							//System.out.println("Service Tab---->"+tab);
+							String reports = Arrays.toString(report).replace(", null", "").replace("null", "").replace("null,", "").replace("[", "").replace("]", "").replace(",", "");
 							
 							test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + Result[0]
-									+ "'>Click to View the " + Result[1] + " Response file</a></b><br>" + Result[2] + "</table>");
-							extent.flush();
+									+ "'>Click to View the " + Result[1] + " Response file</a></b><br>");
+							if(state.equals("Failed")) {
+								test.fail("<b><u>Failed due to following mismatch items:</u></b><br><ol>"+reports+ "</table>");
+							}
 
+							extent.flush();
+							
 								}
 							}
 						
@@ -1188,7 +1259,7 @@ public class App {
 						{
 							String validate = "null";
 							String Statu = "null";
-							String Reason = "null";
+							String[] Reason = new String[100];
 							curtcid = inputs.getField("Test_Case_ID")+"--"+Test_Case+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
 							startTestCase(curtcid);
 							ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+" : "+Test_Case+" : "+inputs.getField("Test_Scenario"));
@@ -1217,7 +1288,7 @@ public class App {
 							}
 							else if(table_type.equalsIgnoreCase("renewal")) {
 							 
-								 //validate = "select * from renewal where product_id= 1547";
+								//validate = "select * from renewal where product_id= 925";
 
 								validate = "select "+x+" from renewal where msisdn="+MSISDN+" order by last_action_date desc limit 1";
 							}
@@ -1235,30 +1306,45 @@ public class App {
 							int len = strArray.length;
 							System.out.println("Length of string: "+len);
 							String valueq = null;
+			
 							while (rs.next()) {
 							for (int i =1; i<=len; i++) {
 								String colname = val[i];
 								try{
 								valueq = rs.getObject(i).toString();
+								if(valueq.equals(null)) {
+									valueq = "Null value";
+									System.out.println("Emmmptttyyy Value");
+								}else {
+									if(valueq.length()>19) {
+										//para[i] = para[i].substring(0, 19);
+										valueq = valueq.substring(0, 19);
+										
+									}
+									if (valueq.equalsIgnoreCase(para[i].trim())) {
+										System.out.println(colname+" is equal: "+valueq);
+									}
+									else {
+										Statu = "Fail";
+										Reason[i] = "<br><li> DB validation failed as the actual value of <b>"+colname+"</b> is <b>"+valueq+"</b> and the expected value is <b>"+para[i]+"</b></li>";
+										System.out.println(Arrays.toString(Reason));
+									}
+								}
 								}
 								catch (Exception e){
-									info("Problem with the provided pramater "+colname+" in DB, either its 'null' or empty");
-								}
-								if (valueq.equalsIgnoreCase(para[i])) {
-									System.out.println(colname+" is equal: "+valueq);
-								}
-								else {
 									Statu = "Fail";
-									Reason = "DB validation failed as the "+colname+" is "+valueq+" and "+para[i];
-									System.out.println(Reason);
+									info("Problem with the provided pramater "+colname+" in DB, either its 'null' or empty");
+									Reason[i] = "<li>Problem with the provided pramater "+colname+" in DB, either its 'null' or empty</li>";
 								}
+								
 							}
 							}							
 							String Result = Asnconvertor.cis_db(table_type, MSISDN);
 							System.out.println(Result);
-							test.pass(Result+ "</table>");
+							String Reasons = Arrays.toString(Reason).replace(", null", "").replace("null", "").replace("null,", "").replace("[", "").replace("]", "").replace(",", "");
+							test.pass(Result+"</table>");
 							if(Statu.contains("Fail")) {
-								test.fail(Reason);
+								test.fail("<b><u>Failed due to following mismatch items:</u></b><ol>"+Reasons);
 							}
 							extent.flush();
 						}
