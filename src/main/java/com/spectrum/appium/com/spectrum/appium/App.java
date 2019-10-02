@@ -1,7 +1,9 @@
 package com.spectrum.appium.com.spectrum.appium;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
@@ -1169,8 +1171,9 @@ public class App {
 						
 						//----------------------	API Call	 --------------------------//
 						
+						
 						if(Test_Scenario.contains("API")) {
-							if(Test_Scenario.contains("CIS")) {
+							if(Test_Scenario.contains("CIS0039")) {
 								curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario");
 								startTestCase(curtcid);
 								ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
@@ -1194,6 +1197,7 @@ public class App {
 								if (Menu_Option.equals("")) {
 									System.out.println("Menu option is empty, this might be Long code");
 								}
+								
 								else {
 										String[] spltussd = Menu_Option.split(",");
 										for (int currshortcode = 0; currshortcode < spltussd.length; currshortcode++) {
@@ -1224,6 +1228,50 @@ public class App {
 										+ "'>Click to View the " + Result[1] + " Response file</a></b><br>"+ "</table>");
 								extent.flush();
 								}
+							
+							else if (Test_Scenario.contains("Product_Subscription")) {
+								curtcid = inputs.getField("Test_Case_ID")+"--"+Test_Case+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
+								startTestCase(curtcid);
+								String state = "Pass";
+								String[] report = new String[10];
+								ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Case"));
+								try {
+								String [] Result = APIparam.CIS_API(Test_Scenario, ExecutionStarttime, inputs.getField("Test_Case_ID"));
+								String val[]  = new String[10];
+								String param[] = new String[10];
+								for (int Iterator = 1; Iterator <= 150; Iterator++) {
+									if (inputs.getField("Parameter" + Iterator).isEmpty() == false) {
+										param[Iterator] = inputs.getField("Parameter" + Iterator);
+										val[Iterator] = inputs.getField("Value" + Iterator);
+										String Actual = APIparam.WebService3(Result[0], param[Iterator]);
+										if(Actual.equalsIgnoreCase(val[Iterator])) {
+											info("Parameter : " + param[Iterator]+ "is validated");
+										}
+										else {
+											state = "Failed";
+											report[Iterator] = "<li>For Parameter: <b>"+param[Iterator]+"</b> actual value is <b>: " + Actual+ "</b> and the expected Value is <b>"+val[Iterator]+"</b></li>";
+										}
+									} else
+										break;
+								}
+								
+								info("Status -----> "+state);
+								//System.out.println("Service Tab---->"+tab);
+								String reports = Arrays.toString(report).replace(", null", "").replace("null", "").replace("null,", "").replace("[", "").replace("]", "").replace(",", "");
+								
+								test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + Result[0]
+										+ "'>Click to View the " + Result[1] + " Response file</a></b><br>");
+								if(state.equals("Failed")) {
+									test.fail("<b><u>Failed due to following mismatch items:</u></b><br><ol>"+reports+ "</table>");
+								}
+
+								extent.flush();
+								}
+								catch (Exception e) { // Thread.sleep(100); }
+									System.out.println("Process Failed!!!");	
+								}
+							}
+							
 							else {
 						curtcid = inputs.getField("Test_Case_ID")+"--"+Test_Case+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
 							startTestCase(curtcid);
@@ -1647,6 +1695,105 @@ public class App {
 							}
 							extent.flush();
 						}
+						
+						
+						else if(Test_Scenario.contains("CIS_EDR_Validation")) {
+							String curtcid = inputs.getField("Test_Case_ID")+Test_Case+inputs.getField("Test_Scenario")+inputs.getField("Test_Case");
+							startTestCase(curtcid);
+							ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+" : "+Test_Case+" : "+inputs.getField("Test_Scenario"));
+							Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
+							String[] convertor = Asnconvertor.Result(trfold, MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", "", "", "", "", "", "", ExecutionStarttime, "", "" );
+							String[] Reason = new String[50];
+							String val[]  = new String[50];
+							String para[] = new String[50];
+							int given = 0;
+							String Statu = "Pass";
+							for (int Iterator = 1; Iterator <= 150; Iterator++) {
+								if (inputs.getField("Parameter" + Iterator).isEmpty() == false) {
+									para[Iterator] = inputs.getField("Parameter" + Iterator);
+									val[Iterator] = inputs.getField("Value" + Iterator);
+									given++;
+									
+								} else
+									break;
+							}
+							
+							
+							BufferedReader csvReader = new BufferedReader(new FileReader(convertor[49]));
+							String row;
+							String csv[] = new String[10];
+							int f=0;
+							while ((row = csvReader.readLine()) != null) {
+									f++;
+							    String[] data = row.split("|");
+							    csv[f] = Arrays.toString(data).replace(", ", "").replace("|", ", ").replace("[", "").replace("]", "");
+							    //String cs2 = csc.replace("[", "").replace("]", "").replace("][", ", ").replace("|", ", ");
+							    System.out.println(csv[f]+"----------++----------");
+							    
+							}
+							csvReader.close();
+							String param = csv[1];
+							String check = "fail";
+							String[] paramlst =param.split(",");
+							int paramlent = paramlst.length;
+							System.out.println("Param Lenght is: "+paramlent);
+							try {
+							System.out.println("Parameters are: "+param);
+							for(int z=2; z<=f; z++) {
+								String valuess = csv[z];
+								String[] valuelist = valuess.split(",");
+								if(valuess.contains(val[1]) && valuess.contains(val[2])) {
+								check="pass";
+								System.out.println("values Lenght is: "+valuelist.length);
+								for(int w=1; w<=given; w++) {
+									String compara = para[w];
+									String comval = val[w];
+									for(int i=0; i<=17; i++) {										
+										try {
+										if(paramlst[i].trim().equalsIgnoreCase(compara.trim())) {
+											if(valuelist[i].trim().equalsIgnoreCase(comval.trim())) {
+												info("The parameter "+paramlst[i]+" in DB is validated");
+												System.out.println("Expected Value of "+paramlst[i]+" is "+valuelist[i]);
+											}
+											else {
+												Statu = "Fail";
+												System.out.println("XXXXXXXXXXXXXXXXX Failed Value of "+paramlst[i]+" is "+valuelist[i]+" XXXXXXXXXXXXXX");
+												Reason[w+z] = "<li>Problem with the provided pramater <b>"+compara+"</b> value <b>"+comval+"</b> , where the actual value is <b>"+valuelist[i]+"</b> </li>";
+											}
+											break;
+										}
+									}
+									catch (Exception e){
+										//e.printStackTrace();
+										info("Problem with the iteration count");
+									}
+									}
+								}
+								break;
+							}	
+								
+							}
+							if(check.equalsIgnoreCase("fail")) {
+								Statu = "Fail";
+								Reason[49] = "<li>No Data Found for the provided detail: <b>"+val[1]+"</b> and <b>"+val[2]+"</b></li>";
+								}
+							
+							}
+							catch (Exception e){
+								e.printStackTrace();
+								info("Problem with the iteration count");
+							}
+							
+							String Reasons = Arrays.toString(Reason).replace(", null", "").replace("null", "").replace("null,", "").replace("[", "").replace("]", "").replace(",", "");
+
+							test.pass("<b>CIS EDR: </b><br>" + convertor[3] 
+								+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output1.csv'>Click to View the EDR</a>"+"</table><br>");
+							if(Statu.contains("Fail")) {
+								test.fail("<b><u>Failed due to following mismatch items:</u></b><ol>"+Reasons);
+							}	
+							extent.flush();
+						}
+						
 						
 						else {
 							System.out.println("Please check the entered scenario name");
@@ -2313,7 +2460,7 @@ public static void copydir(String Source, String Destination) {
 		DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
 		Calendar cal = Calendar.getInstance();
 		try {
-			resfold = new File(Result_FLD + "/" + loginUser + "/" + dateFormat.format(cal.getTime()) + "/");
+			resfold = new File(Result_FLD + "/" + dateFormat.format(cal.getTime()) + "/");
 			if ((!resfold.exists()))
 				resfold.mkdir();
 

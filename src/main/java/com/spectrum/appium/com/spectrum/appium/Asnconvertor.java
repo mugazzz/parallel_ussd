@@ -1006,14 +1006,15 @@ public class Asnconvertor {
 								//String schemaname = "";
 								File TCFold = new File(trfold + "/" + curtcid+"/"+filetype);
 								if ((!TCFold.exists()))
-									TCFold.mkdir();
+									TCFold.mkdirs();
 								File TCFold1 = new File(trfold + "/" + curtcid+"/"+filetype + "/" + filename);
 								if ((!TCFold1.exists()))
-									TCFold1.mkdir();
+									TCFold1.mkdirs();
 								File filecsv = new File(trfold + "/"  + curtcid+"/"+filetype + "/" + filename + "/Output1.csv");
 								String FileCSV = "trfold + '/'  + curtcid+'/'+filetype + '/' + filename+'/'";
 								Cis_viewpath=filecsv.toString();
-								System.out.println(Cis_viewpath);
+								convertor[49] = Cis_viewpath;
+								System.out.println("EEDDDRRR Path: "+Cis_viewpath);
 								if (filecsv.exists()) {
 									filecsv.delete();
 								}

@@ -105,7 +105,7 @@ public class APIparam {
 			Recordset rs = null;
 			String rs1 = "Select * from API_Data where TestCase_ID = '"+Test_case+"' and Request_Name = '"+Scenario+"'";
 			System.out.println(rs1);
-			Recordset rsi = conn1.executeQuery("Select * from API_Data where TestCase_ID = '"+Test_case+"' and Request_Name = '"+Scenario+"'");
+			Recordset rsi = conn1.executeQuery(rs1);
 			String cellval1 = "blank";
 			String cellval2 = "blank";
 			String cellval3 = "blank";
@@ -268,6 +268,38 @@ public class APIparam {
 		}
 		return Result;
 
+	}
+	
+	public static String WebService3(String XMLResponse_Path, String param){
+		String actval = "";
+		System.out.println(XMLResponse_Path+"------------>"+param);
+		//String path = "C:/Users/mugazp/git/parallel_ussd1/reports/01-Oct-2019/01-Oct-2019_16-31-29/CIS_API_Response/CIS_API_Product_Subscription.xml";
+		try {
+
+			DocumentBuilderFactory dbFactory1 = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder1 = dbFactory1.newDocumentBuilder();
+			Document doc = dBuilder1.parse(new File(XMLResponse_Path));
+			//Document doc = dBuilder1.parse(new File(path));
+			doc.getDocumentElement().normalize();
+					NodeList nlis = doc.getDocumentElement().getElementsByTagName(param);
+					if (nlis.getLength() == 0) {
+						nlis = doc.getDocumentElement().getElementsByTagNameNS("*", param);
+						System.out.println("Node Name: "+nlis);
+					}
+					if (nlis.getLength() != 0) {
+						actval = nlis.item(0).getTextContent();
+						System.out.println("Actual Node Value: "+actval);
+					} else {
+						actval = "";
+						System.out.println("Actual Node Value is working +++++");
+					}
+		
+	} catch (Throwable e) {
+		System.out.println("######### WEB Service for product subscription failed ##########");
+	}
+		
+		return actval;
+		
 	}
 	
 	public static String[] WebService2(String XMLResponse_Path, String givenoff1, String AtrrID1, String givenpam, String DA_ID) throws Exception {
@@ -754,7 +786,7 @@ public class APIparam {
 				String TO_CREDIT = rsi.getField("Value3");	
 				url = "http://10.95.215.6:8001/cisBusiness/service/fulfillmentService?msisdn="+MSISDN+"&username=c39929de831bbe6b494e45dd5eb2926d&password=2cc935d0922c88fcbc5180b573040968&iname=TIBCO&input="+INPUT+"&clientTransactionId=4122867334537798&circleCode=UAE&opParam2=General%20Cash&adjustmentAction=1&amountToCredit="+"-"+TO_CREDIT+"&OpParam1=Complaint&OpParam4=30";
 			}
-			else if (Scenario.equalsIgnoreCase("CIS_API_Product_Subscription")) {
+			else if (Scenario.equalsIgnoreCase("API_Product_Subscription")) {
 				String MSISDN =rsi.getField("Value1");
 				String INPUT = rsi.getField("Value2");
 				url = "http://10.95.215.6:8001/cisBusiness/service/fulfillmentService?msisdn="+MSISDN+"&username=c39929de831bbe6b494e45dd5eb2926d&password=2cc935d0922c88fcbc5180b573040968&iname=TIBCO&input="+INPUT+"&clientTransactionId=1000040996&circleCode=UAE&paySrc=&sendsms=&skipcharging=&productcost=";
