@@ -15,6 +15,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -68,6 +70,7 @@ public class App {
 	public String Confirmation = "";
 	public String Amount = "";
 	public String To_Number = "";
+	public static String datecis;
 
 	public String curtcid1 = "";
 	public static String udid;
@@ -128,6 +131,7 @@ public class App {
 	String expiryDate = "";
 	String startDatev = "";
 	String startDate ="";
+	String CIS_type ="";
 
 	public String updatef = "";
 
@@ -1233,7 +1237,9 @@ public class App {
 								curtcid = inputs.getField("Test_Case_ID")+"--"+Test_Case+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
 								startTestCase(curtcid);
 								String state = "Pass";
-								String[] report = new String[10];
+								String sta = "Pass";
+								String[] report = new String[20];
+								String[] report1 = new String[20];
 								ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Case"));
 								try {
 								String [] Result = APIparam.CIS_API(Test_Scenario, ExecutionStarttime, inputs.getField("Test_Case_ID"));
@@ -1245,7 +1251,9 @@ public class App {
 										val[Iterator] = inputs.getField("Value" + Iterator);
 										String Actual = APIparam.WebService3(Result[0], param[Iterator]);
 										if(Actual.equalsIgnoreCase(val[Iterator])) {
+											sta = "Pass";
 											info("Parameter : " + param[Iterator]+ "is validated");
+											report1[Iterator] = "<li>For Parameter: <b>"+param[Iterator]+"</b> actual value is <b>: " + Actual+ "</b> and the expected Value is <b>"+val[Iterator]+"</b></li>";
 										}
 										else {
 											state = "Failed";
@@ -1258,9 +1266,14 @@ public class App {
 								info("Status -----> "+state);
 								//System.out.println("Service Tab---->"+tab);
 								String reports = Arrays.toString(report).replace(", null", "").replace("null", "").replace("null,", "").replace("[", "").replace("]", "").replace(",", "");
+								String reports1 = Arrays.toString(report1).replace(", null", "").replace("null", "").replace("null,", "").replace("[", "").replace("]", "").replace(",", "");
+
 								
 								test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + Result[0]
 										+ "'>Click to View the " + Result[1] + " Response file</a></b><br>");
+								if(sta.equals("Pass")) {
+									test.pass("<b><u>Validation passed items:</u></b><br><ol>"+reports1+ "</table>");
+								}
 								if(state.equals("Failed")) {
 									test.fail("<b><u>Failed due to following mismatch items:</u></b><br><ol>"+reports+ "</table>");
 								}
@@ -1275,7 +1288,7 @@ public class App {
 							else {
 						curtcid = inputs.getField("Test_Case_ID")+"--"+Test_Case+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
 							startTestCase(curtcid);
-							ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Case"));
+							ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+MSISDN+" : "+inputs.getField("Test_Case"));
 							String[] Result = APIparam.APIcontrol(Test_Scenario, ExecutionStarttime, inputs.getField("Test_Case_ID"));
 							
 					//Product ID validation
@@ -1302,6 +1315,8 @@ public class App {
 						
 							String[] report = new String[100000];
 							String state = "Pass";
+							String[] report1 = new String[100000];
+							String state1 = "Pass";
 															
 														
 							for (int g = 0; g< ProductofferID1.length; g++) {
@@ -1332,11 +1347,18 @@ public class App {
 								System.out.println("ResultAP2---------> "+ResultAP2);
 								System.out.println("ResultAP5---------> "+ResultAP5);
 								try {
+									if(table_type.contains("delete_offer")) {
+										if(!ResultAP2.equals("Failed")) {
+											state= "Failed";
+											report[90+g] = "<li>Given Offer ID: <b>"+ProductofferID1[g]+"</b> is still available</li>";
+										}
+									}else {
 									if(ResultAP2.equals("Failed")) {
 										state= "Failed";
 										report[98+g] = "<li>Given Offer ID: <b>"+ProductofferID1[g]+"</b> itself is not available</li>";
 									}
 									}
+								}
 									catch (Exception e) { // Thread.sleep(100); }
 										
 									}
@@ -1367,83 +1389,101 @@ public class App {
 									double y = Math.random()*100;
 									int b = (int)y;
 									System.out.println(Firstwrap[l]+"----->"+Firstwrap[l+1]);
-									if(Firstwrap[l].trim().equalsIgnoreCase(Productofferv.trim())) {
-										if(Firstwrap[l+1].trim().equalsIgnoreCase(ProductofferID1[g].trim())) {
-											info("Product ID : " + ProductofferID1[g]+ "is validated");
-										}
-										else {
-											state = "Failed";
-											report[0+b] = "<li>For Offer ID: <b>"+ProductofferID1[g]+"</b> ---> Product ID <b>: " + ProductofferID1[g]+ "</b> is not correct and the actual Value is "+Firstwrap[l+1]+"</li>";
-										}
-										
-									}
+//									if(Firstwrap[l].trim().equalsIgnoreCase(Productofferv.trim())) {
+//										if(Firstwrap[l+1].trim().equalsIgnoreCase(ProductofferID1[g].trim())) {
+//											info("Product ID : " + ProductofferID1[g]+ "is validated");
+//										}
+//										else {
+//											state = "Failed";
+//											report[0+b] = "<li>For Offer ID: <b>"+ProductofferID1[g]+"</b> ---> Product ID <b>: " + ProductofferID1[g]+ "</b> is not correct and the actual Value is "+Firstwrap[l+1]+"</li>";
+//										}
+//										
+//									}
 									if(Firstwrap[l].trim().equalsIgnoreCase(offerStatev.trim())) {
 										if(Firstwrap[l+1].trim().equalsIgnoreCase(offerState1[g].trim())) {
+											state1 = "Pass";
 											info("OfferState : " + offerState1[g]+ "is validated");
+											report1[1+b] = "<li>For Offer ID: <b>"+ProductofferID1[g]+"</b> ---> OfferState : <b>" + offerState1[g]+ "</b> is correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
+
 										}
 										else {
 											state = "Failed";
-											report[1+b] = "<li>For Offer ID: <b>"+ProductofferID1[g]+"</b> ---> OfferState : <b>" + offerState1[g]+ "</b> is not correct and the actual Value is "+Firstwrap[l+1]+"</li>";
+											report[1+b] = "<li>For Offer ID: <b>"+ProductofferID1[g]+"</b> ---> OfferState : <b>" + offerState1[g]+ "</b> is not correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 									}
 									if(Firstwrap[l].trim().equalsIgnoreCase(ExpireDatev.trim())) {
 										if(Firstwrap[l+1].trim().equalsIgnoreCase(ExpireDate1[g].trim())) {
 											info("Expire Date : " + ExpireDate1[g]+ "is validated");
+											state1 = "Pass";
+											report1[2+l] = "<li>For Offer ID: <b>"+ProductofferID1[g]+"</b> ---> Expire Date <b>: " + ExpireDate1[g]+ "</b> is correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
+
 										}
 										else {
 											state = "Failed";
-											report[2+l] = "<li>For Offer ID: <b>"+ProductofferID1[g]+"</b> ---> Expire Date <b>: " + ExpireDate1[g]+ "</b> is not correct and the actual Value is "+Firstwrap[l+1]+"</li>";
+											report[2+l] = "<li>For Offer ID: <b>"+ProductofferID1[g]+"</b> ---> Expire Date <b>: " + ExpireDate1[g]+ "</b> is not correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 									}
 									if(Firstwrap[l].trim().equalsIgnoreCase(attributeNamev.trim())) {
 										if(Firstwrap[l+1].trim().equalsIgnoreCase(attributeName1[g].trim())) {
 											info("<br>For Offer ID: <b>"+ProductofferID1[g]+"</b> ----> Attribute Name : <b>" + attributeName1[g]+ "</b> is validated");
+											state1 = "Pass";
+											report1[3+b]="<li>For Offer ID: <b>"+ProductofferID1[g]+"</b> Attribute Name : <b>" + attributeName1[g]+ "</b> is correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 										else {
 											state = "Failed";
-											report[3+b]="<li>For Offer ID: <b>"+ProductofferID1[g]+"</b> Attribute Name : <b>" + attributeName1[g]+ "</b> is not correct and the actual Value is "+Firstwrap[l+1]+"</li>";
+											report[3+b]="<li>For Offer ID: <b>"+ProductofferID1[g]+"</b> Attribute Name : <b>" + attributeName1[g]+ "</b> is not correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 									}
 									if(Firstwrap[l].trim().equalsIgnoreCase(attributeValuev.trim())) {
 										if(Firstwrap[l+1].trim().equalsIgnoreCase(attributeValue1[g].trim())) {
 											info("Attribute Value : " + attributeValue1[g]+ " is validated");
+											state1 = "Pass";
+											report1[4+b] = "<li>For Offer ID: <b>"+ProductofferID1[g]+"</b> -----> Attribute Value of <b>" + attributeName1[g]+ " = " + attributeValue1[g]+ "</b> is correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 										else {
 											state = "Failed";
-											report[4+b] = "<li>For Offer ID: <b>"+ProductofferID1[g]+"</b> -----> Attribute Value of <b>" + attributeName1[g]+ " = " + attributeValue1[g]+ "</b> is not correct and the actual Value is "+Firstwrap[l+1]+"</li>";
+											report[4+b] = "<li>For Offer ID: <b>"+ProductofferID1[g]+"</b> -----> Attribute Value of <b>" + attributeName1[g]+ " = " + attributeValue1[g]+ "</b> is not correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 									}
 					
 									if(Firstwrap[l].trim().equalsIgnoreCase(pamClassIDv.trim())) {
 										if(Firstwrap[l+1].trim().equalsIgnoreCase(pamClassID1[w].trim())) {
 											info("pamClassID Value : " + pamClassID1[w]+ " is validated");
+											state1 = "Pass";
+											report1[5+b+w] = "<li>pamClassID Value: <b>" + pamClassID1[w]+ "</b> is correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 										else {
 											state = "Failed";
-											report[5+b+w] = "<li>pamClassID Value: <b>" + pamClassID1[w]+ "</b> is not correct and the actual Value is "+Firstwrap[l+1]+"</li>";
+											report[5+b+w] = "<li>pamClassID Value: <b>" + pamClassID1[w]+ "</b> is not correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 									}
 									if(Firstwrap[l].trim().equalsIgnoreCase(pamServiceIDv.trim())) {
 										if(Firstwrap[l+1].trim().equalsIgnoreCase(pamServiceID1[w].trim())) {
 											info("pamServiceID Value : " + pamServiceID1[w]+ " is validated");
+											state1 = "Pass";
+											report1[6+b+w] = "<li>For pamClassID ID: <b>"+pamClassID1[w]+"</b> -----> pamServiceID Value: <b>" + pamServiceID1[w]+ "</b> is correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 										else {
 											state = "Failed";
-											report[6+b+w] = "<li>For pamClassID ID: <b>"+pamClassID1[w]+"</b> -----> pamServiceID Value: <b>" + pamServiceID1[w]+ "</b> is not correct and the actual Value is "+Firstwrap[l+1]+"</li>";
+											report[6+b+w] = "<li>For pamClassID ID: <b>"+pamClassID1[w]+"</b> -----> pamServiceID Value: <b>" + pamServiceID1[w]+ "</b> is not correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 									}
 									if(Firstwrap[l].trim().equalsIgnoreCase(pamServicePriorityv.trim())) {
 										if(Firstwrap[l+1].trim().equalsIgnoreCase(pamServicePriority1[w].trim())) {
 											info("pamServicePriority Value : " + pamServicePriority1[w]+ " is validated");
+											state1 = "Pass";
+											report1[7+b+w] = "<li>For pamClassID ID: <b>"+pamClassID1[w]+"</b> -----> pamServiceID Value: <b>" + pamServicePriority1[w]+ "</b> is correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 										else {
 											state = "Failed";
-											report[7+b+w] = "<li>For pamClassID ID: <b>"+pamClassID1[w]+"</b> -----> pamServiceID Value: <b>" + pamServicePriority1[w]+ "</b> is not correct and the actual Value is "+Firstwrap[l+1]+"</li>";
+											report[7+b+w] = "<li>For pamClassID ID: <b>"+pamClassID1[w]+"</b> -----> pamServiceID Value: <b>" + pamServicePriority1[w]+ "</b> is not correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 									}
 									if(Firstwrap[l].trim().equalsIgnoreCase(scheduleIDv.trim())) {
 										if(Firstwrap[l+1].trim().equalsIgnoreCase(scheduleID1[w].trim())) {
 											info("scheduleID Value : " + scheduleID1[w]+ " is validated");
+											state1 = "Pass";
+											report1[8+b+w] = "<li>For pamClassID ID: <b>"+pamClassID1[w]+"</b> -----> scheduleID Value: <b>" + scheduleID1[w]+ "</b> is correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 										else {
 											state = "Failed";
@@ -1453,19 +1493,23 @@ public class App {
 									if(Firstwrap[l].trim().equalsIgnoreCase(lastEvaluationDatev.trim())) {
 										if(Firstwrap[l+1].trim().equalsIgnoreCase(lastEvaluationDate1[w].trim())) {
 											info("lastEvaluationDate Value : " + lastEvaluationDate1[w]+ " is validated");
+											state1 = "Pass";
+											report1[9+b+w] = "<li>For pamClassID ID: <b>"+pamClassID1[w]+"</b> -----> lastEvaluationDate Value: <b>" + lastEvaluationDate1[w]+ "</b> is correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 										else {
 											state = "Failed";
-											report[9+b+w] = "<li>For pamClassID ID: <b>"+pamClassID1[w]+"</b> -----> lastEvaluationDate Value: <b>" + lastEvaluationDate1[w]+ "</b> is not correct and the actual Value is "+Firstwrap[l+1]+"</li>";
+											report[9+b+w] = "<li>For pamClassID ID: <b>"+pamClassID1[w]+"</b> -----> lastEvaluationDate Value: <b>" + lastEvaluationDate1[w]+ "</b> is not correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 									}
 									if(Firstwrap[l].trim().equalsIgnoreCase(currentPamPeriodv.trim())) {
 										if(Firstwrap[l+1].trim().equalsIgnoreCase(currentPamPeriod1[w].trim())) {
 											info("currentPamPeriod Value : " + currentPamPeriod1[w]+ " is validated");
+											state1 = "Pass";
+											report1[10+b+w] = "<li>For pamClassID ID: <b>"+pamClassID1[w]+"</b> -----> currentPamPeriod Value: <b>" + currentPamPeriod1[w]+ "</b> is correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 										else {
 											state = "Failed";
-											report[10+b+w] = "<li>For pamClassID ID: <b>"+pamClassID1[w]+"</b> -----> currentPamPeriod Value: <b>" + currentPamPeriod1[w]+ "</b> is not correct and the actual Value is "+Firstwrap[l+1]+"</li>";
+											report[10+b+w] = "<li>For pamClassID ID: <b>"+pamClassID1[w]+"</b> -----> currentPamPeriod Value: <b>" + currentPamPeriod1[w]+ "</b> is not correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 									}
 									}
@@ -1516,10 +1560,12 @@ public class App {
 									if(Firstwrap[l].trim().equalsIgnoreCase(dedicatedAccountIDv.trim())) {
 										if(Firstwrap[l+1].trim().equalsIgnoreCase(dedicatedAccountID1[i].trim())) {
 											info("Dedicated Account ID : " + dedicatedAccountID1[i]+ "is validated");
+											state1 = "Pass";
+											report1[11+p] = "<li>For Dedicated Account ID : <b>"+dedicatedAccountID1[i]+"</b> is correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 										else {
 											state = "Failed";
-											report[11+p] = "<li>For Dedicated Account ID : <b>"+dedicatedAccountID1[i]+"</b> is not correct and the actual Value is "+Firstwrap[l+1]+"</li>";
+											report[11+p] = "<li>For Dedicated Account ID : <b>"+dedicatedAccountID1[i]+"</b> is not correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 										
 									}
@@ -1527,10 +1573,12 @@ public class App {
 									if(Firstwrap[l].trim().equalsIgnoreCase(dedicatedAccountActiveValue1v.trim())) {
 										if(Firstwrap[l+1].trim().equalsIgnoreCase(dedicatedAccountActiveValue11[i].trim())) {
 											info("Dedicated Account Active Value1 : " + dedicatedAccountActiveValue11[i]+ "is validated");
+											state1 = "Pass";
+											report1[12+p] = "<li>For Dedicated Account ID : <b>"+dedicatedAccountID1[i]+"</b> --> Dedicated Account Active Value1 <b>: " + dedicatedAccountActiveValue11[i]+ "</b> is correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 										else {
 											state = "Failed";
-											report[12+p] = "<li>For Dedicated Account ID : <b>"+dedicatedAccountID1[i]+"</b> --> Dedicated Account Active Value1 <b>: " + dedicatedAccountActiveValue11[i]+ "</b> is not correct and the actual Value is "+Firstwrap[l+1]+"</li>";
+											report[12+p] = "<li>For Dedicated Account ID : <b>"+dedicatedAccountID1[i]+"</b> --> Dedicated Account Active Value1 <b>: " + dedicatedAccountActiveValue11[i]+ "</b> is not correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 										
 									}
@@ -1538,10 +1586,12 @@ public class App {
 									if(Firstwrap[l].trim().equalsIgnoreCase(dedicatedAccountUnitTypev.trim())) {
 										if(Firstwrap[l+1].trim().equalsIgnoreCase(dedicatedAccountUnitType1[i].trim())) {
 											info("Dedicated Account unit Type : " + dedicatedAccountUnitType1[i]+ "is validated");
+											state1 = "Pass";
+											report1[13+p] = "<li>For Dedicated Account ID : <b>"+dedicatedAccountID1[i]+"</b> --> Dedicated Account Unit Type <b>: " + dedicatedAccountUnitType1[i]+ "</b> is correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 										else {
 											state = "Failed";
-											report[13+p] = "<li>For Dedicated Account ID : <b>"+dedicatedAccountID1[i]+"</b> --> Dedicated Account Unit Type <b>: " + dedicatedAccountUnitType1[i]+ "</b> is not correct and the actual Value is "+Firstwrap[l+1]+"</li>";
+											report[13+p] = "<li>For Dedicated Account ID : <b>"+dedicatedAccountID1[i]+"</b> --> Dedicated Account Unit Type <b>: " + dedicatedAccountUnitType1[i]+ "</b> is not correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 										
 									}
@@ -1549,10 +1599,12 @@ public class App {
 									if(Firstwrap[l].trim().equalsIgnoreCase(dedicatedAccountValue1v.trim())) {
 										if(Firstwrap[l+1].trim().equalsIgnoreCase(dedicatedAccountValue11[i].trim())) {
 											info("Dedicated Account Value1 : " + dedicatedAccountValue11[i]+ "is validated");
+											state1 = "Pass";
+											report1[14+p] = "<li>For Dedicated Account ID : <b>"+dedicatedAccountID1[i]+"</b> --> Dedicated Account Value <b>: " + dedicatedAccountValue11[i]+ "</b> is correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 										else {
 											state = "Failed";
-											report[14+p] = "<li>For Dedicated Account ID : <b>"+dedicatedAccountID1[i]+"</b> --> Dedicated Account Value <b>: " + dedicatedAccountValue11[i]+ "</b> is not correct and the actual Value is "+Firstwrap[l+1]+"</li>";
+											report[14+p] = "<li>For Dedicated Account ID : <b>"+dedicatedAccountID1[i]+"</b> --> Dedicated Account Value <b>: " + dedicatedAccountValue11[i]+ "</b> is not correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 										
 									}
@@ -1560,10 +1612,12 @@ public class App {
 									if(Firstwrap[l].trim().equalsIgnoreCase(expiryDatev.trim())) {
 										if(Firstwrap[l+1].trim().equalsIgnoreCase(expiryDate1[i].trim())) {
 											info("Expire Date : " + expiryDate1[i]+ "is validated");
+											state1 = "Pass";
+											report1[15+p] = "<li>For Dedicated Account ID : <b>"+dedicatedAccountID1[i]+"</b> --> Expire Date <b>: " + expiryDate1[i]+ "</b> is correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 										else {
 											state = "Failed";
-											report[15+p] = "<li>For Dedicated Account ID : <b>"+dedicatedAccountID1[i]+"</b> --> Expire Date <b>: " + expiryDate1[i]+ "</b> is not correct and the actual Value is "+Firstwrap[l+1]+"</li>";
+											report[15+p] = "<li>For Dedicated Account ID : <b>"+dedicatedAccountID1[i]+"</b> --> Expire Date <b>: " + expiryDate1[i]+ "</b> is not correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 										
 									}
@@ -1571,10 +1625,12 @@ public class App {
 									if(Firstwrap[l].trim().equalsIgnoreCase(startDatev.trim())) {
 										if(Firstwrap[l+1].trim().equalsIgnoreCase(startDate1[i].trim())) {
 											info("Start Date : " + startDate1[i]+ "is validated");
+											state1 = "Pass";
+											report1[16+p] = "<li>For Dedicated Account ID : <b>"+dedicatedAccountID1[i]+"</b> --> Start Date <b>: " + startDate1[i]+ "</b> is correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 										else {
 											state = "Failed";
-											report[16+p] = "<li>For Dedicated Account ID : <b>"+dedicatedAccountID1[i]+"</b> --> Start Date <b>: " + startDate1[i]+ "</b> is not correct and the actual Value is "+Firstwrap[l+1]+"</li>";
+											report[16+p] = "<li>For Dedicated Account ID : <b>"+dedicatedAccountID1[i]+"</b> --> Start Date <b>: " + startDate1[i]+ "</b> is not correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 										
 									}
@@ -1590,9 +1646,13 @@ public class App {
 							info("Status -----> "+state);
 							//System.out.println("Service Tab---->"+tab);
 							String reports = Arrays.toString(report).replace(", null", "").replace("null", "").replace("null,", "").replace("[", "").replace("]", "").replace(",", "");
-							
+							String reports1 = Arrays.toString(report1).replace(", null", "").replace("null", "").replace("null,", "").replace("[", "").replace("]", "").replace(",", "");
+
 							test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + Result[0]
 									+ "'>Click to View the " + Result[1] + " Response file</a></b><br>");
+							if(state1.equals("Pass")) {
+								test.pass("<b><u>Validation passed items:</u></b><br><ol>"+reports1+ "</table>");
+							}
 							if(state.equals("Failed")) {
 								test.fail("<b><u>Failed due to following mismatch items:</u></b><br><ol>"+reports+ "</table>");
 							}
@@ -1607,15 +1667,28 @@ public class App {
 							String validate = "null";
 							String Statu = "null";
 							String[] Reason = new String[100];
+							String Statu1 = "null";
+							String[] Reason1 = new String[100];
+							String producid = "";
+							String statusid = "";
+							int kk = 0;
 							curtcid = inputs.getField("Test_Case_ID")+"--"+Test_Case+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
 							startTestCase(curtcid);
-							ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+" : "+Test_Case+" : "+inputs.getField("Test_Scenario"));
-							String val[]  = new String[10];
-							String para[] = new String[10];
-							for (int Iterator = 1; Iterator <= 150; Iterator++) {
+							ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+MSISDN+" : "+Test_Case+" : "+inputs.getField("Test_Scenario"));
+							String val[]  = new String[100000];
+							String para[] = new String[100000];
+							for (int Iterator = 1; Iterator <= 10000; Iterator++) {
 								if (inputs.getField("Parameter" + Iterator).isEmpty() == false) {
 									val[Iterator] = inputs.getField("Parameter" + Iterator);
 									para[Iterator] = inputs.getField("Value" + Iterator);
+									if(val[Iterator].equalsIgnoreCase("product_id")) {
+										producid = para[Iterator];
+										System.out.println("Product ID is ::::::::: "+producid);
+									}
+									if(val[Iterator].equalsIgnoreCase("status")) {
+										statusid = para[Iterator];
+										System.out.println("status is ::::::::: "+statusid);
+									}
 									
 								} else
 									break;
@@ -1629,15 +1702,16 @@ public class App {
 							System.out.println("Value:-----> "+(x));
 							
 							if(table_type.equalsIgnoreCase("adhoc")) {
+								System.out.println("Product ID is ::::::::: "+producid);
 								//validate = "select * from rs_adhoc_products where product_id="+MSISDN+" order by last_action_date desc limit 1";
-
-								validate = "select "+x+" from rs_adhoc_products where msisdn="+MSISDN+" order by last_action_date desc limit 1";
+								validate = "select "+x+" from rs_adhoc_products where msisdn="+MSISDN+" and product_id ="+producid+" and status ="+statusid;
+								//validate = "select "+x+" from rs_adhoc_products where msisdn="+MSISDN+" order by last_action_date desc limit 1";
 							}
 							else if(table_type.equalsIgnoreCase("renewal")) {
 							 
 								//validate = "select * from renewal where product_id= 925";
-
-								validate = "select "+x+" from renewal where msisdn="+MSISDN+" order by last_action_date desc limit 1";
+								validate = "select "+x+" from renewal where msisdn="+MSISDN+"  and product_id ="+producid+" and status ="+statusid;
+								//validate = "select "+x+" from renewal where msisdn="+MSISDN+" order by last_action_date desc limit 1";
 							}
 							System.out.println(validate);
 							String dbURL = "jdbc:postgresql://10.95.214.136:5444/scs";
@@ -1663,12 +1737,14 @@ public class App {
 									valueq = "Null value";
 									System.out.println("Emmmptttyyy Value");
 								}else {
-									if(valueq.length()>19) {
-										//para[i] = para[i].substring(0, 19);
+									if(valueq.length()>19 && !(para[i].length()>19)) {
+										//para[i] = para[i].substring(0, 18);
 										valueq = valueq.substring(0, 19);
 										
 									}
 									if (valueq.equalsIgnoreCase(para[i].trim())) {
+										Statu1 = "Pass";
+										Reason1[i] = "<br><li> Actual value of <b>"+colname+"</b> is <b>"+valueq+"</b> and the expected value is <b>"+para[i]+"</b></li>";
 										System.out.println(colname+" is equal: "+valueq);
 									}
 									else {
@@ -1686,10 +1762,13 @@ public class App {
 								
 							}
 							}							
-							String Result = Asnconvertor.cis_db(table_type, MSISDN);
+							String Result = Asnconvertor.cis_db(table_type, MSISDN, producid);
 							System.out.println(Result);
 							String Reasons = Arrays.toString(Reason).replace(", null", "").replace("null", "").replace("null,", "").replace("[", "").replace("]", "").replace(",", "");
 							test.pass(Result+"</table>");
+							if(Statu1.contains("Pass")) {
+								test.pass("<b><u>Validation passed items:</u></b><ol>"+Reasons);
+							}
 							if(Statu.contains("Fail")) {
 								test.fail("<b><u>Failed due to following mismatch items:</u></b><ol>"+Reasons);
 							}
@@ -1698,27 +1777,57 @@ public class App {
 						
 						
 						else if(Test_Scenario.contains("CIS_EDR_Validation")) {
+							String datetoday;
+							DateTimeFormatter dtf = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+							LocalDateTime now = LocalDateTime.now();
+							System.out.println("First Date: "+now.toString());
+							datetoday = (now.toString()).replaceAll("T", "_").replaceAll(":", ".").substring(0, 19);
+							String finaldate=datetoday.substring(0, datetoday.length()-1);
+							datecis = datetoday;
+							String cur_date = finaldate.substring(0, 2);
+							String cur_time = finaldate.substring(11, 13);
+							int cur_date1  = Integer.parseInt(cur_date);
+							int cur_time1 = Integer.parseInt(cur_time);
+							System.out.println("Final Date: "+datecis);
 							String curtcid = inputs.getField("Test_Case_ID")+Test_Case+inputs.getField("Test_Scenario")+inputs.getField("Test_Case");
 							startTestCase(curtcid);
 							ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+" : "+Test_Case+" : "+inputs.getField("Test_Scenario"));
-							Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
-							String[] convertor = Asnconvertor.Result(trfold, MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", "", "", "", "", "", "", ExecutionStarttime, "", "" );
 							String[] Reason = new String[50];
+							String[] Reason1 = new String[50];
 							String val[]  = new String[50];
 							String para[] = new String[50];
+							String transdate = "";
 							int given = 0;
 							String Statu = "Pass";
+							String Sta = "Pass";
 							for (int Iterator = 1; Iterator <= 150; Iterator++) {
 								if (inputs.getField("Parameter" + Iterator).isEmpty() == false) {
 									para[Iterator] = inputs.getField("Parameter" + Iterator);
 									val[Iterator] = inputs.getField("Value" + Iterator);
+									if(para[Iterator].trim().equalsIgnoreCase("transaction_time")) {
+										transdate = val[Iterator];
+										System.out.println("Transaction date is ::::::::: "+transdate);
+									}
 									given++;
 									
 								} else
 									break;
 							}
+							String valdat = transdate.replace(" ", "_").replace("/", "-").replace(":", ".");
+							String valda_date = valdat.substring(0, 2);
+							String Valda_time_h = valdat.substring(11, 13);
+							String valid_date = valdat.substring(0, 13);
+							System.out.println("Run time hour and date: "+valda_date+"___"+Valda_time_h);
+							int act_date = Integer.parseInt(valda_date);
+							int act_time = Integer.parseInt(Valda_time_h);
 							
+							if((act_date <= cur_date1) && (act_time <= cur_time1)){
+								CIS_type = "different";
+							}
 							
+							Asnconvertor.nodeValidation(Test_Scenario, MSISDN, CIS_type, valid_date);
+							String[] convertor = Asnconvertor.Result(trfold, MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", "", "", "", "", "", "", ExecutionStarttime, "", "", transdate);
+
 							BufferedReader csvReader = new BufferedReader(new FileReader(convertor[49]));
 							String row;
 							String csv[] = new String[10];
@@ -1752,8 +1861,10 @@ public class App {
 										try {
 										if(paramlst[i].trim().equalsIgnoreCase(compara.trim())) {
 											if(valuelist[i].trim().equalsIgnoreCase(comval.trim())) {
+												Sta = "Pass";
 												info("The parameter "+paramlst[i]+" in DB is validated");
 												System.out.println("Expected Value of "+paramlst[i]+" is "+valuelist[i]);
+												Reason1[w+z] = "<li>The provided pramater <b>"+compara+"</b> value is <b>"+comval+"</b> and the actual value <b>"+valuelist[i]+"</b> is equal and validated</b> </li>";
 											}
 											else {
 												Statu = "Fail";
@@ -1785,12 +1896,16 @@ public class App {
 							}
 							
 							String Reasons = Arrays.toString(Reason).replace(", null", "").replace("null", "").replace("null,", "").replace("[", "").replace("]", "").replace(",", "");
+							String Reasons1 = Arrays.toString(Reason1).replace(", null", "").replace("null", "").replace("null,", "").replace("[", "").replace("]", "").replace(",", "");
 
 							test.pass("<b>CIS EDR: </b><br>" + convertor[3] 
 								+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[5]+"/"+convertor[7] + "/Output1.csv'>Click to View the EDR</a>"+"</table><br>");
+							if(Sta.equals("Pass")) {
+								test.pass("<b><u>Validation passed items:</u></b><ol>"+Reasons1);
+							}
 							if(Statu.contains("Fail")) {
 								test.fail("<b><u>Failed due to following mismatch items:</u></b><ol>"+Reasons);
-							}	
+							}
 							extent.flush();
 						}
 						
