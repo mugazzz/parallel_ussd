@@ -1,0 +1,2 @@
+transaction_time|product_name|event_type|access_channel|result_description|result_code|offer_id|service_class|input|requested_product_id|expiry_date|subscription_mode|a_party_msisdn|product_validity|vat_fee|iname|network_status
+08/10/2019 00:01:13:038|TriggerCSActionUpdateTimerOffer|NACT|SDP|SUCCESS|0|58|1001|NACT_TriggerCSActionUpdateTimerOffer|1712|09/10/2019 00:01:13:000|adhoc|971520001714|24 Hours|5|SDP|
