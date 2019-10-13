@@ -132,6 +132,10 @@ public class App {
 	String startDatev = "";
 	String startDate ="";
 	String CIS_type ="";
+	String Statu = "";
+	String Sta = "";
+	int g = 0;
+	int l=0;
 
 	public String updatef = "";
 
@@ -1177,7 +1181,7 @@ public class App {
 						
 						
 						if(Test_Scenario.contains("API")) {
-							if(Test_Scenario.contains("CIS0039")) {
+							if(Test_Scenario.contains("CIS")) {
 								curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario");
 								startTestCase(curtcid);
 								ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
@@ -1232,12 +1236,24 @@ public class App {
 										+ "'>Click to View the " + Result[1] + " Response file</a></b><br>"+ "</table>");
 								extent.flush();
 								}
+
+							else if (Test_Scenario.contains("CS_API_")){
+								curtcid = inputs.getField("Test_Case_ID")+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
+								startTestCase(curtcid);
+								ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Scenario"));
+								String[] Result = APIparam.APIcontrol(Test_Scenario, ExecutionStarttime, inputs.getField("Test_Case_ID"));
+								
+								test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + Result[0]
+										+ "'>Click to View the " + Result[1] + " Response file</a></b><br>" + Result[2] + "</table>");
+								extent.flush();
+
+									}
 							
 							else if (Test_Scenario.contains("Product_Subscription")) {
 								curtcid = inputs.getField("Test_Case_ID")+"--"+Test_Case+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
 								startTestCase(curtcid);
 								String state = "Pass";
-								String sta = "Pass";
+								String sta = "null";
 								String[] report = new String[20];
 								String[] report1 = new String[20];
 								ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+inputs.getField("Test_Case"));
@@ -1272,13 +1288,15 @@ public class App {
 								test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + Result[0]
 										+ "'>Click to View the " + Result[1] + " Response file</a></b><br>");
 								if(sta.equals("Pass")) {
-									test.pass("<b><u>Validation passed items:</u></b><br><ol>"+reports1+ "</table>");
+									test.pass("<b><u>Validation passed items:</u></b><br><ol>"+reports1);
 								}
 								if(state.equals("Failed")) {
 									test.fail("<b><u>Failed due to following mismatch items:</u></b><br><ol>"+reports+ "</table>");
 								}
 
 								extent.flush();
+								reports = null;
+								reports1 = null;
 								}
 								catch (Exception e) { // Thread.sleep(100); }
 									System.out.println("Process Failed!!!");	
@@ -1316,10 +1334,9 @@ public class App {
 							String[] report = new String[100000];
 							String state = "Pass";
 							String[] report1 = new String[100000];
-							String state1 = "Pass";
-															
-														
-							for (int g = 0; g< ProductofferID1.length; g++) {
+							String state1 = "null";
+																					
+							for (g = 0; g< ProductofferID1.length; g++) {
 								for (int w=0; w<pamClassID1.length;w++) {
 								String nxt = "fail";
 								do {
@@ -1347,25 +1364,22 @@ public class App {
 								System.out.println("ResultAP2---------> "+ResultAP2);
 								System.out.println("ResultAP5---------> "+ResultAP5);
 								try {
-									if(table_type.contains("delete_offer")) {
-										if(!ResultAP2.equals("Failed")) {
-											state= "Failed";
-											report[90+g] = "<li>Given Offer ID: <b>"+ProductofferID1[g]+"</b> is still available</li>";
-										}
-									}else {
 									if(ResultAP2.equals("Failed")) {
+										if(!table_type.contains("delete_offer")){
 										state= "Failed";
 										report[98+g] = "<li>Given Offer ID: <b>"+ProductofferID1[g]+"</b> itself is not available</li>";
-									}
-									}
+									}}
+									
 								}
 									catch (Exception e) { // Thread.sleep(100); }
 										
 									}
 								try {
 									if(ResultAP5.equals("Failed")) {
+										if(!attributeName1[g].equals("")) {
 										state= "Failed";
 										report[97+g] = "<li>Given Attribute Name <b>"+attributeName1[g]+"</b> itself is not available</li>";
+									}
 									}
 									}
 									catch (Exception e) { // Thread.sleep(100); }
@@ -1385,20 +1399,24 @@ public class App {
 								String resultap = ResultAPI[1].replace(", null", "").replace("][", ", ").replace(" = ", ", ").replace("[", "").replace("]", "");
 								System.out.println("Result List----> "+resultap);
 								String[] Firstwrap = resultap.split(",");
-								for(int l=0; l<=Firstwrap.length; l++) {
+								for(l=0; l<=Firstwrap.length; l++) {
 									double y = Math.random()*100;
 									int b = (int)y;
 									System.out.println(Firstwrap[l]+"----->"+Firstwrap[l+1]);
-//									if(Firstwrap[l].trim().equalsIgnoreCase(Productofferv.trim())) {
-//										if(Firstwrap[l+1].trim().equalsIgnoreCase(ProductofferID1[g].trim())) {
-//											info("Product ID : " + ProductofferID1[g]+ "is validated");
-//										}
-//										else {
+									if(Firstwrap[l].trim().equalsIgnoreCase(Productofferv.trim())) {
+										if(Firstwrap[l+1].trim().equalsIgnoreCase(ProductofferID1[g].trim())) {
+											if(table_type.contains("delete_offer")) {
+													state= "Failed";
+													report[90+g] = "<li>Given Offer ID: <b>"+ProductofferID1[g]+"</b> is still available</li>";
+											}
+											info("Product ID : " + ProductofferID1[g]+ "is validated");
+										}
+										else {
 //											state = "Failed";
 //											report[0+b] = "<li>For Offer ID: <b>"+ProductofferID1[g]+"</b> ---> Product ID <b>: " + ProductofferID1[g]+ "</b> is not correct and the actual Value is "+Firstwrap[l+1]+"</li>";
-//										}
-//										
-//									}
+										}
+										
+									}
 									if(Firstwrap[l].trim().equalsIgnoreCase(offerStatev.trim())) {
 										if(Firstwrap[l+1].trim().equalsIgnoreCase(offerState1[g].trim())) {
 											state1 = "Pass";
@@ -1513,6 +1531,7 @@ public class App {
 										}
 									}
 									}
+								l = 0;
 								}
 								catch (Exception e) { // Thread.sleep(100); }
 									System.out.println("######### Product, Attribute and PAM loop gets failed ##########");
@@ -1524,6 +1543,9 @@ public class App {
 							}
 								}
 						}	
+							g = 0;
+							
+							
 							for (int i = 0; i < dedicatedAccountID1.length; i++) {
 								String nxt = "fail";
 								do {
@@ -1540,15 +1562,15 @@ public class App {
 								String ResultAPI[] = APIparam.WebService2(Result[0], "", "", "", dedicatedAccountID1[i].trim());
 								String ResultAP4 = ResultAPI[4];
 								System.out.println("ResultAP4---------> "+ResultAP4);
-								try {
-									if(ResultAP4.equals("Failed")) {
-										state= "Failed";
-										report[98] = "<li>Given Dedicated Account ID <b>"+dedicatedAccountID1[i]+"</b> itself is not available</li>";
-									}
-									}
-									catch (Exception e) { // Thread.sleep(100); }
-										
-									}
+//								try {
+//									if(ResultAP4.equals("Failed")) {
+//										state= "Failed";
+//										report[98] = "<li>Given Dedicated Account ID <b>"+dedicatedAccountID1[i]+"</b> itself is not available</li>";
+//									}
+//									}
+//									catch (Exception e) { // Thread.sleep(100); }
+//										
+//									}
 								String resultap = ResultAPI[3].replace(", null", "").replace("][", ", ").replace(" = ", ", ").replace("[", "").replace("]", "");
 								System.out.println("Result List----> "+resultap);
 								String[] Firstwrap = resultap.split(",");
@@ -1651,15 +1673,18 @@ public class App {
 							test.pass("&nbsp<b><a style = 'color:hotpink' target = '_blank' href = '" + Result[0]
 									+ "'>Click to View the " + Result[1] + " Response file</a></b><br>");
 							if(state1.equals("Pass")) {
-								test.pass("<b><u>Validation passed items:</u></b><br><ol>"+reports1+ "</table>");
+								test.pass("<b><u>Validation passed items:</u></b><br><ol>"+reports1);
 							}
 							if(state.equals("Failed")) {
 								test.fail("<b><u>Failed due to following mismatch items:</u></b><br><ol>"+reports+ "</table>");
 							}
 
 							extent.flush();
+							report1 = null;
+							report = null;
 							
 								}
+							
 							}
 						
 						else if(Test_Scenario.contains("CIS_DB"))
@@ -1698,20 +1723,23 @@ public class App {
 							String v = k.replace(", null", "");
 							String strArray[] = v. split(",");
 							String w = v.replace("[", "");
-							String x = w.replace("]", "");
+							String x = w.replace("]", "").trim();
 							System.out.println("Value:-----> "+(x));
 							
 							if(table_type.equalsIgnoreCase("adhoc")) {
 								System.out.println("Product ID is ::::::::: "+producid);
 								//validate = "select * from rs_adhoc_products where product_id="+MSISDN+" order by last_action_date desc limit 1";
-								validate = "select "+x+" from rs_adhoc_products where msisdn="+MSISDN+" and product_id ="+producid+" and status ="+statusid;
-								//validate = "select "+x+" from rs_adhoc_products where msisdn="+MSISDN+" order by last_action_date desc limit 1";
+								//validate = "select "+x+" from rs_adhoc_products where msisdn="+MSISDN+" and product_id ="+producid+" and status ="+statusid;
+								//validate = "update renewal set last_renewal_date = '10-SEP-19 00:21:01' where msisdn=971520001714 and last_renewal_date = '04-SEP-19 00:21:01'";
+								validate = "select "+x+" from rs_adhoc_products where msisdn="+MSISDN+" order by last_action_date desc limit 1";
+								System.out.println("Expected Query----->:"+validate);
+
 							}
 							else if(table_type.equalsIgnoreCase("renewal")) {
 							 
 								//validate = "select * from renewal where product_id= 925";
-								validate = "select "+x+" from renewal where msisdn="+MSISDN+"  and product_id ="+producid+" and status ="+statusid;
-								//validate = "select "+x+" from renewal where msisdn="+MSISDN+" order by last_action_date desc limit 1";
+								//validate = "select "+x+" from renewal where msisdn="+MSISDN+" and product_id ="+producid+" and status ="+statusid;
+								validate = "select "+x+" from renewal where msisdn="+MSISDN+" order by last_action_date desc limit 1";
 							}
 							System.out.println(validate);
 							String dbURL = "jdbc:postgresql://10.95.214.136:5444/scs";
@@ -1765,14 +1793,18 @@ public class App {
 							String Result = Asnconvertor.cis_db(table_type, MSISDN, producid);
 							System.out.println(Result);
 							String Reasons = Arrays.toString(Reason).replace(", null", "").replace("null", "").replace("null,", "").replace("[", "").replace("]", "").replace(",", "");
+							String Reasons1 = Arrays.toString(Reason1).replace(", null", "").replace("null", "").replace("null,", "").replace("[", "").replace("]", "").replace(",", "");
+
 							test.pass(Result+"</table>");
 							if(Statu1.contains("Pass")) {
-								test.pass("<b><u>Validation passed items:</u></b><ol>"+Reasons);
+								test.pass("<b><u>Validation passed items:</u></b><ol>"+Reasons1);
 							}
 							if(Statu.contains("Fail")) {
-								test.fail("<b><u>Failed due to following mismatch items:</u></b><ol>"+Reasons);
+								test.fail("<b><u>Failed due to following mismatch items:</u></b><ol>"+Reasons+"</table>");
 							}
 							extent.flush();
+							Reason = null;
+							Reason1 = null;
 						}
 						
 						
@@ -1798,8 +1830,8 @@ public class App {
 							String para[] = new String[50];
 							String transdate = "";
 							int given = 0;
-							String Statu = "Pass";
-							String Sta = "Pass";
+							String Statu = "null";
+							String Sta = "null";
 							for (int Iterator = 1; Iterator <= 150; Iterator++) {
 								if (inputs.getField("Parameter" + Iterator).isEmpty() == false) {
 									para[Iterator] = inputs.getField("Parameter" + Iterator);
@@ -1824,8 +1856,15 @@ public class App {
 							if((act_date <= cur_date1) && (act_time <= cur_time1)){
 								CIS_type = "different";
 							}
-							
+							try {
 							Asnconvertor.nodeValidation(Test_Scenario, MSISDN, CIS_type, valid_date);
+							}
+							catch(Exception e){
+								//e.printStackTrace();
+								Statu="fail";
+								Reason[50] = "<li>No CIS EDR found for the provided MSISDSN <b>"+MSISDN+"</b> </li>";
+								
+							}
 							String[] convertor = Asnconvertor.Result(trfold, MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", "", "", "", "", "", "", ExecutionStarttime, "", "", transdate);
 
 							BufferedReader csvReader = new BufferedReader(new FileReader(convertor[49]));
@@ -1842,7 +1881,7 @@ public class App {
 							}
 							csvReader.close();
 							String param = csv[1];
-							String check = "fail";
+							String check = "null";
 							String[] paramlst =param.split(",");
 							int paramlent = paramlst.length;
 							System.out.println("Param Lenght is: "+paramlent);
@@ -1867,7 +1906,7 @@ public class App {
 												Reason1[w+z] = "<li>The provided pramater <b>"+compara+"</b> value is <b>"+comval+"</b> and the actual value <b>"+valuelist[i]+"</b> is equal and validated</b> </li>";
 											}
 											else {
-												Statu = "Fail";
+												Statu = "fail";
 												System.out.println("XXXXXXXXXXXXXXXXX Failed Value of "+paramlst[i]+" is "+valuelist[i]+" XXXXXXXXXXXXXX");
 												Reason[w+z] = "<li>Problem with the provided pramater <b>"+compara+"</b> value <b>"+comval+"</b> , where the actual value is <b>"+valuelist[i]+"</b> </li>";
 											}
@@ -1903,7 +1942,7 @@ public class App {
 							if(Sta.equals("Pass")) {
 								test.pass("<b><u>Validation passed items:</u></b><ol>"+Reasons1);
 							}
-							if(Statu.contains("Fail")) {
+							if(Statu.equalsIgnoreCase("Fail")) {
 								test.fail("<b><u>Failed due to following mismatch items:</u></b><ol>"+Reasons);
 							}
 							extent.flush();
