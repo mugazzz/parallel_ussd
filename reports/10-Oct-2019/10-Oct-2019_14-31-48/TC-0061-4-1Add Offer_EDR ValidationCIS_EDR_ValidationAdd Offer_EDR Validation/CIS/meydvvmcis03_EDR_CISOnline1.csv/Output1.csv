@@ -1,0 +1,2 @@
+transaction_time|product_name|event_type|access_channel|result_description|result_code|offer_id|service_class|input|requested_product_id|expiry_date|subscription_mode|a_party_msisdn|product_validity|vat_fee|iname|network_status
+09/10/2019 23:11:39:495|OWPIDDRateCut|NACT|TIBCO|FAILURE|9001||1001|NACT_OWPIDDRateCut|1669|23/02/2047 23:11:39:000|adhoc|971520013077|9999 Days|5|TIBCO|

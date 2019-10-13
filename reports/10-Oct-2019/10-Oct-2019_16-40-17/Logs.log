@@ -1,0 +1,47 @@
+10-10-2019 16:41:39 INFO [APIparam]: Starting execution at +:10-Oct-2019 16:40:17
+10-10-2019 16:41:40 INFO [App]: Parameter : responseCodeis validated
+
+10-10-2019 16:41:40 INFO [App]: Parameter : statusis validated
+
+10-10-2019 16:41:40 INFO [App]: Parameter : amtChargedis validated
+
+10-10-2019 16:41:40 INFO [App]: Parameter : notificationis validated
+
+10-10-2019 16:41:40 INFO [App]: Parameter : responseDescriptionis validated
+
+10-10-2019 16:41:40 INFO [App]: Status -----> Pass
+
+10-10-2019 16:41:40 INFO [App]: Starting execution at +: TC-0061-4-1->CIS_EDR_Validation->10-Oct-2019 16:40:17
+
+10-10-2019 16:41:40 INFO [App]: ****************************************************************************************
+10-10-2019 16:41:40 INFO [App]: ****************************************************************************************
+10-10-2019 16:41:40 INFO [App]: $$$$$$$$$$$$$$$$$$$$$ TC-0061-4-1Add Offer_EDR ValidationCIS_EDR_ValidationAdd Offer_EDR Validation $$$$$$$$$$$$$$$$$$$$$$$$$
+10-10-2019 16:41:40 INFO [App]: ****************************************************************************************
+10-10-2019 16:41:40 INFO [App]: ****************************************************************************************
+10-10-2019 16:42:08 INFO [Asnconvertor]: ****************************************************************************************
+10-10-2019 16:42:08 INFO [Asnconvertor]: ****************************************************************************************
+10-10-2019 16:42:08 INFO [Asnconvertor]: $$$$$$$$$$$$$$$$$$$$$ Parsing File meydvvmcis03_EDR_CISOnline1.csv $$$$$$$$$$$$$$$$$$$$$$$$$
+10-10-2019 16:42:08 INFO [Asnconvertor]: ****************************************************************************************
+10-10-2019 16:42:08 INFO [Asnconvertor]: ****************************************************************************************
+10-10-2019 16:42:09 INFO [App]: The parameter transaction_time in DB is validated
+
+10-10-2019 16:42:09 INFO [App]: The parameter  event_type in DB is validated
+
+10-10-2019 16:42:09 INFO [App]: The parameter  product_name in DB is validated
+
+10-10-2019 16:42:09 INFO [App]: The parameter  a_party_msisdn in DB is validated
+
+10-10-2019 16:42:09 INFO [App]: The parameter  access_channel in DB is validated
+
+10-10-2019 16:42:09 INFO [App]: The parameter  result_description in DB is validated
+
+10-10-2019 16:42:09 INFO [App]: The parameter  input in DB is validated
+
+10-10-2019 16:42:09 INFO [App]: The parameter  requested_product_id in DB is validated
+
+10-10-2019 16:42:09 INFO [App]: The parameter  expiry_date in DB is validated
+
+10-10-2019 16:42:09 INFO [App]: The parameter  subscription_mode in DB is validated
+
+10-10-2019 16:42:09 INFO [App]: The parameter  product_validity in DB is validated
+

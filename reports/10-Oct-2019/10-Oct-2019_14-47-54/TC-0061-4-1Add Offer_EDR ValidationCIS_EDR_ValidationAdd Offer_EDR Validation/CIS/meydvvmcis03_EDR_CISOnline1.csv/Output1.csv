@@ -1,0 +1,4 @@
+transaction_time|product_name|event_type|access_channel|result_description|result_code|offer_id|service_class|input|requested_product_id|expiry_date|subscription_mode|a_party_msisdn|product_validity|vat_fee|iname|network_status
+10/10/2019 14:34:24:045|OWPIDDRateCut|NACT|TIBCO|FAILURE|9001||1001|NACT_OWPIDDRateCut|1669|24/02/2047 14:34:24:000|adhoc|971520013077|9999 Days|5|TIBCO|
+10/10/2019 14:34:54:980|OWPIDDRateCut|DACT|TIBCO|SUCCESS|0||1001|DACT_OWPIDDRateCut|1669|10/10/2019 14:34:54:000|adhoc|971520013077|9999 Days|0|TIBCO|
+10/10/2019 14:35:36:105|OWPIDDRateCut|NACT|TIBCO|SUCCESS|0||1001|NACT_OWPIDDRateCut|1669|20470224T14:35:35+0400|adhoc|971520013077|9999 Days|0|TIBCO|
