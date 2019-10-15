@@ -20,13 +20,13 @@
     <member>
      <name>originTransactionID</name>
      <value>
-      <string>2019101416140543</string>
+      <string>2019101511121222</string>
      </value>
     </member>
     <member>
      <name>originTimeStamp</name>
      <value>
-      <dateTime.iso8601>20191014T16:14:05+0000</dateTime.iso8601>
+      <dateTime.iso8601>20191015T11:12:12+0000</dateTime.iso8601>
      </value>
     </member>
     <member>
@@ -56,7 +56,7 @@
     <member>
      <name>offerID</name>
      <value>
-      <int>5004</int>
+      <int>1201</int>
      </value>
     </member>
 	<member>
