@@ -127,7 +127,7 @@ public class Asnconvertor {
 //	public static void main(String args[]) {
 	
 	
-		public static void nodeValidation(String Input, String MSISDN, String CIS_type, String valid_date) {
+		public static void nodeValidation(String Input, String MSISDN, String CIS_type, String valid_date, String valid_min) {
 		try {
 			Calendar cal1 = Calendar.getInstance();
 			now= timeoffour();
@@ -233,9 +233,12 @@ public class Asnconvertor {
 						Date date1=new SimpleDateFormat("dd-mm-yyy_HH").parse(valid_date);
 						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd_HH");  
 						String date2 = formatter.format(date1);
+						System.out.println("FILLLLLER: "+date2);
 						List<String> CIS_commands = new ArrayList<String>();
 						CIS_commands.add("cd "+path);
-						CIS_commands.add("grep -l "+MSISDN+" *"+date2+"* |tail -1 > /home/"+CIS_Unix_username+"/EDRfile.txt");
+						CIS_commands.add("grep -l "+MSISDN+" *"+date2+"."+valid_min+"* |tail -1 > /home/"+CIS_Unix_username+"/EDRfile.txt");
+						//CIS_commands.add("grep -l "+MSISDN+" *2019-10-12_11.22* |tail > /home/"+CIS_Unix_username+"/EDRfile.txt");
+
 						executeCommands(CIS_commands, CIS_unix_hostname, CIS_Unix_username, CIS_Unix_password);
 						close();
 						}
@@ -788,7 +791,7 @@ public class Asnconvertor {
 				
 				if (Node_Type.contains("CIS-DB")) {
 					System.out.println("------------ CIS _DB ------------");
-					cis_db("adhoc", "971520001714", "");
+					cis_db("adhoc", "971520001714", "", "");
 				}
 				
 			}
@@ -1017,7 +1020,7 @@ public class Asnconvertor {
 							
 							else if(filetype.equalsIgnoreCase("CIS-DB")){
 								System.out.println("------ CIS DB Part ---------");
-								convertor[20] = cis_db("adhoc", MSISDN, "");
+								convertor[20] = cis_db("adhoc", MSISDN, "", "");
 							}
 							else {
 								startTestCase("Parsing File " + filename);
@@ -1055,14 +1058,21 @@ public class Asnconvertor {
 			return convertor;
 		}
 		
-		public static String cis_db(String table, String MSISDN, String produt_id) {
+		public static String cis_db(String table, String MSISDN, String produt_id, String status) {
+			String validate_renewal = "";
 			try {
 				String validate_adhoc = "select msisdn, product_id, status,start_date, expiry_date,product_cost,srcchannel,network_status from rs_adhoc_products where msisdn="+MSISDN+" and product_id = "+produt_id;
 				//String validate_adhoc = "select msisdn, product_id, status,start_date, expiry_date,product_cost,srcchannel,network_status from rs_adhoc_products where msisdn="+MSISDN+" order by last_action_date desc limit 1";
 				//String validate_renewal = "select * from renewal where msisdn="+MSISDN;
-
-				String validate_renewal = "select msisdn,last_renewal_date,renewal_date,status,activation_date,product_id,product_description,product_type,srcchannel,product_category,product_purchase_type,language_id,network_status from renewal where msisdn="+MSISDN+" and product_id ="+produt_id;
-				if (table.equalsIgnoreCase("adhoc")) {
+				if(status.equalsIgnoreCase("")) {
+					validate_renewal = "select msisdn,last_renewal_date,renewal_date,status,activation_date,product_id,product_description,product_type,srcchannel,product_category,product_purchase_type,language_id,network_status from renewal where msisdn="+MSISDN+" and product_id ="+produt_id;
+				}
+				else {
+					
+					validate_renewal = "select msisdn,last_renewal_date,renewal_date,status,activation_date,product_id,product_description,product_type,srcchannel,product_category,product_purchase_type,language_id,network_status from renewal where msisdn="+MSISDN+" and product_id ="+produt_id+" and status = "+status;
+				
+				}
+					if (table.equalsIgnoreCase("adhoc")) {
 					table_data=ValidationQuery(validate_adhoc, table);
 				} else if (table.equalsIgnoreCase("renewal")) {
 					table_data=ValidationQuery(validate_renewal, table);
@@ -1621,10 +1631,10 @@ public class Asnconvertor {
 			
 			
 			String Validation_Query ="CREATE VIEW public.CIS_EDR_Validation_"+num+" AS Select Transaction_Time,Product_Name, Event_Type,Access_Channel,Result_Description,Result_Code,Offer_ID,Service_Class,input,Requested_Product_ID," + 
-					"Expiry_Date,Subscription_Mode,A_Party_Msisdn, Product_Validity, Vat_Fee, Iname,Network_Status FROM public.edr_cis_datasamp where A_Party_Msisdn='" +MSISDN +"'"+" and Transaction_Time ='"+transdate+"'";
+					"Expiry_Date,Subscription_Mode,A_Party_Msisdn, Product_Validity, Vat_Fee, Iname,Network_Status FROM public.edr_cis_datasamp where A_Party_Msisdn='" +MSISDN +"'"+" and Transaction_Time LIKE '%"+transdate+"%'";
 			ExecuteQuery(Validation_Query);
 			String getValidationData ="Select Transaction_Time,Product_Name, Event_Type,Access_Channel,Result_Description,Result_Code,Offer_ID,Service_Class,input,Requested_Product_ID," + 
-					"Expiry_Date,Subscription_Mode,A_Party_Msisdn, Product_Validity, Vat_Fee, Iname,Network_Status FROM public.edr_cis_datasamp where A_Party_Msisdn='" +MSISDN +"'"+" and Transaction_Time ='"+transdate+"'";
+					"Expiry_Date,Subscription_Mode,A_Party_Msisdn, Product_Validity, Vat_Fee, Iname,Network_Status FROM public.edr_cis_datasamp where A_Party_Msisdn='" +MSISDN +"'"+" and Transaction_Time LIKE '%"+transdate+"%'";
 		 csvtb=ValidationQuery(getValidationData);
 		 
 		 // To export the required data to csv file

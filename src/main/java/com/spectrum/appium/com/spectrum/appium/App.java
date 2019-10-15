@@ -1729,17 +1729,17 @@ public class App {
 							if(table_type.equalsIgnoreCase("adhoc")) {
 								System.out.println("Product ID is ::::::::: "+producid);
 								//validate = "select * from rs_adhoc_products where product_id="+MSISDN+" order by last_action_date desc limit 1";
-								//validate = "select "+x+" from rs_adhoc_products where msisdn="+MSISDN+" and product_id ="+producid+" and status ="+statusid;
+								validate = "select "+x+" from rs_adhoc_products where msisdn="+MSISDN+" and product_id ="+producid+" and status ="+statusid;
 								//validate = "update renewal set last_renewal_date = '10-SEP-19 00:21:01' where msisdn=971520001714 and last_renewal_date = '04-SEP-19 00:21:01'";
-								validate = "select "+x+" from rs_adhoc_products where msisdn="+MSISDN+" order by last_action_date desc limit 1";
+								//validate = "select "+x+" from rs_adhoc_products where msisdn="+MSISDN+" order by last_action_date desc limit 1";
 								System.out.println("Expected Query----->:"+validate);
 
 							}
 							else if(table_type.equalsIgnoreCase("renewal")) {
 							 
 								//validate = "select * from renewal where product_id= 925";
-								//validate = "select "+x+" from renewal where msisdn="+MSISDN+" and product_id ="+producid+" and status ="+statusid;
-								validate = "select "+x+" from renewal where msisdn="+MSISDN+" order by last_action_date desc limit 1";
+								validate = "select "+x+" from renewal where msisdn="+MSISDN+" and product_id ="+producid;
+								//validate = "select "+x+" from renewal where msisdn="+MSISDN+" order by last_action_date desc limit 1";
 							}
 							System.out.println(validate);
 							String dbURL = "jdbc:postgresql://10.95.214.136:5444/scs";
@@ -1790,7 +1790,7 @@ public class App {
 								
 							}
 							}							
-							String Result = Asnconvertor.cis_db(table_type, MSISDN, producid);
+							String Result = Asnconvertor.cis_db(table_type, MSISDN, producid, "");
 							System.out.println(Result);
 							String Reasons = Arrays.toString(Reason).replace(", null", "").replace("null", "").replace("null,", "").replace("[", "").replace("]", "").replace(",", "");
 							String Reasons1 = Arrays.toString(Reason1).replace(", null", "").replace("null", "").replace("null,", "").replace("[", "").replace("]", "").replace(",", "");
@@ -1807,6 +1807,129 @@ public class App {
 							Reason1 = null;
 						}
 						
+						else if (Test_Scenario.contains("simulation")){
+
+							String validate = "null";
+							String validate1 = "null";
+							String Statu = "null";
+							String[] Reason = new String[100];
+							String Statu1 = "null";
+							String[] Reason1 = new String[100];
+							String status = "";
+							String product_id = "";
+							String producid = "915";
+							String statusid = "";
+							String renewal_date = "";
+							int kk = 0;
+							curtcid = inputs.getField("Test_Case_ID")+"--"+Test_Case+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
+							startTestCase(curtcid);
+							ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+MSISDN+" : "+Test_Case+" : "+inputs.getField("Test_Scenario"));
+							String val[]  = new String[100000];
+							String para[] = new String[100000];
+							for (int Iterator = 1; Iterator <= 10000; Iterator++) {
+								if (inputs.getField("Parameter" + Iterator).isEmpty() == false) {
+									val[Iterator] = inputs.getField("Parameter" + Iterator);
+									para[Iterator] = inputs.getField("Value" + Iterator);
+									if(val[Iterator].equalsIgnoreCase("renewal_date")) {
+										renewal_date = para[Iterator];
+										System.out.println("renewal_date is ::::::::: "+renewal_date);
+									}
+									if(val[Iterator].equalsIgnoreCase("status")) {
+										status = para[Iterator];
+										System.out.println("status is ::::::::: "+status);
+									}
+									if(val[Iterator].equalsIgnoreCase("product_id")) {
+										product_id = para[Iterator];
+										System.out.println("product_id is ::::::::: "+product_id);
+									}
+								} else
+									break;
+							}
+							String vl = Arrays.toString(val);
+							String k = vl.replace("null, ", "");
+							String v = k.replace(", null", "");
+							String strArray[] = v. split(",");
+							String w = v.replace("[", "");
+							String x = w.replace("]", "").trim();
+							System.out.println("Value:-----> "+(x));
+							
+							validate = "update renewal set renewal_date= '"+renewal_date+"' where msisdn="+MSISDN+" and product_id = "+product_id+" and status ="+status;
+								//validate = "select * from renewal where msisdn = 971520001714";
+								validate1 = "select "+x+" from renewal where msisdn="+MSISDN+" and product_id = "+product_id+" and status ="+status;
+								//validate = "select "+x+" from renewal where msisdn="+MSISDN+" order by last_action_date desc limit 1";
+							
+							
+								System.out.println(validate);
+							String dbURL = "jdbc:postgresql://10.95.214.136:5444/scs";
+							Properties parameters = new Properties();
+							parameters.put("user", "mugazmaveric1");
+							parameters.put("password", "maverick");
+
+							java.sql.Connection conn11 = DriverManager.getConnection(dbURL, parameters);
+							System.out.println("Opened database successfully");
+							Statement st = conn11.createStatement();
+							try {
+							ResultSet rs1 = st.executeQuery(validate);
+							}catch(Exception e){
+								System.out.println("No results were returned by the query.");
+							}
+							ResultSet rs = st.executeQuery(validate1);
+							System.out.println("ESS:----"+rs.toString());
+							int len = strArray.length;
+							System.out.println("Length of string: "+len);
+							String valueq = null;
+			
+							while (rs.next()) {
+							for (int i =1; i<=len; i++) {
+								String colname = val[i];
+								try{
+								valueq = rs.getObject(i).toString();
+								if(valueq.equals(null)) {
+									valueq = "Null value";
+									System.out.println("Emmmptttyyy Value");
+								}else {
+									if(valueq.length()>19 && !(para[i].length()>19)) {
+										//para[i] = para[i].substring(0, 18);
+										valueq = valueq.substring(0, 19);
+										
+									}
+									if (valueq.equalsIgnoreCase(para[i].trim())) {
+										Statu1 = "Pass";
+										Reason1[i] = "<br><li> Actual value of <b>"+colname+"</b> is <b>"+valueq+"</b> and the expected value is <b>"+para[i]+"</b></li>";
+										System.out.println(colname+" is equal: "+valueq);
+									}
+									else {
+										Statu = "Fail";
+										Reason[i] = "<br><li> DB validation failed as the actual value of <b>"+colname+"</b> is <b>"+valueq+"</b> and the expected value is <b>"+para[i]+"</b></li>";
+										System.out.println(Arrays.toString(Reason));
+									}
+								}
+								}
+								catch (Exception e){
+									Statu = "Fail";
+									info("Problem with the provided pramater "+colname+" in DB, either its 'null' or empty");
+									Reason[i] = "<li>Problem with the provided pramater "+colname+" in DB, either its 'null' or empty</li>";
+								}
+								
+							}
+							}							
+							String Result = Asnconvertor.cis_db(table_type, MSISDN, product_id, status);
+							System.out.println(Result);
+							String Reasons = Arrays.toString(Reason).replace(", null", "").replace("null", "").replace("null,", "").replace("[", "").replace("]", "").replace(",", "");
+							String Reasons1 = Arrays.toString(Reason1).replace(", null", "").replace("null", "").replace("null,", "").replace("[", "").replace("]", "").replace(",", "");
+
+							test.pass(Result+"</table>");
+							if(Statu1.contains("Pass")) {
+								test.pass("<b><u>Validation passed items:</u></b><ol>"+Reasons1);
+							}
+							if(Statu.contains("Fail")) {
+								test.fail("<b><u>Failed due to following mismatch items:</u></b><ol>"+Reasons+"</table>");
+							}
+							extent.flush();
+							Reason = null;
+							Reason1 = null;
+							Thread.sleep(240000);
+						}
 						
 						else if(Test_Scenario.contains("CIS_EDR_Validation")) {
 							String datetoday;
@@ -1849,6 +1972,7 @@ public class App {
 							String valda_date = valdat.substring(0, 2);
 							String Valda_time_h = valdat.substring(11, 13);
 							String valid_date = valdat.substring(0, 13);
+							String valid_min = valdat.substring(14, 16);
 							System.out.println("Run time hour and date: "+valda_date+"___"+Valda_time_h);
 							int act_date = Integer.parseInt(valda_date);
 							int act_time = Integer.parseInt(Valda_time_h);
@@ -1857,7 +1981,7 @@ public class App {
 								CIS_type = "different";
 							}
 							try {
-							Asnconvertor.nodeValidation(Test_Scenario, MSISDN, CIS_type, valid_date);
+							Asnconvertor.nodeValidation(Test_Scenario, MSISDN, CIS_type, valid_date, valid_min);
 							}
 							catch(Exception e){
 								//e.printStackTrace();
@@ -1866,7 +1990,6 @@ public class App {
 								
 							}
 							String[] convertor = Asnconvertor.Result(trfold, MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", "", "", "", "", "", "", ExecutionStarttime, "", "", transdate);
-
 							BufferedReader csvReader = new BufferedReader(new FileReader(convertor[49]));
 							String row;
 							String csv[] = new String[10];

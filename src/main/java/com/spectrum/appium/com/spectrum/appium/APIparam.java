@@ -773,6 +773,7 @@ public class APIparam {
 			Recordset rs = null;
 			Recordset rsi = conn1.executeQuery("Select * from API_Data where TestCase_ID = '"+Test_case+"' and Request_Name = '"+Scenario+"'");
 			while (rsi.next()) {
+				String CHANNEL_TYPE = rsi.getField("Channel_Type");
 			if(Scenario.equalsIgnoreCase("CIS_API_Credit_Amount"))
 			{
 				String MSISDN =rsi.getField("Value1");
@@ -789,7 +790,20 @@ public class APIparam {
 			else if (Scenario.equalsIgnoreCase("API_Product_Subscription")) {
 				String MSISDN =rsi.getField("Value1");
 				String INPUT = rsi.getField("Value2");
-				url = "http://10.95.215.6:8001/cisBusiness/service/fulfillmentService?msisdn="+MSISDN+"&username=c39929de831bbe6b494e45dd5eb2926d&password=2cc935d0922c88fcbc5180b573040968&iname=TIBCO&input="+INPUT+"&clientTransactionId=1000040996&circleCode=UAE&paySrc=&sendsms=&skipcharging=&productcost=";
+				if(CHANNEL_TYPE.contains("HPSA")) {
+				//HPSA
+				url = "http://10.95.215.6:8001/cisBusiness/service/fulfillmentService?input="+INPUT+"&MSISDN="+MSISDN+"&circlecode=UAE&iname=HPSA&opParam4=40&clientTransactionId=1&paysrc=AIR&username=41ec9c74f9593848311aeef66d91d295&password=fe893aac9128cf11179cf637917e81a0&billCycleID=17";
+				}
+				else if(CHANNEL_TYPE.contains("TIBCO")){
+				url = "http://10.95.215.6:8001/cisBusiness/service/fulfillmentService?input="+INPUT+"&msisdn="+MSISDN+"&circlecode=UAE&username=c39929de831bbe6b494e45dd5eb2926d&password=2cc935d0922c88fcbc5180b573040968&iname=TIBCO&clientTransactionId=234872789";
+				System.out.println("API URL = "+url);
+				
+				}
+				else {
+					//url = "http://10.95.215.6:8001/cisBusiness/service/fulfillmentService?input="+INPUT+"&MSISDN="+MSISDN+"&circlecode=UAE&iname=HPSA&clientTransactionId=1&paysrc=AIR&username=41ec9c74f9593848311aeef66d91d295&password=fe893aac9128cf11179cf637917e81a0&billCycleID=17";
+					//url = "http://10.95.215.6:8001/cisBusiness/service/fulfillmentService?msisdn="+MSISDN+"&username=c39929de831bbe6b494e45dd5eb2926d&password=2cc935d0922c88fcbc5180b573040968&iname=TIBCO&input="+INPUT+"&clientTransactionId=1000040996&circleCode=UAE&paySrc=&sendsms=&skipcharging=&productcost=";
+					url = "http://10.95.215.6:8001/cisBusiness/service/fulfillmentService?msisdn="+MSISDN+"&username=c39929de831bbe6b494e45dd5eb2926d&password=2cc935d0922c88fcbc5180b573040968&iname=TIBCO&input="+INPUT+"&clientTransactionId=1000040996&circleCode=UAE&paySrc=&sendsms=&skipcharging=&productcost=";
+				}
 			}
 			else if (Scenario.equalsIgnoreCase("CIS_API_View_History")){
 				String MSISDN =rsi.getField("Value1");
