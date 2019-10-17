@@ -5,11 +5,17 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -115,25 +121,26 @@ public class Asnconvertor {
 	public ExtentTest test;
 	
 	public  static String Cis_Filepath =cdrfiles+"\\CIS\\meydvvmcis03_EDR_CISOnline1.csv";
+	//public  static String CisLog_Filepath =cdrfiles+"\\CIS_Logs\\meydvvmcis03_EDR_CISOnline1.csv";
 	public static String Cis_viewpath;
 	public static String nodetag;
 	public static String idtag;
 	public static String table_data;
 	public static String table_data1;
-	
+	public static String date2 = "";
 	///////////////////////////////////////////////
 
 //	@SuppressWarnings("deprecation")
 //	public static void main(String args[]) {
 	
 	
-		public static void nodeValidation(String Input, String MSISDN, String CIS_type, String valid_date, String valid_min) {
+		@SuppressWarnings("resource")
+		public static void nodeValidation(String Input, String Test_Case_ID, String MSISDN, String CIS_type, String valid_date, String valid_min, String check_date) {
 		try {
 			Calendar cal1 = Calendar.getInstance();
 			now= timeoffour();
 			datecis=Present_datecis();
 			dateccn=Present_dateccn();
-			
 				Fillo fillo = new Fillo();
 				Connection cons = fillo.getConnection(Data);
 				Connection conn = fillo.getConnection(Reference_Data);
@@ -236,6 +243,7 @@ public class Asnconvertor {
 						System.out.println("FILLLLLER: "+date2);
 						List<String> CIS_commands = new ArrayList<String>();
 						CIS_commands.add("cd "+path);
+						//CIS_commands.add("sudo grep "+MSISDN+"  meydvvmcis03_EDR_CISOnline1_"+date2+"* > /home/"+CIS_Unix_username+"/EDRfile.txt");
 						CIS_commands.add("grep -l "+MSISDN+" *"+date2+"."+valid_min+"* |tail -1 > /home/"+CIS_Unix_username+"/EDRfile.txt");
 						//CIS_commands.add("grep -l "+MSISDN+" *2019-10-12_11.22* |tail > /home/"+CIS_Unix_username+"/EDRfile.txt");
 
@@ -273,7 +281,10 @@ public class Asnconvertor {
 								}
 							}
 							// Code to get EDR file latest name
+							   
 							String edrfile = filename(localFile + "\\" + "EDRfile.txt");
+
+						            
 							System.out.println(edrfile);
 
 							// Code to get file to local system
@@ -307,6 +318,153 @@ public class Asnconvertor {
 						}
 
 					}
+					
+					
+					//---------------------------------CIS New Logs----------------------------------
+						    
+						    if (Node_Type.equalsIgnoreCase("CIS_Logs")) {
+								System.out.println("Waiting for CIS System to Connect");
+								String querycis ="Select * from Credentials where Unix_System = 'CIS' ";
+								Recordset input = cons.executeQuery(querycis);
+								String path = null;
+								while (input.next()) {
+								String stime=input.getField("Wait_Time");
+								int t=Integer.parseInt(stime)*1000;
+								Thread.sleep(t);
+								path= input.getField("Path");
+
+								CIS_unix_hostname = input.getField("IP_HostName");
+								CIS_Unix_username = input.getField("User_Name");
+								CIS_Unix_password = input.getField("Password");
+								// String date= Present_date();
+								}
+								if(CIS_type.equals("different")) {
+								String Fildate = valid_date;
+								Date date1=new SimpleDateFormat("dd-mm-yyy_HH").parse(valid_date);
+								SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd_HH");  
+								date2 = formatter.format(date1);
+								System.out.println("FILLLLLER: "+date2);
+								List<String> CIS_commands = new ArrayList<String>();
+								CIS_commands.add("cd "+path);
+								CIS_commands.add("sudo grep "+MSISDN+"  meydvvmcis03_EDR_CISOnline1_"+date2+"* > /home/"+CIS_Unix_username+"/EDRfile.txt");
+								//CIS_commands.add("grep -l "+MSISDN+" *"+date2+"."+valid_min+"* |tail -1 > /home/"+CIS_Unix_username+"/EDRfile.txt");
+								//CIS_commands.add("grep -l "+MSISDN+" *2019-10-12_11.22* |tail > /home/"+CIS_Unix_username+"/EDRfile.txt");
+
+								executeCommands(CIS_commands, CIS_unix_hostname, CIS_Unix_username, CIS_Unix_password);
+								close();
+								}
+								else {
+									List<String> CIS_commands = new ArrayList<String>();
+									CIS_commands.add("cd "+path);
+									CIS_commands.add("grep -l "+MSISDN+" *"+datecis+" *|tail -1 > /home/"+CIS_Unix_username+"/EDRfile.txt");
+									executeCommands(CIS_commands, CIS_unix_hostname, CIS_Unix_username, CIS_Unix_password);
+									close();
+								}
+								
+								try {
+
+									JSch jsch = new JSch();
+									Session session = jsch.getSession(CIS_Unix_username, CIS_unix_hostname, 22);
+									session.setPassword(CIS_Unix_password);
+									session.setConfig("StrictHostKeyChecking", "no");
+									session.setConfig("PreferredAuthentications", "publickey,keyboard-interactive,password");
+									session.connect();
+									channel_sftp = null;
+									channel_sftp = (ChannelSftp) session.openChannel("sftp");
+									channel_sftp.connect();
+									channel_sftp.cd("/home/"+CIS_Unix_username);
+
+								//	File localFile = new File(Curr_user_directory_path + "\\" + "CDR");
+									@SuppressWarnings("unchecked")
+									Vector<ChannelSftp.LsEntry> list = channel_sftp.ls("*.txt");
+									for (ChannelSftp.LsEntry entry : list) {
+										if (entry.getFilename().contains("EDRfile.txt")) {
+											channel_sftp.get(entry.getFilename(), localFile + "\\" + "EDRfile.txt");
+											Thread.sleep(5000);
+										}
+									}
+									// Code to get EDR file latest name
+									   String key = "";
+									   String header = "";
+									   
+									   String headerf = filename(localFile + "\\" + "EDR_Headers.txt");
+										{
+										    FileReader file1 = new FileReader(localFile + "\\" + "EDR_Headers.txt");
+										    BufferedReader reader = new BufferedReader(file1);
+										    String line = reader.readLine();
+										    while (line != null) {
+										        header += line;
+										        line = reader.readLine();
+										    }
+
+										    System.out.println(header); //this prints contents of .txt file
+										}
+									   
+									String edrfile = filename(localFile + "\\" + "EDRfile.txt");
+									{
+									    FileReader file1 = new FileReader(localFile + "\\" + "EDRfile.txt");
+									    BufferedReader reader = new BufferedReader(file1);
+									    String line = reader.readLine();
+									    line = line.replace("meydvvmcis03_EDR_CISOnline1_", "").replace(".csv", " ");
+
+									    while (line != null) {
+									        key += line;
+									        line = reader.readLine();
+									    }
+
+									    System.out.println(key); //this prints contents of .txt file
+									}
+									//String tag = "Transaction Time|Client Transaction Id|Transaction Id|IP Address|Event Type|A Party Msisdn|B Party Msisdn|Input|Result Code|Result Description|Service Class|Requested Product ID|Product Name|Product Type|Product Cost|Applied product cost|Product Validity|Access Channel|Access Code|Charge Indicator|Vat Fee|Language Id|Iname|Circle Code|Pay Source|Send sms|Skip charging|Bill Cycle ID|User ID|Origin Host|Faf Indicator|Faf MSISDN|Offer ID|New Imei|Old Imei|Dealer ID|Transfer Remark|DrCr|Subscription Date|Expiry Date|Last Renewal Date|Grace Expiry Date|Status|Subscription Mode|Network Status|Last Status|Status Change time|Command Count|Charging Session Id|Notification Message|Commission Fee|Transfer Fee|GL Code|State|Subscriber Type|OpParam1|OpParam2|OpParam3|OpParam4|OpParam5|OpParam6|OpParam7|OpParam8|OpParam9|OpParam10|OpParam11|OpParam12|TDF_Event_Class|TDF_Event_Name|TDF_Voucher_Type|TDF_Periodic_Charge|TDF_Usage|External Data1|External Data2|External Data3|External Data4|Callback|ParentProductSPInfo \n";
+									String overall = header +"\r\n"+ key;
+					
+									
+									PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(localFile + "\\" + "CIS_Logs" + "\\"+Test_Case_ID+"meydvvmcis03_EDR_CISOnline1.csv")));
+									PrintWriter out2 = new PrintWriter(new BufferedWriter(new FileWriter(localFileb + "\\" + "CIS_Logs" + "\\"+Test_Case_ID+"meydvvmcis03_EDR_CISOnline1.csv")));
+									out.println(overall.replace("'", "").replace("remove", ""));
+									out2.println(overall.replace("'", "").replace("remove", ""));
+									out2.close();
+								    out.close();
+									
+									final Charset utf8 = Charset.forName("UTF-8");
+//								    try (
+//								            final Scanner scanner = new Scanner(Files.newBufferedReader(edrfile, utf8));
+//								            final PrintWriter pw = new PrintWriter(Files.newBufferedWriter(csv, utf8, StandardOpenOption.CREATE_NEW))) {
+//								        while (scanner.hasNextLine()) {
+//								            pw.println(scanner.nextLine().replace('|', ','));
+								            
+									//System.out.println(edrfile);
+
+									// Code to get file to local system
+//									channel_sftp.cd(path);
+		//
+//									@SuppressWarnings("unchecked")
+//									Vector<ChannelSftp.LsEntry> list1 = channel_sftp.ls("*.csv");
+//									Thread.sleep(5000);
+//									try {
+//									for (ChannelSftp.LsEntry entry1 : list1) {
+//										if (entry1.getFilename().contains(edrfile)) {
+//											channel_sftp.get(edrfile, localFile + "\\" + "CIS" + "\\"+"meydvvmcis03_EDR_CISOnline1.csv");
+//											Thread.sleep(10000);
+//											channel_sftp.get(edrfile, localFileb + "\\" + "CIS" + "\\");
+//											System.out.println("SDP file transfered to " + localFile + "\\" + "CIS" + "\\");
+//										} else {
+//										}
+//									}
+//									} catch (Exception e) {
+//										//e.printStackTrace();
+//										System.out.println("++++++++++++");
+		//
+//									}
+
+//									channel_sftp.disconnect();
+//									session.disconnect();
+
+								} catch (Exception e) {
+									e.printStackTrace();
+
+								}
+
+							}
 				// ---------------------------------------------------------------------------------------
 				// ************** SDP Unix Interactions
 				if (Node_Type.contains("SDP") || Input.contains("ALL")) {
@@ -802,7 +960,7 @@ public class Asnconvertor {
 		}
 		}
 		
-		public static String[] Result(String trfold, String MSISDN, String Prod_ID, String input, String Test_Case_ID, String curtcid, String Product_Name, String Test_Scenario_I, String Test_Case, String Confirmation, String Message, String Recharge_Coupon, String Voice_Call_To, String Text_Message, String SMS_To_Receiver, String Balancemsg, String p2p_To_Number, String p2p_Amount, String ExecutionStarttime, String CALL_DURATION, String Count, String transdate)
+		public static String[] Result(String trfold, String MSISDN, String Prod_ID, String input, String Test_Case_ID, String curtcid, String Product_Name, String Test_Scenario_I, String Test_Case, String Confirmation, String Message, String Recharge_Coupon, String Voice_Call_To, String Text_Message, String SMS_To_Receiver, String Balancemsg, String p2p_To_Number, String p2p_Amount, String ExecutionStarttime, String CALL_DURATION, String Count, String transdate, String check_date)
 		{
 			String[] convertor = new String [50];
 			try {
@@ -841,7 +999,7 @@ public class Asnconvertor {
 					if (directoryListing != null) {
 						for (File child : directoryListing) {
 							filename = child.getAbsoluteFile().getName();
-							if(!filetype.equalsIgnoreCase("CIS")) {
+							if(!filetype.contains("CIS")) {
 														
 							//startTestCase("Parsing File " + filename);
 							String schemaname = "";
@@ -1022,6 +1180,7 @@ public class Asnconvertor {
 								System.out.println("------ CIS DB Part ---------");
 								convertor[20] = cis_db("adhoc", MSISDN, "", "");
 							}
+							
 							else {
 								startTestCase("Parsing File " + filename);
 								//String schemaname = "";
@@ -1040,7 +1199,13 @@ public class Asnconvertor {
 									filecsv.delete();
 								}
 								filecsv.createNewFile();
-								cistbl=CSVparse(Cis_Filepath,Cis_viewpath,MSISDN, transdate);
+								if(filetype.equalsIgnoreCase("CIS_Logs")) {
+									String CisLog_Filepath =cdrfiles+"\\CIS_Logs\\"+Test_Case_ID+"meydvvmcis03_EDR_CISOnline1.csv";
+									cistbl=CSVparse(CisLog_Filepath,Cis_viewpath,MSISDN, check_date);
+								}
+								else {
+								cistbl=CSVparse(Cis_Filepath,Cis_viewpath,MSISDN, check_date);
+								}
 								convertor[5] = filetype;
 								convertor[7] = filename;
 								convertor[3] = cistbl;
@@ -1593,7 +1758,7 @@ public class Asnconvertor {
 			}
 		}
 	}
-	public static String CSVparse(String Filepath, String viewpath, String MSISDN, String transdate) {
+	public static String CSVparse(String Filepath, String viewpath, String MSISDN, String check_date) {
 		String csvtb = null;
 		try {
 			
@@ -1631,11 +1796,13 @@ public class Asnconvertor {
 			
 			
 			String Validation_Query ="CREATE VIEW public.CIS_EDR_Validation_"+num+" AS Select Transaction_Time,Product_Name, Event_Type,Access_Channel,Result_Description,Result_Code,Offer_ID,Service_Class,input,Requested_Product_ID," + 
-					"Expiry_Date,Subscription_Mode,A_Party_Msisdn, Product_Validity, Vat_Fee, Iname,Network_Status FROM public.edr_cis_datasamp where A_Party_Msisdn='" +MSISDN +"'"+" and Transaction_Time LIKE '%"+transdate+"%'";
+					"Expiry_Date,Subscription_Mode,A_Party_Msisdn, Product_Validity, Vat_Fee, Iname,Network_Status FROM public.edr_cis_datasamp where A_Party_Msisdn='" +MSISDN +"'"+" and Transaction_Time LIKE '%"+check_date+"%'";
 			ExecuteQuery(Validation_Query);
 			String getValidationData ="Select Transaction_Time,Product_Name, Event_Type,Access_Channel,Result_Description,Result_Code,Offer_ID,Service_Class,input,Requested_Product_ID," + 
-					"Expiry_Date,Subscription_Mode,A_Party_Msisdn, Product_Validity, Vat_Fee, Iname,Network_Status FROM public.edr_cis_datasamp where A_Party_Msisdn='" +MSISDN +"'"+" and Transaction_Time LIKE '%"+transdate+"%'";
+					"Expiry_Date,Subscription_Mode,A_Party_Msisdn, Product_Validity, Vat_Fee, Iname,Network_Status FROM public.edr_cis_datasamp where A_Party_Msisdn='" +MSISDN +"'"+" and Transaction_Time LIKE '%"+check_date+"%'";
 		 csvtb=ValidationQuery(getValidationData);
+		 
+		 System.out.println("Fir: "+getValidationData);
 		 
 		 // To export the required data to csv file
 		 

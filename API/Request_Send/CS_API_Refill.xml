@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <methodCall>
-   <methodName>GetBalanceAndDate</methodName>
+   <methodName>Refill</methodName>
    <params>
       <param>
          <value>
@@ -20,50 +20,19 @@
                <member>
                   <name>originTransactionID</name>
                   <value>
-                     <string>2019101515191018</string>
+                     <string>2019101617005130</string>
                   </value>
                </member>
                <member>
                   <name>originTimeStamp</name>
                   <value>
-                     <dateTime.iso8601>20191015T15:19:10+0000</dateTime.iso8601>
+                     <dateTime.iso8601>20191016T17:00:51+0000</dateTime.iso8601>
                   </value>
                </member>
                <member>
                   <name>subscriberNumberNAI</name>
                   <value>
                      <int>1</int>
-                  </value>
-               </member>
-               <member>
-                  <name>requestedInformationFlags</name>
-                  <value>
-                     <struct>
-                        <member>
-                           <name>requestMasterAccountBalanceFlag</name>
-                           <value>
-                              <boolean>1</boolean>
-                           </value>
-                        </member>
-                     </struct>
-                  </value>
-               </member>
-               <member>
-                  <name>requestPamInformationFlag</name>
-                  <value>
-                     <boolean>1</boolean>
-                  </value>
-               </member>
-               <member>
-                  <name>requestActiveOffersFlag</name>
-                  <value>
-                     <boolean>1</boolean>
-                  </value>
-               </member>
-               <member>
-                  <name>requestAttributesFlag</name>
-                  <value>
-                     <boolean>1</boolean>
                   </value>
                </member>
                <member>
@@ -82,6 +51,36 @@
                   <name>subscriberNumber</name>
                   <value>
                      <string>971520001714</string>
+                  </value>
+               </member>
+               <member>
+                  <name>transactionAmount</name>
+                  <value>
+                     <string>50000</string>
+                  </value>
+               </member>
+               <member>
+                  <name>transactionCurrency</name>
+                  <value>
+                     <string>AED</string>
+                  </value>
+               </member>
+               <member>
+                  <name>refillProfileID</name>
+                  <value>
+                     <string>D500</string>
+                  </value>
+               </member>
+               <member>
+                  <name>externalData1</name>
+                  <value>
+                     <string>More Time</string>
+                  </value>
+               </member>
+               <member>
+                  <name>externalData2</name>
+                  <value>
+                     <string>DU_500</string>
                   </value>
                </member>
             </struct>

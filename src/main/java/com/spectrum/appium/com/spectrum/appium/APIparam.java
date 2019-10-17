@@ -213,6 +213,7 @@ public class APIparam {
 							.headers("Content-Type", " text/xml", "Host ", "10.95.214.166:10011", "User-Agent",
 									"UGw Server/5.0/1.0", "Authorization",
 									"Basic " + "bWF2ZXJpYzpFcmljc3NvbnRlc3QxMjNA")
+									//"Basic " + "ZmRzdXNlcjpEdWJhaUVyaWNAMTIzNDU=")
 							.when() // .contentType("text/xml; charset=utf-8")
 							.post(cellval5).then().extract().response();
 					respf = new File(Root + "\\API\\Response\\" + cellval1 + ".xml");

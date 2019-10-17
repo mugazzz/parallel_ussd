@@ -1807,7 +1807,7 @@ public class App {
 							Reason1 = null;
 						}
 						
-						else if (Test_Scenario.contains("simulation")){
+						else if (Test_Scenario.contains("DB_Simulation_")){
 
 							String validate = "null";
 							String validate1 = "null";
@@ -1820,12 +1820,15 @@ public class App {
 							String producid = "915";
 							String statusid = "";
 							String renewal_date = "";
+							String grace_date = "";
 							int kk = 0;
 							curtcid = inputs.getField("Test_Case_ID")+"--"+Test_Case+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
 							startTestCase(curtcid);
 							ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+MSISDN+" : "+Test_Case+" : "+inputs.getField("Test_Scenario"));
 							String val[]  = new String[100000];
 							String para[] = new String[100000];
+						
+							
 							for (int Iterator = 1; Iterator <= 10000; Iterator++) {
 								if (inputs.getField("Parameter" + Iterator).isEmpty() == false) {
 									val[Iterator] = inputs.getField("Parameter" + Iterator);
@@ -1842,6 +1845,10 @@ public class App {
 										product_id = para[Iterator];
 										System.out.println("product_id is ::::::::: "+product_id);
 									}
+									if(val[Iterator].equalsIgnoreCase("grace_date")) {
+										grace_date = para[Iterator];
+										System.out.println("grace_date is ::::::::: "+grace_date);
+									}
 								} else
 									break;
 							}
@@ -1853,9 +1860,30 @@ public class App {
 							String x = w.replace("]", "").trim();
 							System.out.println("Value:-----> "+(x));
 							
-							validate = "update renewal set renewal_date= '"+renewal_date+"' where msisdn="+MSISDN+" and product_id = "+product_id+" and status ="+status;
-								//validate = "select * from renewal where msisdn = 971520001714";
-								validate1 = "select "+x+" from renewal where msisdn="+MSISDN+" and product_id = "+product_id+" and status ="+status;
+							DateTimeFormatter dtf = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+							LocalDateTime now = LocalDateTime.now();
+							if(Test_Scenario.contains("DB_Simulation_Renewal")){
+								now = now.minusMinutes(16);
+							}
+							else if (Test_Scenario.contains("DB_Simulation_Grace")){
+								now = now.minusMinutes(31);
+							}
+							String conf_time = now.toString();
+							conf_time = conf_time.substring(0, 19);
+							conf_time = conf_time.replace("T", " ");
+							System.out.println("First Date: "+conf_time);
+							
+							if(Test_Scenario.contains("DB_Simulation_Renewal")) {
+							validate = "update renewal set renewal_date= '"+conf_time+"' where msisdn="+MSISDN+" and product_id = "+product_id+" and status ="+status;
+							}
+							else if(Test_Scenario.contains("DB_Simulation_Grace")) {
+								validate = "update renewal set grace_date= '"+conf_time+"' where msisdn="+MSISDN+" and product_id = "+product_id+" and status ="+status;
+							}
+							else if(Test_Scenario.contains("DB_Simulation_Delete")) {
+								validate = "delete from renewal where msisdn="+MSISDN+" and product_id = "+product_id;
+							}
+							//validate = "select * from renewal where msisdn = 971520001714";
+								validate1 = "select "+x+" from renewal where msisdn="+MSISDN+" and product_id = "+product_id+" and status ="+status+" order by last_action_date desc limit 1";
 								//validate = "select "+x+" from renewal where msisdn="+MSISDN+" order by last_action_date desc limit 1";
 							
 							
@@ -1973,15 +2001,20 @@ public class App {
 							String Valda_time_h = valdat.substring(11, 13);
 							String valid_date = valdat.substring(0, 13);
 							String valid_min = valdat.substring(14, 16);
+							
+							String Fildate = valid_date;
+							Date date1=new SimpleDateFormat("dd-mm-yyy_HH").parse(valid_date);
+							SimpleDateFormat formatter = new SimpleDateFormat("yyyy-mm-dd_HH");  
+							String check_date = formatter.format(date1);
 							System.out.println("Run time hour and date: "+valda_date+"___"+Valda_time_h);
 							int act_date = Integer.parseInt(valda_date);
 							int act_time = Integer.parseInt(Valda_time_h);
 							
-							if((act_date <= cur_date1) && (act_time <= cur_time1)){
+							if((act_date <= cur_date1)){
 								CIS_type = "different";
 							}
 							try {
-							Asnconvertor.nodeValidation(Test_Scenario, MSISDN, CIS_type, valid_date, valid_min);
+							Asnconvertor.nodeValidation(Test_Scenario, Test_Case_ID, MSISDN, CIS_type, valid_date, valid_min, Test_Case_ID);
 							}
 							catch(Exception e){
 								//e.printStackTrace();
@@ -1989,7 +2022,8 @@ public class App {
 								Reason[50] = "<li>No CIS EDR found for the provided MSISDSN <b>"+MSISDN+"</b> </li>";
 								
 							}
-							String[] convertor = Asnconvertor.Result(trfold, MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", "", "", "", "", "", "", ExecutionStarttime, "", "", transdate);
+							String[] convertor = Asnconvertor.Result(trfold, MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", "", "", "", "", "", "", ExecutionStarttime, "", "", transdate, check_date);
+							System.out.println("EDR PATH-------> "+convertor[49]);							
 							BufferedReader csvReader = new BufferedReader(new FileReader(convertor[49]));
 							String row;
 							String csv[] = new String[10];
@@ -2013,16 +2047,17 @@ public class App {
 							for(int z=2; z<=f; z++) {
 								String valuess = csv[z];
 								String[] valuelist = valuess.split(",");
-								if(valuess.contains(val[1]) && valuess.contains(val[2])) {
+								if(valuess.contains(check_date) && valuess.contains(val[2])) {
 								check="pass";
 								System.out.println("values Lenght is: "+valuelist.length);
+								try {
 								for(int w=1; w<=given; w++) {
 									String compara = para[w];
 									String comval = val[w];
 									for(int i=0; i<=17; i++) {										
 										try {
-										if(paramlst[i].trim().equalsIgnoreCase(compara.trim())) {
-											if(valuelist[i].trim().equalsIgnoreCase(comval.trim())) {
+										if(paramlst[i].trim().contains(compara.trim())) {
+											if(valuelist[i].trim().contains(comval.trim())) {
 												Sta = "Pass";
 												info("The parameter "+paramlst[i]+" in DB is validated");
 												System.out.println("Expected Value of "+paramlst[i]+" is "+valuelist[i]);
@@ -2035,6 +2070,7 @@ public class App {
 											}
 											break;
 										}
+										
 									}
 									catch (Exception e){
 										//e.printStackTrace();
@@ -2043,7 +2079,16 @@ public class App {
 									}
 								}
 								break;
+								}
+								catch (Exception e){
+									//e.printStackTrace();
+									info("Problem with the iteration count");
+								}
 							}	
+								else {
+									Statu = "Fail";
+									Reason[49] = "<li>Transaction_time itself not matching</li>";
+								}
 								
 							}
 							if(check.equalsIgnoreCase("fail")) {
