@@ -1,0 +1,2 @@
+transaction_time|product_name|event_type|access_channel|result_description|result_code|offer_id|service_class|input|requested_product_id|expiry_date|subscription_mode|a_party_msisdn|product_validity|vat_fee|iname|network_status
+2019-10-14_10.09_0 :14/10/2019 10:02:57:594|CAMP3_SOC_HEAVY|NACT|TIBCO|SUCCESS|0||1002|NACT_CAMP3_SOC_HEAVY|2438|30/12/2019 11:20:00:000|adhoc|971520002230|1 Days|5|TIBCO|SubscriptionInProgress
