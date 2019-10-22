@@ -97,6 +97,8 @@ public class App {
 	Statement stmtuser = null;
 	ResultSet inputsuser = null;
 	
+	String Call_To = "";
+	String CALL_DURATION = "";
 	String Productofferv = "";
 	String ProductofferID = "";
 	String offerStatev = "";
@@ -184,7 +186,7 @@ public class App {
 			
 			while (inputs.next()) {
 				Runtime rt = Runtime.getRuntime();
-//						String device = inputs.getField("Test_Device");
+						String device = "device1";
 //						System.out.println(device);
 						String MSISDN = inputs.getField("MSISDN");
 						String Test_Scenario = inputs.getField("Test_Scenario");
@@ -193,8 +195,7 @@ public class App {
 						String table_type = inputs.getField("Table");
 //						Prod_ID = inputs.getField("Product_Name");
 //						Recharge_Coupon = inputs.getField("Recharge_Coupon");
-//						String Call_To = inputs.getField("Call_TO_MSISDN");
-//						String CALL_DURATION = inputs.getField("CALL_DURATION");
+
 						
 						for (int Iterator = 1; Iterator <= 150; Iterator++) {
 							String val[]  = new String[50];
@@ -270,6 +271,14 @@ public class App {
 									startDatev = para[Iterator];
 									startDate = val[Iterator];
 								}
+								else if(para[Iterator].contains("Call_To")) {
+									//Call_To = para[Iterator];
+									Call_To = val[Iterator];
+								}
+								else if(para[Iterator].contains("CALL_DURATION")) {
+									//CALL_DURATION = para[Iterator];
+									CALL_DURATION = val[Iterator];
+								}
 								
 							} else
 								break;
@@ -279,16 +288,16 @@ public class App {
 						info("Starting execution at +: " + Test_Case_ID + "->" + Test_Scenario + "->" + ExecutionStarttime);
 						extent.attachReporter(htmlReporter);
 						
-//						 //String Mobile = inputs.getField("Test_Device");
-//						String basedir = System.getProperty("user.dir");
-//						String port_number = ReadMobileproperties(device, "appiumport");
-//						String device_name = ReadMobileproperties(device, "DeviceName");
-//						String package_name = ReadMobileproperties(device, "apppackage");
-//						String activity_name = ReadMobileproperties(device, "appactivity");
-//						String package_name1 = ReadMobileproperties(device, "apppackage1");
-//						String activity_name1 = ReadMobileproperties(device, "appactivity1");
-//						String version = ReadMobileproperties(device, "version");
-//						String bsport = ReadMobileproperties(device, "bootstrapport");
+						 //String Mobile = inputs.getField("Test_Device");
+						String basedir = System.getProperty("user.dir");
+						String port_number = ReadMobileproperties(device, "appiumport");
+						String device_name = ReadMobileproperties(device, "DeviceName");
+						String package_name = ReadMobileproperties(device, "apppackage");
+						String activity_name = ReadMobileproperties(device, "appactivity");
+						String package_name1 = ReadMobileproperties(device, "apppackage1");
+						String activity_name1 = ReadMobileproperties(device, "appactivity1");
+						String version = ReadMobileproperties(device, "version");
+						String bsport = ReadMobileproperties(device, "bootstrapport");
 //						
 //
 //						String execu1 = "java -jar" + basedir
@@ -821,72 +830,73 @@ public class App {
 //					}
 //						
 //						
-//						//----------------------	Voice Call	 --------------------------//
-//						
-//						else if(Test_Scenario.equals("LIVE USAGE VOICE")) {
-//							String package_voice = ReadMobileproperties(Test_Scenario, "apppackage");
-//							String activity_voice = ReadMobileproperties(Test_Scenario, "appactivity");
-//							DesiredCapabilities capabilities = new DesiredCapabilities();
-//							capabilities.setCapability("deviceName", device);
-//							capabilities.setCapability("platformVersion", version);
-//							capabilities.setCapability("platformName", "ANDROID");
-//							capabilities.setCapability("bootstrapPort", bsport); 
-//							capabilities.setCapability("appPackage", package_voice);
-//							capabilities.setCapability("appActivity", activity_voice);
-//							curtcid = Test_Case_ID+"--"+Test_Scenario+"_"+Test_Scenario;
-//							startTestCase(curtcid);
-//							ExtentTest test = extent.createTest(Test_Case_ID+": <br>"+Test_Scenario+"<br>"+Test_Scenario);
+						//----------------------	Voice Call	 --------------------------//
+						
+						if(Test_Scenario.equals("LIVE USAGE VOICE")) {
+							starter(port_number);
+							String package_voice = ReadMobileproperties(Test_Scenario, "apppackage");
+							String activity_voice = ReadMobileproperties(Test_Scenario, "appactivity");
+							DesiredCapabilities capabilities = new DesiredCapabilities();
+							capabilities.setCapability("deviceName", device);
+							capabilities.setCapability("platformVersion", version);
+							capabilities.setCapability("platformName", "ANDROID");
+							capabilities.setCapability("bootstrapPort", bsport); 
+							capabilities.setCapability("appPackage", package_voice);
+							capabilities.setCapability("appActivity", activity_voice);
+							curtcid = Test_Case_ID+"--"+Test_Scenario+"_"+Test_Scenario;
+							startTestCase(curtcid);
+							ExtentTest test = extent.createTest(Test_Case_ID+": <br>"+Test_Scenario+"<br>"+Test_Scenario);
 							
-//							int secs = Integer.parseInt(CALL_DURATION);
-//							APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
-//							dr.set(new AndroidDriver(new URL("http://127.0.0.1:" +  ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
-//							Thread.sleep(3000);
-//							dr.get().findElement(By.id("com.samsung.android.dialer:id/zero")).click();
-//							 //dr.get().findElement(By.id("com.samsung.android.dialer:id/digits")).clear();
-//							 dr.get().findElement(By.id("com.samsung.android.dialer:id/digits")).sendKeys(Call_To);
-//							 takeScreenShot("Dialed Number");
-//							 dr.get().findElement(By.id("com.samsung.android.dialer:id/dialButtonImage")).click();
+							int secs = Integer.parseInt(CALL_DURATION);
+							//APIHandler.API(curtcid, trfold, "Before_Execution", MSISDN);
+							dr.set(new AndroidDriver(new URL("http://127.0.0.1:" +  ReadMobileproperties(device, "appiumport") + "/wd/hub"), capabilities));
+							Thread.sleep(3000);
+							dr.get().findElement(By.id("com.samsung.android.dialer:id/zero")).click();
+							 //dr.get().findElement(By.id("com.samsung.android.dialer:id/digits")).clear();
+							 dr.get().findElement(By.id("com.samsung.android.dialer:id/digits")).sendKeys(Call_To);
+							 takeScreenShot("Dialed Number");
+							 dr.get().findElement(By.id("com.samsung.android.dialer:id/dialButtonImage")).click();
 							
 							
-//							Runtime run = Runtime.getRuntime();
-//							String execu = "adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+Call_To;
-//							System.out.println("Execution cmmand: "+execu);
-//							run.exec(execu);
-//							Thread.sleep(secs*1000);
-//							takeScreenShot("Call process");
-//							try {
-//							dr.get().findElement(By.id("com.samsung.android.incallui:id/disconnect_button")).click();
-//							}
-//							catch (Exception e) {
-//								//e.printStackTrace();
-//								System.out.println("User didn't pick the call");
-//							 }
-//							//com.samsung.android.incallui:id/disconnect_button
-//							String result = dr.get().stopRecordingScreen();
+							Runtime run = Runtime.getRuntime();
+							String execu = "adb -s "+device_name+" shell am start -a android.intent.action.CALL -d tel:"+Call_To;
+							System.out.println("Execution cmmand: "+execu);
+							run.exec(execu);
+							Thread.sleep(secs*1000);
+							takeScreenShot("Call process");
+							try {
+							dr.get().findElement(By.id("com.samsung.android.incallui:id/disconnect_button")).click();
+							}
+							catch (Exception e) {
+								//e.printStackTrace();
+								System.out.println("User didn't pick the call");
+							 }
+							//com.samsung.android.incallui:id/disconnect_button
+							String result = dr.get().stopRecordingScreen();
 							
-//							APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
-//							//-------------------------- CDR Conversion -------------------------------------------//
-//							
-//							Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
-//							
-//					//-------------------------- Report ----------------------------------------------//
-//							String[] convertor = Asnconvertor.Result(trfold, MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", Call_To, "", "", "", "", "", ExecutionStarttime, CALL_DURATION, "" );
-//							
-//							test.pass("</table><table><tr><th style= 'min-width: 168px'><b>MSISDN</b></th>"
-//									+"<th style= 'min-width: 168px'><b>Test Scenario </b></th>"
-//									+"<th style= 'min-width: 168px'><b>Test Case </b></th>"
-//									+"<th style= 'min-width: 168px'><b>Called To </b></th>"
-//									+"<th style= 'min-width: 168px'><b>Call Duration </b></th>"
-//									+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
-//									
-//									//Device Result
-//									"<tr><td style= 'min-width: 168px'>"+MSISDN+"</td><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+Call_To+"</td><td style= 'min-width: 168px'>"+ CALL_DURATION +"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>");
-//							
+							//APIHandler.API(curtcid, trfold, "After_Execution", MSISDN);
+							//-------------------------- CDR Conversion -------------------------------------------//
+							
+							//Asnconvertor.nodeValidation(Test_Scenario, MSISDN);
+							
+					//-------------------------- Report ----------------------------------------------//
+							//String[] convertor = Asnconvertor.Result(trfold, MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", Call_To, "", "", "", "", "", ExecutionStarttime, CALL_DURATION, "" );
+							
+							test.pass("</table><table><tr><th style= 'min-width: 168px'><b>MSISDN</b></th>"
+									+"<th style= 'min-width: 168px'><b>Test Scenario </b></th>"
+									+"<th style= 'min-width: 168px'><b>Test Case </b></th>"
+									+"<th style= 'min-width: 168px'><b>Called To </b></th>"
+									+"<th style= 'min-width: 168px'><b>Call Duration </b></th>"
+									+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
+									
+									//Device Result
+									"<tr><td style= 'min-width: 168px'>"+MSISDN+"</td><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'>"+Call_To+"</td><td style= 'min-width: 168px'>"+ CALL_DURATION +"</td><td style= 'min-width: 168px'>"+ "<a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>");
+							
 							//CIS API
 //							test.pass("<br><br><b>CS Get Account Details Response:</b>" 
 //							+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
 //							+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a><br>");
-//						
+						
 //					com.codoid.products.fillo.Connection co = fillo.getConnection(Reference_Data);
 //					String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
 //					Recordset rsr = co.executeQuery(strQuery);
@@ -928,11 +938,11 @@ public class App {
 //							+ "<br><b>CCN Table: </b><br>" + convertor[14] 
 //							+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[13]+"/"+convertor[12] + "/Output.xml'>Click to View the CCN CDR</a>"+"</table><br>");
 //							}
-//
-//							extent.flush();
-//							endTestCase(curtcid);
-//						}
-//						
+
+							extent.flush();
+							endTestCase(curtcid);
+						}
+						
 //						
 //						//----------------------	Video Call	 --------------------------//
 //						
@@ -1130,7 +1140,7 @@ public class App {
 //							
 //						com.codoid.products.fillo.Connection co = fillo.getConnection(Reference_Data);
 //						String strQuery = "Select * from node_xml_conversion " + "where Test_Scenario= '"+Test_Scenario+"' and Execution ='Yes'";
-//						Recordset rsr = co.executeQuery(strQuery);
+//						Recordset rsr = co.execut,eQuery(strQuery);
 //						while (rsr.next()) {
 //							String Node_Type = rsr.getField("Node_To_Validate");
 //							
@@ -1594,14 +1604,24 @@ public class App {
 									
 									if(Firstwrap[l].trim().equalsIgnoreCase(dedicatedAccountActiveValue1v.trim())) {
 										if(Firstwrap[l+1].trim().equalsIgnoreCase(dedicatedAccountActiveValue11[i].trim())) {
+											if(table_type.contains("usage")) {
+												state= "Failed";
+												report[90+g] = "<li>Given DA active value: <b>"+dedicatedAccountActiveValue11[i]+"</b> is still equal and usage is not charged</li>";
+										}
 											info("Dedicated Account Active Value1 : " + dedicatedAccountActiveValue11[i]+ "is validated");
 											state1 = "Pass";
 											report1[12+p] = "<li>For Dedicated Account ID : <b>"+dedicatedAccountID1[i]+"</b> --> Dedicated Account Active Value1 <b>: " + dedicatedAccountActiveValue11[i]+ "</b> is correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 										else {
+											if(!table_type.contains("usage")) {
 											state = "Failed";
 											report[12+p] = "<li>For Dedicated Account ID : <b>"+dedicatedAccountID1[i]+"</b> --> Dedicated Account Active Value1 <b>: " + dedicatedAccountActiveValue11[i]+ "</b> is not correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
-										}
+											}
+											else {
+												state1 = "Pass";
+												report1[12+p] = "<li>For Dedicated Account ID : <b>"+dedicatedAccountID1[i]+"</b> --> Dedicated Account Active Value1 <b>: " + dedicatedAccountActiveValue11[i]+ "</b> and the actual Value after usage is <b>"+Firstwrap[l+1]+"</b></li>";
+											}
+											}
 										
 									}
 									
@@ -1620,14 +1640,23 @@ public class App {
 									
 									if(Firstwrap[l].trim().equalsIgnoreCase(dedicatedAccountValue1v.trim())) {
 										if(Firstwrap[l+1].trim().equalsIgnoreCase(dedicatedAccountValue11[i].trim())) {
+											if(table_type.contains("usage")) {
+												state= "Failed";
+												report[90+g] = "<li>Given DA value: <b>"+ dedicatedAccountValue11[i]+"</b> is still equal and usage is not charged</li>";
+										}
 											info("Dedicated Account Value1 : " + dedicatedAccountValue11[i]+ "is validated");
 											state1 = "Pass";
 											report1[14+p] = "<li>For Dedicated Account ID : <b>"+dedicatedAccountID1[i]+"</b> --> Dedicated Account Value <b>: " + dedicatedAccountValue11[i]+ "</b> is correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
 										}
 										else {
+											if(!table_type.contains("usage")) {
 											state = "Failed";
 											report[14+p] = "<li>For Dedicated Account ID : <b>"+dedicatedAccountID1[i]+"</b> --> Dedicated Account Value <b>: " + dedicatedAccountValue11[i]+ "</b> is not correct and the actual Value is <b>"+Firstwrap[l+1]+"</b></li>";
-										}
+											}
+											else {
+												report1[14+p] = "<li>For Dedicated Account ID : <b>"+dedicatedAccountID1[i]+"</b> --> Dedicated Account Value <b>: " + dedicatedAccountValue11[i]+ "</b> and the actual Value after usage is <b>"+Firstwrap[l+1]+"</b></li>";
+											}
+											}
 										
 									}
 									
@@ -1980,6 +2009,7 @@ public class App {
 							String val[]  = new String[50];
 							String para[] = new String[50];
 							String transdate = "";
+							String event_type = "";
 							int given = 0;
 							String Statu = "null";
 							String Sta = "null";
@@ -1990,6 +2020,10 @@ public class App {
 									if(para[Iterator].trim().equalsIgnoreCase("transaction_time")) {
 										transdate = val[Iterator];
 										System.out.println("Transaction date is ::::::::: "+transdate);
+									}
+									if(para[Iterator].trim().equalsIgnoreCase("event_type")) {
+										event_type = val[Iterator].trim();
+										System.out.println("event_type is ::::::::: "+event_type);
 									}
 									given++;
 									
@@ -2010,7 +2044,7 @@ public class App {
 							int act_date = Integer.parseInt(valda_date);
 							int act_time = Integer.parseInt(Valda_time_h);
 							
-							if((act_date <= cur_date1)){
+							if((act_date >= cur_date1)){
 								CIS_type = "different";
 							}
 							try {
@@ -2022,7 +2056,7 @@ public class App {
 								Reason[50] = "<li>No CIS EDR found for the provided MSISDSN <b>"+MSISDN+"</b> </li>";
 								
 							}
-							String[] convertor = Asnconvertor.Result(trfold, MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", "", "", "", "", "", "", ExecutionStarttime, "", "", transdate, check_date);
+							String[] convertor = Asnconvertor.Result(trfold, MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", Test_Scenario_I, Test_Case, "", "", "", "", "", "", "", "", "", ExecutionStarttime, "", "", transdate, check_date, event_type);
 							System.out.println("EDR PATH-------> "+convertor[49]);							
 							BufferedReader csvReader = new BufferedReader(new FileReader(convertor[49]));
 							String row;
@@ -2047,7 +2081,8 @@ public class App {
 							for(int z=2; z<=f; z++) {
 								String valuess = csv[z];
 								String[] valuelist = valuess.split(",");
-								if(valuess.contains(check_date) && valuess.contains(val[2])) {
+								String tras = transdate.substring(0, 13);
+								if(valuess.contains(tras) && valuess.contains(val[2])) {
 								check="pass";
 								System.out.println("values Lenght is: "+valuelist.length);
 								try {
@@ -2121,7 +2156,7 @@ public class App {
 							System.out.println("Please check the entered scenario name");
 						}
 						
-			}
+			
 						
 						// ---------------------- Balance Enquiry ---------------------------//
 //
@@ -2506,92 +2541,93 @@ public class App {
 //
 //						// ------------------------- Data ---------------------------//
 //
-//						else if (Test_Scenario.equals("LIVE USAGE DATA")) {
-//							String package_Data = ReadMobileproperties(inputs.getField("Test_Case"), "apppackage");
-//							String activity_Data = ReadMobileproperties(inputs.getField("Test_Case"), "appactivity");
-//							String package_Data1 = ReadMobileproperties(inputs.getField("Test_Case"), "apppackage1");
-//							String activity_Data1 = ReadMobileproperties(inputs.getField("Test_Case"), "appactivity1");
-//							
-//																			
-//					//-------------- YouTube activity -------------------//
-//							
-//							DesiredCapabilities capabilities = new DesiredCapabilities();
-//							capabilities.setCapability("deviceName", device);
-//							capabilities.setCapability("platformVersion", version);
-//							capabilities.setCapability("platformName", "ANDROID");
-//							capabilities.setCapability("bootstrapPort", bsport);
-//							capabilities.setCapability("appPackage", package_Data);
-//							capabilities.setCapability("appActivity", activity_Data);
-//							
-//							DesiredCapabilities capabilities1 = new DesiredCapabilities();
-//							capabilities1.setCapability("deviceName", device);
-//							capabilities1.setCapability("platformVersion", version);
-//							capabilities1.setCapability("platformName", "ANDROID");
-//							capabilities1.setCapability("bootstrapPort", bsport);
-//							capabilities1.setCapability("appPackage", package_Data1);
-//							capabilities1.setCapability("appActivity", activity_Data1);
-//							
-//							curtcid = inputs.getField("Test_Case_ID") + "--" + inputs.getField("Test_Scenario") + "_"
-//									+ inputs.getField("Test_Case");
-//							startTestCase(curtcid);
-//							ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID") + ": <br>"
-//									+ inputs.getField("Test_Scenario") + "<br>" + inputs.getField("Test_Case"));
-//							if (Test_Case.equals("DATA_REGULAR")) {
-//								
-//								//-------------	Data Turn ON --------------------------//
-//							try {
-//								dr.set(new AndroidDriver(new URL(
-//										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
-//										capabilities1));
+						if(Test_Scenario.equals("LIVE USAGE DATA")) {
+							curtcid = inputs.getField("Test_Case_ID")+"--"+Test_Case+"--"+inputs.getField("Test_Scenario")+"_"+inputs.getField("Test_Case");
+							startTestCase(curtcid);
+							ExtentTest test = extent.createTest(inputs.getField("Test_Case_ID")+": <br>"+MSISDN+" : "+Test_Case+" : "+inputs.getField("Test_Scenario"));
+							String package_Data = ReadMobileproperties(inputs.getField("Table"), "apppackage");
+							String activity_Data = ReadMobileproperties(inputs.getField("Table"), "appactivity");
+							String package_Data1 = ReadMobileproperties(inputs.getField("Table"), "apppackage1");
+							String activity_Data1 = ReadMobileproperties(inputs.getField("Table"), "appactivity1");
+							
+																			
+					//-------------- YouTube activity -------------------//
+							
+							DesiredCapabilities capabilities = new DesiredCapabilities();
+							capabilities.setCapability("deviceName", device);
+							capabilities.setCapability("platformVersion", version);
+							capabilities.setCapability("platformName", "ANDROID");
+							capabilities.setCapability("bootstrapPort", bsport);
+							capabilities.setCapability("appPackage", package_Data);
+							capabilities.setCapability("appActivity", activity_Data);
+							
+							DesiredCapabilities capabilities1 = new DesiredCapabilities();
+							capabilities1.setCapability("deviceName", device);
+							capabilities1.setCapability("platformVersion", version);
+							capabilities1.setCapability("platformName", "ANDROID");
+							capabilities1.setCapability("bootstrapPort", bsport);
+							capabilities1.setCapability("appPackage", package_Data1);
+							capabilities1.setCapability("appActivity", activity_Data1);
+							
+							curtcid = inputs.getField("Test_Case_ID") + "--" + inputs.getField("Test_Scenario") + "_"
+									+ inputs.getField("Test_Case");
+							startTestCase(curtcid);
+							if (table_type.contains("DATA_REGULAR")) {
+								
+								//-------------	Data Turn ON --------------------------//
+							try {
+								dr.set(new AndroidDriver(new URL(
+										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+										capabilities1));
+								Thread.sleep(2000);
+								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Connections']")).click();
+								Thread.sleep(2000);
+								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Data usage']")).click();
+								Thread.sleep(2000);
+								dr.get().findElement(By.id("android:id/switch_widget")).click();
+								Thread.sleep(2000);
+								takeScreenShot("Data Turned On: " + timefold);
+								
+//								Runtime run = Runtime.getRuntime();
+//								run.exec("adb shell svc data enable");
 //								Thread.sleep(2000);
-//								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Connections']")).click();
+								dr.set(new AndroidDriver(new URL(
+										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+										capabilities));
+								try {
+								Thread.sleep(3000);
+								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Trending']")).click();
+								Thread.sleep(2000);
+								dr.get().findElement(By.xpath("//android.view.ViewGroup[@index='1']")).click();
+								Thread.sleep(15000);
+								takeScreenShot("Regular Network -- you tube");
+								}
+								catch (Exception e) {
+									//e.printStackTrace();
+									System.out.println("--------++++++---------");
+								 }
+							}
+							catch (Exception e) {
+								e.printStackTrace();
+							 }						
+						//-------------	Data Turn OFF --------------------------//
+																					
+								dr.set(new AndroidDriver(new URL(
+										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
+										capabilities1));
+								Thread.sleep(2000);
+								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Connections']")).click();
+								Thread.sleep(2000);
+								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Data usage']")).click();
+								Thread.sleep(2000);
+								dr.get().findElement(By.id("android:id/switch_widget")).click();
+								takeScreenShot("Data Truned OFF: " + timefold);
+																
+//								run.exec("adb shell svc data disable");
 //								Thread.sleep(2000);
-//								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Data usage']")).click();
-//								Thread.sleep(2000);
-//								dr.get().findElement(By.id("android:id/switch_widget")).click();
-//								Thread.sleep(2000);
-//								takeScreenShot("Data Turned On: " + timefold);
-//								
-////								Runtime run = Runtime.getRuntime();
-////								run.exec("adb shell svc data enable");
-////								Thread.sleep(2000);
-//								dr.set(new AndroidDriver(new URL(
-//										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
-//										capabilities));
-//								try {
-//								Thread.sleep(3000);
-//								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Trending']")).click();
-//								Thread.sleep(2000);
-//								dr.get().findElement(By.xpath("//android.view.ViewGroup[@index='1']")).click();
-//								Thread.sleep(15000);
-//								takeScreenShot("Regular Network -- you tube");
-//								}
-//								catch (Exception e) {
-//									//e.printStackTrace();
-//									System.out.println("--------++++++---------");
-//								 }
-//							}
-//							catch (Exception e) {
-//								e.printStackTrace();
-//							 }						
-//						//-------------	Data Turn OFF --------------------------//
-//																					
-//								dr.set(new AndroidDriver(new URL(
-//										"http://127.0.0.1:" + ReadMobileproperties(device, "appiumport") + "/wd/hub"),
-//										capabilities1));
-//								Thread.sleep(2000);
-//								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Connections']")).click();
-//								Thread.sleep(2000);
-//								dr.get().findElement(By.xpath("//android.widget.TextView[@text='Data usage']")).click();
-//								Thread.sleep(2000);
-//								dr.get().findElement(By.id("android:id/switch_widget")).click();
-//								takeScreenShot("Data Truned OFF: " + timefold);
-//																
-////								run.exec("adb shell svc data disable");
-////								Thread.sleep(2000);
-////								takeScreenShot("Data Turned off: " + timefold);
-//								
-//								
+//								takeScreenShot("Data Turned off: " + timefold);
+								
+								
 //							} else if (Test_Case.equals("DATA_SOCIAL")) {
 //								
 //						//-------------	Data Turn ON --------------------------//
@@ -2661,15 +2697,15 @@ public class App {
 //							
 //					//-------------------------- Report ----------------------------------------------//
 //							String[] convertor = Asnconvertor.Result(trfold, MSISDN, "", Test_Scenario, Test_Case_ID, curtcid, "", "", Test_Case, "", "", "", "", "", "", "", "", "", ExecutionStarttime, "", "");
-//							
-//							test.pass("</table><table><tr><th style= 'min-width: 168px'><b>Test Scenario </b></th>"
-//									+ "<th style= 'min-width: 168px'><b>Test Case </b></th>"
-//									+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
-//									
-//									//Device Result
-//									"<tr><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>");
-//							
-//							//CIS API
+							
+							test.pass("</table><table><tr><th style= 'min-width: 168px'><b>Test Scenario </b></th>"
+									+ "<th style= 'min-width: 168px'><b>Test Case </b></th>"
+									+"<th style= 'min-width: 168px'><b> ScreenShot</b></th></tr>" + 
+									
+									//Device Result
+									"<tr><td style= 'min-width: 168px'>"+Test_Scenario+"</td><td style= 'min-width: 168px'>"+Test_Case+"</td><td style= 'min-width: 168px'><a href='"+curtcid+"/ScreenShots.html' target='_blank'>Deviced_Execution_ScreenShots</a></td></tr></table><br>");
+							
+							//CIS API
 //							test.pass("<br><br><b>CS Get Account Details Response:</b>" 
 //							+ "<br><b>Response before execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\Before_Execution\\Response\\response.xml'>Click to View the Response</a>"
 //							+ "<br><b>Response After execution XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "\\CS_API_VALIDATION\\After_Execution\\Response\\response.xml'>Click to View the Response</a><br>");
@@ -2716,14 +2752,15 @@ public class App {
 //								+ "<br><b>XML Link---></b><a style = 'color:hotpink' target = '_blank' href = '" + curtcid+ "/"+convertor[13]+"/"+convertor[12] + "/Output.xml'>Click to View the CCN CDR</a>"+"</table><br>");
 //								}
 //
-//							extent.flush();
-//							endTestCase(curtcid);
+							extent.flush();
+							endTestCase(curtcid);
 //						}
-//						}
-//							
-//			}
+						}
+							
+			}}
+		}
 	
-		}catch (Exception e) {
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

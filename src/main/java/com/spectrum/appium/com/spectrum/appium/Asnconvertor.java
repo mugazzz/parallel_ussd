@@ -405,17 +405,18 @@ public class Asnconvertor {
 									    FileReader file1 = new FileReader(localFile + "\\" + "EDRfile.txt");
 									    BufferedReader reader = new BufferedReader(file1);
 									    String line = reader.readLine();
-									    line = line.replace("meydvvmcis03_EDR_CISOnline1_", "").replace(".csv", " ");
+									    //line = line.replaceAll("meydvvmcis03_EDR_CISOnline1_", "").replaceAll(".csv", " ").replace(",", "").replace("'", "");
 
 									    while (line != null) {
-									        key += line;
+									       	key += "\r\n"+line.substring(51, line.length());
 									        line = reader.readLine();
+									        //line = line.substring(20, line.length());
 									    }
 
 									    System.out.println(key); //this prints contents of .txt file
 									}
 									//String tag = "Transaction Time|Client Transaction Id|Transaction Id|IP Address|Event Type|A Party Msisdn|B Party Msisdn|Input|Result Code|Result Description|Service Class|Requested Product ID|Product Name|Product Type|Product Cost|Applied product cost|Product Validity|Access Channel|Access Code|Charge Indicator|Vat Fee|Language Id|Iname|Circle Code|Pay Source|Send sms|Skip charging|Bill Cycle ID|User ID|Origin Host|Faf Indicator|Faf MSISDN|Offer ID|New Imei|Old Imei|Dealer ID|Transfer Remark|DrCr|Subscription Date|Expiry Date|Last Renewal Date|Grace Expiry Date|Status|Subscription Mode|Network Status|Last Status|Status Change time|Command Count|Charging Session Id|Notification Message|Commission Fee|Transfer Fee|GL Code|State|Subscriber Type|OpParam1|OpParam2|OpParam3|OpParam4|OpParam5|OpParam6|OpParam7|OpParam8|OpParam9|OpParam10|OpParam11|OpParam12|TDF_Event_Class|TDF_Event_Name|TDF_Voucher_Type|TDF_Periodic_Charge|TDF_Usage|External Data1|External Data2|External Data3|External Data4|Callback|ParentProductSPInfo \n";
-									String overall = header +"\r\n"+ key;
+									String overall = header + key;
 					
 									
 									PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(localFile + "\\" + "CIS_Logs" + "\\"+Test_Case_ID+"meydvvmcis03_EDR_CISOnline1.csv")));
@@ -960,7 +961,7 @@ public class Asnconvertor {
 		}
 		}
 		
-		public static String[] Result(String trfold, String MSISDN, String Prod_ID, String input, String Test_Case_ID, String curtcid, String Product_Name, String Test_Scenario_I, String Test_Case, String Confirmation, String Message, String Recharge_Coupon, String Voice_Call_To, String Text_Message, String SMS_To_Receiver, String Balancemsg, String p2p_To_Number, String p2p_Amount, String ExecutionStarttime, String CALL_DURATION, String Count, String transdate, String check_date)
+		public static String[] Result(String trfold, String MSISDN, String Prod_ID, String input, String Test_Case_ID, String curtcid, String Product_Name, String Test_Scenario_I, String Test_Case, String Confirmation, String Message, String Recharge_Coupon, String Voice_Call_To, String Text_Message, String SMS_To_Receiver, String Balancemsg, String p2p_To_Number, String p2p_Amount, String ExecutionStarttime, String CALL_DURATION, String Count, String transdate, String check_date, String event_type)
 		{
 			String[] convertor = new String [50];
 			try {
@@ -1199,12 +1200,13 @@ public class Asnconvertor {
 									filecsv.delete();
 								}
 								filecsv.createNewFile();
+								String transdat = transdate.substring(0, 13);
 								if(filetype.equalsIgnoreCase("CIS_Logs")) {
 									String CisLog_Filepath =cdrfiles+"\\CIS_Logs\\"+Test_Case_ID+"meydvvmcis03_EDR_CISOnline1.csv";
-									cistbl=CSVparse(CisLog_Filepath,Cis_viewpath,MSISDN, check_date);
+									cistbl=CSVparse(CisLog_Filepath,Cis_viewpath,MSISDN, transdat, event_type);
 								}
 								else {
-								cistbl=CSVparse(Cis_Filepath,Cis_viewpath,MSISDN, check_date);
+								cistbl=CSVparse(Cis_Filepath,Cis_viewpath,MSISDN, transdat, event_type);
 								}
 								convertor[5] = filetype;
 								convertor[7] = filename;
@@ -1758,7 +1760,7 @@ public class Asnconvertor {
 			}
 		}
 	}
-	public static String CSVparse(String Filepath, String viewpath, String MSISDN, String check_date) {
+	public static String CSVparse(String Filepath, String viewpath, String MSISDN, String check_date, String event_type) {
 		String csvtb = null;
 		try {
 			
@@ -1796,10 +1798,10 @@ public class Asnconvertor {
 			
 			
 			String Validation_Query ="CREATE VIEW public.CIS_EDR_Validation_"+num+" AS Select Transaction_Time,Product_Name, Event_Type,Access_Channel,Result_Description,Result_Code,Offer_ID,Service_Class,input,Requested_Product_ID," + 
-					"Expiry_Date,Subscription_Mode,A_Party_Msisdn, Product_Validity, Vat_Fee, Iname,Network_Status FROM public.edr_cis_datasamp where A_Party_Msisdn='" +MSISDN +"'"+" and Transaction_Time LIKE '%"+check_date+"%'";
+					"Expiry_Date,Subscription_Mode,A_Party_Msisdn, Product_Validity, Vat_Fee, Iname,Network_Status FROM public.edr_cis_datasamp where A_Party_Msisdn='" +MSISDN +"'"+" and Transaction_Time LIKE '%"+check_date+"%' and event_type = '"+event_type+"'";
 			ExecuteQuery(Validation_Query);
 			String getValidationData ="Select Transaction_Time,Product_Name, Event_Type,Access_Channel,Result_Description,Result_Code,Offer_ID,Service_Class,input,Requested_Product_ID," + 
-					"Expiry_Date,Subscription_Mode,A_Party_Msisdn, Product_Validity, Vat_Fee, Iname,Network_Status FROM public.edr_cis_datasamp where A_Party_Msisdn='" +MSISDN +"'"+" and Transaction_Time LIKE '%"+check_date+"%'";
+					"Expiry_Date,Subscription_Mode,A_Party_Msisdn, Product_Validity, Vat_Fee, Iname,Network_Status FROM public.edr_cis_datasamp where A_Party_Msisdn='" +MSISDN +"'"+" and Transaction_Time LIKE '%"+check_date+"%' and event_type = '"+event_type+"'";
 		 csvtb=ValidationQuery(getValidationData);
 		 
 		 System.out.println("Fir: "+getValidationData);
