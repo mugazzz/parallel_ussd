@@ -2089,7 +2089,7 @@ public class App {
 								for(int w=1; w<=given; w++) {
 									String compara = para[w];
 									String comval = val[w];
-									for(int i=0; i<=17; i++) {										
+									for(int i=1; i<=17; i++) {										
 										try {
 										if(paramlst[i].trim().contains(compara.trim())) {
 											if(valuelist[i].trim().contains(comval.trim())) {
